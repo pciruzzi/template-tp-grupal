@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/pciruzzi/template-tp-grupal.svg)
+
 # TP Grupal - Primera Entrega
 
 ## Enunciado ##
