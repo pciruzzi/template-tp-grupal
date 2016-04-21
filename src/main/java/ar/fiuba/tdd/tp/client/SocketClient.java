@@ -24,7 +24,7 @@ public class SocketClient {
     public void write(String command) throws WritingException {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-            OutputStreamWriter osw = new OutputStreamWriter(bos, "US-ASCII");
+            OutputStreamWriter osw = new OutputStreamWriter(bos, ENCODING);
             osw.write(command + EO_MSG);
             osw.flush();
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class SocketClient {
     public String read() throws ConnectionLostException, ReadingException {
         try {
             BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-            InputStreamReader isr = new InputStreamReader(bis, "US-ASCII");
+            InputStreamReader isr = new InputStreamReader(bis, ENCODING);
             int character;
             StringBuffer instr = new StringBuffer();
             while ((character = isr.read()) != 13) {

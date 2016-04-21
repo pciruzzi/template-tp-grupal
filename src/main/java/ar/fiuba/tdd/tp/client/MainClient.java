@@ -1,10 +1,10 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.client;
 
+import ar.fiuba.tdd.tp.TCPInformation;
 import ar.fiuba.tdd.tp.client.*;
 
 public class MainClient {
     public static void main(String[] args) {
-        System.out.println("This is just a tp project");
         Client client = new Client();
         TCPInformation tcpInfo = client.readServerIPAndPort();
         try {
