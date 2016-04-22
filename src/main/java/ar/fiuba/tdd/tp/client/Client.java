@@ -2,7 +2,8 @@ package ar.fiuba.tdd.tp.client;
 
 import ar.fiuba.tdd.tp.ConsoleReader;
 import ar.fiuba.tdd.tp.Reader;
-import ar.fiuba.tdd.tp.TCPInformation;
+import ar.fiuba.tdd.tp.connection.TCPInformation;
+import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
 import ar.fiuba.tdd.tp.exceptions.ReadingException;
 import ar.fiuba.tdd.tp.exceptions.WritingException;
@@ -21,7 +22,7 @@ public class Client {
     }
 
     public TCPInformation readServerIPAndPort() {
-        //TODO: Esto debería leer de consola algo del estilo ip:port
+        //TODO: Esto debería leer de consola con el reader algo del estilo ip:port
         String host = "localhost"; //127.0.0.1
         int port = 8080;
         return new TCPInformation(host, port);
@@ -40,7 +41,7 @@ public class Client {
                 this.writeToSocket(command);
                 this.readFromSocket();
             }
-        } catch (ConnectionLostException e) {
+        } catch (ConnectionException e) {
             System.err.println(e.getMsg());
         } finally {
             socket.closeConnection();
@@ -48,24 +49,15 @@ public class Client {
     }
 
     private String readFromInput() {
-        String command = reader.read();
-        return command;
+        return reader.read();
     }
 
-    private void writeToSocket(String command) {
-        try {
-            socket.write(command);
-        } catch (WritingException e) {
-            System.err.println(e.getMsg());
-        }
+    private void writeToSocket(String command) throws WritingException {
+        socket.write(command);
     }
 
-    private void readFromSocket() throws ConnectionLostException {
-        try {
-            String response = socket.read();
-            System.out.println(response);
-        } catch (ReadingException e) {
-            System.err.println(e.getMsg());
-        }
+    private void readFromSocket() throws ConnectionLostException, ReadingException {
+        String response = socket.read();
+        System.out.println(response);
     }
 }

@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.client;
 
-import ar.fiuba.tdd.tp.TCPInformation;
-import ar.fiuba.tdd.tp.client.*;
+import ar.fiuba.tdd.tp.connection.TCPInformation;
 
 public class MainClient {
     public static void main(String[] args) {
