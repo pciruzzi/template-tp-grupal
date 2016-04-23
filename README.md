@@ -38,7 +38,7 @@ En el cliente:
 El servidor tiene que soportar los siguientes comandos:
  - `load game [juego]`: carga “juego” y se queda esperando a que el jugador se conecte.
 El cliente tiene que soportar los siguientes comandos (independientes del juego):
- - `connet [ip:port]`: Trata de conectarse al juego escuchando en ip:port.
+ - `connect [ip:port]`: Trata de conectarse al juego escuchando en ip:port.
  - `exit game`: sale del juego actual.
  - `help [juego]`: Muestra una descripción de “juego”.
  
@@ -141,6 +141,8 @@ Hace mucho tiempo un granjero fue al mercado y compró un lobo , una oveja y una
 > cross north-shore [Enter]
 > crossed!
 > leave wolf [Enter]
+> Ok
+> cross south-shore [Enter]
 > You can’t do that! The wolf will eat the sheep!
 ...
 ```
