@@ -8,6 +8,7 @@ public class MainClient {
         TCPInformation tcpInfo = client.readServerIPAndPort();
         try {
             client.connect(tcpInfo);
+            System.out.println("Connection established! You can start playing by writing...");
             client.playGame();
         } catch (Exception e) {
             System.err.println("Unable to connect to host " + tcpInfo.getIPaddress() + ":" + tcpInfo.getPort());

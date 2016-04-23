@@ -12,7 +12,7 @@ public class Server {
 
     public Server(int port) {
         this.port = port;
-        this.portOffset = 1;
+        this.portOffset = 0;
         this.reader = new ConsoleReader();
     }
 
@@ -25,8 +25,11 @@ public class Server {
             if (commandSplitted[0].equals("load")) { //TODO: Condición más compleja...
                 //Buscar si el resto es un juego válido (Está en el map)
                 loadOk = true;
+//                if (commandSplitted.length > 1) {
+//                    game = commandSplitted[1];
+//                }
             } else {
-                System.out.println("Command unknown");
+                System.out.println("Command unknown... Try again!");
             }
         }
         portOffset++;

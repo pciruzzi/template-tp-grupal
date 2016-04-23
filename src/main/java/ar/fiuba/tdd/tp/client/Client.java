@@ -22,9 +22,25 @@ public class Client {
     }
 
     public TCPInformation readServerIPAndPort() {
-        //TODO: Esto debería leer de consola con el reader algo del estilo ip:port
-        String host = "localhost"; //127.0.0.1
-        int port = 8080;
+        //TODO: Lee de consola, pero no es a prueba de errores respecto de ip y puerto
+        System.out.println("Write the command 'connect <ip:port>'");
+        boolean loadOk = false;
+        String connect = "";
+        while (! loadOk) {
+            String command = reader.read();
+            String[] commandSplitted = command.split(" ");
+            if (commandSplitted[0].equals("connect")) { //TODO: Condición más compleja...
+                loadOk = true;
+                if (commandSplitted.length > 1) {
+                    connect = commandSplitted[1];
+                }
+            } else {
+                System.out.println("Command unknown... Try again!");
+            }
+        }
+        String[] ipPort = connect.split(":");
+        String host = ipPort[0]; //127.0.0.1
+        int port = Integer.parseInt(ipPort[1]); //TODO: Ojo si no es un numero, o si no es del tipo ip:port
         return new TCPInformation(host, port);
     }
 
