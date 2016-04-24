@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.connection;
 
+import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
 import ar.fiuba.tdd.tp.exceptions.ReadingException;
 import ar.fiuba.tdd.tp.exceptions.WritingException;
@@ -13,6 +15,11 @@ import static ar.fiuba.tdd.tp.Constants.EO_MSG;
 public class SimpleSocket {
 
     protected Socket connection;
+    protected Writer writer;
+
+    public SimpleSocket() {
+        this.writer = new Console();
+    }
 
     public void write(String command) throws WritingException {
         try {
@@ -30,7 +37,7 @@ public class SimpleSocket {
             BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
             InputStreamReader isr = new InputStreamReader(bis, ENCODING);
             int character;
-            StringBuffer msg = new StringBuffer();
+            StringBuilder msg = new StringBuilder();
             while ((character = isr.read()) != EO_MSG) {
                 msg.append((char) character);
                 if (character == -1) {
@@ -46,9 +53,9 @@ public class SimpleSocket {
     public void closeConnection() {
         try {
             connection.close();
-            System.out.println("Closing connection.");
+            writer.write("Closing connection.");
         } catch (IOException e) {
-            System.err.println("Exception when trying to close connection: " + e);
+            writer.writeError("Exception when trying to close connection: " + e);
         }
     }
 }

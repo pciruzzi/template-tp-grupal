@@ -1,7 +1,8 @@
 package ar.fiuba.tdd.tp.client;
 
-import ar.fiuba.tdd.tp.ConsoleReader;
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Reader;
+import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.connection.TCPInformation;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
@@ -15,15 +16,17 @@ public class Client {
 
     private SocketClient socket;
     private Reader reader;
+    private Writer writer;
 
     public Client() {
         socket = new SocketClient();
-        reader = new ConsoleReader();
+        reader = new Console();
+        writer = new Console();
     }
 
     public TCPInformation readServerIPAndPort() {
         //TODO: Lee de consola, pero no es a prueba de errores respecto de ip y puerto
-        System.out.println("Write the command 'connect <ip:port>'");
+        writer.write("Write the command 'connect <ip:port>'");
         boolean loadOk = false;
         String connect = "";
         while (! loadOk) {
@@ -35,7 +38,7 @@ public class Client {
                     connect = commandSplitted[1];
                 }
             } else {
-                System.out.println("Command unknown... Try again!");
+                writer.write("Command unknown... Try again!");
             }
         }
         String[] ipPort = connect.split(":");
@@ -58,7 +61,7 @@ public class Client {
                 this.readFromSocket();
             }
         } catch (ConnectionException e) {
-            System.err.println(e.getMsg());
+            writer.writeError(e.getMsg());
         } finally {
             socket.closeConnection();
         }
@@ -74,6 +77,6 @@ public class Client {
 
     private void readFromSocket() throws ConnectionLostException, ReadingException {
         String response = socket.read();
-        System.out.println(response);
+        writer.write(response);
     }
 }

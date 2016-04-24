@@ -9,6 +9,7 @@ import java.net.Socket;
 public class SocketClient extends SimpleSocket {
 
     public SocketClient() {
+        super();
         connection = null;
     }
 

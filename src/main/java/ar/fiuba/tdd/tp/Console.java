@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 
 import static ar.fiuba.tdd.tp.Constants.*;
 
-public class ConsoleReader implements Reader {
+public class Console implements Reader, Writer {
 
-    public ConsoleReader() {
+    public Console() {
 
     }
 
@@ -17,8 +17,16 @@ public class ConsoleReader implements Reader {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in, ENCODING));
             return br.readLine();
         } catch (IOException e) {
-            System.err.println("Couldn't read from console.");
+            this.writeError("Couldn't read from console.");
             return "";
         }
+    }
+
+    public void write(String writable) {
+        System.out.println(writable);
+    }
+
+    public void writeError(String writable) {
+        System.err.println(writable);
     }
 }

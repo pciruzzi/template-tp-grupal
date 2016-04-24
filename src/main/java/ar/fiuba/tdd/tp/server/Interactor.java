@@ -10,6 +10,7 @@ public class Interactor extends SimpleSocket implements Runnable {
     private String game;
 
     public Interactor(Socket socket, String game) {
+        super();
         this.connection = socket;
         this.game = game;
     }
@@ -29,7 +30,7 @@ public class Interactor extends SimpleSocket implements Runnable {
                 this.write(returnCode);
             }
         } catch (ConnectionException e) {
-            System.out.println(e.getMsg());
+            writer.write(e.getMsg());
         } finally {
             this.closeConnection();
         }

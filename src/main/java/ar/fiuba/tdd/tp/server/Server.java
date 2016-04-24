@@ -1,19 +1,22 @@
 package ar.fiuba.tdd.tp.server;
 
-import ar.fiuba.tdd.tp.ConsoleReader;
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Reader;
+import ar.fiuba.tdd.tp.Writer;
 
 public class Server {
 
     private int port;
     private int portOffset;
     private Reader reader;
+    private Writer writer;
     //TODO: map<String, Game>
 
     public Server(int port) {
         this.port = port;
         this.portOffset = 0;
-        this.reader = new ConsoleReader();
+        this.reader = new Console();
+        this.writer = new Console();
     }
 
     public String setUp() {
@@ -29,7 +32,7 @@ public class Server {
 //                    game = commandSplitted[1];
 //                }
             } else {
-                System.out.println("Command unknown... Try again!");
+                writer.write("Command unknown... Try again!");
             }
         }
         portOffset++;
