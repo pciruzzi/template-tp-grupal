@@ -1,13 +1,11 @@
 package ar.fiuba.tdd.tp.client;
 
+import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Reader;
 import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.connection.TCPInformation;
-import ar.fiuba.tdd.tp.exceptions.ConnectionException;
-import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
-import ar.fiuba.tdd.tp.exceptions.ReadingException;
-import ar.fiuba.tdd.tp.exceptions.WritingException;
+import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -24,27 +22,18 @@ public class Client {
         writer = new Console();
     }
 
-    public TCPInformation readServerIPAndPort() {
-        //TODO: Lee de consola, pero no es a prueba de errores respecto de ip y puerto
-        writer.write("Write the command 'connect <ip:port>'");
-        boolean loadOk = false;
-        String connect = "";
-        while (! loadOk) {
-            String command = reader.read();
-            String[] commandSplitted = command.split(" ");
-            if (commandSplitted[0].equals("connect")) { //TODO: Condición más compleja...
-                loadOk = true;
-                if (commandSplitted.length > 1) {
-                    connect = commandSplitted[1];
-                }
-            } else {
-                writer.write("Command unknown... Try again!");
-            }
+    public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
+        writer.write("Write the command 'connect <ip>:<port>'");
+        String connect = CommandReader.readCommand("connect");
+        if (connect.matches("^connect \\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$")) {
+            String parameters = connect.split(" ")[1];
+            String[] ipPort = parameters.split(":");
+            String host = ipPort[0]; //127.0.0.1
+            int port = Integer.parseInt(ipPort[1]);
+            return new TCPInformation(host, port);
+        } else {
+            throw new InvalidIPPortException("The IP address and port written don't match with the <ip>:<port> expected.");
         }
-        String[] ipPort = connect.split(":");
-        String host = ipPort[0]; //127.0.0.1
-        int port = Integer.parseInt(ipPort[1]); //TODO: Ojo si no es un numero, o si no es del tipo ip:port
-        return new TCPInformation(host, port);
     }
 
     public void connect(TCPInformation tcpInfo) throws IOException {
@@ -55,6 +44,7 @@ public class Client {
     public void playGame() {
         String command = "";
         try {
+            this.readFromSocket(); //Leo mensaje de bienvenida del juego
             while (! command.equals("exit")) {
                 command = this.readFromInput();
                 this.writeToSocket(command);

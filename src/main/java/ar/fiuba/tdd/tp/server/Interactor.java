@@ -16,14 +16,14 @@ public class Interactor extends SimpleSocket implements Runnable {
     }
 
     private String getResponse() {
-        String response = game.concat("How can I help you?"); //Solo para que no chille por no usar game
-        return response;
+        return "How can I help you?";
     }
 
     public void run() {
         //TODO: Inicializar juego -> crea motor, etc...
         String msg = "";
         try {
+            this.write("Welcome to game '" + game + "'!"); //Envio mensaje de bienvenida
             while (! msg.equals("exit")) {
                 msg = this.read();
                 String returnCode = this.getResponse();

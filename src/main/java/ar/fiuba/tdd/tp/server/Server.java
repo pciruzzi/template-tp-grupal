@@ -1,40 +1,28 @@
 package ar.fiuba.tdd.tp.server;
 
+import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Reader;
 import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.exceptions.ExitException;
 
 public class Server {
 
     private int port;
     private int portOffset;
-    private Reader reader;
     private Writer writer;
     //TODO: map<String, Game>
 
     public Server(int port) {
         this.port = port;
         this.portOffset = 0;
-        this.reader = new Console();
         this.writer = new Console();
     }
 
-    public String setUp() {
-        boolean loadOk = false;
-        String game = "";
-        while (! loadOk) {
-            String command = reader.read();
-            String[] commandSplitted = command.split(" ");
-            if (commandSplitted[0].equals("load")) { //TODO: Condición más compleja...
-                //Buscar si el resto es un juego válido (Está en el map)
-                loadOk = true;
-//                if (commandSplitted.length > 1) {
-//                    game = commandSplitted[1];
-//                }
-            } else {
-                writer.write("Command unknown... Try again!");
-            }
-        }
+    public String setUp() throws ExitException {
+        writer.write("Write the command 'load game' to begin");
+        String command = CommandReader.readCommand("load game ");
+        String game = command.replaceAll("^load game ", "");
+        //TODO: Ver que se pueda crear ese juego
         portOffset++;
         return game;
     }

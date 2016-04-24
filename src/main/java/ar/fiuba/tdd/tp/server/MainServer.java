@@ -1,15 +1,22 @@
 package ar.fiuba.tdd.tp.server;
 
+import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.exceptions.ExitException;
+
 import static ar.fiuba.tdd.tp.Constants.*;
 
 public class MainServer {
     public static void main(String[] args) {
         Server server = new Server(PORT);
-//        Reader reader = new Console();
-        while (true/*! reader.read().equals("exit")*/) {
-            System.out.println("Write the command 'load' to begin");
-            String game = server.setUp();
-            server.initializeGame(game);
+        Writer writer = new Console();
+        try {
+            while (true) {
+                String game = server.setUp();
+                server.initializeGame(game);
+            }
+        } catch (ExitException e) {
+            writer.write("Goodbye!");
         }
     }
 }
