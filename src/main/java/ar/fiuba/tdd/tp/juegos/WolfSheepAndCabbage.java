@@ -1,7 +1,9 @@
 package ar.fiuba.tdd.tp.juegos;
 
-/**
- * Created by panchoubuntu on 21/04/16.
- */
-public class WolfSheepAndCabbage {
+public class WolfSheepAndCabbage extends Game {
+
+    @Override
+    public void createGame() {
+
+    }
 }

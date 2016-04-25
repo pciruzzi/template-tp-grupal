@@ -36,6 +36,7 @@ public class State {
     public Map<String,Element> getElementStateMap() {
         return elementStateMap;
     }
+
     public List<Element> getElementList() {
         return elementList;
     }
@@ -79,19 +80,21 @@ public class State {
         return elementsContained.toString();
     }
 
-    public boolean iguales(State otherState){
-
-        boolean iguales = true;
+    private boolean checkSize(Map<String,Element> othersElementStateMap) {
         int elementMapSize = this.elementStateMap.size();
+        return elementMapSize == othersElementStateMap.size();
+    }
+
+    public boolean isEqual(State otherState) {
+
+        boolean equal = true;
 
         Map<String,Element> othersElementStateMap = otherState.getElementStateMap();
 
-        if (elementMapSize != othersElementStateMap.size()) {
-            iguales = false;
-        }
+        equal = checkSize(othersElementStateMap);
 
         Iterator elementsIterator = elementStateMap.entrySet().iterator();
-        while(elementsIterator.hasNext() && iguales) {
+        while (elementsIterator.hasNext() && equal) {
             Map.Entry pair = (Map.Entry) elementsIterator.next();
             String name = (String) pair.getKey();
             Element element = (Element) pair.getValue();
@@ -100,12 +103,12 @@ public class State {
 
             if ( othersElement != null ) {
                 if ( !othersElement.getState().equals(element.getState()) ) {
-                    iguales = false;
+                    equal = false;
                 }
             } else {
-                iguales = false;
+                equal = false;
             }
         }
-        return iguales;
+        return equal;
     }
 }

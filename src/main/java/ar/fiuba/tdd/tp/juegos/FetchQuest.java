@@ -49,11 +49,11 @@ public class FetchQuest extends Game {
 //
 //        System.out.println("Element name: ");
 //
-//        if (actualState.iguales(desiredState) ) {
+//        if (actualState.isEqual(desiredState) ) {
 //            actualState = actualState.getNextState();
 //        }
 //
-//        if ( actualState.iguales(finalState) ) {
+//        if ( actualState.isEqual(finalState) ) {
 //            return "Ganaste guachin";
 //        } else {
 //            return returnMessage;

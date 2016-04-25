@@ -12,22 +12,34 @@ public abstract class Game {
 
     public String doAction(String action) {
 
-        if (action.equals("look around")) {
+        String[] partes = action.split(" ");
+
+        if (partes.length < 2 ) {
+            return "Invalid input";
+        } else if (action.equals("look around")) {
             return showItems();
         }
 
         desiredState = actualState.getDesiredState();
-        String[] partes = action.split(" ");
-        if (partes.length < 2 ) {
-            return "Invalid input";
-        }
+
         String returnMessage = actualState.doAction(partes[0], partes[1]);
 
-        if (actualState.iguales(desiredState) ) {
+        if (actualState.isEqual(desiredState) ) {
             actualState = actualState.getNextState();
         }
 
-        if ( actualState.iguales(finalState) ) {
+        return update(returnMessage);
+
+    }
+
+//    private String checkLookAround(String action) {
+//
+//    }
+
+
+
+    private String update(String returnMessage) {
+        if ( actualState.isEqual(finalState) ) {
             return "Ganaste guachin";
         } else {
             return returnMessage;
@@ -45,11 +57,11 @@ public abstract class Game {
 //        String[] partes = action.split(" ");
 //        String returnMessage = actualState.doAction(partes[0], partes[1]);
 //
-//        if (actualState.iguales(desiredState) ) {
+//        if (actualState.isEqual(desiredState) ) {
 //            actualState = actualState.getNextState();
 //        }
 //
-//        if ( actualState.iguales(finalState) ) {
+//        if ( actualState.isEqual(finalState) ) {
 //            return "Ganaste guachin";
 //        } else {
 //            return returnMessage;

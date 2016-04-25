@@ -15,33 +15,10 @@ public class OpenDoor extends Game {
     @Override
     public void createGame() {
 
-        Element stick = new Element("stick", "floor");
-        stick.addActionState("pick", "grabbed");
-        stick.addActionState("drop", "floor");
-
-        Element door = new Element("door", "closed");
-
-        Element key = new Element("key", "floor");
-        key.addActionState("pick", "grabbed");
-        key.addActionState("drop", "floor");
-
-        actualState = new State();
-        actualState.addElement(stick);
-        actualState.addElement(door);
-        actualState.addElement(key);
 
         State nextState = new State();
-        nextState.addElement(new Element("key", "grabbed"));
 
-        Element doorTwo = new Element("door", "closed");
-        doorTwo.addActionState("open", "open");
-        doorTwo.addActionState("close", "closed");
-
-        nextState.addElement(doorTwo);
-        nextState.addElement(new Element("stick", "floor"));
-
-        actualState.addDesiredState(nextState);
-        actualState.addNextState(nextState);
+        createActualState(nextState);
 
         State stateThree = new State();
         stateThree.addElement(new Element("key", "grabbed"));
@@ -58,6 +35,37 @@ public class OpenDoor extends Game {
 
     }
 
+    private void createActualState(State nextState) {
+
+        Element stick = new Element("stick", "floor");
+        stick.addActionState("pick", "grabbed");
+        stick.addActionState("drop", "floor");
+
+        Element key = new Element("key", "floor");
+        key.addActionState("pick", "grabbed");
+        key.addActionState("drop", "floor");
+
+        Element door = new Element("door", "closed");
+
+        actualState = new State();
+        actualState.addElement(door);
+        actualState.addElement(stick);
+        actualState.addElement(key);
+
+        nextState.addElement(new Element("key", "grabbed"));
+
+        Element doorTwo = new Element("door", "closed");
+        doorTwo.addActionState("open", "open");
+        doorTwo.addActionState("close", "closed");
+
+        nextState.addElement(doorTwo);
+        nextState.addElement(new Element("stick", "floor"));
+
+        actualState.addDesiredState(nextState);
+        actualState.addNextState(nextState);
+
+    }
+
 //    public String doAction(String action) {
 //
 //        if (action.equals("look around")) {
@@ -71,11 +79,11 @@ public class OpenDoor extends Game {
 //        }
 //        String returnMessage = actualState.doAction(partes[0], partes[1]);
 //
-//        if (actualState.iguales(desiredState) ) {
+//        if (actualState.isEqual(desiredState) ) {
 //            actualState = actualState.getNextState();
 //        }
 //
-//        if ( actualState.iguales(finalState) ) {
+//        if ( actualState.isEqual(finalState) ) {
 //            return "Ganaste guachin";
 //        } else {
 //            return returnMessage;

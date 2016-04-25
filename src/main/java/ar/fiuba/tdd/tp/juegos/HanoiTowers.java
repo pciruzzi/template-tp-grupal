@@ -1,7 +1,11 @@
 package ar.fiuba.tdd.tp.juegos;
 
-/**
- * Created by panchoubuntu on 21/04/16.
- */
-public class HanoiTowers  {
+import ar.fiuba.tdd.tp.Element;
+
+public class HanoiTowers extends Game {
+
+    @Override
+    public void createGame() {
+//        Element diskOne = new Element("diskOne", "colummOne");
+    }
 }
