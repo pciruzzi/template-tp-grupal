@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.juegos;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.State;
 

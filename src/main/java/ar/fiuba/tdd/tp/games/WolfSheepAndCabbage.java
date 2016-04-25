@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.juegos;
+package ar.fiuba.tdd.tp.games;
 
 public class WolfSheepAndCabbage extends Game {
 

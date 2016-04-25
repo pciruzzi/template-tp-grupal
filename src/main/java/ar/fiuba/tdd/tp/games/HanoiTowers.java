@@ -1,6 +1,4 @@
-package ar.fiuba.tdd.tp.juegos;
-
-import ar.fiuba.tdd.tp.Element;
+package ar.fiuba.tdd.tp.games;
 
 public class HanoiTowers extends Game {
 

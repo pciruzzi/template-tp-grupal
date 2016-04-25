@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.juegos;
+package ar.fiuba.tdd.tp.games;
 
 /**
  * Created by panchoubuntu on 21/04/16.
