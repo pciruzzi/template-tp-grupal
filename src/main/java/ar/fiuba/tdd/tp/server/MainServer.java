@@ -16,6 +16,7 @@ public class MainServer {
                 server.initializeGame(game);
             }
         } catch (ExitException e) {
+            server.terminate();
             writer.write("Goodbye!");
         }
     }

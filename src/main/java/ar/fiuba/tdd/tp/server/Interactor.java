@@ -24,7 +24,7 @@ public class Interactor extends SimpleSocket implements Runnable {
         String msg = "";
         try {
             this.write("Welcome to game '" + game + "'!"); //Envio mensaje de bienvenida
-            while (! msg.equals("exit")) {
+            while (! msg.equals("exit")/* || ! Thread.currentThread().isInterrupted()*/) {
                 msg = this.read();
                 String returnCode = this.getResponse();
                 this.write(returnCode);
