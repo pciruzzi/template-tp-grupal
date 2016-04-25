@@ -1,9 +1,7 @@
 package ar.fiuba.tdd.tp;
 
-import ar.fiuba.tdd.tp.juegos.FetchQuest;
-import ar.fiuba.tdd.tp.juegos.Game;
-import ar.fiuba.tdd.tp.juegos.HanoiTowers;
-import ar.fiuba.tdd.tp.juegos.OpenDoor;
+
+import ar.fiuba.tdd.tp.games.*;
 
 import java.util.Scanner;
 

@@ -1,10 +1,13 @@
-package ar.fiuba.tdd.tp.juegos;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.Element;
 import ar.fiuba.tdd.tp.State;
+import ar.fiuba.tdd.tp.games.Game;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class HanoiTowers extends Game {
 
