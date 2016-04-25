@@ -6,8 +6,8 @@ import ar.fiuba.tdd.tp.State;
 public class FetchQuest extends Game {
 
 //    protected State actualState;    // Este es el estado actual en el que esta el juego
-    protected State finalState;     // Este es el estado en el que se gana el juego
-    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
+//    protected State finalState;     // Este es el estado en el que se gana el juego
+//    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
 
     @Override
     public void createGame() {
@@ -32,31 +32,31 @@ public class FetchQuest extends Game {
         finalState = proximoState;
     }
 
-    @Override
-    public String doAction(String action) {
-
-
-        if (action.equals("look around")) {
-            return showItems();
-        }
-
-        desiredState = actualState.getDesiredState();
-        String[] partes = action.split(" ");
-        if (partes.length < 2 ) {
-            return "Invalid input";
-        }
-        String returnMessage = actualState.doAction(partes[0], partes[1]);
-
-        System.out.println("Element name: ");
-
-        if (actualState.iguales(desiredState) ) {
-            actualState = actualState.getNextState();
-        }
-
-        if ( actualState.iguales(finalState) ) {
-            return "Ganaste guachin";
-        } else {
-            return returnMessage;
-        }
-    }
+//    @Override
+//    public String doAction(String action) {
+//
+//
+//        if (action.equals("look around")) {
+//            return showItems();
+//        }
+//
+//        desiredState = actualState.getDesiredState();
+//        String[] partes = action.split(" ");
+//        if (partes.length < 2 ) {
+//            return "Invalid input";
+//        }
+//        String returnMessage = actualState.doAction(partes[0], partes[1]);
+//
+//        System.out.println("Element name: ");
+//
+//        if (actualState.iguales(desiredState) ) {
+//            actualState = actualState.getNextState();
+//        }
+//
+//        if ( actualState.iguales(finalState) ) {
+//            return "Ganaste guachin";
+//        } else {
+//            return returnMessage;
+//        }
+//    }
 }

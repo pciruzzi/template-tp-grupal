@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class Engine {
 
     public void generarJuego() {
-//        Game juego = new FetchQuest();
-        Game juego = new OpenDoor();
+        Game juego = new FetchQuest();
+//        Game juego = new OpenDoor();
         juego.createGame();
 
         String intro = "";

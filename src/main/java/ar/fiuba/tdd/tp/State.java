@@ -11,8 +11,8 @@ public class State {
     private State nextState;
 
     public State() {
-        this.elementList = new ArrayList<>();
-        this.elementStateMap = new HashMap<>();
+        this.elementList = new ArrayList<Element>();
+        this.elementStateMap = new HashMap<String, Element>();
     }
 
     public void addElement(Element element) {

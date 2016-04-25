@@ -9,9 +9,8 @@ import ar.fiuba.tdd.tp.State;
 public class OpenDoor extends Game {
 
 //    protected State actualState;    // Este es el estado actual en el que esta el juego
-    protected State finalState;     // Este es el estado en el que se gana el juego
-    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
-//    private State nextState;
+//    protected State finalState;     // Este es el estado en el que se gana el juego
+//    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
 
     @Override
     public void createGame() {
@@ -21,8 +20,6 @@ public class OpenDoor extends Game {
         stick.addActionState("drop", "floor");
 
         Element door = new Element("door", "closed");
-//        door.addActionState("open", "open");
-//        door.addActionState("close", "closed");
 
         Element key = new Element("key", "floor");
         key.addActionState("pick", "grabbed");
@@ -51,43 +48,37 @@ public class OpenDoor extends Game {
         stateThree.addElement(new Element("door", "open"));
         stateThree.addElement(new Element("stick", "floor"));
 
+        finalState = new State();
+        finalState.addElement(new Element("key", "grabbed"));
+        finalState.addElement(new Element("door", "open"));
+        finalState.addElement(new Element("stick", "floor"));
+
         nextState.addDesiredState(stateThree);
         nextState.addNextState(finalState);
 
-        State stateFour = new State();
-        stateFour.addElement(new Element("key", "grabbed"));
-        stateFour.addElement(new Element("door", "open"));
-        stateFour.addElement(new Element("stick", "floor"));
-
-        finalState = stateFour;
-
-        finalState.addNextState(finalState);
-        finalState.addDesiredState(finalState);
-
     }
 
-    public String doAction(String action) {
-
-        if (action.equals("look around")) {
-            return showItems();
-        }
-
-        desiredState = actualState.getDesiredState();
-        String[] partes = action.split(" ");
-        if (partes.length < 2 ) {
-            return "Invalid input";
-        }
-        String returnMessage = actualState.doAction(partes[0], partes[1]);
-
-        if (actualState.iguales(desiredState) ) {
-            actualState = actualState.getNextState();
-            System.out.println("Cambie el actual State");
-        }
-
-        if ( actualState.iguales(finalState) ) {
-            return "Ganaste guachin";
-        } else {
-            return returnMessage;
-        }
-    }
+//    public String doAction(String action) {
+//
+//        if (action.equals("look around")) {
+//            return showItems();
+//        }
+//
+//        desiredState = actualState.getDesiredState();
+//        String[] partes = action.split(" ");
+//        if (partes.length < 2 ) {
+//            return "Invalid input";
+//        }
+//        String returnMessage = actualState.doAction(partes[0], partes[1]);
+//
+//        if (actualState.iguales(desiredState) ) {
+//            actualState = actualState.getNextState();
+//        }
+//
+//        if ( actualState.iguales(finalState) ) {
+//            return "Ganaste guachin";
+//        } else {
+//            return returnMessage;
+//        }
+//    }
 }
