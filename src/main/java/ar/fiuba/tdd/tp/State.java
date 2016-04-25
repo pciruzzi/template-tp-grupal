@@ -1,9 +1,6 @@
 package ar.fiuba.tdd.tp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class State {
 
@@ -37,10 +34,20 @@ public class State {
 
     public String showStateItems() {
 
-        StringBuffer elementNames = new StringBuffer();
-        for (Element element : elementList) {
-            elementNames.append(element.getName() + " ");
+        StringBuffer elementsContained = new StringBuffer();
+        elementsContained.append("There's a ");
+
+        int elementsLizSize = elementList.size();
+        for (int i = 0; i < elementsLizSize ; i++) {
+            elementsContained.append(elementList.get(i).getName());
+            if (i == elementsLizSize - 2) {
+                elementsContained.append( " and a ");
+            } else if (i != elementsLizSize - 1){
+                elementsContained.append( ", ");
+            }
         }
-        return elementNames.toString();
+        elementsContained.append(" in the room");
+
+        return elementsContained.toString();
     }
 }

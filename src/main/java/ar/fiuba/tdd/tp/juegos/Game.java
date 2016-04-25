@@ -15,7 +15,7 @@ public abstract class Game {
     public abstract void createGame();
 
     public String showItems() {
-        return "There's a " + actualState.showStateItems() + " in the room";
+        return actualState.showStateItems();
     }
 
 

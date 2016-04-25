@@ -10,6 +10,7 @@ public class FetchQuest extends Game {
 
     public void createGame() {
         Element stick = new Element("stick", false);
+
         State initialState =  new State();
         initialState.addElement(stick);
 
