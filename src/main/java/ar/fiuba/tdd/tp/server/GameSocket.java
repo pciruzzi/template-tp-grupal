@@ -4,7 +4,6 @@ import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -17,6 +16,7 @@ public class GameSocket implements Runnable {
     private String game;
     private Writer writer;
     private List<Thread> threads;
+    private List<Interactor> interactors;
     private ServerSocket socket;
 
     public GameSocket(int port, String game) {
@@ -24,6 +24,7 @@ public class GameSocket implements Runnable {
         this.game = game;
         this.writer = new Console();
         this.threads = new ArrayList<Thread>();
+        this.interactors = new ArrayList<Interactor>();
         this.socket = null;
     }
 
@@ -35,9 +36,10 @@ public class GameSocket implements Runnable {
                 writer.write("Waiting for connections in port " + port);
                 Socket connection = socket.accept();
                 writer.write("Connection received in port " + port);
-                Runnable runnable = new Interactor(connection, game);
+                Interactor runnable = new Interactor(connection, game);
                 Thread thread = new Thread(runnable);
                 thread.start();
+                interactors.add(runnable);
                 threads.add(thread);
             }
         } catch (SocketException e) {
@@ -51,6 +53,12 @@ public class GameSocket implements Runnable {
         System.out.println("        Terminando threads del GameSocket");
         try {
             int index = 1;
+            for (Interactor interactor : interactors) {
+                System.out.println("    - Interactor " + index);
+                interactor.terminate();
+                index++;
+            }
+            index = 1;
             for (Thread thread : threads) {
                 System.out.println("            - Thread " + index);
                 thread.interrupt();

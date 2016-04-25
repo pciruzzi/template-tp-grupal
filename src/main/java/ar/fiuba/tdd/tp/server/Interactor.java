@@ -8,6 +8,7 @@ import java.net.Socket;
 public class Interactor extends SimpleSocket implements Runnable {
 
     private String game;
+    volatile boolean terminate = false;
 
     public Interactor(Socket socket, String game) {
         super();
@@ -24,7 +25,7 @@ public class Interactor extends SimpleSocket implements Runnable {
         String msg = "";
         try {
             this.write("Welcome to game '" + game + "'!"); //Envio mensaje de bienvenida
-            while (! msg.equals("exit")/* || ! Thread.currentThread().isInterrupted()*/) {
+            while (! msg.equals("exit") && ! terminate) {
                 msg = this.read();
                 String returnCode = this.getResponse();
                 this.write(returnCode);
@@ -34,5 +35,9 @@ public class Interactor extends SimpleSocket implements Runnable {
         } finally {
             this.closeConnection();
         }
+    }
+
+    public void terminate() {
+        this.terminate = true;
     }
 }
