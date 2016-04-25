@@ -2,15 +2,12 @@ package ar.fiuba.tdd.tp.connection;
 
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
-import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
-import ar.fiuba.tdd.tp.exceptions.ReadingException;
-import ar.fiuba.tdd.tp.exceptions.WritingException;
+import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.*;
 import java.net.Socket;
 
-import static ar.fiuba.tdd.tp.Constants.ENCODING;
-import static ar.fiuba.tdd.tp.Constants.EO_MSG;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class SimpleSocket {
 
