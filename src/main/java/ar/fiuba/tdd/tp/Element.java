@@ -7,6 +7,7 @@ public class Element {
 
     private String name;
     private String state;
+    private int size;
 
     private Map<String,String> actionStateMap;
 
@@ -14,6 +15,17 @@ public class Element {
         this.name = name;
         this.state = state;
         this.actionStateMap = new HashMap<>();
+    }
+
+    public Element(String name, String state, int size) {
+        this.name = name;
+        this.state = state;
+        this.actionStateMap = new HashMap<>();
+        this.size = size;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public String getName() {
