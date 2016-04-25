@@ -5,8 +5,8 @@ public class Main {
 
         System.out.println("This is just a tp project");
 
-        Motor motor = new Motor();
-        motor.generarJuego();
+        Engine engine = new Engine();
+        engine.generarJuego();
 
     }
 }
