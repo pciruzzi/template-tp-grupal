@@ -2,17 +2,95 @@ package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.Element;
 import ar.fiuba.tdd.tp.State;
-import ar.fiuba.tdd.tp.games.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class HanoiTowers extends Game {
 
     @Override
     public void createGame() {
+
+        finalState = new State();
+        finalState.addElement(new Element("diskOne", "colummThree"));
+        finalState.addElement(new Element("diskTwo", "colummThree"));
+        finalState.addElement(new Element("diskThree", "colummThree"));
+
+        createActualState();
+    }
+
+    @Override
+    public String doAction(String action) {
+
+        String[] parts = action.split(" ");
+
+        List<Element> elements = actualState.getElementList();
+        List<Element> elementsOfMyStack = getElementsOfTheStack(elements, parts[0]);
+        List<Element> elementsOfOtherStack = getElementsOfTheStack(elements, parts[1]);
+
+        int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+        int indexOfSmallestOfOtherStack = getIndexOfSmallestDisk(elementsOfOtherStack);
+
+        if ( indexOfSmallest < 0 ) {
+            return "The stack is empty.";
+        }
+
+        int smallest = elementsOfMyStack.get(indexOfSmallest).getSize();
+
+        int smallestOfOtherStack = -1;
+
+        if ( indexOfSmallestOfOtherStack >= 0 ) {
+            smallestOfOtherStack = elementsOfOtherStack.get(indexOfSmallestOfOtherStack).getSize();
+
+            if ( smallest > smallestOfOtherStack ) {
+                return "You can't stack a bigger disk over smaller one.";
+            }
+        }
+
+        String name = elementsOfMyStack.get(indexOfSmallest).getName();
+
+        return update(parts[1], name);
+    }
+
+    private List<Element> getElementsOfTheStack(List<Element> elementsList, String stack) {
+        List<Element> elementsOfMyStack = new ArrayList<>();
+        for ( Element element : elementsList) {
+            if (element.getState().equals(stack)) {
+                elementsOfMyStack.add(element);
+            }
+        }
+
+        return elementsOfMyStack;
+    }
+
+    private int getIndexOfSmallestDisk(List<Element> elementsList) {
+
+        int iterator = 0;
+        int indexOfSmallest = -1;
+        if ( elementsList.size() > 0 ) {
+            indexOfSmallest = iterator;
+            int smallest = elementsList.get(iterator).getSize();
+            for ( iterator = 1; iterator < elementsList.size(); iterator++) {
+                if ( elementsList.get(iterator).getSize() < smallest ) {
+                    smallest = elementsList.get(iterator).getSize();
+                    indexOfSmallest = iterator;
+                }
+            }
+        }
+
+        return indexOfSmallest;
+    }
+
+    private String update(String action, String name) {
+        String returnMessage = actualState.doAction(action,name);
+        if ( actualState.isEqual(finalState)) {
+            returnMessage = "You won the game";
+        }
+        return returnMessage;
+    }
+
+    private void createActualState() {
+
         Element diskOne = new Element("diskOne", "colummOne", 1);
         diskOne.addActionState("colummOne", "colummOne");
         diskOne.addActionState("colummTwo", "colummTwo");
@@ -31,76 +109,7 @@ public class HanoiTowers extends Game {
         actualState.addElement(diskTwo);
         actualState.addElement(diskThree);
 
-        finalState = new State();
-        finalState.addElement(new Element("diskOne", "colummThree"));
-        finalState.addElement(new Element("diskTwo", "colummThree"));
-        finalState.addElement(new Element("diskThree", "colummThree"));
-
         actualState.addDesiredState(finalState);
         actualState.addNextState(finalState);
-    }
-
-    @Override
-    public String doAction(String action) {
-
-        String[] partes = action.split(" ");
-
-        List<Element> elements = actualState.getElementList();
-        List<Element> elementosDeMiPila = new ArrayList<>();
-        List<Element> elementosOfOtherPile = new ArrayList<>();
-        for ( Element elemento : elements) {
-            if (elemento.getState().equals(partes[0])) {
-                elementosDeMiPila.add(elemento);
-            }
-        }
-
-        for ( Element elemento : elements) {
-            if ( elemento.getState().equals(partes[1])){
-                elementosOfOtherPile.add(elemento);
-            }
-        }
-        int indexOfSmallest = 0;
-        int smallest = 999999;
-        for (int i = 0; i < elementosDeMiPila.size(); i++){
-            if ( elementosDeMiPila.get(i).getSize() < smallest ) {
-                smallest = elementosDeMiPila.get(i).getSize();
-                indexOfSmallest = i;
-                System.out.println("Index samllest: " + indexOfSmallest + " smallest: " + smallest);
-            }
-        }
-
-//        int indexOfSmallestOtherColumm = 0;
-        int smallestOtherColumm = 888888;
-        for (int i = 0; i < elementosOfOtherPile.size(); i++) {
-            if ( elementosOfOtherPile.get(i).getSize() < smallest ) {
-                smallestOtherColumm = elements.get(i).getSize();
-//                indexOfSmallestOtherColumm = i;
-                System.out.println("Index samllest: " + indexOfSmallest + " smallest: " + smallest);
-            }
-        }
-        if ( ( smallestOtherColumm > smallest) && ( smallest < 999999 ) ) {
-            String nombre = elementosDeMiPila.get(indexOfSmallest).getName();
-            System.out.println("Muevo el tamanio: " + elementosDeMiPila.get(indexOfSmallest).getSize() + " con el nombre: " + nombre);
-            actualState.doAction(partes[1],nombre);
-        }
-        if ( smallest > 5) {
-            return "No habia nada en esa pila";
-        }
-        if ( smallestOtherColumm < smallest ) {
-            return "No podes poner uno mas grande arriba de uno chico";
-        }
-
-
-
-        if( actualState.isEqual(finalState)) {
-            return "Hanoi la chupaste";
-        } else {
-            return "Seguis jugando";
-        }
-//        finalState.doAction("topTwo", "diskOne");
-//        return "Hanoi chupala";
-
-
-
     }
 }
