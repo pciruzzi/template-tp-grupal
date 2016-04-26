@@ -12,9 +12,9 @@ public class HanoiTowers extends Game {
     public void createGame() {
 
         finalState = new State();
-        finalState.addElement(new Element("diskOne", "colummThree"));
-        finalState.addElement(new Element("diskTwo", "colummThree"));
-        finalState.addElement(new Element("diskThree", "colummThree"));
+        finalState.addElement(new Element("diskOne", "columnThree"));
+        finalState.addElement(new Element("diskTwo", "columnThree"));
+        finalState.addElement(new Element("diskThree", "columnThree"));
 
         createActualState();
     }
@@ -91,18 +91,18 @@ public class HanoiTowers extends Game {
 
     private void createActualState() {
 
-        Element diskOne = new Element("diskOne", "colummOne", 1);
-        diskOne.addActionState("colummOne", "colummOne");
-        diskOne.addActionState("colummTwo", "colummTwo");
-        diskOne.addActionState("colummThree", "colummThree");
-        Element diskTwo = new Element("diskTwo", "colummOne", 2);
-        diskTwo.addActionState("colummOne", "colummOne");
-        diskTwo.addActionState("colummTwo", "colummTwo");
-        diskTwo.addActionState("colummThree", "colummThree");
-        Element diskThree = new Element("diskThree", "colummOne", 3);
-        diskThree.addActionState("colummOne", "colummOne");
-        diskThree.addActionState("colummTwo", "colummTwo");
-        diskThree.addActionState("colummThree", "colummThree");
+        Element diskOne = new Element("diskOne", "columnOne", 1);
+        diskOne.addActionState("columnOne", "columnOne");
+        diskOne.addActionState("columnTwo", "columnTwo");
+        diskOne.addActionState("columnThree", "columnThree");
+        Element diskTwo = new Element("diskTwo", "columnOne", 2);
+        diskTwo.addActionState("columnOne", "columnOne");
+        diskTwo.addActionState("columnTwo", "columnTwo");
+        diskTwo.addActionState("columnThree", "columnThree");
+        Element diskThree = new Element("diskThree", "columnOne", 3);
+        diskThree.addActionState("columnOne", "columnOne");
+        diskThree.addActionState("columnTwo", "columnTwo");
+        diskThree.addActionState("columnThree", "columnThree");
 
         actualState = new State();
         actualState.addElement(diskOne);
