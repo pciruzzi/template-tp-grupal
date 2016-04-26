@@ -7,7 +7,8 @@ public class Element {
 
     private String name;
     private String state;
-    private int size;
+    private int intProperty;
+    private String stringProperty;
 
     private Map<String,String> actionStateMap;
 
@@ -17,15 +18,42 @@ public class Element {
         this.actionStateMap = new HashMap<>();
     }
 
-    public Element(String name, String state, int size) {
+    public Element(String name, String state, int intProperty) {
         this.name = name;
         this.state = state;
         this.actionStateMap = new HashMap<>();
-        this.size = size;
+        this.intProperty = intProperty;
     }
 
-    public int getSize() {
-        return size;
+    public Element(String name, String state, String stringProperty) {
+        this.name = name;
+        this.state = state;
+        this.actionStateMap = new HashMap<>();
+        this.stringProperty = stringProperty;
+    }
+
+    public Element(String name, String state, int intProperty, String stringProperty) {
+        this.name = name;
+        this.state = state;
+        this.actionStateMap = new HashMap<>();
+        this.intProperty = intProperty;
+        this.stringProperty = stringProperty;
+    }
+
+    public int getIntProperty() {
+        return intProperty;
+    }
+
+    public void setIntProperty(int intProperty) {
+        this.intProperty = intProperty;
+    }
+
+    public void setStringProperty(String stringProperty) {
+        this.stringProperty = stringProperty;
+    }
+
+    public String getStringProperty() {
+        return stringProperty;
     }
 
     public String getName() {

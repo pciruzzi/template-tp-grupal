@@ -1,12 +1,17 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Element;
 import ar.fiuba.tdd.tp.State;
+
+import java.util.List;
 
 public abstract class Game {
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
     protected State finalState;     // Este es el estado en el que se gana el juego
     protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
+
+    protected List<Element> elementsList;
 
 //    public abstract String doAction(String action);
 
@@ -32,18 +37,11 @@ public abstract class Game {
 
     }
 
-//    private String checkLookAround(String action) {
-//
-//    }
-
-
-
-    private String update(String returnMessage) {
+    protected String update(String returnMessage) {
         if ( actualState.isEqual(finalState) ) {
-            return "Ganaste guachin";
-        } else {
-            return returnMessage;
+            returnMessage = "You won!!!";
         }
+        return returnMessage;
     }
 
 //    public String doAction(String action) {
@@ -70,7 +68,7 @@ public abstract class Game {
 
     public abstract void createGame();
 
-    public String showItems() {
+    protected String showItems() {
         return actualState.showStateItems();
     }
 
