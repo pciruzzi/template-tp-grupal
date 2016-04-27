@@ -57,7 +57,7 @@ public class HanoiTowers extends Game {
     }
 
     private List<Element> getElementsOfTheStack(String stack) {
-        List<Element> elementsOfMyStack = new ArrayList<>();
+        List<Element> elementsOfMyStack = new ArrayList<Element>();
         for ( Element element : elementsList) {
             if (element.getState().equals(stack)) {
                 elementsOfMyStack.add(element);

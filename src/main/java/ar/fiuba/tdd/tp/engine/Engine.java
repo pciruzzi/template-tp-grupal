@@ -5,6 +5,8 @@ import ar.fiuba.tdd.tp.games.*;
 
 import java.util.Scanner;
 
+import static ar.fiuba.tdd.tp.Constants.*;
+
 
 public class Engine {
 
@@ -17,9 +19,9 @@ public class Engine {
 
         String intro = "";
 
-        Scanner scanner = new Scanner(System.in, "US-ASCII");
+        Scanner scanner = new Scanner(System.in, ENCODING);
 
-        while ( ! intro.equals( "fin") ) {
+        while ( ! intro.equals("fin") ) {
             intro = scanner.nextLine();
             System.out.println(juego.doAction(intro));
         }

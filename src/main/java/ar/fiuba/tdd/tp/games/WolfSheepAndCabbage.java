@@ -105,7 +105,7 @@ public class WolfSheepAndCabbage extends Game {
     }
 
     private List<Element> getElementsOfTheShore(List<Element> elementsList, String shore) {
-        List<Element> elementsOfMyStack = new ArrayList<>();
+        List<Element> elementsOfMyStack = new ArrayList<Element>();
         for ( Element element : elementsList) {
             if (element.getState().equals(shore) && !element.getName().equals(player.getStringProperty())) {
                 elementsOfMyStack.add(element);

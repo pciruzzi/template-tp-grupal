@@ -3,9 +3,6 @@ package ar.fiuba.tdd.tp.games;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
-/**
- * Created by panchoubuntu on 21/04/16.
- */
 public class OpenDoor extends Game {
 
 //    protected State actualState;    // Este es el estado actual en el que esta el juego
