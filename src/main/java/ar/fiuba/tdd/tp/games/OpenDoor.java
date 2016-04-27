@@ -1,7 +1,7 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Element;
-import ar.fiuba.tdd.tp.State;
+import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 
 /**
  * Created by panchoubuntu on 21/04/16.

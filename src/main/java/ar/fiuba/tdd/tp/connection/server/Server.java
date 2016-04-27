@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.server;
+package ar.fiuba.tdd.tp.connection.server;
 
 import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;

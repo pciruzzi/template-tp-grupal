@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.client;
+package ar.fiuba.tdd.tp.connection.client;
 
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
 

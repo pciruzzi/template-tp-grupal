@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.server;
+package ar.fiuba.tdd.tp.connection.server;
 
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
