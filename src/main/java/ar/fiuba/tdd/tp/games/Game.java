@@ -62,28 +62,6 @@ public abstract class Game {
         return returnMessage;
     }
 
-//    public String doAction(String action) {
-//
-//
-//        if (action.equals("look around")) {
-//            return showItems();
-//        }
-//
-//        desiredState = actualState.getDesiredState();
-//        String[] partes = action.split(" ");
-//        String returnMessage = actualState.doAction(partes[0], partes[1]);
-//
-//        if (actualState.isEqual(desiredState) ) {
-//            actualState = actualState.getNextState();
-//        }
-//
-//        if ( actualState.isEqual(finalState) ) {
-//            return "Ganaste guachin";
-//        } else {
-//            return returnMessage;
-//        }
-//    }
-
     public abstract void createGame();
 
     protected String showItems() {
