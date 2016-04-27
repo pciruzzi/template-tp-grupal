@@ -17,6 +17,13 @@ public class Engine {
     private List<Game> gameList;
     private Game juego;
 
+    public static boolean canCreate(String gameName) {
+
+        Engine engine = new Engine();
+
+        return engine.canBeCreated(gameName);
+    }
+
     public Engine() {
 
         gameList = new ArrayList<Game>();
@@ -28,6 +35,16 @@ public class Engine {
         gameList.add(new HanoiTowers());
         gameList.add(new OpenDoor());
         gameList.add(new WolfSheepAndCabbage());
+    }
+
+    private boolean canBeCreated(String gameName) {
+
+        for (Game game : gameList) {
+            if (game.checkGameName(gameName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Game pickGame(String gameName) throws GameNameException {

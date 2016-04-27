@@ -9,7 +9,7 @@ import static ar.fiuba.tdd.tp.Constants.ENCODING;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("This is just a tp project");
+        System.out.println("Welcome to hell");
 
         Engine engine = new Engine();
         engine.generarJuego();
