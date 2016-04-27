@@ -2,12 +2,12 @@ package ar.fiuba.tdd.tp.engine;
 
 
 import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.exceptions.GameNameException;
 import ar.fiuba.tdd.tp.games.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import ar.fiuba.tdd.tp.exceptions.GameNameException;
 
 import static ar.fiuba.tdd.tp.Constants.*;
 
@@ -20,20 +20,20 @@ public class Engine {
 
         gameList = new ArrayList<Game>();
 
-        gameList.add(new EvilThing());
+//        gameList.add(new EvilThing());
+//        gameList.add(new OpenDoor2());
+//        gameList.add(new TreasureQuest());
         gameList.add(new FetchQuest());
         gameList.add(new HanoiTowers());
         gameList.add(new OpenDoor());
-        gameList.add(new OpenDoor2());
-        gameList.add(new TreasureQuest());
         gameList.add(new WolfSheepAndCabbage());
     }
 
-    private Game pickGame(String gameName) throws GameNameException{
+    private Game pickGame(String gameName) throws GameNameException {
 
-        for(Game game:gameList){
-            if(game.checkGameName(gameName)){
-                return game.clone();
+        for (Game game : gameList) {
+            if (game.checkGameName(gameName)) {
+                return game.copy();
             }
         }
         throw new GameNameException("Juego invalido");
@@ -48,7 +48,7 @@ public class Engine {
         console.write("Write name of the game that you want to play");
         gameName = console.read();
 
-        try{
+        try {
             Game juego = pickGame(gameName);
             console.write("The name was correct.");
             juego.createGame();
@@ -61,7 +61,7 @@ public class Engine {
                 intro = scanner.nextLine();
                 System.out.println(juego.doAction(intro));
             }
-        }catch (GameNameException exp){
+        } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
             console.write(gameName);
         }

@@ -8,6 +8,7 @@ public class OpenDoor extends Game {
 
 
     public OpenDoor() {
+        console = new Console();
         name = "open door";
     }
 
@@ -16,7 +17,7 @@ public class OpenDoor extends Game {
 //    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
 
     @Override
-    public Game clone() {
+    public Game copy() {
         return new OpenDoor();
     }
 
@@ -40,7 +41,7 @@ public class OpenDoor extends Game {
         nextState.addDesiredState(stateThree);
         nextState.addNextState(finalState);
 
-        Console console = new Console();
+
         console.write("Open Door game was created.");
     }
 

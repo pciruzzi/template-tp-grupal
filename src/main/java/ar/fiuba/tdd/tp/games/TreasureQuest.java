@@ -6,18 +6,17 @@ public class TreasureQuest extends Game {
 
 
     public TreasureQuest() {
-        name = "treasure quest";
+//        console = new Console();
+//        name = "treasure quest";
     }
 
     @Override
-    public Game clone() {
+    public Game copy() {
         return new TreasureQuest();
     }
 
     @Override
     public void createGame() {
-
-        Console console = new Console();
-        console.write("Treasure Quest game was created.");
+//        console.write("Treasure Quest game was created.");
     }
 }

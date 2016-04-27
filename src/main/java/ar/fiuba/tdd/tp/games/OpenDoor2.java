@@ -6,19 +6,19 @@ public class OpenDoor2 extends Game {
 
 
     public OpenDoor2() {
-        name = "open door 2";
+//        console = new Console();
+//        name = "open door 2";
     }
 
     @Override
-    public Game clone() {
+    public Game copy() {
         return new OpenDoor2();
     }
 
     @Override
     public void createGame() {
 
-        Console console = new Console();
-        console.write("Open Door 2 game was created.");
+//        console.write("Open Door 2 game was created.");
 
     }
 }

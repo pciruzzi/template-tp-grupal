@@ -11,7 +11,8 @@ public class WolfSheepAndCabbage extends Game {
 
     private Element player;
 
-    public WolfSheepAndCabbage(){
+    public WolfSheepAndCabbage() {
+        console = new Console();
         name = "wolf sheep and cabbage";
     }
 
@@ -22,12 +23,11 @@ public class WolfSheepAndCabbage extends Game {
 
         createActualState();
 
-        Console console = new Console();
         console.write("Wolf Sheep and Cabbage game was created.");
     }
 
     @Override
-    public Game clone() {
+    public Game copy() {
         return new WolfSheepAndCabbage();
     }
 

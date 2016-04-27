@@ -7,6 +7,7 @@ import ar.fiuba.tdd.tp.engine.State;
 public class FetchQuest extends Game {
 
     public FetchQuest() {
+        console = new Console();
         this.name = "fetch quest";
     }
 
@@ -15,7 +16,7 @@ public class FetchQuest extends Game {
 //    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
 
     @Override
-    public Game clone() {
+    public Game copy() {
         return new FetchQuest();
     }
 
@@ -41,7 +42,7 @@ public class FetchQuest extends Game {
 
         finalState = proximoState;
 
-        Console console = new Console();
+
         console.write("Fetch Quest game was created.");
     }
 

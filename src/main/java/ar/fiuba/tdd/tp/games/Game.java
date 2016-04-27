@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 public abstract class Game {
 
+    protected Console console;
     protected String name;
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
@@ -17,16 +19,15 @@ public abstract class Game {
 
 //    public abstract String doAction(String action);
 
-    public abstract Game clone();
+    public abstract Game copy();
 
-    public boolean checkGameName(String gameName){
+    public boolean checkGameName(String gameName) {
 
-        gameName.toLowerCase();
+        gameName = gameName.toLowerCase();
 
-        if(gameName.equals(name)){
+        if (gameName.equals(name)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
