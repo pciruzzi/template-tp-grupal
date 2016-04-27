@@ -1,4 +1,22 @@
 package ar.fiuba.tdd.tp.games;
 
-public class TreasureQuest {
+import ar.fiuba.tdd.tp.Console;
+
+public class TreasureQuest extends Game {
+
+
+    public TreasureQuest() {
+//        console = new Console();
+//        name = "treasure quest";
+    }
+
+    @Override
+    public Game copy() {
+        return new TreasureQuest();
+    }
+
+    @Override
+    public void createGame() {
+//        console.write("Treasure Quest game was created.");
+    }
 }

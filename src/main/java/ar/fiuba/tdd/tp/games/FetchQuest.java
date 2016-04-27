@@ -1,13 +1,24 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
 public class FetchQuest extends Game {
 
+    public FetchQuest() {
+        console = new Console();
+        this.name = "fetch quest";
+    }
+
 //    protected State actualState;    // Este es el estado actual en el que esta el juego
 //    protected State finalState;     // Este es el estado en el que se gana el juego
 //    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
+
+    @Override
+    public Game copy() {
+        return new FetchQuest();
+    }
 
     @Override
     public void createGame() {
@@ -30,6 +41,9 @@ public class FetchQuest extends Game {
         initialState.addNextState(proximoState);
 
         finalState = proximoState;
+
+
+        console.write("Fetch Quest game was created.");
     }
 
 //    @Override
