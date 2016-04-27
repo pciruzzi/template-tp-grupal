@@ -17,8 +17,9 @@ public abstract class Game {
     protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
     protected List<Element> elementsList;
 
-//    public abstract String doAction(String action);
+    protected boolean gameWon;
 
+//    public abstract String doAction(String action);
     public abstract Game copy();
 
     public boolean checkGameName(String gameName) {
@@ -58,6 +59,7 @@ public abstract class Game {
     protected String update(String returnMessage) {
         if ( actualState.isEqual(finalState) ) {
             returnMessage = "You won!!!";
+            this.gameWon = true;
         }
         return returnMessage;
     }
@@ -66,6 +68,10 @@ public abstract class Game {
 
     protected String showItems() {
         return actualState.showStateItems();
+    }
+
+    public boolean getGameWon() {
+        return this.gameWon;
     }
 
 }

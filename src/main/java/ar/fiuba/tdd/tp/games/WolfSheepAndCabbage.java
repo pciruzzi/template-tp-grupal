@@ -12,6 +12,7 @@ public class WolfSheepAndCabbage extends Game {
     private Element player;
 
     public WolfSheepAndCabbage() {
+        gameWon = false;
         console = new Console();
         name = "wolf sheep and cabbage";
     }
@@ -22,8 +23,6 @@ public class WolfSheepAndCabbage extends Game {
         createFinalState();
 
         createActualState();
-
-        console.write("Wolf Sheep and Cabbage game was created.");
     }
 
     @Override

@@ -8,6 +8,7 @@ public class OpenDoor extends Game {
 
 
     public OpenDoor() {
+        gameWon = false;
         console = new Console();
         name = "open door";
     }
@@ -40,9 +41,6 @@ public class OpenDoor extends Game {
 
         nextState.addDesiredState(stateThree);
         nextState.addNextState(finalState);
-
-
-        console.write("Open Door game was created.");
     }
 
     private void createActualState(State nextState) {

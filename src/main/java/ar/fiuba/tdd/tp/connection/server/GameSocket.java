@@ -2,6 +2,7 @@ package ar.fiuba.tdd.tp.connection.server;
 
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.engine.Engine;
 
 import java.io.IOException;
 import java.net.*;
@@ -34,11 +35,8 @@ public class GameSocket implements Runnable {
                 writer.write("Waiting for connections in port " + port);
                 Socket connection = socket.accept();
                 writer.write("Connection received in port " + port);
-                // TODO: crear engine
-                // Aca ya no tendria que mandarle el game, sino crear una nueva instancia del engine con el 'game'
-                // que como ya sé que se puede crear porque me fije en el Server, no hay problema
-                // Engine engine = new Engine(game);
-                Interactor runnable = new Interactor(connection, game/*, engine*/);
+                Engine engine = new Engine(game);
+                Interactor runnable = new Interactor(connection, game, engine);
                 Thread thread = new Thread(runnable);
                 thread.start();
                 interactors.add(runnable);

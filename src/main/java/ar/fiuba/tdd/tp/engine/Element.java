@@ -15,27 +15,27 @@ public class Element {
     public Element(String name, String state) {
         this.name = name;
         this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this.actionStateMap = new HashMap<String, String>();
     }
 
     public Element(String name, String state, int intProperty) {
         this.name = name;
         this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this.actionStateMap = new HashMap<String, String>();
         this.intProperty = intProperty;
     }
 
     public Element(String name, String state, String stringProperty) {
         this.name = name;
         this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this.actionStateMap = new HashMap<String, String>();
         this.stringProperty = stringProperty;
     }
 
     public Element(String name, String state, int intProperty, String stringProperty) {
         this.name = name;
         this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this.actionStateMap = new HashMap<String, String>();
         this.intProperty = intProperty;
         this.stringProperty = stringProperty;
     }

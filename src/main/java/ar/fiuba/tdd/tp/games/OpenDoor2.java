@@ -8,6 +8,7 @@ public class OpenDoor2 extends Game {
     public OpenDoor2() {
 //        console = new Console();
 //        name = "open door 2";
+//        gameWon = false;
     }
 
     @Override

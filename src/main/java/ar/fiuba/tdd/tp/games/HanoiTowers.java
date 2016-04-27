@@ -11,6 +11,7 @@ public class HanoiTowers extends Game {
 
 
     public HanoiTowers() {
+        gameWon = false;
         console = new Console();
         name = "hanoi towers";
     }
@@ -29,8 +30,6 @@ public class HanoiTowers extends Game {
         finalState.addElement(new Element("diskThree", "columnThree"));
 
         createActualState();
-
-        console.write("Hanoi Tower game was created.");
     }
 
     @Override

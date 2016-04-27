@@ -7,6 +7,7 @@ import ar.fiuba.tdd.tp.engine.State;
 public class FetchQuest extends Game {
 
     public FetchQuest() {
+        gameWon = false;
         console = new Console();
         this.name = "fetch quest";
     }
@@ -22,7 +23,6 @@ public class FetchQuest extends Game {
 
     @Override
     public void createGame() {
-
         Element stick = new Element("stick", "floor");
         stick.addActionState("pick", "picked");
         stick.addActionState("drop", "floor");
@@ -41,9 +41,6 @@ public class FetchQuest extends Game {
         initialState.addNextState(proximoState);
 
         finalState = proximoState;
-
-
-        console.write("Fetch Quest game was created.");
     }
 
 //    @Override

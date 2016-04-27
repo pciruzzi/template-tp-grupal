@@ -2,32 +2,29 @@ package ar.fiuba.tdd.tp.engine;
 
 
 import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.exceptions.GameNameException;
 import ar.fiuba.tdd.tp.games.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import static ar.fiuba.tdd.tp.Constants.*;
 
 
 public class Engine {
 
     private List<Game> gameList;
-    private Game juego;
+    private String gameName;
+    private Game selectedGame;
+    private Writer writer;
 
     public static boolean canCreate(String gameName) {
-
-        Engine engine = new Engine();
+        Engine engine = new Engine(gameName);
 
         return engine.canBeCreated(gameName);
     }
 
-    public Engine() {
-
+    public Engine(String gameName) {
         gameList = new ArrayList<Game>();
-
 //        gameList.add(new EvilThing());
 //        gameList.add(new OpenDoor2());
 //        gameList.add(new TreasureQuest());
@@ -35,10 +32,13 @@ public class Engine {
         gameList.add(new HanoiTowers());
         gameList.add(new OpenDoor());
         gameList.add(new WolfSheepAndCabbage());
+
+        writer = new Console();
+        selectedGame = null;
+        this.gameName = gameName;
     }
 
     private boolean canBeCreated(String gameName) {
-
         for (Game game : gameList) {
             if (game.checkGameName(gameName)) {
                 return true;
@@ -47,26 +47,21 @@ public class Engine {
         return false;
     }
 
-    private Game pickGame(String gameName) throws GameNameException {
-
+    private void pickGame(String gameName) throws GameNameException {
         for (Game game : gameList) {
             if (game.checkGameName(gameName)) {
-                return game.copy();
+                selectedGame = game.copy();
             }
         }
-        throw new GameNameException("Juego invalido");
+        if (selectedGame == null) {
+            throw new GameNameException("Juego invalido");
+        }
     }
 
     public void generarJuego() {
-        Console console = new Console();
-        String gameName;
-        console.write("Write name of the game that you want to play");
-        gameName = console.read();
-
         try {
-            juego = pickGame(gameName);
-            console.write("The name was correct.");
-            juego.createGame();
+            pickGame(gameName);
+            selectedGame.createGame();
 
 //            String intro = "";
 //
@@ -74,16 +69,20 @@ public class Engine {
 
 //            while ( ! intro.equals("fin") ) {
 //                intro = scanner.nextLine();
-//                System.out.println(juego.doAction(intro));
+//                System.out.println(selectedGame.doAction(intro));
 //            }
         } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
-            console.write(gameName);
+            writer.writeError(gameName);
         }
     }
 
     public String respondTo(String message) {
-        return juego.doAction(message);
+        return selectedGame.doAction(message);
+    }
+
+    public boolean getGameWon() {
+        return selectedGame.getGameWon();
     }
 
 }

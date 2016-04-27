@@ -3,6 +3,7 @@ package ar.fiuba.tdd.tp.connection.server;
 import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.exceptions.ExitException;
 
 import java.util.ArrayList;
@@ -33,17 +34,16 @@ public class Server {
     }
 
     public void initializeGame(String game) {
-//        TODO: Ver que se pueda crear ese juego
-//        if (Engine.canCreate(game)) { //método static
-        portOffset++;
-        GameSocket runnable = new GameSocket(port + portOffset, game);
-        Thread thread = new Thread(runnable);
-        thread.start();
-        sockets.add(runnable);
-        threads.add(thread);
-//        } else {
-//            writer.writeError("I can't load that game");
-//        }
+        if (Engine.canCreate(game)) { //método static
+            portOffset++;
+            GameSocket runnable = new GameSocket(port + portOffset, game);
+            Thread thread = new Thread(runnable);
+            thread.start();
+            sockets.add(runnable);
+            threads.add(thread);
+        } else {
+            writer.writeError("I can't load that game");
+        }
     }
 
     public void terminate() {
