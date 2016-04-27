@@ -107,13 +107,6 @@ public class HanoiTowers extends Game {
         return parts;
     }
 
-//    private String update(String action, String name) {
-//        if ( actualState.isEqual(finalState)) {
-//            returnMessage = "You won the game";
-//        }
-//        return returnMessage;
-//    }
-
     private void createActualState() {
 
         Element diskOne = new Element("diskOne", "columnOne", 1);
@@ -133,9 +126,6 @@ public class HanoiTowers extends Game {
         actualState.addElement(diskOne);
         actualState.addElement(diskTwo);
         actualState.addElement(diskThree);
-
-//        actualState.addDesiredState(finalState);
-//        actualState.addNextState(finalState);
 
         elementsList = actualState.getElementList();
     }
