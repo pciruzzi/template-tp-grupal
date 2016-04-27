@@ -1,17 +1,27 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
 public class OpenDoor extends Game {
+
+
+    public OpenDoor() {
+        name = "open door";
+    }
 
 //    protected State actualState;    // Este es el estado actual en el que esta el juego
 //    protected State finalState;     // Este es el estado en el que se gana el juego
 //    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
 
     @Override
-    public void createGame() {
+    public Game clone() {
+        return new OpenDoor();
+    }
 
+    @Override
+    public void createGame() {
 
         State nextState = new State();
 
@@ -30,6 +40,8 @@ public class OpenDoor extends Game {
         nextState.addDesiredState(stateThree);
         nextState.addNextState(finalState);
 
+        Console console = new Console();
+        console.write("Open Door game was created.");
     }
 
     private void createActualState(State nextState) {

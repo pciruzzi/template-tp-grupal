@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -10,12 +11,24 @@ public class WolfSheepAndCabbage extends Game {
 
     private Element player;
 
+    public WolfSheepAndCabbage(){
+        name = "wolf sheep and cabbage";
+    }
+
     @Override
     public void createGame() {
 
         createFinalState();
 
         createActualState();
+
+        Console console = new Console();
+        console.write("Wolf Sheep and Cabbage game was created.");
+    }
+
+    @Override
+    public Game clone() {
+        return new WolfSheepAndCabbage();
     }
 
     @Override

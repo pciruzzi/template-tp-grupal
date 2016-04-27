@@ -7,13 +7,30 @@ import java.util.List;
 
 public abstract class Game {
 
+    protected String name;
+
     protected State actualState;    // Este es el estado actual en el que esta el juego
+
     protected State finalState;     // Este es el estado en el que se gana el juego
     protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
-
     protected List<Element> elementsList;
 
 //    public abstract String doAction(String action);
+
+    public abstract Game clone();
+
+    public boolean checkGameName(String gameName){
+
+        gameName.toLowerCase();
+
+        if(gameName.equals(name)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
     public String doAction(String action) {
 

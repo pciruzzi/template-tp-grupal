@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -7,6 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HanoiTowers extends Game {
+
+
+    public HanoiTowers() {
+        name = "hanoi towers";
+    }
+
+    @Override
+    public Game clone(){
+        return new HanoiTowers();
+    }
 
     @Override
     public void createGame() {
@@ -17,6 +28,8 @@ public class HanoiTowers extends Game {
         finalState.addElement(new Element("diskThree", "columnThree"));
 
         createActualState();
+        Console console = new Console();
+        console.write("Hanoi Tower game was created.");
     }
 
     @Override
