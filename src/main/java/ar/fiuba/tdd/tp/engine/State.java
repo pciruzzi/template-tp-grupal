@@ -59,8 +59,6 @@ public class State {
         return desiredState;
     }
 
-
-
     public String showStateItems() {
 
         StringBuffer elementsContained = new StringBuffer();
