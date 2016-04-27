@@ -34,7 +34,11 @@ public class GameSocket implements Runnable {
                 writer.write("Waiting for connections in port " + port);
                 Socket connection = socket.accept();
                 writer.write("Connection received in port " + port);
-                Interactor runnable = new Interactor(connection, game);
+                // TODO: crear engine
+                // Aca ya no tendria que mandarle el game, sino crear una nueva instancia del engine con el 'game'
+                // que como ya sé que se puede crear porque me fije en el Server, no hay problema
+                // Engine engine = new Engine(game);
+                Interactor runnable = new Interactor(connection, game/*, engine*/);
                 Thread thread = new Thread(runnable);
                 thread.start();
                 interactors.add(runnable);
@@ -48,23 +52,16 @@ public class GameSocket implements Runnable {
     }
 
     public void terminate() {
-        System.out.println("        Terminando threads del GameSocket");
         try {
-            int index = 1;
             for (Interactor interactor : interactors) {
-                System.out.println("    - Interactor " + index);
                 interactor.terminate();
-                index++;
             }
-            index = 1;
             for (Thread thread : threads) {
-                System.out.println("            - Thread " + index);
                 thread.interrupt();
-                index++;
             }
             socket.close();
         } catch (IOException e) {
-            System.out.println("IOException in GameSocket");
+            writer.writeError("Error when trying to close socket");
         }
     }
 }

@@ -9,25 +9,28 @@ public class Interactor extends SimpleSocket implements Runnable {
 
     private String game;
     volatile boolean terminate = false;
+//    private Engine engine;
 
-    public Interactor(Socket socket, String game) {
+    public Interactor(Socket socket, String game/*, Engine engine*/) {
         super();
         this.connection = socket;
         this.game = game;
+//        this.engine = engine;
     }
 
-    private String getResponse() {
+    private String getResponse(/*String msg*/) {
+        //TODO: crear metodo
+        // return engine.respondTo(msg);
         return "How can I help you?";
     }
 
     public void run() {
-        //TODO: Inicializar juego -> crea motor, etc...
         String msg = "";
         try {
             this.write("Welcome to game '" + game + "'!"); //Envio mensaje de bienvenida
             while (! msg.equals("exit") && ! terminate) {
                 msg = this.read();
-                String returnCode = this.getResponse();
+                String returnCode = this.getResponse(/*msg*/);
                 this.write(returnCode);
             }
         } catch (ConnectionException e) {
