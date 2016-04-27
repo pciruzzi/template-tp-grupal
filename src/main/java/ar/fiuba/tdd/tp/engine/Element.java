@@ -16,6 +16,7 @@ public class Element {
         this.name = name;
         this.state = state;
         this.actionStateMap = new HashMap<>();
+        this.stringProperty = "";
     }
 
     public Element(String name, String state, int intProperty) {
@@ -23,6 +24,7 @@ public class Element {
         this.state = state;
         this.actionStateMap = new HashMap<>();
         this.intProperty = intProperty;
+        this.stringProperty = "";
     }
 
     public Element(String name, String state, String stringProperty) {
@@ -75,8 +77,11 @@ public class Element {
     public String changeState(String action) {
         if ( actionStateMap.containsKey(action) ) {
             state = actionStateMap.get(action);
-            return "There you go";
+            return "Ok.";
         } else {
+            if (! stringProperty.equals("")) {
+                return stringProperty;
+            }
             return "Hey! I'm a " + this.getName() + ", I can't do that!";
         }
     }

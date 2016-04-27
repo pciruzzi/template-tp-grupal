@@ -12,8 +12,8 @@ public class WolfSheepAndCabbage extends Game {
     private Element player;
 
     public WolfSheepAndCabbage() {
-        console = new Console();
-        name = "wolf sheep and cabbage";
+        this.console = new Console();
+        this.name = "wolf sheep and cabbage";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class WolfSheepAndCabbage extends Game {
     @Override
     public String doAction(String action) {
 
-        String returnMessage = "Invalid Action";
+        String returnMessage = "Invalid Action.";
 
         String[] parts = action.split(" ");
 
@@ -79,7 +79,8 @@ public class WolfSheepAndCabbage extends Game {
     private String doLeaving(String returnMessage, String name) {
         if ( player.getStringProperty().equals(name) ) {
             player.setStringProperty("nothing");
-            returnMessage = actualState.doAction(player.getState(), name);
+            actualState.doAction(player.getState(), name);
+            returnMessage = "You leave the " + name + ".";
         } else {
             returnMessage = "You don't have the " + name + ", you have " + player.getStringProperty();
         }
@@ -97,9 +98,9 @@ public class WolfSheepAndCabbage extends Game {
                 if ( player.getStringProperty().equals("nothing") ) {
                     // Le asigno el elemento que takie
                     player.setStringProperty( name );
-                    returnMessage = "You took the " + name;
+                    returnMessage = "You took the " + name + ".";
                 } else {
-                    returnMessage = "You already have the " + player.getStringProperty();
+                    returnMessage = "You already have the " + player.getStringProperty() + ".";
                 }
             }
         }
@@ -109,9 +110,10 @@ public class WolfSheepAndCabbage extends Game {
     private String doCrossing(String returnMessage, String shore) {
         if ( !player.getState().equals( shore ) ) {
             if ( noEating( player.getState() ) ) {
-                returnMessage = actualState.doAction( shore, player.getName() );
+                actualState.doAction( shore, player.getName() );
+                returnMessage = "You have crossed!";
             } else {
-                returnMessage = "They will eat each other";
+                returnMessage = "You can’t do that! They will eat each other.";
             }
         }
         return returnMessage;

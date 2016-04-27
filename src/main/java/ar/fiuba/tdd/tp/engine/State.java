@@ -47,7 +47,7 @@ public class State {
             Element element = elementStateMap.get(elementName);
             return element.changeState(action);
         } else {
-            return "It doesn't exist the item: " + elementName + " or the action: " + action;
+            return "It doesn't exist the item: " + elementName + " or the action: " + action + ".";
         }
     }
 
@@ -73,7 +73,7 @@ public class State {
                 elementsContained.append( ", a ");
             }
         }
-        elementsContained.append(" in the room");
+        elementsContained.append(" in the room.");
 
         return elementsContained.toString();
     }
@@ -100,7 +100,7 @@ public class State {
             Element othersElement = othersElementStateMap.get(name);
 
             if ( othersElement != null ) {
-                if ( !othersElement.getState().equals(element.getState()) ) {
+                if (! othersElement.getState().equals(element.getState()) ) {
                     equal = false;
                 }
             } else {

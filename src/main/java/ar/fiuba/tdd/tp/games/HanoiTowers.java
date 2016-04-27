@@ -11,8 +11,8 @@ public class HanoiTowers extends Game {
 
 
     public HanoiTowers() {
-        console = new Console();
-        name = "hanoi towers";
+        this.console = new Console();
+        this.name = "hanoi towers";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HanoiTowers extends Game {
 
         createActualState();
 
-        console.write("Hanoi Tower game was created.");
+        console.write("Hanoi Towers game was created.");
     }
 
     @Override
