@@ -2,88 +2,96 @@ package ar.fiuba.tdd.tp.engine;
 
 
 import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.exceptions.GameNameException;
 import ar.fiuba.tdd.tp.games.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import static ar.fiuba.tdd.tp.Constants.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Engine {
 
-    private List<Game> gameList;
-    private Game juego;
+    private Map<String, Game> gameMap;
+    private String gameName;
+    private Game selectedGame;
+    private Writer writer;
 
     public static boolean canCreate(String gameName) {
-
-        Engine engine = new Engine();
-
-        return engine.canBeCreated(gameName);
+        Engine engine = new Engine(gameName);
+        return engine.existsGame(gameName);
     }
 
-    public Engine() {
 
-        gameList = new ArrayList<Game>();
-
-//        gameList.add(new EvilThing());
-        gameList.add(new OpenDoor2());
-//        gameList.add(new TreasureQuest());
-        gameList.add(new FetchQuest());
-        gameList.add(new HanoiTowers());
-        gameList.add(new OpenDoor());
-        gameList.add(new WolfSheepAndCabbage());
+    private void loadGame(Game game) {
+        gameMap.put(game.getGameName(), game);
     }
 
-    private boolean canBeCreated(String gameName) {
+    private void loadGames() {
+//        loadGame(new EvilThing());
+//        loadGame(new OpenDoor2());
+//        loadGame(new TreasureQuest());
+        loadGame(new FetchQuest());
+        loadGame(new HanoiTowers());
+        loadGame(new OpenDoor());
+        loadGame(new WolfSheepAndCabbage());
+    }
 
-        for (Game game : gameList) {
-            if (game.checkGameName(gameName)) {
-                return true;
-            }
+    public Engine(String gameName) {
+        gameMap = new HashMap<String, Game>();
+        writer = new Console();
+        selectedGame = null;
+        this.gameName = gameName;
+        this.loadGames();
+    }
+
+    private boolean existsGame(String gameName) {
+        return gameMap.containsKey(gameName);
+    }
+
+    private void pickGame(String gameName) throws GameNameException {
+        if (existsGame(gameName)) {
+            selectedGame = gameMap.get(gameName).copy();
         }
-        return false;
-    }
-
-    private Game pickGame(String gameName) throws GameNameException {
-
-        for (Game game : gameList) {
-            if (game.checkGameName(gameName)) {
-                return game.copy();
-            }
+        if (selectedGame == null) {
+            throw new GameNameException("Juego invalido");
         }
-        throw new GameNameException("Juego invalido");
     }
 
     public void generarJuego() {
-        Console console = new Console();
-        String gameName;
-        console.write("Write name of the game that you want to play");
-        gameName = console.read();
-
         try {
-            juego = pickGame(gameName);
-            console.write("The name was correct.");
-            juego.createGame();
-
+            pickGame(gameName);
+            selectedGame.createGame();
 //            String intro = "";
 //
 //            Scanner scanner = new Scanner(System.in, ENCODING);
 
 //            while ( ! intro.equals("fin") ) {
 //                intro = scanner.nextLine();
-//                System.out.println(juego.doAction(intro));
+//                System.out.println(selectedGame.doAction(intro));
 //            }
         } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
-            console.write(gameName);
+            writer.writeError(gameName);
         }
     }
 
-    public String respondTo(String message) {
-        return juego.doAction(message);
+    public String helpCommand(String message) {
+        String gameName = message.replaceAll("^help ", "");
+        if (existsGame(gameName)) {
+            return gameMap.get(gameName).getDescription();
+        }
+        return "It doesn't exist a game with that name. Sorry I can't help you! :(";
     }
 
+    public String respondTo(String message) {
+        if (message.matches("^help .*")) {
+            return helpCommand(message);
+        }
+        return selectedGame.doAction(message);
+    }
+
+    public boolean getGameWon() {
+        return selectedGame.getGameWon();
+    }
 }

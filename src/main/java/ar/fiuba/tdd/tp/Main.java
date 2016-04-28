@@ -11,7 +11,7 @@ public class Main {
 
         System.out.println("Welcome to hell");
 
-        Engine engine = new Engine();
+        Engine engine = new Engine("fetch quest");
         engine.generarJuego();
 
         String intro = "";

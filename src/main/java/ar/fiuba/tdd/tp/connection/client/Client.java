@@ -15,11 +15,13 @@ public class Client {
     private SocketClient socket;
     private Reader reader;
     private Writer writer;
+    private boolean gameWon;
 
     public Client() {
         socket = new SocketClient();
         reader = new Console();
         writer = new Console();
+        gameWon = false;
     }
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
@@ -45,7 +47,7 @@ public class Client {
         String command = "";
         try {
             this.readFromSocket(); //Leo mensaje de bienvenida del juego
-            while (! command.equals("exit")) {
+            while (! command.equals("exit") && ! gameWon) {
                 command = this.readFromInput();
                 this.writeToSocket(command);
                 this.readFromSocket();
@@ -68,5 +70,8 @@ public class Client {
     private void readFromSocket() throws ConnectionLostException, ReadingException {
         String response = socket.read();
         writer.write(response);
+        if (response.equals("You won!!!")) {
+            gameWon = true;
+        }
     }
 }

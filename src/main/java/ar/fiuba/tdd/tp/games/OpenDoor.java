@@ -1,14 +1,14 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
 public class OpenDoor extends Game {
 
     public OpenDoor() {
-        this.console = createConsole();
-        this.name = "open door";
+        gameWon = false;
+        name = "open door";
+        this.description = "El open door consiste en...";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class OpenDoor extends Game {
         nextState.addDesiredState(finalState);
         nextState.addNextState(finalState);
 
-        console.write("Open Door game was created.");
+        elementsList = actualState.getElementList();
     }
 
     private void createActualState(State nextState) {
