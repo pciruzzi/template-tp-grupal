@@ -1,13 +1,12 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
-
 public class TreasureQuest extends Game {
 
 
     public TreasureQuest() {
 //        name = "treasure quest";
 //        gameWon = false;
+//        this.description = "El treasure quest consiste en...";
     }
 
     @Override

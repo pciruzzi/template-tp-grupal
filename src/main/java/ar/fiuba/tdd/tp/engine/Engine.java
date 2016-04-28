@@ -6,52 +6,51 @@ import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.exceptions.GameNameException;
 import ar.fiuba.tdd.tp.games.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Engine {
 
-    private List<Game> gameList;
+    private Map<String, Game> gameMap;
     private String gameName;
     private Game selectedGame;
     private Writer writer;
 
     public static boolean canCreate(String gameName) {
         Engine engine = new Engine(gameName);
+        return engine.existsGame(gameName);
+    }
 
-        return engine.canBeCreated(gameName);
+    private void loadGame(Game game) {
+        gameMap.put(game.getGameName(), game);
+    }
+
+    private void loadGames() {
+//        loadGame(new EvilThing());
+//        loadGame(new OpenDoor2());
+//        loadGame(new TreasureQuest());
+        loadGame(new FetchQuest());
+        loadGame(new HanoiTowers());
+        loadGame(new OpenDoor());
+        loadGame(new WolfSheepAndCabbage());
     }
 
     public Engine(String gameName) {
-        gameList = new ArrayList<Game>();
-//        gameList.add(new EvilThing());
-//        gameList.add(new OpenDoor2());
-//        gameList.add(new TreasureQuest());
-        gameList.add(new FetchQuest());
-        gameList.add(new HanoiTowers());
-        gameList.add(new OpenDoor());
-        gameList.add(new WolfSheepAndCabbage());
-
+        gameMap = new HashMap<String, Game>();
         writer = new Console();
         selectedGame = null;
         this.gameName = gameName;
+        this.loadGames();
     }
 
-    private boolean canBeCreated(String gameName) {
-        for (Game game : gameList) {
-            if (game.checkGameName(gameName)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean existsGame(String gameName) {
+        return gameMap.containsKey(gameName);
     }
 
     private void pickGame(String gameName) throws GameNameException {
-        for (Game game : gameList) {
-            if (game.checkGameName(gameName)) {
-                selectedGame = game.copy();
-            }
+        if (existsGame(gameName)) {
+            selectedGame = gameMap.get(gameName).copy();
         }
         if (selectedGame == null) {
             throw new GameNameException("Juego invalido");
@@ -77,12 +76,22 @@ public class Engine {
         }
     }
 
+    public String helpCommand(String message) {
+        String gameName = message.replaceAll("^help ", "");
+        if (existsGame(gameName)) {
+            return gameMap.get(gameName).getDescription();
+        }
+        return "It doesn't exist a game with that name. Sorry I can't help you! :(";
+    }
+
     public String respondTo(String message) {
+        if (message.matches("^help .*")) {
+            return helpCommand(message);
+        }
         return selectedGame.doAction(message);
     }
 
     public boolean getGameWon() {
         return selectedGame.getGameWon();
     }
-
 }

@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -9,6 +8,7 @@ public class FetchQuest extends Game {
     public FetchQuest() {
         gameWon = false;
         this.name = "fetch quest";
+        this.description = "El fetch quest consiste en...";
     }
 
 //    protected State actualState;    // Este es el estado actual en el que esta el juego

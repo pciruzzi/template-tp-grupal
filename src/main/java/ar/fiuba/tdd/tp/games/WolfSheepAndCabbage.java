@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -14,6 +13,7 @@ public class WolfSheepAndCabbage extends Game {
     public WolfSheepAndCabbage() {
         gameWon = false;
         name = "wolf sheep and cabbage";
+        this.description = "El wolf sheep and cabbage consiste en...";
     }
 
     @Override

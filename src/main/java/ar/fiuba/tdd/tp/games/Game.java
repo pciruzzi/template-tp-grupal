@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -9,6 +8,7 @@ import java.util.List;
 public abstract class Game {
 
     protected String name;
+    protected String description;
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
 
@@ -21,23 +21,30 @@ public abstract class Game {
 //    public abstract String doAction(String action);
     public abstract Game copy();
 
-    public boolean checkGameName(String gameName) {
+//    public boolean checkGameName(String gameName) {
+//
+//        gameName = gameName.toLowerCase();
+//
+//        if (gameName.equals(name)) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
-        gameName = gameName.toLowerCase();
-
-        if (gameName.equals(name)) {
-            return true;
-        } else {
-            return false;
-        }
+    public String getGameName() {
+        return name;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
 
     public String doAction(String action) {
 
-        String[] partes = action.split(" ");
+        String[] parts = action.split(" ");
 
-        if (partes.length < 2 ) {
+        if (parts.length < 2 ) {
             return "Invalid input";
         } else if (action.equals("look around")) {
             return showItems();
@@ -45,7 +52,7 @@ public abstract class Game {
 
         desiredState = actualState.getDesiredState();
 
-        String returnMessage = actualState.doAction(partes[0], partes[1]);
+        String returnMessage = actualState.doAction(parts[0], parts[1]);
 
         if (actualState.isEqual(desiredState) ) {
             actualState = actualState.getNextState();
