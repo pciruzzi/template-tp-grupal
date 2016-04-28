@@ -10,12 +10,49 @@ public class State {
     private State desiredState;
     private State nextState;
 
+    private Map<State,State> desiredAndNextStateMap;
+
     public State() {
         this.elementList = new ArrayList<Element>();
         this.elementStateMap = new HashMap<String, Element>();
+        this.desiredAndNextStateMap = new HashMap<>();
+    }
+
+    public State copy() {
+        State copy = new State();
+        List<Element> othersElementsList = new ArrayList<>();
+        for ( Element element : elementList ) {
+            Element elementCopy = element.copy();
+            othersElementsList.add(elementCopy);
+        }
+
+        Map<String,Element> othersStateMap = new HashMap<>(this.elementStateMap);
+        for ( Map.Entry<String, Element> entry : elementStateMap.entrySet() ) {
+            Element elementCopy = entry.getValue().copy();
+            othersStateMap.put(entry.getKey(),elementCopy);
+        }
+
+        Map<State,State> othersDesiredAndNextStateMap = new HashMap<>(this.desiredAndNextStateMap);
+        copy.setElementList(othersElementsList);
+        copy.setElementStateMap(othersStateMap);
+        copy.setDesiredAndNextStateMap(othersDesiredAndNextStateMap);
+        return copy;
+    }
+
+    public void setElementList(List<Element> elementsList) {
+        this.elementList = elementsList;
+    }
+
+    public void setElementStateMap(Map<String, Element> elementStateMap) {
+        this.elementStateMap = elementStateMap;
+    }
+
+    public void setDesiredAndNextStateMap(Map<State,State> desiredAndNextStateMap) {
+        this.desiredAndNextStateMap = desiredAndNextStateMap;
     }
 
     public void addElement(Element element) {
+        element = element.copy();
         String name = element.getName();
         if ( elementStateMap.containsKey(name) ) {
             System.out.println("You are inserting a duplicated element in the state. Element name: " + name);
@@ -23,6 +60,23 @@ public class State {
             elementStateMap.put(element.getName(), element);
         }
         elementList.add(element);
+    }
+
+    public void addDesiredAndNextState(State desiredState, State nextState) {
+        boolean duplicatedDesiredState = false;
+        for ( Map.Entry<State,State> entry : desiredAndNextStateMap.entrySet()) {
+            if ( entry.getKey().isEqual(desiredState)) {
+                System.out.println("You are adding a duplicated desiredState.");
+                duplicatedDesiredState = true;
+            }
+        }
+        if ( !duplicatedDesiredState) {
+            desiredAndNextStateMap.put(desiredState, nextState);
+        }
+    }
+
+    public Map<State,State> getDesiredAndNextStateMap() {
+        return desiredAndNextStateMap;
     }
 
     public void addDesiredState(State desiredState) {
@@ -96,10 +150,11 @@ public class State {
             Map.Entry pair = (Map.Entry) elementsIterator.next();
             String name = (String) pair.getKey();
             Element element = (Element) pair.getValue();
-
             Element othersElement = othersElementStateMap.get(name);
+//            System.out.println("nameActual: " + name + " estado Actual: " + element.getState()  );
 
             if ( othersElement != null ) {
+//                System.out.println("name Other: " + othersElement.getName() + " estado Otro: " + othersElement.getState());
                 if (! othersElement.getState().equals(element.getState()) ) {
                     equal = false;
                 }

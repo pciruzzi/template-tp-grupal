@@ -15,6 +15,7 @@ public class Element {
         this.name = name;
         this.state = state;
         this.actionStateMap = new HashMap<String, String>();
+        this.intProperty = -1;
         this.stringProperty = "";
     }
 
@@ -32,6 +33,21 @@ public class Element {
         this(name, state);
         this.intProperty = intProperty;
         this.stringProperty = stringProperty;
+    }
+
+    public Element copy() {
+        String state = this.getState();
+        Element copy = new Element(this.getName(),state,this.getIntProperty(),this.getStringProperty());
+        copy.setActionStateMap(this.getActionStateMap());
+        return copy;
+    }
+
+    public Map<String,String> getActionStateMap() {
+        return actionStateMap;
+    }
+
+    public void setActionStateMap(Map<String,String> actionStateMap) {
+        this.actionStateMap = actionStateMap;
     }
 
     public int getIntProperty() {

@@ -42,7 +42,10 @@ public class OpenDoor extends Game {
         actualState.addElement(door);
         actualState.addElement(key);
 
-        nextState.addElement(new Element("key", "grabbed"));
+        Element keyTwo = new Element("key", "grabbed");
+        keyTwo.addActionState("pick", "grabbed");
+        keyTwo.addActionState("drop", "floor");
+        nextState.addElement(keyTwo);
 
         Element doorTwo = new Element("door", "closed");
         doorTwo.addActionState("open", "opened");
@@ -50,7 +53,8 @@ public class OpenDoor extends Game {
 
         nextState.addElement(doorTwo);
 
-        actualState.addDesiredState(nextState);
-        actualState.addNextState(nextState);
+        actualState.addDesiredAndNextState(nextState, nextState);
+
+        nextState.addDesiredAndNextState(actualState,actualState);
     }
 }
