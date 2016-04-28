@@ -15,6 +15,14 @@ import static ar.fiuba.tdd.tp.Constants.*;
 public class Engine {
 
     private List<Game> gameList;
+    private Game juego;
+
+    public static boolean canCreate(String gameName) {
+
+        Engine engine = new Engine();
+
+        return engine.canBeCreated(gameName);
+    }
 
     public Engine() {
 
@@ -29,6 +37,16 @@ public class Engine {
         gameList.add(new WolfSheepAndCabbage());
     }
 
+    private boolean canBeCreated(String gameName) {
+
+        for (Game game : gameList) {
+            if (game.checkGameName(gameName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Game pickGame(String gameName) throws GameNameException {
 
         for (Game game : gameList) {
@@ -39,35 +57,33 @@ public class Engine {
         throw new GameNameException("Juego invalido");
     }
 
-
     public void generarJuego() {
-//        Game juego = new FetchQuest();
-//        Game juego = new OpenDoor();
         Console console = new Console();
         String gameName;
         console.write("Write name of the game that you want to play");
         gameName = console.read();
 
         try {
-            Game juego = pickGame(gameName);
+            juego = pickGame(gameName);
             console.write("The name was correct.");
             juego.createGame();
 
-            String intro = "";
+//            String intro = "";
+//
+//            Scanner scanner = new Scanner(System.in, ENCODING);
 
-            Scanner scanner = new Scanner(System.in, ENCODING);
-
-            while ( ! intro.equals("fin") ) {
-                intro = scanner.nextLine();
-                System.out.println(juego.doAction(intro));
-            }
+//            while ( ! intro.equals("fin") ) {
+//                intro = scanner.nextLine();
+//                System.out.println(juego.doAction(intro));
+//            }
         } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
             console.write(gameName);
         }
+    }
 
-//        Game juego = new HanoiTowers();
-//        Game juego = new WolfSheepAndCabbage();
+    public String respondTo(String message) {
+        return juego.doAction(message);
     }
 
 }

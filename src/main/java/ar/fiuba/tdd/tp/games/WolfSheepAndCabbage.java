@@ -62,18 +62,21 @@ public class WolfSheepAndCabbage extends Game {
         return update(returnMessage);
     }
 
-    private boolean noEating(String shore) {
+    private String noEating(String shore) {
 
         List<Element> elementsOfSameShore = getElementsOfTheShore(elementsList, shore);
-        boolean noEats = true;
-        for ( int i = 0; i < elementsOfSameShore.size() && noEats; i++) {
-            for ( int j = 0; j < elementsOfSameShore.size() && noEats; j++) {
-                if ( elementsOfSameShore.get(i).getStringProperty().equals(elementsOfSameShore.get(j).getName())) {
-                    noEats = false;
+        String describeEating = "";
+        for ( int i = 0; i < elementsOfSameShore.size() ; i++) {
+            for ( int j = 0; j < elementsOfSameShore.size() ; j++) {
+                String predatorPrey = elementsOfSameShore.get(i).getStringProperty();
+                String prey = elementsOfSameShore.get(j).getName();
+                if ( predatorPrey.equals(elementsOfSameShore.get(j).getName())) {
+                    describeEating = "The " + elementsOfSameShore.get(i).getName()  + " will eat the " + prey;
+//                    noEats = false;
                 }
             }
         }
-        return noEats;
+        return describeEating;
     }
 
     private String doLeaving(String returnMessage, String name) {
@@ -100,7 +103,7 @@ public class WolfSheepAndCabbage extends Game {
                     player.setStringProperty( name );
                     returnMessage = "You took the " + name + ".";
                 } else {
-                    returnMessage = "You already have the " + player.getStringProperty() + ".";
+                    returnMessage = "You can't do that! You already have the " + player.getStringProperty();
                 }
             }
         }
@@ -109,11 +112,12 @@ public class WolfSheepAndCabbage extends Game {
 
     private String doCrossing(String returnMessage, String shore) {
         if ( !player.getState().equals( shore ) ) {
-            if ( noEating( player.getState() ) ) {
-                actualState.doAction( shore, player.getName() );
+            String describeEating = noEating(player.getState());
+            if ( describeEating.equals("") ) {
+                actualState.doAction(shore, player.getName());
                 returnMessage = "You have crossed!";
             } else {
-                returnMessage = "You can’t do that! They will eat each other.";
+                returnMessage = "You can't do that! " + describeEating;
             }
         }
         return returnMessage;
@@ -142,21 +146,21 @@ public class WolfSheepAndCabbage extends Game {
 
     private void createActualState() {
 
-        Element sheep = new Element("sheep", "south", "col");
-        sheep.addActionState("north", "north");
-        sheep.addActionState("south", "south");
+        Element sheep = new Element("sheep", "south-shore", "col");
+        sheep.addActionState("north-shore", "north-shore");
+        sheep.addActionState("south-shore", "south-shore");
 
-        Element wolf = new Element("wolf", "south", "sheep");
-        wolf.addActionState("north", "north");
-        wolf.addActionState("south", "south");
+        Element wolf = new Element("wolf", "south-shore", "sheep");
+        wolf.addActionState("north-shore", "north-shore");
+        wolf.addActionState("south-shore", "south-shore");
 
-        Element col = new Element("col", "south", "");
-        col.addActionState("north", "north");
-        col.addActionState("south", "south");
+        Element col = new Element("col", "south-shore", "");
+        col.addActionState("north-shore", "north-shore");
+        col.addActionState("south-shore", "south-shore");
 
-        player = new Element("player", "south", "nothing");
-        player.addActionState("north", "north");
-        player.addActionState("south", "south");
+        player = new Element("farmer", "south-shore", "nothing");
+        player.addActionState("north-shore", "north-shore");
+        player.addActionState("south-shore", "south-shore");
 
         actualState = new State();
         actualState.addElement(sheep);
@@ -169,9 +173,9 @@ public class WolfSheepAndCabbage extends Game {
 
     private void createFinalState() {
         finalState = new State();
-        finalState.addElement(new Element("sheep", "north"));
-        finalState.addElement(new Element("wolf", "north"));
-        finalState.addElement(new Element("col", "north"));
-        finalState.addElement(new Element("player", "north"));
+        finalState.addElement(new Element("sheep", "north-shore"));
+        finalState.addElement(new Element("wolf", "north-shore"));
+        finalState.addElement(new Element("col", "north-shore"));
+        finalState.addElement(new Element("player", "north-shore"));
     }
 }
