@@ -2,7 +2,6 @@ package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
-import com.sun.scenario.effect.impl.state.AccessHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ public abstract class Game {
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
     protected State finalState;     // Este es el estado en el que se gana el juego
-//    protected State desiredState;   // Este es el estado necesario para pasar al siguiente estado
     protected List<Element> elementsList;
 
     public abstract Game copy();
@@ -63,8 +61,6 @@ public abstract class Game {
         return message.contains("what can i do with ");
     }
 
-//    public abstract String doAction(String action);
-
     public String getGameName() {
         return name;
     }
@@ -110,16 +106,10 @@ public abstract class Game {
     }
 
     private String verifyChangeState(String[] parts) {
-//        desiredState = actualState.getDesiredState();
         String returnMessage = checkMultipleStateChanges(parts);
         if ( returnMessage.equals("") ) {
             returnMessage = actualState.doAction(parts[0], parts[1]);
         }
-
-//        if (actualState.isEqual(desiredState) ) {
-//            actualState = actualState.getNextState();
-//        }
-
         return update(returnMessage);
     }
 
@@ -133,12 +123,8 @@ public abstract class Game {
 
             if ( copy.isEqual(entry.getKey()) ) {
                 actualState = entry.getValue();
-                System.out.println("cambie de estado");
                 stateChange = true;
             }
-
-            System.out.println("termine de comparar");
-
         }
         if ( !stateChange ) {
             returnMessage = "";

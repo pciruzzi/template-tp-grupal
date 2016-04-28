@@ -18,35 +18,44 @@ public class EvilThing extends Game {
 
     @Override
     public void createGame() {
-//        createInitialState();
-
-//        State stateTwo = createStateTwo();
-
-  //      finalState = new State();
-    //    finalState.addElement(new Element("key", "grabbed"));
-    //    finalState.addElement(new Element("door", "opened"));
+        createInitialState();
+        //State stateTwo = createStateTwo();
+        //State stateThree = createStateThree();
+        //State stateFour = createStateFour();
+        finalState = new State();
+        finalState.addElement(new Element("door", "opened"));
     }
 
     private void createInitialState() {
-//        Element evil = new Element("key", "floor");
-//        evil.addActionState("pick", "grabbed");
-//        evil.addActionState("drop", "floor");
-//        Element unOpenableDoor = createUnopenableDoor();
+        Element evil = new Element("key", "floor");
+        evil.addActionState("pick", "grabbed");
+        evil.addActionState("drop", "floor");
 
-//        actualState = new State();
-//        actualState.addElement(evil);
-//        actualState.addElement(unOpenableDoor);
+        actualState = new State();
+        actualState.addElement(evil);
+        Element unOpenableDoor = createUnopenableDoor();
+        actualState.addElement(unOpenableDoor);
     }
 
     private State createStateTwo() {
- //       Element door = createOpenableDoor();
- //       Element thief = new Element("thief", "noStole");
- //       thief.addActionState("", "");
+        Element door = createOpenableDoor();
+        Element thief = new Element("thief", "noStole");
+        thief.addActionState("", "");
 
-  //      State state = new State();
-  //      state.addElement(door);
-  //      state.addElement(thief);
-        return new State();
+        State state = new State();
+        state.addElement(door);
+        state.addElement(thief);
 
+        return state;
+    }
+
+    private State createStateThree() {
+        State state = new State();
+        return state;
+    }
+
+    private State createStateFour() {
+        State state = new State();
+        return state;
     }
 }

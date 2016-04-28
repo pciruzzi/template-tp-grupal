@@ -17,6 +17,11 @@ public class OpenDoor2 extends Game {
 
     @Override
     public void createGame() {
+        finalState = new State();
+        finalState.addElement(new Element("door", "opened"));
+        finalState.addElement(new Element("key", "grabbed"));
+        finalState.addElement(new Element("box", "opened"));
+
         createActualState();
         State secondState = createSecondState();
 
@@ -30,18 +35,7 @@ public class OpenDoor2 extends Game {
         desiredStateOfActualState.addElement(new Element("box", "opened"));
         desiredStateOfActualState.addElement(new Element("door", "closed"));
 
-        actualState.addDesiredState(desiredStateOfActualState);
-        actualState.addNextState(secondState);
-
-        finalState = new State();
-        finalState.addElement(new Element("door", "opened"));
-        finalState.addElement(new Element("key", "grabbed"));
-        finalState.addElement(new Element("box", "opened"));
-
-        State stateThree = createThirdState();
-
-        secondState.addNextState(stateThree);
-
+        actualState.addDesiredAndNextState(desiredStateOfActualState, secondState);
     }
 
     private void createActualState() {
@@ -67,7 +61,9 @@ public class OpenDoor2 extends Game {
         desiredStateOfSecondState.addElement(new Element("key", "grabbed"));
         desiredStateOfSecondState.addElement(new Element("box", "opened"));
 
-        secondState.addDesiredState(desiredStateOfSecondState);
+        State stateThree = createThirdState();
+
+        secondState.addDesiredAndNextState(desiredStateOfSecondState, stateThree);
 
         return secondState;
     }
@@ -83,8 +79,7 @@ public class OpenDoor2 extends Game {
 
         stateThree.addElement(doorOpenable);
 
-        stateThree.addDesiredState(finalState);
-        stateThree.addNextState(finalState);
+        stateThree.addDesiredAndNextState(finalState, finalState);
 
         return stateThree;
     }
