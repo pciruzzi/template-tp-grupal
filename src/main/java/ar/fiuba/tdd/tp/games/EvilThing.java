@@ -23,10 +23,6 @@ public class EvilThing extends Game {
     public void createGame() {
         createInitialState();
 
-        finalState = new State();
-        finalState.addElement(new Element("door", "opened"));
-        finalStatesList.add(finalState);
-
         State desiredState = new State();
         desiredState.addElement(new Element("door", "closed"));
         desiredState.addElement(new Element("key", "grabbed"));
@@ -97,6 +93,10 @@ public class EvilThing extends Game {
         State desiredStateFour = new State();
         desiredStateFour.addElement(new Element("door", "opened"));
         desiredStateFour.addElement(thief);
+
+        State finalState = new State();
+        finalState.addElement(new Element("door", "opened"));
+        finalStatesList.add(finalState);
 
         stateFour.addDesiredAndNextState(desiredStateFour, finalState);
 

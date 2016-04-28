@@ -13,7 +13,6 @@ public abstract class Game {
     protected boolean gameWon;
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
-    protected State finalState;     // Este es el estado en el que se gana el juego
     protected List<Element> elementsList;
     protected List<State> finalStatesList;
 

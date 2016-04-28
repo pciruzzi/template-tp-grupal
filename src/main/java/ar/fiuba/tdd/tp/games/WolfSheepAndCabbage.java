@@ -22,7 +22,7 @@ public class WolfSheepAndCabbage extends Game {
         createActualState();
 
 
-        finalState = new State();
+        State finalState = new State();
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));

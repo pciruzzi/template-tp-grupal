@@ -74,7 +74,7 @@ public class HanoiTowersTest {
     }
 
     @Test
-    public void theGameIsWInnable() {
+    public void theGameIsWinnableInStackThree() {
         Game game = this.initializeGame();
         game.doAction(moveOneToThree);
         game.doAction(moveOneToTwo);
@@ -83,6 +83,18 @@ public class HanoiTowersTest {
         game.doAction(moveTwoToOne);
         game.doAction(moveTwoToThree);
         assertEquals(game.doAction(moveOneToThree),"You won the game!");
+    }
+
+    @Test
+    public void theGameIsWinnableInStackTwo() {
+        Game game = this.initializeGame();
+        game.doAction(moveOneToTwo);
+        game.doAction(moveOneToThree);
+        game.doAction(moveTwoToThree);
+        game.doAction(moveOneToTwo);
+        game.doAction(moveThreeToOne);
+        game.doAction(moveThreeToTwo);
+        assertEquals(game.doAction(moveOneToTwo),"You won the game!");
     }
 
 

@@ -23,13 +23,13 @@ public class HanoiTowers extends Game {
     }
 
     protected void createFinalStateHanoiTowers() {
-        finalState = new State();
-        for (int i = 1; i <= HANOI_AMOUNT_DISKS; i++) {
-//            for (int j = 2; j <= HANOI_STACKS; j++) {
-            finalState.addElement(new Element(HANOI_DISK + i, HANOI_STACK + 3/*j*/));
-//            }
+        for (int i = 2; i <= HANOI_STACKS; i++) {
+            State finalState = new State();
+            for (int j = 1; j <= HANOI_AMOUNT_DISKS; j++) {
+                finalState.addElement(new Element(HANOI_DISK + j, HANOI_STACK + i));
+            }
+            finalStatesList.add(finalState);
         }
-        finalStatesList.add(finalState);
     }
 
     private void createActualState() {

@@ -25,7 +25,7 @@ public class OpenDoor extends Game {
         State nextState = new State();
         createActualState(nextState);
 
-        finalState = new State();
+        State finalState = new State();
         finalState.addElement(new Element("key", "grabbed"));
         finalState.addElement(new Element("door", "opened"));
 
