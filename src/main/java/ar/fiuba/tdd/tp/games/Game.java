@@ -8,7 +8,6 @@ import java.util.List;
 
 public abstract class Game {
 
-    protected Console console;
     protected String name;
 
     protected State actualState;    // Este es el estado actual en el que esta el juego

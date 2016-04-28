@@ -13,7 +13,6 @@ public class WolfSheepAndCabbage extends Game {
 
     public WolfSheepAndCabbage() {
         gameWon = false;
-        console = new Console();
         name = "wolf sheep and cabbage";
     }
 

@@ -9,7 +9,6 @@ public class OpenDoor extends Game {
 
     public OpenDoor() {
         gameWon = false;
-        console = new Console();
         name = "open door";
     }
 

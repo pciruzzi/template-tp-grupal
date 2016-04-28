@@ -12,7 +12,6 @@ public class HanoiTowers extends Game {
 
     public HanoiTowers() {
         gameWon = false;
-        console = new Console();
         name = "hanoi towers";
     }
 

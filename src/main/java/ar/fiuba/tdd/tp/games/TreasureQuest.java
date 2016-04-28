@@ -6,7 +6,6 @@ public class TreasureQuest extends Game {
 
 
     public TreasureQuest() {
-//        console = new Console();
 //        name = "treasure quest";
 //        gameWon = false;
     }

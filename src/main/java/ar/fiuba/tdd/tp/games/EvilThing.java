@@ -4,7 +4,6 @@ public class EvilThing extends Game {
 
     public EvilThing() {
 //        gameWon = false;
-//        console = new Console();
 //        name = "evil thing";
     }
 

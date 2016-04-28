@@ -8,7 +8,6 @@ public class FetchQuest extends Game {
 
     public FetchQuest() {
         gameWon = false;
-        console = new Console();
         this.name = "fetch quest";
     }
 
