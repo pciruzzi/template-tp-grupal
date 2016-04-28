@@ -3,12 +3,15 @@ package ar.fiuba.tdd.tp.games;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
+import java.util.ArrayList;
+
 public class FetchQuest extends Game {
 
     public FetchQuest() {
         gameWon = false;
         this.name = "fetch quest";
         this.description = "El fetch quest consiste en...";
+        finalStatesList = new ArrayList<>();
     }
 
     @Override
@@ -35,6 +38,8 @@ public class FetchQuest extends Game {
         initialState.addNextState(proximoState);
 
         finalState = proximoState;
+
+        finalStatesList.add(finalState);
 
         elementsList = actualState.getElementList();
     }

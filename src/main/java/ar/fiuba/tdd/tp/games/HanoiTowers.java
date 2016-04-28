@@ -14,6 +14,7 @@ public class HanoiTowers extends Game {
         gameWon = false;
         name = "hanoi towers";
         this.description = "El hanoi towers consiste en...";
+        finalStatesList = new ArrayList<>();
     }
 
     @Override
@@ -27,6 +28,8 @@ public class HanoiTowers extends Game {
         finalState.addElement(new Element("diskOne", "columnThree"));
         finalState.addElement(new Element("diskTwo", "columnThree"));
         finalState.addElement(new Element("diskThree", "columnThree"));
+
+        finalStatesList.add(finalState);
 
     }
 

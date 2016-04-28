@@ -14,17 +14,21 @@ public class WolfSheepAndCabbage extends Game {
         gameWon = false;
         name = "wolf sheep and cabbage";
         description = "El wolf sheep and cabbage consiste en...";
+        finalStatesList = new ArrayList<>();
     }
 
     @Override
     public void createGame() {
         createActualState();
 
+
         finalState = new State();
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));
         finalState.addElement(new Element("farmer", "north-shore"));
+
+        finalStatesList.add(finalState);
 
     }
 

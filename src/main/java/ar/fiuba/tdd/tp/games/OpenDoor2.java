@@ -11,16 +11,14 @@ public class OpenDoor2 extends Game {
     }
 
     @Override
-    public Game copy() {
-        return new OpenDoor2();
-    }
-
-    @Override
     public void createGame() {
+
         finalState = new State();
+        finalStatesList.add(finalState);
         finalState.addElement(new Element("door", "opened"));
         finalState.addElement(new Element("key", "grabbed"));
         finalState.addElement(new Element("box", "opened"));
+
 
         createActualState();
         State secondState = createSecondState();
@@ -36,6 +34,11 @@ public class OpenDoor2 extends Game {
         desiredStateOfActualState.addElement(new Element("door", "closed"));
 
         actualState.addDesiredAndNextState(desiredStateOfActualState, secondState);
+    }
+
+    @Override
+    public Game copy() {
+        return new OpenDoor2();
     }
 
     private void createActualState() {

@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.games;
 
+import java.util.ArrayList;
+
 public class TreasureQuest extends Game {
 
 
@@ -7,6 +9,7 @@ public class TreasureQuest extends Game {
 //        name = "treasure quest";
 //        gameWon = false;
 //        this.description = "El treasure quest consiste en...";
+        finalStatesList = new ArrayList<>();
     }
 
     @Override
