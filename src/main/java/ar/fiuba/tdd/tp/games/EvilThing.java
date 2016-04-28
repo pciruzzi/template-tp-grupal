@@ -63,8 +63,9 @@ public class EvilThing extends Game {
     private State createStateThree() {
         Element door = createUnopenableDoor();
         Element thief = new Element("thief", "room");
+        thief.addActionState("talkTo", "room");
         Element key = new Element("key", "grabbed");
-        key.addActionState("talk", "stolen");
+        key.addActionState("stole", "stolen");
 
         State stateThree = new State();
         stateThree.addElement(door);

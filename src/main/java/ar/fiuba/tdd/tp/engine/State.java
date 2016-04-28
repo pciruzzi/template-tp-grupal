@@ -7,9 +7,6 @@ public class State {
     private List<Element> elementList;
     private Map<String,Element> elementStateMap;
 
-    private State desiredState;
-    private State nextState;
-
     private Map<State,State> desiredAndNextStateMap;
 
     public State() {
@@ -78,14 +75,6 @@ public class State {
         return desiredAndNextStateMap;
     }
 
-    public void addDesiredState(State desiredState) {
-        this.desiredState = desiredState;
-    }
-
-    public void addNextState(State nextState) {
-        this.nextState = nextState;
-    }
-
     public Map<String,Element> getElementStateMap() {
         return elementStateMap;
     }
@@ -102,14 +91,6 @@ public class State {
         } else {
             return "It doesn't exist the item: " + elementName + " or the action: " + action + ".";
         }
-    }
-
-    public State getNextState() {
-        return nextState;
-    }
-
-    public State getDesiredState() {
-        return desiredState;
     }
 
     public String showStateItems() {
@@ -150,10 +131,7 @@ public class State {
             String name = (String) pair.getKey();
             Element element = (Element) pair.getValue();
             Element othersElement = othersElementStateMap.get(name);
-//            System.out.println("nameActual: " + name + " estado Actual: " + element.getState()  );
-
             if ( othersElement != null ) {
-//                System.out.println("name Other: " + othersElement.getName() + " estado Otro: " + othersElement.getState());
                 if (! othersElement.getState().equals(element.getState()) ) {
                     equal = false;
                 }

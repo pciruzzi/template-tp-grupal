@@ -34,13 +34,10 @@ public class FetchQuest extends Game {
         State proximoState = new State();
         proximoState.addElement(pickedStick);
 
-        initialState.addDesiredState(proximoState);
-        initialState.addNextState(proximoState);
+        initialState.addDesiredAndNextState(proximoState,proximoState);
 
         State finalState = proximoState;
 
         finalStatesList.add(finalState);
-
-        elementsList = actualState.getElementList();
     }
 }
