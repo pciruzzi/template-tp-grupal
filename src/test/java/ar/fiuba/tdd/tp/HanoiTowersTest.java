@@ -1,13 +1,12 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.games.*;
+import org.junit.Before;
 import org.junit.Test;
 
+import static ar.fiuba.tdd.tp.Constants.*;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by gg on 4/28/2016.
- */
 public class HanoiTowersTest {
 
     public static final String moveOneToTwo = "move top stack1 stack2";
@@ -17,49 +16,41 @@ public class HanoiTowersTest {
     public static final String moveThreeToOne = "move top stack3 stack1";
     public static final String moveThreeToTwo = "move top stack3 stack2";
     public static final String moveSuccesfull = "Ok.";
-    public static final String moveFailed = "You can't stack a bigger disk over smaller one.";
+    public static final String moveFailed = HANOI_MOVEERROR;
+    public static final String gameWon = "You won the game!";
 
-    private Game initializeGame() {
-        Game game = new HanoiTowers();
+    private Game game;
+
+    @Before
+    public void setUp() {
+        game = new HanoiTowers();
         game.createGame();
-        return game;
     }
 
     @Test
     public void moveFromStackOneTooTwo() {
-        Game game = this.initializeGame();
         assertEquals(game.doAction(moveOneToTwo),moveSuccesfull);
     }
 
     @Test
     public void moveFromStackOneTooThree() {
-        Game game = this.initializeGame();
         assertEquals(game.doAction(moveOneToThree),moveSuccesfull);
     }
 
-//    @Test
-//    public void moveFromStackTwoWithoutDiskError() {
-//        Game game = this.initializeGame();
-//        assertEquals(game.doAction(moveTwoToOne),moveFailed);
-//    }
-
     @Test
-    public void moveFromStackOneToStackTwoTwoTimesReturnError() {
-        Game game = this.initializeGame();
+    public void moveFromStackOneToStackTwoTwoTimes() {
         game.doAction(moveOneToTwo);
         assertEquals(game.doAction(moveTwoToOne),moveSuccesfull);
     }
 
     @Test
     public void moveFromStackOneToTwoAndBackToStackOne() {
-        Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
         assertEquals(game.doAction(moveTwoToOne),moveSuccesfull);
     }
 
     @Test
     public void moveTwoDiskToStackThreeInAValidMove() {
-        Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
         game.doAction(moveOneToThree);
         assertEquals(game.doAction(moveTwoToThree),moveSuccesfull);
@@ -67,7 +58,6 @@ public class HanoiTowersTest {
 
     @Test
     public void cantMoveBiggerDiskOnTopOfSmallerDisk() {
-        Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
         game.doAction(moveOneToThree);
         assertEquals(game.doAction(moveThreeToTwo),moveFailed);
@@ -75,27 +65,48 @@ public class HanoiTowersTest {
 
     @Test
     public void theGameIsWinnableInStackThree() {
-        Game game = this.initializeGame();
         game.doAction(moveOneToThree);
         game.doAction(moveOneToTwo);
         game.doAction(moveThreeToTwo);
         game.doAction(moveOneToThree);
         game.doAction(moveTwoToOne);
         game.doAction(moveTwoToThree);
-        assertEquals(game.doAction(moveOneToThree),"You won the game!");
+        assertEquals(game.doAction(moveOneToThree),gameWon);
     }
 
     @Test
     public void theGameIsWinnableInStackTwo() {
-        Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
         game.doAction(moveOneToThree);
         game.doAction(moveTwoToThree);
         game.doAction(moveOneToTwo);
         game.doAction(moveThreeToOne);
         game.doAction(moveThreeToTwo);
-        assertEquals(game.doAction(moveOneToTwo),"You won the game!");
+        assertEquals(game.doAction(moveOneToTwo),gameWon);
     }
 
+    @Test
+    public void cantCheckTopEmptyStack() {
+        assertEquals(game.doAction(moveTwoToOne),HANOI_SIZE);
+    }
 
+    @Test
+    public void cantCheckTopInvalidStack() {
+        assertEquals(game.doAction("check top hola"), HANOI_STACK_ERROR);
+    }
+
+    @Test
+    public void cantMoveTopEmptyStack() {
+        assertEquals(game.doAction(moveTwoToOne),HANOI_SIZE);
+    }
+
+    @Test
+    public void cantMoveTopInvalidStack() {
+        assertEquals(game.doAction("move top stack1 hola"), HANOI_STACK_ERROR);
+    }
+
+//    @Test
+//    public void cantMoveEmptyStack() {
+//        Game game = this.initializeGame();
+//    }
 }
