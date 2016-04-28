@@ -176,6 +176,6 @@ public class WolfSheepAndCabbage extends Game {
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));
-        finalState.addElement(new Element("player", "north-shore"));
+        finalState.addElement(new Element("farmer", "north-shore"));
     }
 }
