@@ -1,13 +1,14 @@
 package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.Console;
+import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 
 public class OpenDoor2 extends Game {
 
-
     public OpenDoor2() {
-//        console = new Console();
-//        name = "open door 2";
+        name = "open door 2";
+//        gameWon = false;
     }
 
     @Override
@@ -18,7 +19,78 @@ public class OpenDoor2 extends Game {
     @Override
     public void createGame() {
 
-//        console.write("Open Door 2 game was created.");
+        createActualState();
+        State secondState = createSecondState();
+
+
+        Element key = new Element("key", "floor");
+        key.addActionState("pick", "grabbed");
+        key.addActionState("drop", "floor");
+
+        secondState.addElement(key);
+
+        State desiredStateOfActualState = new State();
+        desiredStateOfActualState.addElement(new Element("box", "opened"));
+        desiredStateOfActualState.addElement(new Element("door", "closed"));
+
+        actualState.addDesiredState(desiredStateOfActualState);
+        actualState.addNextState(secondState);
+
+        finalState = new State();
+        finalState.addElement(new Element("door", "opened"));
+        finalState.addElement(new Element("key", "grabbed"));
+        finalState.addElement(new Element("box", "opened"));
+
+        State stateThree = createThirdState();
+
+        secondState.addNextState(stateThree);
 
     }
+
+    private void createActualState() {
+
+        Element box = new Element("box", "closed");
+        box.addActionState("open", "opened");
+        box.addActionState("close", "closed");
+
+        Element door = new Element("door", "closed");
+
+        actualState = new State();
+        actualState.addElement(door);
+        actualState.addElement(box);
+    }
+
+    private State createSecondState() {
+
+        State secondState = new State();
+        secondState.addElement(new Element("box", "opened"));
+        secondState.addElement(new Element("door", "closed"));
+
+        State desiredStateOfSecondState = new State();
+        desiredStateOfSecondState.addElement(new Element("door", "closed"));
+        desiredStateOfSecondState.addElement(new Element("key", "grabbed"));
+        desiredStateOfSecondState.addElement(new Element("box", "opened"));
+
+        secondState.addDesiredState(desiredStateOfSecondState);
+
+        return secondState;
+    }
+
+    private State createThirdState() {
+
+        State stateThree = new State();
+
+        stateThree.addElement(new Element("key", "grabbed"));
+        stateThree.addElement(new Element("box", "opened"));
+
+        Element doorOpenable = createOpenableDoor();
+
+        stateThree.addElement(doorOpenable);
+
+        stateThree.addDesiredState(finalState);
+        stateThree.addNextState(finalState);
+
+        return stateThree;
+    }
+
 }

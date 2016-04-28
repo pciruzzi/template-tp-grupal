@@ -29,7 +29,7 @@ public class Engine {
         gameList = new ArrayList<Game>();
 
 //        gameList.add(new EvilThing());
-//        gameList.add(new OpenDoor2());
+        gameList.add(new OpenDoor2());
 //        gameList.add(new TreasureQuest());
         gameList.add(new FetchQuest());
         gameList.add(new HanoiTowers());

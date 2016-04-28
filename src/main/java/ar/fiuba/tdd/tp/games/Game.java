@@ -17,6 +17,10 @@ public abstract class Game {
 
     public abstract Game copy();
 
+    protected Console createConsole() {
+        return new Console();
+    }
+
     public boolean checkGameName(String gameName) {
         gameName = gameName.toLowerCase();
 
@@ -25,6 +29,15 @@ public abstract class Game {
         } else {
             return false;
         }
+    }
+
+    protected Element createOpenableDoor() {
+
+        Element doorOpenable = new Element("door", "closed");
+        doorOpenable.addActionState("open", "opened");
+        doorOpenable.addActionState("close", "closed");
+
+        return doorOpenable;
     }
 
     public String doAction(String action) {

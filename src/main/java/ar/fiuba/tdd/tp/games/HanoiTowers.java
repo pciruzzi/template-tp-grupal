@@ -11,9 +11,8 @@ import static ar.fiuba.tdd.tp.Constants.*;
 
 public class HanoiTowers extends Game {
 
-
     public HanoiTowers() {
-        this.console = new Console();
+        this.console = createConsole();
         this.name = "hanoi towers";
     }
 
@@ -22,15 +21,26 @@ public class HanoiTowers extends Game {
         return new HanoiTowers();
     }
 
-    @Override
-    public void createGame() {
+    protected void createFinalStateHanoiTowers() {
 
         finalState = new State();
         finalState.addElement(new Element("diskOne", "columnThree"));
         finalState.addElement(new Element("diskTwo", "columnThree"));
         finalState.addElement(new Element("diskThree", "columnThree"));
 
+    }
+
+    @Override
+    public void createGame() {
+
+        createFinalStateHanoiTowers();
+
         createActualState();
+
+//        finalState = new State();
+//        finalState.addElement(new Element("diskOne", "columnThree"));
+//        finalState.addElement(new Element("diskTwo", "columnThree"));
+//        finalState.addElement(new Element("diskThree", "columnThree"));
 
         console.write("Hanoi Towers game was created.");
     }

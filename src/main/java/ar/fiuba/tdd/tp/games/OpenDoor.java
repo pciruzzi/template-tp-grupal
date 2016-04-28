@@ -7,7 +7,7 @@ import ar.fiuba.tdd.tp.engine.State;
 public class OpenDoor extends Game {
 
     public OpenDoor() {
-        this.console = new Console();
+        this.console = createConsole();
         this.name = "open door";
     }
 
@@ -29,7 +29,6 @@ public class OpenDoor extends Game {
         nextState.addDesiredState(finalState);
         nextState.addNextState(finalState);
 
-
         console.write("Open Door game was created.");
     }
 
@@ -45,10 +44,7 @@ public class OpenDoor extends Game {
 
         nextState.addElement(new Element("key", "grabbed"));
 
-        Element doorTwo = new Element("door", "closed");
-        doorTwo.addActionState("open", "opened");
-        doorTwo.addActionState("close", "closed");
-
+        Element doorTwo = createOpenableDoor();
         nextState.addElement(doorTwo);
 
         actualState.addDesiredState(nextState);
