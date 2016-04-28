@@ -10,7 +10,7 @@ public class OpenDoor2 extends Game {
     public OpenDoor2() {
         name = "open door 2";
         gameWon = false;
-        description = "El open door 2 consiste en...";
+        description = "Is this real life? Is this just fantasy?... Look for items in the room, try to leave this torture.";
         finalStatesList = new ArrayList<State>();
     }
 

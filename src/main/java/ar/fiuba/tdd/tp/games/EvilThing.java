@@ -10,7 +10,7 @@ public class EvilThing extends Game {
     public EvilThing() {
         gameWon = false;
         finalStatesList = new ArrayList<State>();
-        this.description = "El evil thing consiste en...";
+        this.description = "Never feel sad if you are removed of a valuable item, sometiemes is the only way out.";
         name = "evil thing";
     }
 
@@ -42,7 +42,7 @@ public class EvilThing extends Game {
     }
 
     private Element createThief() {
-        Element thief = new Element("thief", "room");
+        Element thief = new Element("thief", "floor");
         thief.addActionState("talkTo", "stolenKey");
         return thief;
     }

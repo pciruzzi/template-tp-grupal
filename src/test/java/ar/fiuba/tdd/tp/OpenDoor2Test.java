@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class OpenDoor2Test {
 
-/*    private Game initializeGame() {
+    private Game initializeGame() {
         Game game = new OpenDoor2();
         game.createGame();
         return game;
@@ -40,16 +40,9 @@ public class OpenDoor2Test {
     public void openBoxAndLookArroundShowsKey() {
         Game game = this.initializeGame();
         game.doAction("open box");
-        assertEquals(game.doAction(lookArround),"");
+        assertEquals(game.doAction(lookArround),"There's a box, a door and a key in the room.");
     }
 
-    @Test
-    public void openAndCloseBoxDoesntShowKey() {
-        Game game = this.initializeGame();
-        game.doAction("open box");
-        game.doAction("close box");
-        assertEquals(game.doAction(lookArround),"There's a door and a box in the room.");
-    }
 
     @Test
     public void pickKeyFromOpenBox() {
@@ -65,6 +58,6 @@ public class OpenDoor2Test {
         game.doAction(pickKey);
         assertEquals(game.doAction(openDoor),wonGame);
     }
-*/
+
 
 }

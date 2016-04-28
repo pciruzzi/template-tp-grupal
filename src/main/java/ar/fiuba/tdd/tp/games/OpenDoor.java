@@ -10,7 +10,7 @@ public class OpenDoor extends Game {
     public OpenDoor() {
         gameWon = false;
         name = "open door";
-        this.description = "El open door consiste en...";
+        this.description = "Oh deer... you are traped inside a room, dont worry, theres always a way out.";
         finalStatesList = new ArrayList<State>();
     }
 

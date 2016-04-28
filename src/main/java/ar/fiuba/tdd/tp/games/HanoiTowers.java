@@ -13,7 +13,7 @@ public class HanoiTowers extends Game {
     public HanoiTowers() {
         gameWon = false;
         name = "hanoi towers";
-        this.description = "El hanoi towers consiste en...";
+        this.description = "3 stacks, " + HANOI_AMOUNT_DISKS + " disks, try moving the disks around and see what happens";
         finalStatesList = new ArrayList<State>();
     }
 

@@ -10,7 +10,7 @@ public class FetchQuest extends Game {
     public FetchQuest() {
         gameWon = false;
         this.name = "fetch quest";
-        this.description = "El fetch quest consiste en...";
+        this.description = "You are in a room, look arround to see if theres something useful.";
         finalStatesList = new ArrayList<State>();
     }
 
