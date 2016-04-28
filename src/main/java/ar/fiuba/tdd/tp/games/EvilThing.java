@@ -41,6 +41,12 @@ public class EvilThing extends Game {
         actualState.addElement(unOpenableDoor);
     }
 
+    private Element createThief() {
+        Element thief = new Element("thief", "room");
+        thief.addActionState("talkTo", "stolenKey");
+        return thief;
+    }
+
     private State createStateTwo() {
         Element door = createOpenableDoor();
         Element key = new Element("key", "grabbed");
@@ -61,23 +67,20 @@ public class EvilThing extends Game {
     }
 
     private State createStateThree() {
-        Element door = createUnopenableDoor();
-        Element thief = new Element("thief", "room");
-        thief.addActionState("talkTo", "room");
-        Element key = new Element("key", "grabbed");
-        key.addActionState("stole", "stolen");
-
         State stateThree = new State();
+
+        Element door = createUnopenableDoor();
         stateThree.addElement(door);
+
+        Element thief = createThief();
         stateThree.addElement(thief);
-        stateThree.addElement(key);
 
         State desiredStateThree = new State();
-        desiredStateThree.addElement(new Element("door", "closed"));
-        desiredStateThree.addElement(new Element("key", "stolen"));
-        desiredStateThree.addElement(thief);
-
         State stateFour = createStateFour();
+
+        desiredStateThree.addElement(new Element("thief", "stolenKey"));
+        desiredStateThree.addElement(new Element("door", "closed"));
+
         stateThree.addDesiredAndNextState(desiredStateThree, stateFour);
 
         return stateThree;
@@ -85,7 +88,7 @@ public class EvilThing extends Game {
 
     private State createStateFour() {
         Element finalDoor = createOpenableDoor();
-        Element thief = new Element("thief", "room");
+        Element thief = createThief();
 
         State stateFour = new State();
         stateFour.addElement(finalDoor);

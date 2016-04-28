@@ -64,8 +64,8 @@ public class OpenDoor2 extends Game {
         secondState.addElement(key);
 
         State desiredStateOfSecondState = new State();
-        desiredStateOfSecondState.addElement(new Element("door", "closed"));
         desiredStateOfSecondState.addElement(new Element("key", "grabbed"));
+        desiredStateOfSecondState.addElement(new Element("door", "closed"));
         desiredStateOfSecondState.addElement(new Element("box", "opened"));
 
         State stateThree = createThirdState();

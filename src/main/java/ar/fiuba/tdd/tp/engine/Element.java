@@ -86,6 +86,9 @@ public class Element {
     public String changeState(String action) {
         if ( actionStateMap.containsKey(action) ) {
             state = actionStateMap.get(action);
+            if (getName().equals("thief")) {
+                return "The thief has just stolen your object!";
+            }
             return "Ok.";
         } else {
             if (! stringProperty.equals("")) {
