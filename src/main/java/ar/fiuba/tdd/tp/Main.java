@@ -2,25 +2,26 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 
-import java.util.Scanner;
-
-import static ar.fiuba.tdd.tp.Constants.ENCODING;
-
 public class Main {
     public static void main(String[] args) {
+        Reader reader = new Console();
+        Writer writer = new Console();
 
-        System.out.println("Welcome to hell");
+        writer.write("Welcome to hell");
+        writer.write("Type the game you'd like to play:");
+        String gameName = reader.read();
 
-        Engine engine = new Engine();
-        engine.generarJuego();
+        if (Engine.canCreate(gameName)) {
+            writer.write("You can start playing now...");
+            Engine engine = new Engine(gameName);
+            engine.generarJuego();
+            String input = "";
+            while (! input.equals("exit") && ! engine.getGameWon()) {
+                input = reader.read();
+                String returnCode = engine.respondTo(input);
+                writer.write(returnCode);
+            }
 
-        String intro = "";
-
-        Scanner scanner = new Scanner(System.in, ENCODING);
-
-        while ( ! intro.equals("fin") ) {
-            intro = scanner.nextLine();
-            System.out.println(engine.respondTo(intro));
         }
     }
 }

@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -12,18 +11,25 @@ public class WolfSheepAndCabbage extends Game {
     private Element player;
 
     public WolfSheepAndCabbage() {
-        this.console = new Console();
-        this.name = "wolf sheep and cabbage";
+        gameWon = false;
+        name = "wolf sheep and cabbage";
+        description = "El wolf sheep and cabbage consiste en...";
     }
 
     @Override
     public void createGame() {
-
-        createFinalState();
+//        createFinalStateWolfSheepAndCabbage();
 
         createActualState();
 
-        console.write("Wolf Sheep and Cabbage game was created.");
+        finalState = new State();
+        finalState.addElement(new Element("sheep", "north-shore"));
+        finalState.addElement(new Element("wolf", "north-shore"));
+        finalState.addElement(new Element("col", "north-shore"));
+        finalState.addElement(new Element("player", "north-shore"));
+
+//        console.write("Wolf Sheep and Cabbage game was created.");
+        createActualState();
     }
 
     @Override
@@ -33,18 +39,23 @@ public class WolfSheepAndCabbage extends Game {
 
     @Override
     public String doAction(String action) {
-
+        if ( checkQuestionMessage(action) ) {
+            return answerQuestion(action);
+        }
         String returnMessage = "Invalid Action.";
-
         String[] parts = action.split(" ");
 
-        if ( parts.length != 2 ) {
+        if (action.equals("exit")) {
+            return "Goodbye! See you next time :)";
+        } else if ( parts.length != 2 ) {
             return returnMessage;
         }
-
         String actionToDo = parts[0];
         String name = parts[1];
+        return getReturnMessage(returnMessage, actionToDo, name);
+    }
 
+    private String getReturnMessage(String returnMessage, String actionToDo, String name) {
         switch (actionToDo) {
             case "leave":
                 returnMessage = doLeaving(returnMessage, name);
@@ -58,7 +69,6 @@ public class WolfSheepAndCabbage extends Game {
             default:
                 break;
         }
-
         return update(returnMessage);
     }
 

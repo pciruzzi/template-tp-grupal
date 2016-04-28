@@ -1,14 +1,14 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
 public class FetchQuest extends Game {
 
     public FetchQuest() {
-        //this.console = new Console();
+        gameWon = false;
         this.name = "fetch quest";
+        this.description = "El fetch quest consiste en...";
     }
 
     @Override
@@ -36,7 +36,6 @@ public class FetchQuest extends Game {
 
         finalState = proximoState;
 
-        this.console = new Console();
-        console.write("Fetch Quest game was created.");
+        elementsList = actualState.getElementList();
     }
 }
