@@ -36,10 +36,10 @@ public class OpenDoor extends Game {
         Element key = new Element("key", "floor");
         key.addActionState("pick", "grabbed");
         key.addActionState("drop", "floor");
-        Element door = new Element("door", "closed", "Ey! Where do you go?! Room 2 is locked.");
 
         actualState = new State();
-        actualState.addElement(door);
+        Element unOpenableDoor = createUnopenableDoor();
+        actualState.addElement(unOpenableDoor);
         actualState.addElement(key);
 
         nextState.addElement(new Element("key", "grabbed"));

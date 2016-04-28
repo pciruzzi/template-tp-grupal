@@ -10,4 +10,5 @@ public final class Constants {
     public static final String HANOI_CHECKSIZE = "Size of top from stack is ";
     public static final String HANOI_SIZE = "The stack is empty.";
     public static final String HANOI_MOVEERROR = "You can't stack a bigger disk over smaller one.";
+    public static final String EVIL_THIEF = "You can talk with thief: “Hello”, “Bye”.";
 }

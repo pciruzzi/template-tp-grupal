@@ -3,9 +3,6 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.engine.*;
 import org.junit.Test;
 
-/**
- * Created by gg on 4/28/2016.
- */
 public class StateTest {
 
     @Test

@@ -36,45 +36,13 @@ public abstract class Game {
         if (possibleActions == null) {
             return "It doesn't exist a " + nameOfObject;
         }
-
         return possibleActions;
     }
-    
-//    public String getStringOfPossibleActions(List<String> actions) {
-//
-//        StringBuffer possibleActions = new StringBuffer();
-//        possibleActions.append("You can ");
-//
-//        int actionsSize = actions.size();
-//        for (int i = 0; i < actionsSize ; i++) {
-//            possibleActions.append(actions.get(i));
-//            if (i != actionsSize - 1) {
-//                possibleActions.append( "/");
-//            }
-//        }
-//        possibleActions.append(" the " + name);
-//
-//        return possibleActions.toString();
-//    }
 
     public boolean checkQuestionMessage(String message) {
         message = message.toLowerCase();
         return message.contains("what can i do with ");
     }
-
-
-//    public abstract String doAction(String action);
-
-//    public boolean checkGameName(String gameName) {
-//
-//        gameName = gameName.toLowerCase();
-//
-//        if (gameName.equals(name)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     public String getGameName() {
         return name;
@@ -91,6 +59,11 @@ public abstract class Game {
         doorOpenable.addActionState("close", "closed");
 
         return doorOpenable;
+    }
+
+    protected Element createUnopenableDoor() {
+        Element doorUnopenable = new Element("door", "closed", "Ey! Where do you go?! The door is locked.");
+        return doorUnopenable;
     }
 
     public String doAction(String action) {

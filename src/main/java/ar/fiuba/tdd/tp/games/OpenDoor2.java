@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -8,7 +7,7 @@ public class OpenDoor2 extends Game {
 
     public OpenDoor2() {
         name = "open door 2";
-//        gameWon = false;
+        gameWon = false;
     }
 
     @Override
@@ -18,10 +17,8 @@ public class OpenDoor2 extends Game {
 
     @Override
     public void createGame() {
-
         createActualState();
         State secondState = createSecondState();
-
 
         Element key = new Element("key", "floor");
         key.addActionState("pick", "grabbed");
@@ -48,12 +45,11 @@ public class OpenDoor2 extends Game {
     }
 
     private void createActualState() {
-
         Element box = new Element("box", "closed");
         box.addActionState("open", "opened");
         box.addActionState("close", "closed");
 
-        Element door = new Element("door", "closed");
+        Element door = createUnopenableDoor();
 
         actualState = new State();
         actualState.addElement(door);
@@ -64,7 +60,7 @@ public class OpenDoor2 extends Game {
 
         State secondState = new State();
         secondState.addElement(new Element("box", "opened"));
-        secondState.addElement(new Element("door", "closed"));
+        secondState.addElement(createUnopenableDoor());
 
         State desiredStateOfSecondState = new State();
         desiredStateOfSecondState.addElement(new Element("door", "closed"));

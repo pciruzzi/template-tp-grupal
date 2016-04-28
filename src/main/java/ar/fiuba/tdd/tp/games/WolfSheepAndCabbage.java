@@ -18,18 +18,14 @@ public class WolfSheepAndCabbage extends Game {
 
     @Override
     public void createGame() {
-//        createFinalStateWolfSheepAndCabbage();
-
         createActualState();
 
         finalState = new State();
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));
-        finalState.addElement(new Element("player", "north-shore"));
+        finalState.addElement(new Element("farmer", "north-shore"));
 
-//        console.write("Wolf Sheep and Cabbage game was created.");
-        createActualState();
     }
 
     @Override
@@ -82,7 +78,6 @@ public class WolfSheepAndCabbage extends Game {
                 String prey = elementsOfSameShore.get(j).getName();
                 if ( predatorPrey.equals(elementsOfSameShore.get(j).getName())) {
                     describeEating = "The " + elementsOfSameShore.get(i).getName()  + " will eat the " + prey;
-//                    noEats = false;
                 }
             }
         }
@@ -179,13 +174,5 @@ public class WolfSheepAndCabbage extends Game {
         actualState.addElement(player);
 
         elementsList = actualState.getElementList();
-    }
-
-    private void createFinalState() {
-        finalState = new State();
-        finalState.addElement(new Element("sheep", "north-shore"));
-        finalState.addElement(new Element("wolf", "north-shore"));
-        finalState.addElement(new Element("col", "north-shore"));
-        finalState.addElement(new Element("farmer", "north-shore"));
     }
 }
