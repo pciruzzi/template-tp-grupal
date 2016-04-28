@@ -29,8 +29,8 @@ public class Engine {
 
     private void loadGames() {
 //        loadGame(new EvilThing());
-//        loadGame(new OpenDoor2());
 //        loadGame(new TreasureQuest());
+        loadGame(new OpenDoor2());
         loadGame(new FetchQuest());
         loadGame(new HanoiTowers());
         loadGame(new OpenDoor());
@@ -58,7 +58,7 @@ public class Engine {
         }
     }
 
-    public void generarJuego() {
+    public void generateGame() {
         try {
             pickGame(gameName);
             selectedGame.createGame();

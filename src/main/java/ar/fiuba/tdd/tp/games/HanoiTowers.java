@@ -13,7 +13,7 @@ public class HanoiTowers extends Game {
     public HanoiTowers() {
         gameWon = false;
         name = "hanoi towers";
-        this.description = "El hanoi towers consiste en...";
+        description = "El hanoi towers consiste en...";
     }
 
     @Override
@@ -22,23 +22,32 @@ public class HanoiTowers extends Game {
     }
 
     protected void createFinalStateHanoiTowers() {
-
         finalState = new State();
-        finalState.addElement(new Element("diskOne", "columnThree"));
-        finalState.addElement(new Element("diskTwo", "columnThree"));
-        finalState.addElement(new Element("diskThree", "columnThree"));
+        for (int i = 1; i <= HANOI_AMOUNT_DISKS; i++) {
+//            for (int j = 2; j <= HANOI_STACKS; j++) {
+            finalState.addElement(new Element(HANOI_DISK + i, HANOI_STACK + 3/*j*/));
+//            }
+        }
+    }
 
+    private void createActualState() {
+        actualState = new State();
+        for (int i = 1; i <= HANOI_AMOUNT_DISKS; i++) {
+            Element disk = new Element(HANOI_DISK + i, HANOI_STACK + 1, i);
+            for (int j = 1; j <= HANOI_STACKS; j++) {
+                disk.addActionState(HANOI_STACK + j, HANOI_STACK + j);
+            }
+            actualState.addElement(disk);
+        }
+        elementsList = actualState.getElementList();
     }
 
     @Override
     public void createGame() {
-
         createFinalStateHanoiTowers();
-
         createActualState();
     }
 
-//<<<<<<< Updated upstream
     private String facadeAction(String action, String actualMessage) {
         if (action.matches("move top .*")) {
             action = action.replaceAll("^move top ", "");
@@ -67,25 +76,36 @@ public class HanoiTowers extends Game {
 //        List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
 //>>>>>>> Stashed changes
 
+    private boolean validStackName(String stack) {
+        return stack.matches("^" + HANOI_STACK + "[1-" + HANOI_STACKS + "]$");
+    }
+
     private String facadeQuestionOrCheckTop(String action, String actualMessage) {
-        if (action.matches("What can I do with .*")) {
+        action = action.toLowerCase();
+        if (action.matches("what can i do with .*")) {
             return HANOI_QUESTION;
         }
         if (action.matches("check top .*")) {
-            String returnMessage = HANOI_CHECKSIZE;
-//            returnMessage.concat(getSizeOfColumn(string column));
-            return returnMessage.concat(".");
-            //TODO: Falta implementar la funcion para obtener el tamaño del stack
-//            return returnMessage;
+            return checkTopStack(action);
         }
         return actualMessage;
     }
 
-    private String facadeIndexSmallest(int indexOfSmallest, String actualMessage) {
-        if ( indexOfSmallest < 0 ) {
+    private String checkTopStack(String action) {
+        String returnMessage = HANOI_CHECKSIZE;
+        String stack = action.replaceAll("check top ", "");
+        if (! validStackName(stack)) {
+            return HANOI_STACK_ERROR;
+        }
+        List<Element> elements = getElementsOfTheStack(stack);
+        int index = getIndexOfSmallestDisk(elements);
+        if (index < 0) {
             return HANOI_SIZE;
         }
-        return actualMessage;
+        Element element = elements.get(index);
+        int stackSize = element.getIntProperty();
+        returnMessage = returnMessage.concat(stackSize + ".");
+        return returnMessage;
     }
 
     private String facadeSmallestOfOtherStack(List<Element> elementsOfMyStack, List<Element> elementsOfOtherStack, String actualMessage) {
@@ -107,13 +127,12 @@ public class HanoiTowers extends Game {
 
     @Override
     public String doAction(String action) {
-
         String returnMessage = INVALID_ACTION;
 
         returnMessage = facadeQuestionOrCheckTop(action, returnMessage);
         action = facadeAction(action, returnMessage);
 
-        if ((!action.equals(INVALID_ACTION)) && (!returnMessage.equals(HANOI_QUESTION)) && (!returnMessage.matches(HANOI_CHECKSIZE))) {
+        if (shouldTryToMove(action, returnMessage)) {
             String[] parts = action.split(" ");
             String[] checkedInput = checkInput(parts);
             String movingFromStack  = checkedInput[0];
@@ -122,17 +141,20 @@ public class HanoiTowers extends Game {
             List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
             List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
 
-            int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
-            returnMessage = facadeIndexSmallest(indexOfSmallest, returnMessage);
-            if (!returnMessage.equals(HANOI_SIZE)) {
-                returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
-                if (!returnMessage.equals(HANOI_MOVEERROR)) {
-                    String name = elementsOfMyStack.get(indexOfSmallest).getName();
-                    returnMessage = actualState.doAction(movingToStack,name);
-                }
+            returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
+            if (!returnMessage.equals(HANOI_MOVEERROR)) {
+                int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+                String name = elementsOfMyStack.get(indexOfSmallest).getName();
+                returnMessage = actualState.doAction(movingToStack,name);
             }
         }
         return update(returnMessage);
+    }
+
+    private boolean shouldTryToMove(String action, String returnMessage) {
+        return  (!action.equals(INVALID_ACTION)) && (!returnMessage.equals(HANOI_QUESTION))
+                && (!returnMessage.matches("^" + HANOI_CHECKSIZE + ".*")) && (!returnMessage.equals(HANOI_SIZE))
+                && (!returnMessage.equals(HANOI_STACK_ERROR));
     }
 
     private List<Element> getElementsOfTheStack(String stack) {
@@ -142,7 +164,6 @@ public class HanoiTowers extends Game {
                 elementsOfMyStack.add(element);
             }
         }
-
         return elementsOfMyStack;
     }
 
@@ -171,28 +192,5 @@ public class HanoiTowers extends Game {
             return badInput.split(" ");
         }
         return parts;
-    }
-
-    private void createActualState() {
-
-        Element diskOne = new Element("diskOne", "columnOne", 1);
-        diskOne.addActionState("columnOne", "columnOne");
-        diskOne.addActionState("columnTwo", "columnTwo");
-        diskOne.addActionState("columnThree", "columnThree");
-        Element diskTwo = new Element("diskTwo", "columnOne", 2);
-        diskTwo.addActionState("columnOne", "columnOne");
-        diskTwo.addActionState("columnTwo", "columnTwo");
-        diskTwo.addActionState("columnThree", "columnThree");
-        Element diskThree = new Element("diskThree", "columnOne", 3);
-        diskThree.addActionState("columnOne", "columnOne");
-        diskThree.addActionState("columnTwo", "columnTwo");
-        diskThree.addActionState("columnThree", "columnThree");
-
-        actualState = new State();
-        actualState.addElement(diskOne);
-        actualState.addElement(diskTwo);
-        actualState.addElement(diskThree);
-
-        elementsList = actualState.getElementList();
     }
 }

@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -8,7 +7,8 @@ public class OpenDoor2 extends Game {
 
     public OpenDoor2() {
         name = "open door 2";
-//        gameWon = false;
+        gameWon = false;
+        description = "El open door 2 consiste en...";
     }
 
     @Override

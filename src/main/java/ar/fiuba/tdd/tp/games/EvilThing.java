@@ -5,7 +5,7 @@ public class EvilThing extends Game {
     public EvilThing() {
 //        gameWon = false;
 //        name = "evil thing";
-//        this.description = "El evil thing consiste en...";
+//        description = "El evil thing consiste en...";
     }
 
     @Override

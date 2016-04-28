@@ -8,7 +8,7 @@ public class OpenDoor extends Game {
     public OpenDoor() {
         gameWon = false;
         name = "open door";
-        this.description = "El open door consiste en...";
+        description = "El open door consiste en...";
     }
 
     @Override
