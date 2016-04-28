@@ -14,7 +14,7 @@ public class Main {
         if (Engine.canCreate(gameName)) {
             writer.write("You can start playing now...");
             Engine engine = new Engine(gameName);
-            engine.generarJuego();
+            engine.generateGame();
             String input = "";
             while (! input.equals("exit") && ! engine.getGameWon()) {
                 input = reader.read();
