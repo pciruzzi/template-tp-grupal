@@ -110,7 +110,7 @@ public class Element {
             counter++;
         }
 
-        possibleActions.append(" the " + name);
+        possibleActions.append(" the " + name + ".");
 
         return possibleActions.toString();
     }

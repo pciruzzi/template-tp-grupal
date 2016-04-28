@@ -31,8 +31,8 @@ public class OpenDoor extends Game {
 
         finalStatesList.add(finalState);
 
-        nextState.addDesiredState(finalState);
-        nextState.addNextState(finalState);
+
+        nextState.addDesiredAndNextState(finalState,finalState);
 
         elementsList = actualState.getElementList();
     }
