@@ -38,7 +38,6 @@ public abstract class Game {
         if (possibleActions == null) {
             return "It doesn't exist a " + nameOfObject;
         }
-
         return possibleActions;
     }
 
@@ -64,7 +63,6 @@ public abstract class Game {
         return message.contains("what can i do with ");
     }
 
-
 //    public abstract String doAction(String action);
 
     public String getGameName() {
@@ -82,6 +80,11 @@ public abstract class Game {
         doorOpenable.addActionState("close", "closed");
 
         return doorOpenable;
+    }
+
+    protected Element createUnopenableDoor() {
+        Element doorUnopenable = new Element("door", "closed", "Ey! Where do you go?! The door is locked.");
+        return doorUnopenable;
     }
 
     public String doAction(String action) {
@@ -108,8 +111,8 @@ public abstract class Game {
 
     private String verifyChangeState(String[] parts) {
 //        desiredState = actualState.getDesiredState();
-        String returnMessage = "vamoo";
-        if ( !checkMultipleStateChanges(parts) ) {
+        String returnMessage = checkMultipleStateChanges(parts);
+        if ( returnMessage.equals("") ) {
             returnMessage = actualState.doAction(parts[0], parts[1]);
         }
 
@@ -120,9 +123,9 @@ public abstract class Game {
         return update(returnMessage);
     }
 
-    private boolean checkMultipleStateChanges(String[] parts) {
+    private String checkMultipleStateChanges(String[] parts) {
         State copy = actualState.copy();
-        copy.doAction(parts[0], parts[1]);
+        String returnMessage = copy.doAction(parts[0], parts[1]);
 
         Map<State,State> multipleDesiredAndNextStates = copy.getDesiredAndNextStateMap();
         boolean stateChange = false;
@@ -137,7 +140,10 @@ public abstract class Game {
             System.out.println("termine de comparar");
 
         }
-        return stateChange;
+        if ( !stateChange ) {
+            returnMessage = "";
+        }
+        return returnMessage;
     }
 
     protected String update(String returnMessage) {

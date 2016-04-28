@@ -22,14 +22,13 @@ public class Engine {
         return engine.existsGame(gameName);
     }
 
-
     private void loadGame(Game game) {
         gameMap.put(game.getGameName(), game);
     }
 
     private void loadGames() {
-//        loadGame(new EvilThing());
-//        loadGame(new OpenDoor2());
+        loadGame(new EvilThing());
+        loadGame(new OpenDoor2());
 //        loadGame(new TreasureQuest());
         loadGame(new FetchQuest());
         loadGame(new HanoiTowers());
@@ -62,14 +61,6 @@ public class Engine {
         try {
             pickGame(gameName);
             selectedGame.createGame();
-//            String intro = "";
-//
-//            Scanner scanner = new Scanner(System.in, ENCODING);
-
-//            while ( ! intro.equals("fin") ) {
-//                intro = scanner.nextLine();
-//                System.out.println(selectedGame.doAction(intro));
-//            }
         } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
             writer.writeError(gameName);

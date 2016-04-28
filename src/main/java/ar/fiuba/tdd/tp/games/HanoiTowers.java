@@ -38,7 +38,6 @@ public class HanoiTowers extends Game {
         createActualState();
     }
 
-//<<<<<<< Updated upstream
     private String facadeAction(String action, String actualMessage) {
         if (action.matches("move top .*")) {
             action = action.replaceAll("^move top ", "");
@@ -46,26 +45,6 @@ public class HanoiTowers extends Game {
         }
         return actualMessage;
     }
-//=======
-//    @Override
-//    public String doAction(String action) {
-//
-////        if ( checkQuestionMessage(action) ) {
-////            System.out.println(action.lastIndexOf("What can I do with "));
-////            String nameOfObject = action.substring(19);
-////            nameOfObject = nameOfObject.replace("?", " ");
-////            nameOfObject = nameOfObject.trim();
-////            return answerQuestion(nameOfObject);
-////        }
-//
-//        String[] parts = action.split(" ");
-//        String[] checkedInput = checkInput(parts);
-//        String movingFromStack  = checkedInput[0];
-//        String movingToStack    = checkedInput[1];
-//
-//        List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
-//        List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
-//>>>>>>> Stashed changes
 
     private String facadeQuestionOrCheckTop(String action, String actualMessage) {
         if (action.matches("What can I do with .*")) {
