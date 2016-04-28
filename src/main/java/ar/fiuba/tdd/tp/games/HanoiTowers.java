@@ -128,16 +128,21 @@ public class HanoiTowers extends Game {
                 List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
 
                 returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
-                if (!returnMessage.equals(HANOI_MOVEERROR) && !returnMessage.equals(HANOI_SIZE)) {
-                    int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
-                    String name = elementsOfMyStack.get(indexOfSmallest).getName();
-                    returnMessage = actualState.doAction(movingToStack,name);
-                }
+                returnMessage = moveBetweenStacks(returnMessage, movingToStack, elementsOfMyStack);
             } else {
                 returnMessage = HANOI_STACK_ERROR;
             }
         }
         return update(returnMessage);
+    }
+
+    private String moveBetweenStacks(String returnMessage, String movingToStack, List<Element> elementsOfMyStack) {
+        if (!returnMessage.equals(HANOI_MOVEERROR) && !returnMessage.equals(HANOI_SIZE)) {
+            int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+            String name = elementsOfMyStack.get(indexOfSmallest).getName();
+            returnMessage = actualState.doAction(movingToStack,name);
+        }
+        return returnMessage;
     }
 
     private boolean shouldTryToMove(String action, String returnMessage) {
@@ -157,7 +162,6 @@ public class HanoiTowers extends Game {
     }
 
     private int getIndexOfSmallestDisk(List<Element> elementsList) {
-
         int iterator = 0;
         int indexOfSmallest = -1;
         if ( elementsList.size() > 0 ) {
@@ -170,12 +174,10 @@ public class HanoiTowers extends Game {
                 }
             }
         }
-
         return indexOfSmallest;
     }
 
     private String[] checkInput(String[] parts) {
-
         if ( parts.length != 2) {
             String badInput = "bad input";
             return badInput.split(" ");
