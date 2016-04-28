@@ -7,8 +7,8 @@ public class FetchQuest extends Game {
 
     public FetchQuest() {
         gameWon = false;
-        this.name = "fetch quest";
-        this.description = "El fetch quest consiste en...";
+        name = "fetch quest";
+        description = "El fetch quest consiste en...";
     }
 
     @Override

@@ -9,18 +9,18 @@ import static org.junit.Assert.assertEquals;
  * Created by gg on 4/28/2016.
  */
 public class HanoiTowersTest {
-/*
-    public static final String moveOneToTwo = "";
-    public static final String moveOneToThree = "";
-    public static final String moveTwoToOne = "";
-    public static final String moveTwoToThree = "";
-    public static final String moveThreeToOne = "";
-    public static final String moveThreeToTwo = "";
-    public static final String moveSuccesfull = "moved!";
-    public static final String moveFailed = "Failed";
+
+    public static final String moveOneToTwo = "move top stack1 stack2";
+    public static final String moveOneToThree = "move top stack1 stack3";
+    public static final String moveTwoToOne = "move top stack2 stack1";
+    public static final String moveTwoToThree = "move top stack2 stack3";
+    public static final String moveThreeToOne = "move top stack3 stack1";
+    public static final String moveThreeToTwo = "move top stack3 stack2";
+    public static final String moveSuccesfull = "Ok.";
+    public static final String moveFailed = "You can't stack a bigger disk over smaller one.";
 
     private Game initializeGame() {
-        Game game = new FetchQuest();
+        Game game = new HanoiTowers();
         game.createGame();
         return game;
     }
@@ -37,17 +37,17 @@ public class HanoiTowersTest {
         assertEquals(game.doAction(moveOneToThree),moveSuccesfull);
     }
 
-    @Test
-    public void moveFromStackTwoWithoutDiskError() {
-        Game game = this.initializeGame();
-        assertEquals(game.doAction(moveTwoToOne),moveFailed);
-    }
+//    @Test
+//    public void moveFromStackTwoWithoutDiskError() {
+//        Game game = this.initializeGame();
+//        assertEquals(game.doAction(moveTwoToOne),moveFailed);
+//    }
 
     @Test
     public void moveFromStackOneToStackTwoTwoTimesReturnError() {
         Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
-        assertEquals(game.doAction(moveTwoToOne),moveFailed);
+        assertEquals(game.doAction(moveTwoToOne),moveSuccesfull);
     }
 
     @Test
@@ -70,11 +70,20 @@ public class HanoiTowersTest {
         Game game = this.initializeGame();
         game.doAction(moveOneToTwo);
         game.doAction(moveOneToThree);
-        assertEquals(game.doAction(moveThreeToOne),moveFailed);
+        assertEquals(game.doAction(moveThreeToTwo),moveFailed);
     }
 
-*/
-
+    @Test
+    public void theGameIsWInnable() {
+        Game game = this.initializeGame();
+        game.doAction(moveOneToThree);
+        game.doAction(moveOneToTwo);
+        game.doAction(moveThreeToTwo);
+        game.doAction(moveOneToThree);
+        game.doAction(moveTwoToOne);
+        game.doAction(moveTwoToThree);
+        assertEquals(game.doAction(moveOneToThree),"You won the game!");
+    }
 
 
 }

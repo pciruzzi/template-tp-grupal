@@ -6,7 +6,7 @@ public class TreasureQuest extends Game {
     public TreasureQuest() {
 //        name = "treasure quest";
 //        gameWon = false;
-//        this.description = "El treasure quest consiste en...";
+//        description = "El treasure quest consiste en...";
     }
 
     @Override
