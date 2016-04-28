@@ -12,24 +12,24 @@ public class State {
     public State() {
         this.elementList = new ArrayList<Element>();
         this.elementStateMap = new HashMap<String, Element>();
-        this.desiredAndNextStateMap = new HashMap<>();
+        this.desiredAndNextStateMap = new HashMap<State, State>();
     }
 
     public State copy() {
         State copy = new State();
-        List<Element> othersElementsList = new ArrayList<>();
+        List<Element> othersElementsList = new ArrayList<Element>();
         for ( Element element : elementList ) {
             Element elementCopy = element.copy();
             othersElementsList.add(elementCopy);
         }
 
-        Map<String,Element> othersStateMap = new HashMap<>(this.elementStateMap);
+        Map<String,Element> othersStateMap = new HashMap<String, Element>(this.elementStateMap);
         for ( Map.Entry<String, Element> entry : elementStateMap.entrySet() ) {
             Element elementCopy = entry.getValue().copy();
             othersStateMap.put(entry.getKey(),elementCopy);
         }
 
-        Map<State,State> othersDesiredAndNextStateMap = new HashMap<>(this.desiredAndNextStateMap);
+        Map<State,State> othersDesiredAndNextStateMap = new HashMap<State, State>(this.desiredAndNextStateMap);
         copy.setElementList(othersElementsList);
         copy.setElementStateMap(othersStateMap);
         copy.setDesiredAndNextStateMap(othersDesiredAndNextStateMap);

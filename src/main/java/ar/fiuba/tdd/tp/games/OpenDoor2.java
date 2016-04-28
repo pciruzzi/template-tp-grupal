@@ -16,13 +16,11 @@ public class OpenDoor2 extends Game {
 
     @Override
     public void createGame() {
-
         State finalState = new State();
         finalStatesList.add(finalState);
         finalState.addElement(new Element("door", "opened"));
         finalState.addElement(new Element("key", "grabbed"));
         finalState.addElement(new Element("box", "opened"));
-
 
         createActualState();
         State secondState = createSecondState();
@@ -52,7 +50,6 @@ public class OpenDoor2 extends Game {
     }
 
     private State createSecondState() {
-
         State secondState = new State();
         secondState.addElement(new Element("box", "opened"));
         secondState.addElement(createUnopenableDoor());
@@ -76,16 +73,13 @@ public class OpenDoor2 extends Game {
     }
 
     private State createThirdState() {
-
         State stateThree = new State();
 
         stateThree.addElement(new Element("key", "grabbed"));
         stateThree.addElement(new Element("box", "opened"));
 
         Element doorOpenable = createOpenableDoor();
-
         stateThree.addElement(doorOpenable);
-
         stateThree.addDesiredAndNextState(finalStatesList.get(0), finalStatesList.get(0));
 
         return stateThree;

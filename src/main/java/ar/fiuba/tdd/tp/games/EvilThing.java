@@ -10,7 +10,7 @@ public class EvilThing extends Game {
     public EvilThing() {
         gameWon = false;
         finalStatesList = new ArrayList<State>();
-        this.description = "Never feel sad if you are removed of a valuable item, sometiemes is the only way out.";
+        this.description = "Never feel sad if you are removed of a valuable item, sometimes is the only way out.";
         name = "evil thing";
     }
 

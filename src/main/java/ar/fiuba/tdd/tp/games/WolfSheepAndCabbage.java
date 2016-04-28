@@ -13,14 +13,13 @@ public class WolfSheepAndCabbage extends Game {
     public WolfSheepAndCabbage() {
         gameWon = false;
         name = "wolf sheep and cabbage";
-        description = "You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.";
+        description = "You are a small farmer, with a small boat, you need to cross the river with a sheep, a wolf and a cabagge.";
         finalStatesList = new ArrayList<State>();
     }
 
     @Override
     public void createGame() {
         createActualState();
-
 
         State finalState = new State();
         finalState.addElement(new Element("sheep", "north-shore"));
@@ -29,7 +28,6 @@ public class WolfSheepAndCabbage extends Game {
         finalState.addElement(new Element("farmer", "north-shore"));
 
         finalStatesList.add(finalState);
-
     }
 
     @Override
@@ -73,7 +71,6 @@ public class WolfSheepAndCabbage extends Game {
     }
 
     private String noEating(String shore) {
-
         List<Element> elementsOfSameShore = getElementsOfTheShore(elementsList, shore);
         String describeEating = "";
         for ( int i = 0; i < elementsOfSameShore.size() ; i++) {
@@ -131,7 +128,6 @@ public class WolfSheepAndCabbage extends Game {
     }
 
     private String doCrossing(String returnMessage, String shore) {
-
         if ( !checkCorrectCrossing(shore)) {
             return "Please use the actions \"south-shore\" or \"north-shore\"";
         }
@@ -156,7 +152,6 @@ public class WolfSheepAndCabbage extends Game {
                 elementsOfMyStack.add(element);
             }
         }
-
         return elementsOfMyStack;
     }
 
@@ -171,7 +166,6 @@ public class WolfSheepAndCabbage extends Game {
     }
 
     private void createActualState() {
-
         Element sheep = new Element("sheep", "south-shore", "col");
         sheep.addActionState("north-shore", "north-shore");
         sheep.addActionState("south-shore", "south-shore");
