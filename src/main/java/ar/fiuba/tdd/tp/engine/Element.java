@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.engine;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Element {
 
@@ -20,24 +19,18 @@ public class Element {
     }
 
     public Element(String name, String state, int intProperty) {
-        this.name = name;
-        this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this(name, state);
         this.intProperty = intProperty;
         this.stringProperty = "";
     }
 
     public Element(String name, String state, String stringProperty) {
-        this.name = name;
-        this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this(name, state);
         this.stringProperty = stringProperty;
     }
 
     public Element(String name, String state, int intProperty, String stringProperty) {
-        this.name = name;
-        this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this(name, state);
         this.intProperty = intProperty;
         this.stringProperty = stringProperty;
     }
@@ -84,5 +77,25 @@ public class Element {
             }
             return "Hey! I'm a " + this.getName() + ", I can't do that!";
         }
+    }
+
+    public String getPossibleActions() {
+
+        StringBuffer possibleActions = new StringBuffer();
+        possibleActions.append("You can ");
+
+        int counter = 0;
+        int actionsSize = actionStateMap.size();
+        for (Map.Entry<String, String> entry : actionStateMap.entrySet()) {
+            possibleActions.append(entry.getKey());
+            if ( counter != actionsSize - 1) {
+                possibleActions.append( "/");
+            }
+            counter++;
+        }
+
+        possibleActions.append(" the " + name);
+
+        return possibleActions.toString();
     }
 }

@@ -29,6 +29,8 @@ public class OpenDoor extends Game {
         nextState.addDesiredState(finalState);
         nextState.addNextState(finalState);
 
+        elementsList = actualState.getElementList();
+
 
         console.write("Open Door game was created.");
     }

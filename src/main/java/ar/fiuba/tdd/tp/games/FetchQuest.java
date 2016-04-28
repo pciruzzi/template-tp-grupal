@@ -36,7 +36,10 @@ public class FetchQuest extends Game {
 
         finalState = proximoState;
 
+        elementsList = actualState.getElementList();
+
         this.console = new Console();
         console.write("Fetch Quest game was created.");
+
     }
 }

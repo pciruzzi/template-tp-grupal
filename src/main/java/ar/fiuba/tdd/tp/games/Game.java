@@ -27,8 +27,59 @@ public abstract class Game {
         }
     }
 
+    public String answerQuestion(String action) {
+
+        String nameOfObject = action.replace("What can I do with ", "");
+        nameOfObject = nameOfObject.replace("?", " ");
+        nameOfObject = nameOfObject.trim();
+
+        String possibleActions = null;
+
+        for ( Element element : elementsList) {
+            if (element.getName().equals(nameOfObject)) {
+                possibleActions = element.getPossibleActions();
+            }
+        }
+
+        if (possibleActions == null) {
+            return "It doesn't exist a " + nameOfObject;
+        }
+
+        return possibleActions;
+
+    }
+    
+//    public String getStringOfPossibleActions(List<String> actions) {
+//
+//        StringBuffer possibleActions = new StringBuffer();
+//        possibleActions.append("You can ");
+//
+//        int actionsSize = actions.size();
+//        for (int i = 0; i < actionsSize ; i++) {
+//            possibleActions.append(actions.get(i));
+//            if (i != actionsSize - 1) {
+//                possibleActions.append( "/");
+//            }
+//        }
+//        possibleActions.append(" the " + name);
+//
+//        return possibleActions.toString();
+//    }
+
+    public boolean checkQuestionMessage(String message) {
+        message = message.toLowerCase();
+        return message.contains("what can i do with ");
+    }
+
+
     public String doAction(String action) {
+
+        if ( checkQuestionMessage(action) ) {
+            return answerQuestion(action);
+        }
+
         String[] partes = action.split(" ");
+
 
         if (partes.length < 2 ) {
             return "Invalid input";

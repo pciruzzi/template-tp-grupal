@@ -68,14 +68,6 @@ public class Engine {
             console.write("The name was correct.");
             juego.createGame();
 
-//            String intro = "";
-//
-//            Scanner scanner = new Scanner(System.in, ENCODING);
-
-//            while ( ! intro.equals("fin") ) {
-//                intro = scanner.nextLine();
-//                System.out.println(juego.doAction(intro));
-//            }
         } catch (GameNameException exp) {
             gameName = gameName.concat(" ;wrong game's name");
             console.write(gameName);

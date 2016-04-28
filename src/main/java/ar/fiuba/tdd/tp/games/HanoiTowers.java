@@ -35,6 +35,7 @@ public class HanoiTowers extends Game {
         console.write("Hanoi Towers game was created.");
     }
 
+//<<<<<<< Updated upstream
     private String facadeAction(String action, String actualMessage) {
         if (action.matches("move top .*")) {
             action = action.replaceAll("^move top ", "");
@@ -42,17 +43,37 @@ public class HanoiTowers extends Game {
         }
         return actualMessage;
     }
+//=======
+//    @Override
+//    public String doAction(String action) {
+//
+////        if ( checkQuestionMessage(action) ) {
+////            System.out.println(action.lastIndexOf("What can I do with "));
+////            String nameOfObject = action.substring(19);
+////            nameOfObject = nameOfObject.replace("?", " ");
+////            nameOfObject = nameOfObject.trim();
+////            return answerQuestion(nameOfObject);
+////        }
+//
+//        String[] parts = action.split(" ");
+//        String[] checkedInput = checkInput(parts);
+//        String movingFromStack  = checkedInput[0];
+//        String movingToStack    = checkedInput[1];
+//
+//        List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
+//        List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
+//>>>>>>> Stashed changes
 
     private String facadeQuestionOrCheckTop(String action, String actualMessage) {
-        if (action.matches("What can I do with .* \\?")) {
+        if (action.matches("What can I do with .*")) {
             return HANOI_QUESTION;
         }
         if (action.matches("check top .*")) {
-//            String returnMessage = "Size of top from stack is ";
+            String returnMessage = HANOI_CHECKSIZE;
 //            returnMessage.concat(getSizeOfColumn(string column));
-//            return returnMessage.concat(".");
+            return returnMessage.concat(".");
             //TODO: Falta implementar la funcion para obtener el tamaño del stack
-            return HANOI_CHECKSIZE;
+//            return returnMessage;
         }
         return actualMessage;
     }
@@ -89,7 +110,7 @@ public class HanoiTowers extends Game {
         returnMessage = facadeQuestionOrCheckTop(action, returnMessage);
         action = facadeAction(action, returnMessage);
 
-        if ((!action.equals(INVALID_ACTION)) && (!returnMessage.equals(HANOI_QUESTION)) && (!returnMessage.equals(HANOI_CHECKSIZE))) {
+        if ((!action.equals(INVALID_ACTION)) && (!returnMessage.equals(HANOI_QUESTION)) && (!returnMessage.matches(HANOI_CHECKSIZE))) {
             String[] parts = action.split(" ");
             String[] checkedInput = checkInput(parts);
             String movingFromStack  = checkedInput[0];

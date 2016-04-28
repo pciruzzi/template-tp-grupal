@@ -34,6 +34,15 @@ public class WolfSheepAndCabbage extends Game {
     @Override
     public String doAction(String action) {
 
+
+        if ( checkQuestionMessage(action) ) {
+//            System.out.println(action.lastIndexOf("What can I do with "));
+            String nameOfObject = action.replace("^what can i do with ", "");
+            nameOfObject = nameOfObject.replace("?", "");
+            nameOfObject = nameOfObject.trim();
+            return answerQuestion(nameOfObject);
+        }
+
         String returnMessage = "Invalid Action.";
 
         String[] parts = action.split(" ");
