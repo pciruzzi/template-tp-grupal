@@ -11,6 +11,7 @@ public class Element {
 
     private Map<String,String> actionStateMap;
 
+
     public Element(String name, String state) {
         this.name = name;
         this.state = state;
@@ -112,5 +113,13 @@ public class Element {
         possibleActions.append(" the " + name);
 
         return possibleActions.toString();
+    }
+
+    public List<String> getActionsList() {
+        List<String> actionsList = new ArrayList<>();
+        for (Map.Entry<String, String> entry : actionStateMap.entrySet()) {
+            actionsList.add(entry.getValue());
+        }
+        return actionsList;
     }
 }

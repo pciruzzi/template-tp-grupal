@@ -52,7 +52,6 @@ public class State {
     }
 
     public void addElement(Element element) {
-        element = element.copy();
         String name = element.getName();
         if ( elementStateMap.containsKey(name) ) {
             System.out.println("You are inserting a duplicated element in the state. Element name: " + name);
