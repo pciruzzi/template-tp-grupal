@@ -18,7 +18,17 @@ public class WolfSheepAndCabbage extends Game {
 
     @Override
     public void createGame() {
-        createFinalState();
+//        createFinalStateWolfSheepAndCabbage();
+
+        createActualState();
+
+        finalState = new State();
+        finalState.addElement(new Element("sheep", "north-shore"));
+        finalState.addElement(new Element("wolf", "north-shore"));
+        finalState.addElement(new Element("col", "north-shore"));
+        finalState.addElement(new Element("player", "north-shore"));
+
+//        console.write("Wolf Sheep and Cabbage game was created.");
         createActualState();
     }
 
@@ -35,7 +45,9 @@ public class WolfSheepAndCabbage extends Game {
         String returnMessage = "Invalid Action.";
         String[] parts = action.split(" ");
 
-        if ( parts.length != 2 ) {
+        if (action.equals("exit")) {
+            return "Goodbye! See you next time :)";
+        } else if ( parts.length != 2 ) {
             return returnMessage;
         }
         String actionToDo = parts[0];
@@ -174,6 +186,6 @@ public class WolfSheepAndCabbage extends Game {
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));
-        finalState.addElement(new Element("player", "north-shore"));
+        finalState.addElement(new Element("farmer", "north-shore"));
     }
 }

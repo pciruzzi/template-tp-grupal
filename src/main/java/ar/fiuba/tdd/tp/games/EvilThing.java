@@ -18,4 +18,6 @@ public class EvilThing extends Game {
 
 //        console.write("Evil Thing game was created.");
     }
+
+
 }

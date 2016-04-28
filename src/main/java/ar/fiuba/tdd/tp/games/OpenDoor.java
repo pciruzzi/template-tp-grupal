@@ -47,10 +47,7 @@ public class OpenDoor extends Game {
         keyTwo.addActionState("drop", "floor");
         nextState.addElement(keyTwo);
 
-        Element doorTwo = new Element("door", "closed");
-        doorTwo.addActionState("open", "opened");
-        doorTwo.addActionState("close", "closed");
-
+        Element doorTwo = createOpenableDoor();
         nextState.addElement(doorTwo);
 
         actualState.addDesiredAndNextState(nextState, nextState);
