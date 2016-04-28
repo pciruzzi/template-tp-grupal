@@ -10,7 +10,7 @@ public class OpenDoor extends Game {
     public OpenDoor() {
         gameWon = false;
         name = "open door";
-        this.description = "Oh deer... you are traped inside a room, dont worry, theres always a way out.";
+        this.description = "Oh dear... you are trapped inside a room, don't worry, there's always a way out.";
         finalStatesList = new ArrayList<State>();
         losingState = new State();
 
@@ -23,7 +23,6 @@ public class OpenDoor extends Game {
 
     @Override
     public void createGame() {
-
         State nextState = new State();
         createActualState(nextState);
 
@@ -32,10 +31,7 @@ public class OpenDoor extends Game {
         finalState.addElement(new Element("door", "opened"));
 
         finalStatesList.add(finalState);
-
-
         nextState.addDesiredAndNextState(finalState,finalState);
-
         elementsList = actualState.getElementList();
     }
 

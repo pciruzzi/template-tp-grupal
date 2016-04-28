@@ -119,7 +119,7 @@ public class Element {
     }
 
     public List<String> getActionsList() {
-        List<String> actionsList = new ArrayList<>();
+        List<String> actionsList = new ArrayList<String>();
         for (Map.Entry<String, String> entry : actionStateMap.entrySet()) {
             actionsList.add(entry.getValue());
         }

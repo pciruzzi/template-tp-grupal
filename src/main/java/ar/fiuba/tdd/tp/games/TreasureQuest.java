@@ -8,10 +8,10 @@ public class TreasureQuest extends Game {
 
 
     public TreasureQuest() {
-//        name = "treasure quest";
-//        gameWon = false;
-//        this.description = "El treasure quest consiste en...";
         losingState = new State();
+        name = "treasure quest";
+        gameWon = false;
+        this.description = "I'm sure you have played this game at least once when you were young... just try to remember";
         finalStatesList = new ArrayList<State>();
     }
 

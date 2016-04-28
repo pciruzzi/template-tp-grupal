@@ -11,7 +11,7 @@ public class FetchQuest extends Game {
         losingState = new State();
         gameWon = false;
         this.name = "fetch quest";
-        this.description = "You are in a room, look arround to see if theres something useful.";
+        this.description = "You are in a room, look around to see if there's something useful.";
         finalStatesList = new ArrayList<State>();
     }
 
