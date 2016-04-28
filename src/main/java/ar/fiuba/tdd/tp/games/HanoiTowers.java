@@ -93,6 +93,9 @@ public class HanoiTowers extends Game {
     private String facadeSmallestOfOtherStack(List<Element> elementsOfMyStack, List<Element> elementsOfOtherStack, String actualMessage) {
         int indexOfSmallestOfOtherStack = getIndexOfSmallestDisk(elementsOfOtherStack);
         int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+        if (indexOfSmallest < 0) {
+            return HANOI_SIZE;
+        }
         int smallest = elementsOfMyStack.get(indexOfSmallest).getIntProperty();
 
         int smallestOfOtherStack = -1;
@@ -120,14 +123,18 @@ public class HanoiTowers extends Game {
             String movingFromStack  = checkedInput[0];
             String movingToStack    = checkedInput[1];
 
-            List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
-            List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
+            if (validStackName(movingFromStack) && validStackName(movingToStack)) {
+                List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
+                List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
 
-            returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
-            if (!returnMessage.equals(HANOI_MOVEERROR)) {
-                int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
-                String name = elementsOfMyStack.get(indexOfSmallest).getName();
-                returnMessage = actualState.doAction(movingToStack,name);
+                returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
+                if (!returnMessage.equals(HANOI_MOVEERROR) && !returnMessage.equals(HANOI_SIZE)) {
+                    int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+                    String name = elementsOfMyStack.get(indexOfSmallest).getName();
+                    returnMessage = actualState.doAction(movingToStack,name);
+                }
+            } else {
+                returnMessage = HANOI_STACK_ERROR;
             }
         }
         return update(returnMessage);
