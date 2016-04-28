@@ -93,6 +93,16 @@ public class State {
         }
     }
 
+    private boolean checkIfTheElementMustBeShown(Element element) {
+
+        if (element.getState().equals("closed") || element.getState().equals("floor")
+                || element.getState().equals("opened")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String showStateItems() {
 
         StringBuffer elementsContained = new StringBuffer();
@@ -100,11 +110,14 @@ public class State {
 
         int elementsLizSize = elementList.size();
         for (int i = 0; i < elementsLizSize ; i++) {
-            elementsContained.append(elementList.get(i).getName());
-            if (i == elementsLizSize - 2) {
-                elementsContained.append( " and a ");
-            } else if (i != elementsLizSize - 1) {
-                elementsContained.append( ", a ");
+            Element element = elementList.get(i);
+            if (checkIfTheElementMustBeShown(element)) {
+                elementsContained.append(elementList.get(i).getName());
+                if (i == elementsLizSize - 2) {
+                    elementsContained.append( " and a ");
+                } else if (i != elementsLizSize - 1) {
+                    elementsContained.append( ", a ");
+                }
             }
         }
         elementsContained.append(" in the room.");
