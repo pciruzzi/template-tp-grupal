@@ -7,6 +7,8 @@ import ar.fiuba.tdd.tp.engine.State;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.fiuba.tdd.tp.Constants.*;
+
 public class HanoiTowers extends Game {
 
 
@@ -33,24 +35,38 @@ public class HanoiTowers extends Game {
         console.write("Hanoi Towers game was created.");
     }
 
-    @Override
-    public String doAction(String action) {
-
-        String[] parts = action.split(" ");
-        String[] checkedInput = checkInput(parts);
-        String movingFromStack  = checkedInput[0];
-        String movingToStack    = checkedInput[1];
-
-        List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
-        List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
-
-        int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
-        int indexOfSmallestOfOtherStack = getIndexOfSmallestDisk(elementsOfOtherStack);
-
-        if ( indexOfSmallest < 0 ) {
-            return "The stack is empty.";
+    private String facadeAction(String action, String actualMessage) {
+        if (action.matches("move top .*")) {
+            action = action.replaceAll("^move top ", "");
+            return action;
         }
+        return actualMessage;
+    }
 
+    private String facadeQuestionOrCheckTop(String action, String actualMessage) {
+        if (action.matches("What can I do with .* \\?")) {
+            return HANOI_QUESTION;
+        }
+        if (action.matches("check top .*")) {
+//            String returnMessage = "Size of top from stack is ";
+//            returnMessage.concat(getSizeOfColumn(string column));
+//            return returnMessage.concat(".");
+            //TODO: Falta implementar la funcion para obtener el tamaño del stack
+            return HANOI_CHECKSIZE;
+        }
+        return actualMessage;
+    }
+
+    private String facadeIndexSmallest(int indexOfSmallest, String actualMessage) {
+        if ( indexOfSmallest < 0 ) {
+            return HANOI_SIZE;
+        }
+        return actualMessage;
+    }
+
+    private String facadeSmallestOfOtherStack(List<Element> elementsOfMyStack, List<Element> elementsOfOtherStack, String actualMessage) {
+        int indexOfSmallestOfOtherStack = getIndexOfSmallestDisk(elementsOfOtherStack);
+        int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
         int smallest = elementsOfMyStack.get(indexOfSmallest).getIntProperty();
 
         int smallestOfOtherStack = -1;
@@ -59,14 +75,39 @@ public class HanoiTowers extends Game {
             smallestOfOtherStack = elementsOfOtherStack.get(indexOfSmallestOfOtherStack).getIntProperty();
 
             if ( smallest > smallestOfOtherStack ) {
-                return "You can't stack a bigger disk over smaller one.";
+                return HANOI_MOVEERROR;
             }
         }
+        return actualMessage;
+    }
 
-        String name = elementsOfMyStack.get(indexOfSmallest).getName();
+    @Override
+    public String doAction(String action) {
 
-        String returnMessage = actualState.doAction(movingToStack,name);
+        String returnMessage = INVALID_ACTION;
 
+        returnMessage = facadeQuestionOrCheckTop(action, returnMessage);
+        action = facadeAction(action, returnMessage);
+
+        if ((!action.equals(INVALID_ACTION)) && (!returnMessage.equals(HANOI_QUESTION)) && (!returnMessage.equals(HANOI_CHECKSIZE))) {
+            String[] parts = action.split(" ");
+            String[] checkedInput = checkInput(parts);
+            String movingFromStack  = checkedInput[0];
+            String movingToStack    = checkedInput[1];
+
+            List<Element> elementsOfMyStack = getElementsOfTheStack(movingFromStack);
+            List<Element> elementsOfOtherStack = getElementsOfTheStack(movingToStack);
+
+            int indexOfSmallest = getIndexOfSmallestDisk(elementsOfMyStack);
+            returnMessage = facadeIndexSmallest(indexOfSmallest, returnMessage);
+            if (!returnMessage.equals(HANOI_SIZE)) {
+                returnMessage = facadeSmallestOfOtherStack(elementsOfMyStack, elementsOfOtherStack, returnMessage);
+                if (!returnMessage.equals(HANOI_MOVEERROR)) {
+                    String name = elementsOfMyStack.get(indexOfSmallest).getName();
+                    returnMessage = actualState.doAction(movingToStack,name);
+                }
+            }
+        }
         return update(returnMessage);
     }
 
