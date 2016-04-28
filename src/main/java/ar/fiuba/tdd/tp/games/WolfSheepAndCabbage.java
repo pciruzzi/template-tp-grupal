@@ -45,7 +45,9 @@ public class WolfSheepAndCabbage extends Game {
         String returnMessage = "Invalid Action.";
         String[] parts = action.split(" ");
 
-        if ( parts.length != 2 ) {
+        if (action.equals("exit")) {
+            return "Goodbye! See you next time :)";
+        } else if ( parts.length != 2 ) {
             return returnMessage;
         }
         String actionToDo = parts[0];
