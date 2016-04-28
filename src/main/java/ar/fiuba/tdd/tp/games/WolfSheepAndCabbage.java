@@ -14,7 +14,7 @@ public class WolfSheepAndCabbage extends Game {
         gameWon = false;
         name = "wolf sheep and cabbage";
         description = "El wolf sheep and cabbage consiste en...";
-        finalStatesList = new ArrayList<>();
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override

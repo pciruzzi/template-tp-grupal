@@ -11,7 +11,7 @@ public class EvilThing extends Game {
         gameWon = false;
         name = "evil thing";
         this.description = "El evil thing consiste en...";
-        finalStatesList = new ArrayList<>();
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override

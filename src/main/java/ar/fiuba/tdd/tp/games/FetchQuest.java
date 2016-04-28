@@ -11,7 +11,7 @@ public class FetchQuest extends Game {
         gameWon = false;
         this.name = "fetch quest";
         this.description = "El fetch quest consiste en...";
-        finalStatesList = new ArrayList<>();
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override

@@ -11,7 +11,7 @@ public class OpenDoor extends Game {
         gameWon = false;
         name = "open door";
         this.description = "El open door consiste en...";
-        finalStatesList = new ArrayList<>();
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override

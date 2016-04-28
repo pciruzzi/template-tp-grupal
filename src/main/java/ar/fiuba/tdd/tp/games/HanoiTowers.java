@@ -14,7 +14,7 @@ public class HanoiTowers extends Game {
         gameWon = false;
         name = "hanoi towers";
         this.description = "El hanoi towers consiste en...";
-        finalStatesList = new ArrayList<>();
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override
