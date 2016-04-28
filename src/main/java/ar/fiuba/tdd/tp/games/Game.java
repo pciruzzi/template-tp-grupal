@@ -19,7 +19,8 @@ public abstract class Game {
     public abstract Game copy();
 
     public String answerQuestion(String action) {
-        String nameOfObject = action.replace("What can I do with ", "");
+        action = action.toLowerCase();
+        String nameOfObject = action.replace("what can i do with ", "");
         nameOfObject = nameOfObject.replace("?", " ");
         nameOfObject = nameOfObject.trim();
 
@@ -89,12 +90,19 @@ public abstract class Game {
 
         String[] parts = action.split(" ");
         if (parts.length < 2 ) {
-            return "Invalid input";
+            return invalidInputOrExit(action);
         } else if (action.equals("look around")) {
             return showItems();
         }
 
         return verifyChangeState(parts);
+    }
+
+    private String invalidInputOrExit(String action) {
+        if (action.equals("exit")) {
+            return "Goodbye! See you next time :)";
+        }
+        return "Invalid input";
     }
 
     private String verifyChangeState(String[] parts) {

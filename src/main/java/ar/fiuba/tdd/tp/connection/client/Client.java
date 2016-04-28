@@ -70,7 +70,7 @@ public class Client {
     private void readFromSocket() throws ConnectionLostException, ReadingException {
         String response = socket.read();
         writer.write(response);
-        if (response.equals("You won!!!")) {
+        if (response.equals("You won the game!")) {
             gameWon = true;
         }
     }
