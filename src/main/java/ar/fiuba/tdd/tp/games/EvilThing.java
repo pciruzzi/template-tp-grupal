@@ -3,8 +3,9 @@ package ar.fiuba.tdd.tp.games;
 public class EvilThing extends Game {
 
     public EvilThing() {
-//        console = new Console();
+//        gameWon = false;
 //        name = "evil thing";
+//        this.description = "El evil thing consiste en...";
     }
 
     @Override

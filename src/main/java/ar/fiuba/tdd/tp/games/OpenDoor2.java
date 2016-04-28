@@ -1,13 +1,12 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
-
 public class OpenDoor2 extends Game {
 
 
     public OpenDoor2() {
-//        console = new Console();
 //        name = "open door 2";
+//        gameWon = false;
+//        this.description = "El open door 2 consiste en...";
     }
 
     @Override

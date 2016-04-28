@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -13,8 +12,9 @@ public class HanoiTowers extends Game {
 
 
     public HanoiTowers() {
-        this.console = new Console();
-        this.name = "hanoi towers";
+        gameWon = false;
+        name = "hanoi towers";
+        this.description = "El hanoi towers consiste en...";
     }
 
     @Override
@@ -31,8 +31,6 @@ public class HanoiTowers extends Game {
         finalState.addElement(new Element("diskThree", "columnThree"));
 
         createActualState();
-
-        console.write("Hanoi Towers game was created.");
     }
 
 //<<<<<<< Updated upstream

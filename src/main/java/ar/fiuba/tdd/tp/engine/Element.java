@@ -14,14 +14,13 @@ public class Element {
     public Element(String name, String state) {
         this.name = name;
         this.state = state;
-        this.actionStateMap = new HashMap<>();
+        this.actionStateMap = new HashMap<String, String>();
         this.stringProperty = "";
     }
 
     public Element(String name, String state, int intProperty) {
         this(name, state);
         this.intProperty = intProperty;
-        this.stringProperty = "";
     }
 
     public Element(String name, String state, String stringProperty) {

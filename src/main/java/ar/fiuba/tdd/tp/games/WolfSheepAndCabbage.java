@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
@@ -12,18 +11,15 @@ public class WolfSheepAndCabbage extends Game {
     private Element player;
 
     public WolfSheepAndCabbage() {
-        this.console = new Console();
-        this.name = "wolf sheep and cabbage";
+        gameWon = false;
+        name = "wolf sheep and cabbage";
+        description = "El wolf sheep and cabbage consiste en...";
     }
 
     @Override
     public void createGame() {
-
         createFinalState();
-
         createActualState();
-
-        console.write("Wolf Sheep and Cabbage game was created.");
     }
 
     @Override
@@ -33,27 +29,21 @@ public class WolfSheepAndCabbage extends Game {
 
     @Override
     public String doAction(String action) {
-
-
         if ( checkQuestionMessage(action) ) {
-//            System.out.println(action.lastIndexOf("What can I do with "));
-            String nameOfObject = action.replace("^what can i do with ", "");
-            nameOfObject = nameOfObject.replace("?", "");
-            nameOfObject = nameOfObject.trim();
-            return answerQuestion(nameOfObject);
+            return answerQuestion(action);
         }
-
         String returnMessage = "Invalid Action.";
-
         String[] parts = action.split(" ");
 
         if ( parts.length != 2 ) {
             return returnMessage;
         }
-
         String actionToDo = parts[0];
         String name = parts[1];
+        return getReturnMessage(returnMessage, actionToDo, name);
+    }
 
+    private String getReturnMessage(String returnMessage, String actionToDo, String name) {
         switch (actionToDo) {
             case "leave":
                 returnMessage = doLeaving(returnMessage, name);
@@ -67,7 +57,6 @@ public class WolfSheepAndCabbage extends Game {
             default:
                 break;
         }
-
         return update(returnMessage);
     }
 
