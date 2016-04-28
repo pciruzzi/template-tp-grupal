@@ -15,6 +15,7 @@ public abstract class Game {
     protected State actualState;    // Este es el estado actual en el que esta el juego
     protected State finalState;     // Este es el estado en el que se gana el juego
     protected List<Element> elementsList;
+    protected List<State> finalStatesList;
 
     public abstract Game copy();
 
@@ -116,9 +117,12 @@ public abstract class Game {
     }
 
     protected String update(String returnMessage) {
-        if ( actualState.isEqual(finalState) ) {
-            returnMessage = "You won the game!";
-            this.gameWon = true;
+
+        for ( State finalState : finalStatesList ) {
+            if ( actualState.isEqual(finalState) ) {
+                returnMessage = "You won the game!";
+                this.gameWon = true;
+            }
         }
         return returnMessage;
     }

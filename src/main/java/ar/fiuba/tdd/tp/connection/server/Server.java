@@ -16,7 +16,6 @@ public class Server {
     private Writer writer;
     private List<Thread> threads;
     private List<GameSocket> sockets;
-    //TODO: map<String, Game>
 
     public Server(int port) {
         this.port = port;

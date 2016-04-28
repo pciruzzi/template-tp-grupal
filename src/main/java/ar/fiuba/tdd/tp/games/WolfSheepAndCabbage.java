@@ -14,17 +14,21 @@ public class WolfSheepAndCabbage extends Game {
         gameWon = false;
         name = "wolf sheep and cabbage";
         description = "El wolf sheep and cabbage consiste en...";
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override
     public void createGame() {
         createActualState();
 
+
         finalState = new State();
         finalState.addElement(new Element("sheep", "north-shore"));
         finalState.addElement(new Element("wolf", "north-shore"));
         finalState.addElement(new Element("col", "north-shore"));
         finalState.addElement(new Element("farmer", "north-shore"));
+
+        finalStatesList.add(finalState);
 
     }
 
@@ -115,11 +119,28 @@ public class WolfSheepAndCabbage extends Game {
         return returnMessage;
     }
 
+    private boolean checkCorrectCrossing(String shore) {
+        List<String> actionsList = player.getActionsList();
+        boolean existsShore = false;
+        for ( String action : actionsList) {
+            if ( shore.equals(action) ) {
+                existsShore = true;
+            }
+        }
+        return existsShore;
+    }
+
     private String doCrossing(String returnMessage, String shore) {
+
+        if ( !checkCorrectCrossing(shore)) {
+            return "Please use the actions \"south-shore\" or \"north-shore\"";
+        }
         if ( !player.getState().equals( shore ) ) {
             String describeEating = noEating(player.getState());
             if ( describeEating.equals("") ) {
+
                 actualState.doAction(shore, player.getName());
+
                 returnMessage = "You have crossed!";
             } else {
                 returnMessage = "You can't do that! " + describeEating;

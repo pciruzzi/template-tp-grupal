@@ -3,24 +3,26 @@ package ar.fiuba.tdd.tp.games;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
+import java.util.ArrayList;
+
 public class OpenDoor2 extends Game {
 
     public OpenDoor2() {
         name = "open door 2";
         gameWon = false;
-    }
-
-    @Override
-    public Game copy() {
-        return new OpenDoor2();
+        description = "El open door 2 consiste en...";
+        finalStatesList = new ArrayList<State>();
     }
 
     @Override
     public void createGame() {
+
         finalState = new State();
+        finalStatesList.add(finalState);
         finalState.addElement(new Element("door", "opened"));
         finalState.addElement(new Element("key", "grabbed"));
         finalState.addElement(new Element("box", "opened"));
+
 
         createActualState();
         State secondState = createSecondState();
@@ -30,6 +32,11 @@ public class OpenDoor2 extends Game {
         desiredStateOfActualState.addElement(new Element("door", "closed"));
 
         actualState.addDesiredAndNextState(desiredStateOfActualState, secondState);
+    }
+
+    @Override
+    public Game copy() {
+        return new OpenDoor2();
     }
 
     private void createActualState() {

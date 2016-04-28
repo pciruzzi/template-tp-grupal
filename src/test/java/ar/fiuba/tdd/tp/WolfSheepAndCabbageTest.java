@@ -31,6 +31,15 @@ public class WolfSheepAndCabbageTest {
     }
 
     @Test
+    public void takeSheepAndLeaveOnTheOtherShoreTest() {
+        Game game = this.initializeGame();
+        game.doAction(takeSheep);
+        game.doAction(crossNorth);
+        game.doAction(leaveSheep);
+        assertEquals(game.doAction(crossSouth),crossSuccesfull);
+    }
+
+    @Test
     public void whenBoatIsFullCantTakeOtherThingTest() {
         Game game = this.initializeGame();
         game.doAction(takeSheep);
@@ -70,25 +79,25 @@ public class WolfSheepAndCabbageTest {
         assertEquals(game.doAction(crossSouth),invalidAction);
     }
 
-//    @Test
-//    public void withTheRightMovementsYouWinTheGameTest() {
-//        Game game = this.initializeGame();
-//        game.doAction(takeSheep);
-//        game.doAction(crossNorth);
-//        game.doAction(leaveSheep);
-//        game.doAction(crossSouth);
-//        game.doAction(takeWolf);
-//        game.doAction(crossNorth);
-//        game.doAction(leaveWolf);
-//        game.doAction(takeSheep);
-//        game.doAction(crossSouth);
-//        game.doAction(leaveSheep);
-//        game.doAction(takeCabbage);
-//        game.doAction(crossNorth);
-//        game.doAction(leaveCabbage);
-//        game.doAction(crossSouth);
-//        game.doAction(takeSheep);
-//        game.doAction(crossNorth);
-//        assertEquals(game.doAction(leaveSheep),"You won the game!");
-//    }
+    @Test
+    public void withTheRightMovementsYouWinTheGameTest() {
+        Game game = this.initializeGame();
+        game.doAction(takeSheep);
+        game.doAction(crossNorth);
+        game.doAction(leaveSheep);
+        game.doAction(crossSouth);
+        game.doAction(takeWolf);
+        game.doAction(crossNorth);
+        game.doAction(leaveWolf);
+        game.doAction(takeSheep);
+        game.doAction(crossSouth);
+        game.doAction(leaveSheep);
+        game.doAction(takeCabbage);
+        game.doAction(crossNorth);
+        game.doAction(leaveCabbage);
+        game.doAction(crossSouth);
+        game.doAction(takeSheep);
+        game.doAction(crossNorth);
+        assertEquals(game.doAction(leaveSheep),"You won the game!");
+    }
 }

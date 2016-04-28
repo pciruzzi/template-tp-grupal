@@ -3,12 +3,15 @@ package ar.fiuba.tdd.tp.games;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.State;
 
+import java.util.ArrayList;
+
 public class EvilThing extends Game {
 
     public EvilThing() {
         gameWon = false;
-        name = "evil thing";
+        finalStatesList = new ArrayList<State>();
         this.description = "El evil thing consiste en...";
+        name = "evil thing";
     }
 
     @Override
@@ -22,6 +25,7 @@ public class EvilThing extends Game {
 
         finalState = new State();
         finalState.addElement(new Element("door", "opened"));
+        finalStatesList.add(finalState);
 
         State desiredState = new State();
         desiredState.addElement(new Element("door", "closed"));
