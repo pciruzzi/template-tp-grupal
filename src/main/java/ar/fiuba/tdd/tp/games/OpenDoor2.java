@@ -12,6 +12,8 @@ public class OpenDoor2 extends Game {
         gameWon = false;
         description = "Is this real life? Is this just fantasy?... Look for items in the room, try to leave this torture.";
         finalStatesList = new ArrayList<State>();
+        losingState = new State();
+
     }
 
     @Override

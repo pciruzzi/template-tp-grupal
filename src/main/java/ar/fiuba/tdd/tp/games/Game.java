@@ -10,6 +10,7 @@ public abstract class Game {
 
     protected String name;
     protected String description;
+    protected State losingState;
     protected boolean gameWon;
 
     protected State actualState;    // Este es el estado actual en el que esta el juego
@@ -122,7 +123,13 @@ public abstract class Game {
                 returnMessage = "You won the game!";
                 this.gameWon = true;
             }
+            if (actualState.isEqual(losingState)) {
+                returnMessage = "You lost the game, you were poisoned";
+                this.gameWon = true;
+            }
+
         }
+
         return returnMessage;
     }
 

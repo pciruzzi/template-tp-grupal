@@ -14,6 +14,7 @@ public class HanoiTowers extends Game {
         gameWon = false;
         name = "hanoi towers";
         this.description = "3 stacks, " + HANOI_AMOUNT_DISKS + " disks, try moving the disks around and see what happens";
+        losingState = new State();
         finalStatesList = new ArrayList<State>();
     }
 

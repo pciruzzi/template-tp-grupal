@@ -13,6 +13,7 @@ public class WolfSheepAndCabbage extends Game {
     public WolfSheepAndCabbage() {
         gameWon = false;
         name = "wolf sheep and cabbage";
+        losingState = new State();
         description = "You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.";
         finalStatesList = new ArrayList<State>();
     }

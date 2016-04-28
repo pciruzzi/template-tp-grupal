@@ -12,6 +12,8 @@ public class OpenDoor extends Game {
         name = "open door";
         this.description = "Oh deer... you are traped inside a room, dont worry, theres always a way out.";
         finalStatesList = new ArrayList<State>();
+        losingState = new State();
+
     }
 
     @Override

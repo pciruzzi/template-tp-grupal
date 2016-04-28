@@ -11,6 +11,7 @@ public class TreasureQuest extends Game {
 //        name = "treasure quest";
 //        gameWon = false;
 //        this.description = "El treasure quest consiste en...";
+        losingState = new State();
         finalStatesList = new ArrayList<State>();
     }
 

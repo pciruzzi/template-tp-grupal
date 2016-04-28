@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class FetchQuest extends Game {
 
     public FetchQuest() {
+        losingState = new State();
         gameWon = false;
         this.name = "fetch quest";
         this.description = "You are in a room, look arround to see if theres something useful.";
