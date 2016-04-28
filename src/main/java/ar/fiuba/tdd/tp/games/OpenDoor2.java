@@ -25,12 +25,6 @@ public class OpenDoor2 extends Game {
         createActualState();
         State secondState = createSecondState();
 
-        Element key = new Element("key", "floor");
-        key.addActionState("pick", "grabbed");
-        key.addActionState("drop", "floor");
-
-        secondState.addElement(key);
-
         State desiredStateOfActualState = new State();
         desiredStateOfActualState.addElement(new Element("box", "opened"));
         desiredStateOfActualState.addElement(new Element("door", "closed"));
@@ -55,6 +49,12 @@ public class OpenDoor2 extends Game {
         State secondState = new State();
         secondState.addElement(new Element("box", "opened"));
         secondState.addElement(createUnopenableDoor());
+
+        Element key = new Element("key", "floor");
+        key.addActionState("pick", "grabbed");
+        key.addActionState("drop", "floor");
+
+        secondState.addElement(key);
 
         State desiredStateOfSecondState = new State();
         desiredStateOfSecondState.addElement(new Element("door", "closed"));

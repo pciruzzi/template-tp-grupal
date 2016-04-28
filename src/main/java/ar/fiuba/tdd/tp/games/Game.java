@@ -26,7 +26,7 @@ public abstract class Game {
         nameOfObject = nameOfObject.trim();
 
         String possibleActions = null;
-
+        elementsList = actualState.getElementList();
         for ( Element element : elementsList) {
             if (element.getName().equals(nameOfObject)) {
                 possibleActions = element.getPossibleActions();
@@ -38,23 +38,6 @@ public abstract class Game {
         }
         return possibleActions;
     }
-
-//    public String getStringOfPossibleActions(List<String> actions) {
-//
-//        StringBuffer possibleActions = new StringBuffer();
-//        possibleActions.append("You can ");
-//
-//        int actionsSize = actions.size();
-//        for (int i = 0; i < actionsSize ; i++) {
-//            possibleActions.append(actions.get(i));
-//            if (i != actionsSize - 1) {
-//                possibleActions.append( "/");
-//            }
-//        }
-//        possibleActions.append(" the " + name);
-//
-//        return possibleActions.toString();
-//    }
 
     public boolean checkQuestionMessage(String message) {
         message = message.toLowerCase();
