@@ -95,17 +95,13 @@ public class State {
 
     private boolean checkIfTheElementMustBeShown(Element element) {
 
-        if (element.getState().equals("closed") || element.getState().equals("floor")
-                || element.getState().equals("opened")) {
-            return true;
-        } else {
-            return false;
-        }
+        return element.getState().equals("closed") || element.getState().equals("floor")
+                || element.getState().equals("opened");
     }
 
     public String showStateItems() {
 
-        StringBuffer elementsContained = new StringBuffer();
+        StringBuilder elementsContained = new StringBuilder();
         elementsContained.append("There's a ");
 
         int elementsLizSize = elementList.size();
@@ -132,7 +128,7 @@ public class State {
 
     public boolean isEqual(State otherState) {
 
-        boolean equal = true;
+        boolean equal;
 
         Map<String,Element> othersElementStateMap = otherState.getElementStateMap();
 

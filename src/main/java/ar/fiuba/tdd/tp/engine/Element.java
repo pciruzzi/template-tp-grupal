@@ -100,7 +100,7 @@ public class Element {
 
     public String getPossibleActions() {
 
-        StringBuffer possibleActions = new StringBuffer();
+        StringBuilder possibleActions = new StringBuilder();
         possibleActions.append("You can ");
 
         int counter = 0;
@@ -113,7 +113,7 @@ public class Element {
             counter++;
         }
 
-        possibleActions.append(" the " + name + ".");
+        possibleActions.append(" the ").append(name).append(".");
 
         return possibleActions.toString();
     }

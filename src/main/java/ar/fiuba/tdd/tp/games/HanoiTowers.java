@@ -99,7 +99,7 @@ public class HanoiTowers extends Game {
         }
         int smallest = elementsOfMyStack.get(indexOfSmallest).getIntProperty();
 
-        int smallestOfOtherStack = -1;
+        int smallestOfOtherStack;
 
         if ( indexOfSmallestOfOtherStack >= 0 ) {
             smallestOfOtherStack = elementsOfOtherStack.get(indexOfSmallestOfOtherStack).getIntProperty();

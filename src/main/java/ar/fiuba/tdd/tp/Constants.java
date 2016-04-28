@@ -17,6 +17,4 @@ public final class Constants {
     public static final String HANOI_MOVEERROR = "You can't stack a bigger disk over smaller one.";
     public static final int HANOI_AMOUNT_DISKS = 3;
     public static final int HANOI_STACKS = 3;
-
-    public static final String EVIL_THIEF = "You can talk with thief: \"Hello\", \"Bye\".";
 }

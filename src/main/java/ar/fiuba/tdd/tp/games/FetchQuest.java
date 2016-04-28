@@ -37,8 +37,6 @@ public class FetchQuest extends Game {
 
         initialState.addDesiredAndNextState(proximoState,proximoState);
 
-        State finalState = proximoState;
-
-        finalStatesList.add(finalState);
+        finalStatesList.add(proximoState);
     }
 }

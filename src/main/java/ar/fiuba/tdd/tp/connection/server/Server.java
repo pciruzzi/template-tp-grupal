@@ -28,8 +28,7 @@ public class Server {
     public String setUp() throws ExitException {
         writer.write("Write the command 'load game' to begin");
         String command = CommandReader.readCommand("load game ");
-        String game = command.replaceAll("^load game ", "");
-        return game;
+        return command.replaceAll("^load game ", "");
     }
 
     public void initializeGame(String game) {

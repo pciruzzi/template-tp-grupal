@@ -63,8 +63,7 @@ public abstract class Game {
     }
 
     protected Element createUnopenableDoor() {
-        Element doorUnopenable = new Element("door", "closed", "Ey! Where do you go?! The door is locked.");
-        return doorUnopenable;
+        return new Element("door", "closed", "Ey! Where do you go?! The door is locked.");
     }
 
     public String doAction(String action) {

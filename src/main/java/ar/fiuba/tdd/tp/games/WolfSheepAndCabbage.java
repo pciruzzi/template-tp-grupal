@@ -57,7 +57,7 @@ public class WolfSheepAndCabbage extends Game {
     private String getReturnMessage(String returnMessage, String actionToDo, String name) {
         switch (actionToDo) {
             case "leave":
-                returnMessage = doLeaving(returnMessage, name);
+                returnMessage = doLeaving(name);
                 break;
             case "take":
                 returnMessage = doTaking(returnMessage, name);
@@ -75,18 +75,19 @@ public class WolfSheepAndCabbage extends Game {
         List<Element> elementsOfSameShore = getElementsOfTheShore(elementsList, shore);
         String describeEating = "";
         for ( int i = 0; i < elementsOfSameShore.size() ; i++) {
-            for ( int j = 0; j < elementsOfSameShore.size() ; j++) {
+            for (Element anElementsOfSameShore : elementsOfSameShore) {
                 String predatorPrey = elementsOfSameShore.get(i).getStringProperty();
-                String prey = elementsOfSameShore.get(j).getName();
-                if ( predatorPrey.equals(elementsOfSameShore.get(j).getName())) {
-                    describeEating = "The " + elementsOfSameShore.get(i).getName()  + " will eat the " + prey;
+                String prey = anElementsOfSameShore.getName();
+                if (predatorPrey.equals(anElementsOfSameShore.getName())) {
+                    describeEating = "The " + elementsOfSameShore.get(i).getName() + " will eat the " + prey;
                 }
             }
         }
         return describeEating;
     }
 
-    private String doLeaving(String returnMessage, String name) {
+    private String doLeaving(String name) {
+        String returnMessage;
         if ( player.getStringProperty().equals(name) ) {
             player.setStringProperty("nothing");
             actualState.doAction(player.getState(), name);
