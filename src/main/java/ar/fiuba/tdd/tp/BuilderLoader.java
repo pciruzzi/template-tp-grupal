@@ -2,6 +2,8 @@ package ar.fiuba.tdd.tp;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -39,21 +41,22 @@ class BuilderLoader {
         return foundClasses;
     }
 
-    static GameBuilder load(File file, ClassLoader loader) throws Exception {
+    static GameBuilder load(String filePath)
+            throws ClassNotFoundException, IOException,
+            IllegalAccessException, InstantiationException {
+        File file = new File(filePath);
+        URL[] urls = { new URL("jar:file:" + filePath + "!/") };
+        ClassLoader loader = URLClassLoader.newInstance(urls);
         for (String classFile : scanJar(file)) {
             Class<?> foundClass;
-            try {
-                if (loader == null) {
-                    foundClass = Class.forName(classFile);
-                } else {
-                    foundClass = Class.forName(classFile, true, loader);
-                }
+            if (loader == null) {
+                foundClass = Class.forName(classFile);
+            } else {
+                foundClass = Class.forName(classFile, true, loader);
+            }
 
-                if (GameBuilder.class.isAssignableFrom(foundClass) && !foundClass.equals(GameBuilder.class)) {
-                    return (GameBuilder)foundClass.newInstance();
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            if (GameBuilder.class.isAssignableFrom(foundClass) && !foundClass.equals(GameBuilder.class)) {
+                return (GameBuilder)foundClass.newInstance();
             }
         }
         return null;
