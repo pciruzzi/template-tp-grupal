@@ -1,4 +1,6 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.server;
+
+import ar.fiuba.tdd.tp.model.GameBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +12,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 // TODO: this class should be part of the server
-class BuilderLoader {
+public class BuilderLoader {
 
     private static String escape(String name) {
         if (name.contains("/")) {
@@ -41,7 +43,7 @@ class BuilderLoader {
         return foundClasses;
     }
 
-    static GameBuilder load(String filePath)
+    public static GameBuilder load(String filePath)
             throws ClassNotFoundException, IOException,
             IllegalAccessException, InstantiationException {
         File file = new File(filePath);
