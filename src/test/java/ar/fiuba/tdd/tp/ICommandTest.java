@@ -8,6 +8,7 @@ import ar.fiuba.tdd.tp.icommand.Open;
 import ar.fiuba.tdd.tp.icommand.Pick;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class ICommandTest {
@@ -16,11 +17,13 @@ public class ICommandTest {
     public void testOpen() {
         Game game = new FetchQuest();
         ElementTwo elementTwo;
-        elementTwo = new ElementTwo("stick", "dropped");
-        elementTwo.addCommand(new Pick());
+        elementTwo = new ElementTwo("chest", false);
+        elementTwo.addCommand(new Open());
 
-        elementTwo.doCommand("pick");
+        elementTwo.doCommand("open");
 
-        assertEquals(elementTwo.getState(), "picked");
+        assertTrue(elementTwo.getState());
     }
+
+
 }

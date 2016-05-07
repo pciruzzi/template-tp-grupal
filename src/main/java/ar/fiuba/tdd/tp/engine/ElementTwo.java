@@ -25,7 +25,6 @@ public class ElementTwo {
     public String doCommand(String commandName) {
 
         if (commandMap.containsKey(commandName)) {
-
             ICommand command = commandMap.get(commandName);
             command.doAction(this);
             return "ok";
