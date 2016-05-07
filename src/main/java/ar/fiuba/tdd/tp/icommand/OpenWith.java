@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.ElementTwo;
 import ar.fiuba.tdd.tp.games.Game;
 
 public class OpenWith extends ICommand {
@@ -13,7 +14,7 @@ public class OpenWith extends ICommand {
     }
 
     @Override
-    void doAction(Element element) {
+    public void doAction(ElementTwo element) {
 
 
     }

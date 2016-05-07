@@ -9,13 +9,10 @@ import java.util.List;
 public class ElementTwo {
 
     private String state;
-    private String name;
-/*
-    private int intProperty;
-    private String stringProperty;
-*/
 
+    private String name;
     private HashMap<String, ICommand> commandMap;
+
     private List<ElementTwo> elementList;
 
     public ElementTwo(String name, String state) {
@@ -25,8 +22,33 @@ public class ElementTwo {
         this.state = state;
     }
 
+    public String doCommand(String commandName) {
+
+        if (commandMap.containsKey(commandName)) {
+
+            ICommand command = commandMap.get(commandName);
+            command.doAction(this);
+            return "ok";
+        } else {
+            return "I can't do that";
+        }
+
+    }
+
     public void addCommand(ICommand command) {
         commandMap.put(command.getName(), command);
+    }
+
+    /*
+        private int intProperty;
+        private String stringProperty;
+    */
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public HashMap<String, ICommand> getCommandMap() {

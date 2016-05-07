@@ -1,12 +1,12 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.ElementTwo;
 
 public class Close extends ICommand{
 
 
     @Override
-    void doAction(Element element) {
+    public void doAction(ElementTwo element) {
 
     }
 }
