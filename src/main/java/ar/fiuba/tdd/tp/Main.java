@@ -5,8 +5,8 @@ import ar.fiuba.tdd.tp.server.BuilderLoader;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        GameBuilder builder = BuilderLoader.load(args[0]);
-        builder.build();
+//        GameBuilder builder = BuilderLoader.load(args[0]);
+//        builder.build();
 //import ar.fiuba.tdd.tp.engine.Engine;
 //
 //public class Main {

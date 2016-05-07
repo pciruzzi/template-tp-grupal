@@ -13,6 +13,9 @@ public class ElementTwo {
     private String name;
     private HashMap<String, ICommand> commandMap;
 
+//    private int intProperty;
+//    private String stringProperty;
+
     private HashMap<String, ElementTwo> elementMap;
 
     public ElementTwo(String name, boolean state) {
@@ -38,11 +41,6 @@ public class ElementTwo {
         commandMap.put(command.getName(), command);
     }
 
-    /*
-        private int intProperty;
-        private String stringProperty;
-    */
-
     public void setState(boolean state) {
         this.state = state;
     }
@@ -67,7 +65,7 @@ public class ElementTwo {
     public List<ElementTwo> getElementList() {
         List<ElementTwo> returnList = new ArrayList<ElementTwo>();
         for ( String key : elementMap.keySet() ) {
-            System.out.println( key );
+            returnList.add(elementMap.get(key));
         }
         return returnList;
     }
