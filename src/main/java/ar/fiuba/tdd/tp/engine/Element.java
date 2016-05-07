@@ -5,12 +5,12 @@ import java.util.*;
 public class Element {
 
     private String name;
+
     private String state;
+
     private int intProperty;
     private String stringProperty;
-
     private Map<String,String> actionStateMap;
-
 
     public Element(String name, String state) {
         this.name = name;
@@ -73,6 +73,10 @@ public class Element {
 
     public String getState() {
         return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void addActionState(String action, String state) {
