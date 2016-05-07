@@ -1,13 +1,9 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class MainTests {
 
-    @Test
-    public void dummy() {
-        assertEquals(0, 0);
-    }
 }
