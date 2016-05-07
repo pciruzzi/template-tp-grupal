@@ -3,31 +3,34 @@ package ar.fiuba.tdd.tp.engine;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ElementTwo {
 
     private String state;
     private String name;
+/*
     private int intProperty;
     private String stringProperty;
+*/
 
-    private List<ICommand> commandList;
+    private HashMap<String, ICommand> commandMap;
     private List<ElementTwo> elementList;
 
     public ElementTwo(String name, String state) {
-        commandList = new ArrayList<>();
+        commandMap = new HashMap<>();
         elementList = new ArrayList<>();
         this.name = name;
         this.state = state;
     }
 
     public void addCommand(ICommand command) {
-        commandList.add(command);
+        commandMap.put(command.getName(), command);
     }
 
-    public List<ICommand> getCommandList() {
-        return commandList;
+    public HashMap<String, ICommand> getCommandMap() {
+        return commandMap;
     }
 
     public void addElement(ElementTwo element) {
