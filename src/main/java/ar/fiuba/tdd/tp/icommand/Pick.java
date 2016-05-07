@@ -11,7 +11,7 @@ public class Pick extends ICommand {
     @Override
     public void doAction(ElementTwo element) {
 
-        element.setState("picked");
+        element.setState(false);
 
     }
 }

@@ -12,7 +12,7 @@ public class Open extends ICommand{
 
     @Override
     public void doAction(ElementTwo element) {
-        element.setState("opened");
+        element.setState(true);
     }
 
 }

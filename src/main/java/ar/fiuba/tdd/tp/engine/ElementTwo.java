@@ -8,16 +8,16 @@ import java.util.List;
 
 public class ElementTwo {
 
-    private String state;
+    private boolean state;
 
     private String name;
     private HashMap<String, ICommand> commandMap;
 
-    private List<ElementTwo> elementList;
+    private HashMap<String, ElementTwo> elementMap;
 
-    public ElementTwo(String name, String state) {
+    public ElementTwo(String name, boolean state) {
         commandMap = new HashMap<>();
-        elementList = new ArrayList<>();
+        elementMap = new HashMap<>();
         this.name = name;
         this.state = state;
     }
@@ -43,7 +43,8 @@ public class ElementTwo {
         private int intProperty;
         private String stringProperty;
     */
-    public void setState(String state) {
+
+    public void setState(boolean state) {
         this.state = state;
     }
 
@@ -56,24 +57,31 @@ public class ElementTwo {
     }
 
     public void addElement(ElementTwo element) {
-        elementList.add(element);
+
+        elementMap.put(element.getName(),element);
     }
 
     public void removeElement(ElementTwo element) {
-        elementList.remove(element);
+        elementMap.remove(element.getName());
     }
 
     public List<ElementTwo> getElementList() {
-        return elementList;
+        List<ElementTwo> returnList = new ArrayList<ElementTwo>();
+        for ( String key : elementMap.keySet() ) {
+            System.out.println( key );
+        }
+        return returnList;
     }
 
-    public String getState() {
+    public boolean getState() {
         return state;
     }
 
     public String getName() {
         return name;
     }
+
+
 //        private String name;
 //        private String state;
 
