@@ -1,9 +1,7 @@
 package ar.fiuba.tdd.tp;
 
-import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.ElementTwo;
-import ar.fiuba.tdd.tp.interpreter.OrExpression;
-import ar.fiuba.tdd.tp.interpreter.TerminalElement;
+import ar.fiuba.tdd.tp.interpreter.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,91 +15,234 @@ import static org.junit.Assert.assertTrue;
 public class IInterpreterTest {
 
     @Test
-    public void testInterpreterReturnsTrueWhenConteinsOneElement(){
-        ElementTwo roomElement = new ElementTwo("room", true);
-        ElementTwo stickElement =  new ElementTwo("stick", true);
-        roomElement.addElement(stickElement);
+    public void testInterpreterReturnsTrueWhenConteinsOneElement() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+        room.addElement(stick);
 
         ArrayList<String> stringList = new ArrayList<String>();
         stringList.add("stick");
 
-        TerminalElement terminal = new TerminalElement(roomElement,stringList);
+        TerminalExpression terminal = new ContainsElements(room,stringList);
 
         assertTrue(terminal.interpret());
     }
 
     @Test
-    public void testInterpreterReturnsFalseWhenRoomDoesntContainBroom(){
-        ElementTwo roomElement = new ElementTwo("room", true);
-        ElementTwo stickElement =  new ElementTwo("stick", true);
-        roomElement.addElement(stickElement);
+    public void testInterpreterReturnsFalseWhenRoomDoesntContainStick() {
+        ElementTwo room = new ElementTwo("room", true);
 
         ArrayList<String> stringList = new ArrayList<String>();
-        stringList.add("broom");
+        stringList.add("stick");
 
-        TerminalElement terminal = new TerminalElement(roomElement,stringList);
+        TerminalExpression terminal = new ContainsElements(room,stringList);
 
         assertFalse(terminal.interpret());
     }
 
     @Test
-    public void testInterpreterReturnsFalseWhenConteinsStickAndBroomButDoesNotContainWindow(){
-        ElementTwo roomElement = new ElementTwo("room", true);
-        ElementTwo stickElement =  new ElementTwo("stick", true);
-        ElementTwo broomElement =  new ElementTwo("broom", true);
-        ElementTwo windowElement =  new ElementTwo("window", true);
+    public void testInterpreterReturnsFalseWhenConteinsStickAndBroomButDoesNotContainWindow() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo broom =  new ElementTwo("broom", true);
+        ElementTwo window =  new ElementTwo("window", true);
 
-        roomElement.addElement(stickElement);
-        roomElement.addElement(broomElement);
-        roomElement.addElement(windowElement);
+        room.addElement(stick);
+        room.addElement(broom);
+        room.addElement(window);
 
         ArrayList<String> stringList = new ArrayList<String>();
         stringList.add("stick");
         stringList.add("broom");
 
-        TerminalElement terminal = new TerminalElement(roomElement,stringList);
+        TerminalExpression terminal = new ContainsElements(room,stringList);
 
         assertFalse(terminal.interpret());
     }
 
     @Test
-    public void testOrInterpreterReturnsTrueWhenConteinsOneElementInRoomOneOrTwo(){
-        ElementTwo roomElement = new ElementTwo("room", true);
-        ElementTwo room2Element = new ElementTwo("room2", true);
-        ElementTwo stickElement =  new ElementTwo("stick", true);
-        roomElement.addElement(stickElement);
+    public void testOrInterpreterReturnsTrueWhenConteinsOneElementInRoomOneOrTwo() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo room2 = new ElementTwo("room2", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+        room.addElement(stick);
 
         ArrayList<String> stringList = new ArrayList<String>();
         stringList.add("stick");
 
-        TerminalElement terminalRoom1 = new TerminalElement(roomElement,stringList);
-        TerminalElement terminalRoom2 = new TerminalElement(room2Element,stringList);
+        TerminalExpression terminalRoom1 = new ContainsElements(room,stringList);
+        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringList);
         OrExpression orExpression = new OrExpression(terminalRoom1,terminalRoom2);
 
         assertTrue(orExpression.interpret());
     }
 
     @Test
-    public void testOrInterpreterReturnsFalseWhenRoom1HasBroomAndRoom2HasStick(){
-        ElementTwo roomElement = new ElementTwo("room", true);
-        ElementTwo room2Element = new ElementTwo("room2", true);
-        ElementTwo stickElement =  new ElementTwo("stick", true);
-        ElementTwo broomElement = new ElementTwo("broom", true);
+    public void testOrInterpreterReturnsFalseWhenRoom1HasBroomAndRoom2HasStick() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo room2 = new ElementTwo("room2", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo broom = new ElementTwo("broom", true);
 
-        roomElement.addElement(broomElement);
-        room2Element.addElement(stickElement);
+        room.addElement(broom);
+        room2.addElement(stick);
 
         ArrayList<String> stringListRoom1 = new ArrayList<String>();
         stringListRoom1.add("stick");
         ArrayList<String> stringListRoom2 = new ArrayList<String>();
         stringListRoom2.add("broom");
 
-        TerminalElement terminalRoom1 = new TerminalElement(roomElement,stringListRoom1);
-        TerminalElement terminalRoom2 = new TerminalElement(room2Element,stringListRoom2);
+        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
         OrExpression orExpression = new OrExpression(terminalRoom1,terminalRoom2);
 
         assertFalse(orExpression.interpret());
     }
+
+    @Test
+    public void testAndInterpretorReturnsTrueWhenRoomOneAndTwoHasStick() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo room2 = new ElementTwo("room2", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+
+        room.addElement(stick);
+        room2.addElement(stick);
+
+        ArrayList<String> stringListRoom1 = new ArrayList<String>();
+        stringListRoom1.add("stick");
+        ArrayList<String> stringListRoom2 = new ArrayList<String>();
+        stringListRoom2.add("stick");
+
+        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
+        AndExpression andExpression = new AndExpression(terminalRoom1,terminalRoom2);
+
+        assertTrue(andExpression.interpret());
+    }
+
+    @Test
+    public void testAndInterpretorReturnsFalseWhenRoomOneHasStickButRoom2Doesnt() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo stick =  new ElementTwo("stick", true);
+
+        room.addElement(stick);
+
+        ArrayList<String> stringListRoom1 = new ArrayList<String>();
+        stringListRoom1.add("stick");
+        ArrayList<String> stringListRoom2 = new ArrayList<String>();
+        stringListRoom2.add("broom");
+
+        ElementTwo room2 = new ElementTwo("room2", true);
+
+        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
+        AndExpression andExpression = new AndExpression(terminalRoom1,terminalRoom2);
+
+        assertFalse(andExpression.interpret());
+    }
+
+    @Test
+    public void testMixedAndOrReturnTrueWhenChestHasBroomOrStickAndRoomHasWindow() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo chest = new ElementTwo("chest", true);
+        ElementTwo broom = new ElementTwo("broom", true);
+        ElementTwo window = new ElementTwo("window", true);
+
+        chest.addElement(broom);
+        room.addElement(window);
+
+        ArrayList<String> roomElements = new ArrayList<>();
+        ArrayList<String> chestElementBroom = new ArrayList<>();
+        ArrayList<String> chestElementStick = new ArrayList<>();
+
+        roomElements.add("window");
+        chestElementBroom.add("broom");
+        chestElementStick.add("stick");
+
+        TerminalExpression terminalRoom = new ContainsElements(room, roomElements);
+        TerminalExpression terminalChestBroom = new ContainsElements(chest, chestElementBroom);
+        TerminalExpression terminalChestStick = new ContainsElements(chest, chestElementStick);
+
+        OrExpression orExpression = new OrExpression(terminalChestBroom, terminalChestStick);
+        AndExpression andExpression = new AndExpression(orExpression,terminalRoom);
+
+        assertTrue(andExpression.interpret());
+    }
+
+    @Test
+    public void testTwoOrExpressionConectedWithAnAndExpressionReturnsTrueWhenOrTrue() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo chest = new ElementTwo("chest", true);
+        ElementTwo broom = new ElementTwo("broom", true);
+        ElementTwo window = new ElementTwo("window", true);
+
+        chest.addElement(broom);
+        room.addElement(window);
+
+        ArrayList<String> roomElementsWindow = new ArrayList<>();
+        ArrayList<String> roomElementsPainting = new ArrayList<>();
+        ArrayList<String> chestElementBroom = new ArrayList<>();
+
+        roomElementsWindow.add("window");
+        roomElementsPainting.add("painting");
+        chestElementBroom.add("broom");
+
+        ArrayList<String> chestElementStick = new ArrayList<>();
+
+        chestElementStick.add("stick");
+
+        OrExpression orExpressionChest = new OrExpression(new ContainsElements(chest, chestElementBroom),
+                new ContainsElements(chest, chestElementStick));
+        OrExpression orExpressionRoom = new OrExpression(new ContainsElements(room, roomElementsPainting),
+                new ContainsElements(room, roomElementsWindow));
+
+        AndExpression andExpression = new AndExpression(orExpressionChest,orExpressionRoom);
+
+        assertTrue(andExpression.interpret());
+    }
+
+    @Test
+    public void testNotExpressionReturnsTrueWhenEmptyRoom() {
+        ElementTwo room = new ElementTwo("room", true);
+        ArrayList<String> roomList = new ArrayList<>();
+        roomList.add("stick");
+
+        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
+        assertTrue(notExpression.interpret());
+    }
+
+    @Test
+    public void testNotExpressionReturnsTrueWhenRoomHasStickAndDoorButDoesntHaveKey() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo stick = new ElementTwo("stick", true);
+        ElementTwo door = new ElementTwo("door", true);
+
+        room.addElement(stick);
+        room.addElement(door);
+
+        ArrayList<String> roomList = new ArrayList<>();
+        roomList.add("key");
+
+        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
+        assertTrue(notExpression.interpret());
+    }
+
+    @Test
+    public void testNotExpressionReturnsFalseWhenRoomHasStick() {
+        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo stick = new ElementTwo("stick", true);
+
+        room.addElement(stick);
+
+        ArrayList<String> roomList = new ArrayList<>();
+        roomList.add("stick");
+
+        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
+        assertFalse(notExpression.interpret());
+    }
+
+
+
 
 
 }

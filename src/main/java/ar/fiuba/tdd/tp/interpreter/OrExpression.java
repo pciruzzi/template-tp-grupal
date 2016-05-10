@@ -3,16 +3,13 @@ package ar.fiuba.tdd.tp.interpreter;
 /**
  * Created by gg on 5/9/2016.
  */
-public class OrExpression implements IInterpreter {
-    private TerminalElement expressionOne;
-    private TerminalElement expressionTwo;
+public class OrExpression extends LogicalConector {
 
-    public OrExpression(TerminalElement expressionOne, TerminalElement expressionTwo) {
-        this.expressionOne = expressionOne;
-        this.expressionTwo = expressionTwo;
+    public OrExpression(IInterpreter expressionOne, IInterpreter expressionTwo) {
+        super(expressionOne, expressionTwo);
     }
 
     public boolean interpret() {
-        return expressionOne.interpret() || expressionTwo.interpret();
+        return (expressionOne.interpret() || expressionTwo.interpret());
     }
 }
