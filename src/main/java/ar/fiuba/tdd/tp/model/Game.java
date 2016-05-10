@@ -1,22 +1,26 @@
 package ar.fiuba.tdd.tp.model;
 
 //import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.*;
 
-public abstract class Game {
+public class Game {
 
-    private Map<String, ElementTwo> elementMap;
+    private ElementTwo player;
+    private ElementTwo playerPosition;
+    private HashMap<String,ElementTwo> visibleElements;
+    private IInterpreter winInterpreter;
     private String name;
     private String description;
     private boolean gameWon;
 
-    public Game(String name, String description, Map<String, ElementTwo> elementMap) {
+    public Game(String name) {
         this.name = name;
-        this.description = description;
-        this.elementMap = elementMap;
         this.gameWon = false;
+        this.description = "descripcion";
     }
 
     public String getName() {
@@ -33,18 +37,50 @@ public abstract class Game {
 
     public String play(String cmd, String element) {
         String returnMessage;
-        if (elementMap.containsKey(element)) {
-            ElementTwo actualElement = elementMap.get(element);
+        this.calculateVisibleElements();
+        if (visibleElements.containsKey(element)) {
+            ElementTwo actualElement = visibleElements.get(element);
             returnMessage = actualElement.doCommand(cmd);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
-        returnMessage = update(returnMessage);
+        if (this.hasWon()) {
+            gameWon = true;
+            return "You won!!!";
+        }
         return returnMessage;
     }
 
-    private String update(String returnMessage) {
-        //TODO: ver como comparar contra el estado final para ver si gano/perdio o sigue jugando.
-        return returnMessage;
+    private boolean hasWon() {
+        return winInterpreter.interpret();
     }
+
+
+    public void setWinInterpreter(IInterpreter winInterpreter) {
+        this.winInterpreter = winInterpreter;
+    }
+
+    public ElementTwo getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public void setPlayerPosition(ElementTwo playerPosition) {
+        this.playerPosition = playerPosition;
+    }
+
+    public ElementTwo getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(ElementTwo player) {
+        this.player = player;
+    }
+
+    private void calculateVisibleElements() {
+        HashMap<String, ElementTwo>  elements;
+        elements = playerPosition.getVisibleElements();
+        elements.putAll(player.getVisibleElements());
+        visibleElements = elements;
+    }
+
 }

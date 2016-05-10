@@ -7,7 +7,7 @@ public abstract class ICommand {
 
     String name;
 
-    public abstract void doAction(ElementTwo element);
+    public abstract String doAction(ElementTwo element);
 
     public String getName() {
         return name;
