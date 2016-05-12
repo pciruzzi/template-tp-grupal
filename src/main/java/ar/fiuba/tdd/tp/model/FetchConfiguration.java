@@ -31,7 +31,7 @@ public class FetchConfiguration implements GameBuilder {
 
         room.addElement(stick);
 
-        ArrayList<String> winArray = new ArrayList<>();
+        ArrayList<String> winArray = new ArrayList<String>();
         winArray.add("stick");
 
         IInterpreter winInterpreter = new ContainsElements(player,winArray);

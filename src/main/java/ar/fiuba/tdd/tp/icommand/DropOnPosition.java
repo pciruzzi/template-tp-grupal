@@ -6,9 +6,6 @@ import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;
 
-/**
- * Created by gg on 5/10/2016.
- */
 public class DropOnPosition extends ICommand {
 
     private Game game;

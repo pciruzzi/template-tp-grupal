@@ -3,12 +3,13 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.engine.EngineTwo;
 import ar.fiuba.tdd.tp.model.FetchConfiguration;
 import ar.fiuba.tdd.tp.model.GameBuilder;
+import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
         EngineTwo engine = new EngineTwo();
-        GameBuilder fetchConfiguration = new FetchConfiguration();
+        GameBuilder fetchConfiguration = new OpenDoorConfiguration();
         engine.createGame(fetchConfiguration);
 
 //        Game fetchQuest = fetch.build();

@@ -11,6 +11,7 @@ public class ElementTwo {
     private Map<String, ICommand> commandMap;
     private Map<String, ElementTwo> elementMap;
     private int size;
+    private ElementTwo objetiveElement;
     private int capacity;
 
 
@@ -21,6 +22,7 @@ public class ElementTwo {
         this.state = false;
         this.capacity = 999;
         this.size = 1;
+        this.objetiveElement = null;
     }
 
     public String doCommand(String commandName) {
@@ -94,6 +96,14 @@ public class ElementTwo {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public ElementTwo getObjetiveElement() {
+        return objetiveElement;
+    }
+
+    public void setObjetiveElement(ElementTwo objetiveElement) {
+        this.objetiveElement = objetiveElement;
     }
 
     public HashMap<String, ElementTwo> getVisibleElements() {
