@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.connection.server;
+package ar.fiuba.tdd.tp.server;
 
 import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;
@@ -7,6 +7,8 @@ import ar.fiuba.tdd.tp.exceptions.ExitException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ar.fiuba.tdd.tp.server.BuilderLoader.*;
 
 public class Server {
 
@@ -25,22 +27,29 @@ public class Server {
     }
 
     public String setUp() throws ExitException {
-        writer.write("Write the command 'load game' to begin");
+        writer.write("Write the command 'load game <path-to-jar-file>' to begin");
         String command = CommandReader.readCommand("load game ");
         return command.replaceAll("^load game ", "");
     }
 
-    public void initializeGame(String game) {
-        //if (Engine.canCreate(game)) { //método static
-        portOffset++;
-        GameSocket runnable = new GameSocket(port + portOffset, game);
-        Thread thread = new Thread(runnable);
-        thread.start();
-        sockets.add(runnable);
-        threads.add(thread);
-        //} else {
-        //    writer.writeError("I can't load that game");
-        //}
+    public void initializeGame(String gameFilePath) {
+        if (this.canCreate(gameFilePath)) {
+            portOffset++;
+            GameSocket runnable = new GameSocket(port + portOffset, gameFilePath);
+            Thread thread = new Thread(runnable);
+            thread.start();
+            sockets.add(runnable);
+            threads.add(thread);
+        }
+    }
+
+    private boolean canCreate(String gameFilePath) {
+        try {
+            return load(gameFilePath) != null;
+        } catch (Exception e) {
+            writer.writeError("Sorry but i can't load that file! :(");
+            return false;
+        }
     }
 
     public void terminate() {

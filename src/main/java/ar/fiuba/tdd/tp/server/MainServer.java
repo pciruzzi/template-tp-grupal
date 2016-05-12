@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.connection.server;
+package ar.fiuba.tdd.tp.server;
 
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
@@ -12,8 +12,8 @@ public class MainServer {
         Writer writer = new Console();
         try {
             while (true) {
-                String game = server.setUp();
-                server.initializeGame(game);
+                String gameFilePath = server.setUp();
+                server.initializeGame(gameFilePath);
             }
         } catch (ExitException e) {
             server.terminate();

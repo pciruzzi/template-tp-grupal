@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.connection.client;
+package ar.fiuba.tdd.tp.client;
 
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;

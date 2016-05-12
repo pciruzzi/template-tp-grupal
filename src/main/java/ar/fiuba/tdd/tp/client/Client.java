@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.connection.client;
+package ar.fiuba.tdd.tp.client;
 
 import ar.fiuba.tdd.tp.CommandReader;
 import ar.fiuba.tdd.tp.Console;
@@ -46,7 +46,7 @@ public class Client {
     public void playGame() {
         String command = "";
         try {
-            this.readFromSocket(); //Leo mensaje de bienvenida del juego
+//            this.readFromSocket(); //Leo mensaje de bienvenida del juego
             while (! command.equals("exit") && ! gameWon) {
                 command = this.readFromInput();
                 this.writeToSocket(command);

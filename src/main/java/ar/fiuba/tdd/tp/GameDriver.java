@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.driver;
+package ar.fiuba.tdd.tp;
 
 public interface GameDriver {
     void initGame(String jarPath);

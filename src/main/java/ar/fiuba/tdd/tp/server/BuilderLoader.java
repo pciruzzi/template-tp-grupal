@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-// TODO: this class should be part of the server
 public class BuilderLoader {
 
     private static String escape(String name) {
