@@ -32,12 +32,12 @@ public class Server {
 
     public void initializeGame(String game) {
         //if (Engine.canCreate(game)) { //método static
-            portOffset++;
-            GameSocket runnable = new GameSocket(port + portOffset, game);
-            Thread thread = new Thread(runnable);
-            thread.start();
-            sockets.add(runnable);
-            threads.add(thread);
+        portOffset++;
+        GameSocket runnable = new GameSocket(port + portOffset, game);
+        Thread thread = new Thread(runnable);
+        thread.start();
+        sockets.add(runnable);
+        threads.add(thread);
         //} else {
         //    writer.writeError("I can't load that game");
         //}

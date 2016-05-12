@@ -1,8 +1,8 @@
 package ar.fiuba.tdd.tp.connection.server;
 
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
-import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 import ar.fiuba.tdd.tp.model.FetchConfiguration;
 
 import java.net.Socket;
