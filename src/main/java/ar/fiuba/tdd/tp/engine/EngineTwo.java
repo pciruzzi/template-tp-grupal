@@ -27,7 +27,8 @@ public class EngineTwo {
         ElementTwo firstElement = commandParser.getFirstElement(action,elementsList);
 
         if ( firstElement == null ) {
-            return "Invalid element";
+            return game.play(action);
+//            return "Invalid element";
         }
         String firstElementName = firstElement.getName();
         String command = commandParser.getCommand(action, firstElementName);

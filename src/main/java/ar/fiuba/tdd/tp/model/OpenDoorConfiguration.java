@@ -23,9 +23,11 @@ public class OpenDoorConfiguration implements GameBuilder {
         roomOne = new ElementTwo("roomOne");
         roomTwo = new ElementTwo("roomTwo");
         doorOneTwo = new ElementTwo("door");
+        doorOneTwo.setState(true);
         doorTwoOne = new ElementTwo("door");
         player = new ElementTwo("player");
         key = new ElementTwo("key");
+        key.setState(true);
     }
 
     public Game build() {
