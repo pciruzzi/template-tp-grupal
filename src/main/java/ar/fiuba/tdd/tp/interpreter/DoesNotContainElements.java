@@ -1,16 +1,12 @@
 package ar.fiuba.tdd.tp.interpreter;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by gg on 5/9/2016.
- */
 public class DoesNotContainElements extends TerminalExpression {
 
-    public DoesNotContainElements(ElementTwo element, ArrayList<String> elementsNames) {
+    public DoesNotContainElements(Element element, ArrayList<String> elementsNames) {
         super(element, elementsNames);
     }
 

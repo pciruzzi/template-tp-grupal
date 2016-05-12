@@ -3,6 +3,8 @@ package ar.fiuba.tdd.tp.connection.server;
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.model.FetchConfiguration;
+import ar.fiuba.tdd.tp.model.GameBuilder;
 
 import java.io.IOException;
 import java.net.*;
@@ -35,8 +37,8 @@ public class GameSocket implements Runnable {
                 writer.write("Waiting for connections in port " + port);
                 Socket connection = socket.accept();
                 writer.write("Connection received in port " + port);
-                Engine engine = new Engine(game);
-                Interactor runnable = new Interactor(connection, game, engine);
+                Engine engine = new Engine();
+                Interactor runnable = new Interactor(connection, this.game, engine);
                 Thread thread = new Thread(runnable);
                 thread.start();
                 interactors.add(runnable);

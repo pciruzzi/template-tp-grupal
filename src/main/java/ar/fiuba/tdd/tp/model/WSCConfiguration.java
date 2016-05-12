@@ -1,17 +1,5 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.ElementTwo;
-import ar.fiuba.tdd.tp.icommand.DropOnPosition;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
-import ar.fiuba.tdd.tp.interpreter.ContainsElements;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-import ar.fiuba.tdd.tp.interpreter.OrExpression;
-
-import java.util.ArrayList;
-
 
 public class WSCConfiguration implements GameBuilder{
 
@@ -21,18 +9,18 @@ public class WSCConfiguration implements GameBuilder{
         Game game = new Game("WSC");
 //
 //
-//        ElementTwo wolf = new ElementTwo("wolf",true);
-//        ElementTwo sheep = new ElementTwo("sheep",true);
-//        ElementTwo cabbage = new ElementTwo("cabbage",true);
+//        Element wolf = new Element("wolf",true);
+//        Element sheep = new Element("sheep",true);
+//        Element cabbage = new Element("cabbage",true);
 //
-//        ElementTwo northShore = new ElementTwo("north-shore", true);
-//        ElementTwo southShore = new ElementTwo("south-shore", true);
+//        Element northShore = new Element("north-shore", true);
+//        Element southShore = new Element("south-shore", true);
 //
 //        southShore.addElement(wolf);
 //        southShore.addElement(sheep);
 //        southShore.addElement(cabbage);
 //
-//        ElementTwo farmer = new ElementTwo("farmer", true);
+//        Element farmer = new Element("farmer", true);
 //
 //        ArrayList<String> wolfConditionElements = new ArrayList<>();
 //        wolfConditionElements.add("sheep");

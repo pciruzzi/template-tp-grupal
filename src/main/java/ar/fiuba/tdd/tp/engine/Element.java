@@ -1,132 +1,125 @@
 package ar.fiuba.tdd.tp.engine;
 
+import ar.fiuba.tdd.tp.icommand.ICommand;
+
 import java.util.*;
 
 public class Element {
 
+    private boolean state;
     private String name;
+    private Map<String, ICommand> commandMap;
+    private Map<String, Element> elementMap;
+    private int size;
+    private Element objetiveElement;
+    private int capacity;
 
-    private String state;
 
-    private int intProperty;
-    private String stringProperty;
-    private Map<String,String> actionStateMap;
-
-    public Element(String name, String state) {
+    public Element(String name) {
+        commandMap = new HashMap<String, ICommand>();
+        elementMap = new HashMap<String, Element>();
         this.name = name;
+        this.state = false;
+        this.capacity = 999;
+        this.size = 1;
+        this.objetiveElement = null;
+    }
+
+    public String doCommand(String commandName) {
+        if (commandMap.containsKey(commandName)) {
+            ICommand command = commandMap.get(commandName);
+            return command.doAction(this);
+        } else {
+            return "I can't do that.";
+        }
+    }
+
+    public void addCommand(ICommand command) {
+        commandMap.put(command.getName(), command);
+    }
+
+    public void setState(boolean state) {
         this.state = state;
-        this.actionStateMap = new HashMap<String, String>();
-        this.intProperty = -1;
-        this.stringProperty = "";
     }
 
-    public Element(String name, String state, int intProperty) {
-        this(name, state);
-        this.intProperty = intProperty;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Element(String name, String state, String stringProperty) {
-        this(name, state);
-        this.stringProperty = stringProperty;
+    public Map<String, ICommand> getCommandMap() {
+        return commandMap;
     }
 
-    public Element(String name, String state, int intProperty, String stringProperty) {
-        this(name, state);
-        this.intProperty = intProperty;
-        this.stringProperty = stringProperty;
+    public boolean addElement(Element element) {
+        if (this.capacity - element.getSize() >= 0) {
+            elementMap.put(element.getName(),element);
+            this.capacity = this.capacity - element.getSize();
+            return true;
+        }
+        return false;
     }
 
-    public Element copy() {
-        String state = this.getState();
-        Element copy = new Element(this.getName(),state,this.getIntProperty(),this.getStringProperty());
-        copy.setActionStateMap(this.getActionStateMap());
-        return copy;
+    public void removeElement(Element element) {
+
+        elementMap.remove(element.getName());
+        this.capacity = this.capacity + element.getSize();
     }
 
-    public Map<String,String> getActionStateMap() {
-        return actionStateMap;
+    public List<Element> getElementList() {
+        return new ArrayList<Element>(elementMap.values());
     }
 
-    public void setActionStateMap(Map<String,String> actionStateMap) {
-        this.actionStateMap = actionStateMap;
+    public List<ICommand> getCommandList() {
+        return new ArrayList<ICommand>(commandMap.values());
     }
 
-    public int getIntProperty() {
-        return intProperty;
-    }
-
-    public void setIntProperty(int intProperty) {
-        this.intProperty = intProperty;
-    }
-
-    public void setStringProperty(String stringProperty) {
-        this.stringProperty = stringProperty;
-    }
-
-    public String getStringProperty() {
-        return stringProperty;
+    public boolean getState() {
+        return state;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getState() {
-        return state;
+    public boolean hasElement(String element) {
+        return this.elementMap.containsKey(element);
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public Element getElement(String element) {
+        return this.elementMap.get(element);
     }
 
-    public void addActionState(String action, String state) {
-        if ( actionStateMap.containsKey(action) ) {
-            System.out.println("You are inserting a duplicated action in the element. Element action: " + action);
-        } else {
-            actionStateMap.put(action, state);
-        }
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
-    public String changeState(String action) {
-        if ( actionStateMap.containsKey(action) ) {
-            state = actionStateMap.get(action);
-            if (getName().equals("thief")) {
-                return "The thief has just stolen your object!";
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public Element getObjetiveElement() {
+        return objetiveElement;
+    }
+
+    public void setObjetiveElement(Element objetiveElement) {
+        this.objetiveElement = objetiveElement;
+    }
+
+    public Map<String, Element> getVisibleElements() {
+        Map<String, Element> visibleElements = new HashMap<String, Element>();
+        for (Element element: getElementList()) {
+            if (element.getState()) {
+                visibleElements.put(element.getName(),element);
             }
-            return "Ok.";
-        } else {
-            if (! stringProperty.equals("")) {
-                return stringProperty;
-            }
-            return "Hey! I'm a " + this.getName() + ", I can't do that!";
         }
+        return visibleElements;
     }
 
-    public String getPossibleActions() {
-
-        StringBuilder possibleActions = new StringBuilder();
-        possibleActions.append("You can ");
-
-        int counter = 0;
-        int actionsSize = actionStateMap.size();
-        for (Map.Entry<String, String> entry : actionStateMap.entrySet()) {
-            possibleActions.append(entry.getKey());
-            if ( counter != actionsSize - 1) {
-                possibleActions.append( "/");
-            }
-            counter++;
-        }
-
-        possibleActions.append(" the ").append(name).append(".");
-
-        return possibleActions.toString();
+    public int getSize() {
+        return size;
     }
 
-    public List<String> getActionsList() {
-        List<String> actionsList = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : actionStateMap.entrySet()) {
-            actionsList.add(entry.getValue());
-        }
-        return actionsList;
+    public void setSize(int size) {
+        this.size = size;
     }
 }

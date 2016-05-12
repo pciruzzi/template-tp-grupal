@@ -1,16 +1,17 @@
 package ar.fiuba.tdd.tp.model;
 
-//import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.*;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+
 public class Game {
 
-    private ElementTwo player;
-    private ElementTwo playerPosition;
-    private Map<String,ElementTwo> visibleElements;
+    private Element player;
+    private Element playerPosition;
+    private Map<String,Element> visibleElements;
     private IInterpreter winInterpreter;
     private String name;
     private String description;
@@ -44,14 +45,14 @@ public class Game {
         String returnMessage;
         this.calculateVisibleElements();
         if (visibleElements.containsKey(element)) {
-            ElementTwo actualElement = visibleElements.get(element);
+            Element actualElement = visibleElements.get(element);
             returnMessage = actualElement.doCommand(cmd);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
         if (this.hasWon()) {
             gameWon = true;
-            return "You won!!!";
+            return GAME_WON;
         }
         return returnMessage;
     }
@@ -60,42 +61,41 @@ public class Game {
         return winInterpreter.interpret();
     }
 
-
     public void setWinInterpreter(IInterpreter winInterpreter) {
         this.winInterpreter = winInterpreter;
     }
 
-    public ElementTwo getPlayerPosition() {
+    public Element getPlayerPosition() {
         return playerPosition;
     }
 
-    public void setPlayerPosition(ElementTwo playerPosition) {
+    public void setPlayerPosition(Element playerPosition) {
         this.playerPosition = playerPosition;
     }
 
-    public ElementTwo getPlayer() {
+    public Element getPlayer() {
         return player;
     }
 
-    public void setPlayer(ElementTwo player) {
+    public void setPlayer(Element player) {
         this.player = player;
     }
 
     private void calculateVisibleElements() {
-        Map<String, ElementTwo> elements;
+        Map<String, Element> elements;
         elements = playerPosition.getVisibleElements();
         elements.putAll(player.getVisibleElements());
         visibleElements = elements;
     }
 
-    public Map<String,ElementTwo> getCurrentPositionElements() {
+    public Map<String,Element> getCurrentPositionElements() {
         this.calculateVisibleElements();
         return visibleElements;
     }
 
-    public List<ElementTwo> getVisibleElementList() {
+    public List<Element> getVisibleElementList() {
         this.calculateVisibleElements();
-        List<ElementTwo> returnList = new ArrayList<ElementTwo>(visibleElements.values());
+        List<Element> returnList = new ArrayList<Element>(visibleElements.values());
         return returnList;
     }
 }

@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -21,7 +21,7 @@ public class MovePlayerTo extends ICommand {
         this.condition = condition;
     }
 
-    public String doAction(ElementTwo element) {
+    public String doAction(Element element) {
         if (condition.interpret()) {
             game.getPlayerPosition().removeElement(game.getPlayer());
             element.getObjetiveElement().addElement(game.getPlayer());
@@ -29,7 +29,5 @@ public class MovePlayerTo extends ICommand {
             return "You have crossed";
         }
         return "Error";
-
     }
-
 }

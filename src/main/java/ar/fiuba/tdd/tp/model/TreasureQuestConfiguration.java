@@ -1,11 +1,5 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
-import ar.fiuba.tdd.tp.interpreter.ContainsElements;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-
-import java.util.ArrayList;
-
 public class TreasureQuestConfiguration implements GameBuilder {
 
     public Game build() {
@@ -13,9 +7,9 @@ public class TreasureQuestConfiguration implements GameBuilder {
         Game game = new Game("Treasure Quest");
 
 //        // Creo los elementos
-//        ElementTwo key = new ElementTwo("key", true);
-//        ElementTwo door = new ElementTwo("door", true);
-//        ElementTwo roomOne = new ElementTwo("roomOne", true);
+//        Element key = new Element("key", true);
+//        Element door = new Element("door", true);
+//        Element roomOne = new Element("roomOne", true);
 //
 //
 //        // Combino los elementos

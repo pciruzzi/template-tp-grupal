@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
@@ -8,15 +8,14 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import java.util.ArrayList;
 
 
-
 public class FetchConfiguration implements GameBuilder {
 
     public Game build() {
         Game game = new Game("Fetch Quest");
 
-        ElementTwo room = new ElementTwo("room");
-        ElementTwo stick = new ElementTwo("stick");
-        ElementTwo player = new ElementTwo("player");
+        Element room = new Element("room");
+        Element stick = new Element("stick");
+        Element player = new Element("player");
 
         stick.setState(true);
 
@@ -41,6 +40,5 @@ public class FetchConfiguration implements GameBuilder {
         game.setWinInterpreter(winInterpreter);
 
         return game;
-
     }
 }

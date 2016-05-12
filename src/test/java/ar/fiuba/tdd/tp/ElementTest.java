@@ -1,37 +1,32 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.ElementTwo;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by gg on 5/12/2016.
- */
-public class ElementTwoTest {
+public class ElementTest {
 
     @Test
     public void testElementTwoSizeSet() {
-        ElementTwo element = new ElementTwo("chest");
+        Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
-
     }
 
     @Test
     public void testElementTwoSizeDecreasesWhen() {
-        ElementTwo element = new ElementTwo("chest");
+        Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
-        ElementTwo stick = new ElementTwo("stick");
+        Element stick = new Element("stick");
         element.addElement(stick);
         assertEquals(998, element.getCapacity());
     }
 
     @Test
     public void testElementTwoBigStickDecreases() {
-        ElementTwo element = new ElementTwo("chest");
+        Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
-        ElementTwo stick = new ElementTwo("big stick");
+        Element stick = new Element("big stick");
         stick.setSize(3);
         element.addElement(stick);
         assertEquals(996, element.getCapacity());
@@ -39,9 +34,9 @@ public class ElementTwoTest {
 
     @Test
     public void testElementTwoRemoveElementFromElementResetSize() {
-        ElementTwo element = new ElementTwo("chest");
+        Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
-        ElementTwo stick = new ElementTwo("big stick");
+        Element stick = new Element("big stick");
         stick.setSize(3);
         element.addElement(stick);
         assertEquals(996, element.getCapacity());
@@ -51,10 +46,10 @@ public class ElementTwoTest {
 
     @Test
     public void testPlayerCanPickOneStickWithCapacity1() {
-        ElementTwo player = new ElementTwo("player");
+        Element player = new Element("player");
         player.setCapacity(1);
 
-        ElementTwo stick = new ElementTwo("stick");
+        Element stick = new Element("stick");
         player.addElement(stick);
         assertEquals(true,player.hasElement("stick"));
         assertEquals(0,player.getCapacity());
@@ -62,14 +57,14 @@ public class ElementTwoTest {
 
     @Test
     public void testPlayerCantPickTwoSticks() {
-        ElementTwo player = new ElementTwo("player");
+        Element player = new Element("player");
         player.setCapacity(1);
 
-        ElementTwo stick = new ElementTwo("stick");
+        Element stick = new Element("stick");
         player.addElement(stick);
         assertEquals(true,player.hasElement("stick"));
 
-        ElementTwo broom = new ElementTwo("broom");
+        Element broom = new Element("broom");
         player.addElement(broom);
 
         assertEquals(false, player.addElement(broom));
@@ -77,11 +72,11 @@ public class ElementTwoTest {
 
     @Test
     public void testPlayerCanPickVenomSize0() {
-        ElementTwo player = new ElementTwo("player");
+        Element player = new Element("player");
         player.setCapacity(1);
 
-        ElementTwo stick = new ElementTwo("stick");
-        ElementTwo venom = new ElementTwo("venom");
+        Element stick = new Element("stick");
+        Element venom = new Element("venom");
         venom.setSize(0);
         player.addElement(stick);
         assertEquals(true,player.hasElement("stick"));

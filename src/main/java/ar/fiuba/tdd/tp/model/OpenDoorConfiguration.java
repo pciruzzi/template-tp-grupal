@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
@@ -10,23 +10,23 @@ import java.util.ArrayList;
 public class OpenDoorConfiguration implements GameBuilder {
 
     private Game game;
-    private ElementTwo roomOne;
-    private ElementTwo roomTwo;
-    private ElementTwo doorOneTwo;
-    private ElementTwo doorTwoOne;
-    private ElementTwo player;
+    private Element roomOne;
+    private Element roomTwo;
+    private Element doorOneTwo;
+    private Element doorTwoOne;
+    private Element player;
     private IInterpreter winCondition;
-    private ElementTwo key;
+    private Element key;
 
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door");
-        roomOne = new ElementTwo("roomOne");
-        roomTwo = new ElementTwo("roomTwo");
-        doorOneTwo = new ElementTwo("door");
+        roomOne = new Element("roomOne");
+        roomTwo = new Element("roomTwo");
+        doorOneTwo = new Element("door");
         doorOneTwo.setState(true);
-        doorTwoOne = new ElementTwo("door");
-        player = new ElementTwo("player");
-        key = new ElementTwo("key");
+        doorTwoOne = new Element("door");
+        player = new Element("player");
+        key = new Element("key");
         key.setState(true);
     }
 
@@ -41,7 +41,7 @@ public class OpenDoorConfiguration implements GameBuilder {
 
         configureKey(game);
 
-        ArrayList<String> doorRequirements = new ArrayList<>();
+        ArrayList<String> doorRequirements = new ArrayList<String>();
         doorRequirements.add("key");
 
         setDoorOneTwoRequirements(game, doorRequirements);
@@ -71,7 +71,7 @@ public class OpenDoorConfiguration implements GameBuilder {
     }
 
     private void setWinCondition() {
-        ArrayList<String> winConditionsArray = new ArrayList<>();
+        ArrayList<String> winConditionsArray = new ArrayList<String>();
         winConditionsArray.add("player");
         winCondition = new ContainsElements(roomTwo, winConditionsArray);
     }

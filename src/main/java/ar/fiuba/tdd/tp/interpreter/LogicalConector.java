@@ -1,8 +1,5 @@
 package ar.fiuba.tdd.tp.interpreter;
 
-/**
- * Created by gg on 5/9/2016.
- */
 public abstract class LogicalConector implements IInterpreter {
 
     protected IInterpreter expressionOne;

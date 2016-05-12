@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
@@ -20,16 +20,15 @@ public class MoveToPlayer extends ICommand {
         this.condition = new TrueExpression();
     }
 
-    public String doAction(ElementTwo element) {
+    public String doAction(Element element) {
         if (this.condition.interpret()) {
-            ElementTwo playerPosition = game.getPlayerPosition();
-            ElementTwo player = game.getPlayer();
+            Element playerPosition = game.getPlayerPosition();
+            Element player = game.getPlayer();
             playerPosition.removeElement(element);
             player.addElement(element);
             return "Ok.";
         } else {
             return "You can't do that.";
         }
-
     }
 }

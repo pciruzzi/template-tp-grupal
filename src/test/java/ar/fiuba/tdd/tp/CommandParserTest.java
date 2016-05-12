@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import org.junit.Test;
 
 import java.util.List;
@@ -21,19 +21,19 @@ public class CommandParserTest {
         return commandParser;
     }
 
-    private ElementTwo initializeContainingElement() {
-        ElementTwo element = new ElementTwo("room");
+    private Element initializeContainingElement() {
+        Element element = new Element("room");
         return element;
     }
 
     @Test
     public void getFirstElementTest() {
         CommandParser commandParser = this.initializeCommandParser();
-        ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick));
-        containingElement.addElement(new ElementTwo(chest));
-        List<ElementTwo> elementList = containingElement.getElementList();
-        ElementTwo firstElement = commandParser.getFirstElement(pickStick, elementList);
+        Element containingElement = this.initializeContainingElement();
+        containingElement.addElement(new Element(stick));
+        containingElement.addElement(new Element(chest));
+        List<Element> elementList = containingElement.getElementList();
+        Element firstElement = commandParser.getFirstElement(pickStick, elementList);
         System.out.println(pickStick);
         String firstElementName = firstElement.getName();
         assertNotEquals(firstElement,null);
@@ -43,13 +43,13 @@ public class CommandParserTest {
     @Test
     public void getSecondElementTest() {
         CommandParser commandParser = this.initializeCommandParser();
-        ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick));
-        containingElement.addElement(new ElementTwo(chest));
-        List<ElementTwo> elementList = containingElement.getElementList();
+        Element containingElement = this.initializeContainingElement();
+        containingElement.addElement(new Element(stick));
+        containingElement.addElement(new Element(chest));
+        List<Element> elementList = containingElement.getElementList();
         String firstElementName = commandParser.getFirstElement(pickStickChest, elementList).getName();
         assertEquals( firstElementName, stick);
-        ElementTwo secondElement = commandParser.getSecondElement(pickStickChest, firstElementName, elementList);
+        Element secondElement = commandParser.getSecondElement(pickStickChest, firstElementName, elementList);
         String secondElementName = secondElement.getName();
         assertEquals( secondElementName, chest);
     }
@@ -57,15 +57,15 @@ public class CommandParserTest {
     @Test
     public void getCommandTest() {
         CommandParser commandParser = this.initializeCommandParser();
-        ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick));
-        containingElement.addElement(new ElementTwo(chest));
-        List<ElementTwo> elementList = containingElement.getElementList();
-        ElementTwo firstElement = commandParser.getFirstElement(pickStickChest, elementList);
+        Element containingElement = this.initializeContainingElement();
+        containingElement.addElement(new Element(stick));
+        containingElement.addElement(new Element(chest));
+        List<Element> elementList = containingElement.getElementList();
+        Element firstElement = commandParser.getFirstElement(pickStickChest, elementList);
         assertNotEquals(firstElement,null);
         String firstElementName = firstElement.getName();
         assertEquals(stick,firstElementName);
-        ElementTwo seconElement = commandParser.getSecondElement(pickStickChest, firstElementName, elementList);
+        Element seconElement = commandParser.getSecondElement(pickStickChest, firstElementName, elementList);
         String secondElementName = seconElement.getName();
         assertEquals( secondElementName, chest);
         String command = commandParser.getCommand(pickStickChest, firstElementName);

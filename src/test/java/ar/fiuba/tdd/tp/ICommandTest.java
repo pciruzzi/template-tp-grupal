@@ -1,7 +1,7 @@
 package ar.fiuba.tdd.tp;
 
 /*import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.games.FetchQuest;
 import ar.fiuba.tdd.tp.games.Game;
 
@@ -16,8 +16,8 @@ public class ICommandTest {
     @Test
     public void testOpen() {
         Game game = new FetchQuest();
-        ElementTwo elementTwo;
-        elementTwo = new ElementTwo("chest", false);
+        Element elementTwo;
+        elementTwo = new Element("chest", false);
         elementTwo.addCommand(new Open());
 
         elementTwo.doCommand("open");
@@ -27,7 +27,7 @@ public class ICommandTest {
 
     @Test
     public void testClose() {
-        ElementTwo elementTwo = new ElementTwo("chest", true);
+        Element elementTwo = new Element("chest", true);
         elementTwo.addCommand(new Close());
 
         elementTwo.doCommand("close");

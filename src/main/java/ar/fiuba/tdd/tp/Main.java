@@ -1,14 +1,13 @@
 package ar.fiuba.tdd.tp;
 
-import ar.fiuba.tdd.tp.engine.EngineTwo;
-import ar.fiuba.tdd.tp.model.FetchConfiguration;
+import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        EngineTwo engine = new EngineTwo();
+        Engine engine = new Engine();
         GameBuilder fetchConfiguration = new OpenDoorConfiguration();
         engine.createGame(fetchConfiguration);
 

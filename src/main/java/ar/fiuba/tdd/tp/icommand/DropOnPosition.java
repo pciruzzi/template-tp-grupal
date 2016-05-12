@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.ElementTwo;
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.model.Game;
 
 public class DropOnPosition extends ICommand {
@@ -12,9 +12,9 @@ public class DropOnPosition extends ICommand {
         this.name = name;
     }
 
-    public String doAction(ElementTwo element) {
-        ElementTwo player = game.getPlayer();
-        ElementTwo position = game.getPlayerPosition();
+    public String doAction(Element element) {
+        Element player = game.getPlayer();
+        Element position = game.getPlayerPosition();
         player.removeElement(element);
         position.addElement(element);
         return "Ok.";
