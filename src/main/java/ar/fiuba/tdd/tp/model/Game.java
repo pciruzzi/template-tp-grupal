@@ -57,6 +57,23 @@ public class Game {
         return returnMessage;
     }
 
+    public String play(String cmd, String element, String destinationElement) {
+        String returnMessage;
+        this.calculateVisibleElements();
+        if (visibleElements.containsKey(element)) {
+            Element actualElement = visibleElements.get(element);
+            Element destElement = visibleElements.get(destinationElement);
+            returnMessage = actualElement.doCommand(cmd, playerPosition, destElement);
+        } else {
+            returnMessage = "It doesn't exist a " + element + " in the game " + getName();
+        }
+        if (this.hasWon()) {
+            gameWon = true;
+            return "You won!!!";
+        }
+        return returnMessage;
+    }
+
     private boolean hasWon() {
         return winInterpreter.interpret();
     }
