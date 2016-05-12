@@ -1,15 +1,14 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.model.FetchConfiguration;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
-import ar.fiuba.tdd.tp.model.TestMove;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TestMove();
+        GameBuilder fetchConfiguration = new FetchConfiguration();
         engine.createGame(fetchConfiguration);
 
 //        Game fetchQuest = fetch.build();
