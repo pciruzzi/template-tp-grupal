@@ -31,6 +31,6 @@ public class MovePlayerTo extends ICommand {
             game.setPlayerPosition(element.getObjectiveElement());
             return "You have crossed";
         }
-        return "Error";
+        return "Ey! Where do you go?! The " + element.getName() + " is locked.";
     }
 }
