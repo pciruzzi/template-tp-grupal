@@ -7,19 +7,20 @@ import java.util.*;
 public class ElementTwo {
 
     private boolean state;
-
     private String name;
     private Map<String, ICommand> commandMap;
     private Map<String, ElementTwo> elementMap;
-
+    private int size;
     private int capacity;
 
-    public ElementTwo(String name, boolean state) {
+
+    public ElementTwo(String name) {
         commandMap = new HashMap<String, ICommand>();
         elementMap = new HashMap<String, ElementTwo>();
         this.name = name;
-        this.state = state;
+        this.state = false;
         this.capacity = 999;
+        this.size = 1;
     }
 
     public String doCommand(String commandName) {
@@ -47,13 +48,20 @@ public class ElementTwo {
         return commandMap;
     }
 
-    public void addElement(ElementTwo element) {
+    public boolean addElement(ElementTwo element) {
+        if (this.capacity - element.getSize() >= 0) {
+            elementMap.put(element.getName(),element);
+            this.capacity = this.capacity - element.getSize();
+            return true;
+        }
+        return false;
 
-        elementMap.put(element.getName(),element);
     }
 
     public void removeElement(ElementTwo element) {
+
         elementMap.remove(element.getName());
+        this.capacity = this.capacity + element.getSize();
     }
 
     public List<ElementTwo> getElementList() {
@@ -97,5 +105,13 @@ public class ElementTwo {
             }
         }
         return visibleElements;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

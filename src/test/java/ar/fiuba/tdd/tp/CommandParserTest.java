@@ -22,7 +22,7 @@ public class CommandParserTest {
     }
 
     private ElementTwo initializeContainingElement() {
-        ElementTwo element = new ElementTwo("room", true);
+        ElementTwo element = new ElementTwo("room");
         return element;
     }
 
@@ -30,8 +30,8 @@ public class CommandParserTest {
     public void getFirstElementTest() {
         CommandParser commandParser = this.initializeCommandParser();
         ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick, true));
-        containingElement.addElement(new ElementTwo(chest, true));
+        containingElement.addElement(new ElementTwo(stick));
+        containingElement.addElement(new ElementTwo(chest));
         List<ElementTwo> elementList = containingElement.getElementList();
         ElementTwo firstElement = commandParser.getFirstElement(pickStick, elementList);
         System.out.println(pickStick);
@@ -44,8 +44,8 @@ public class CommandParserTest {
     public void getSecondElementTest() {
         CommandParser commandParser = this.initializeCommandParser();
         ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick, true));
-        containingElement.addElement(new ElementTwo(chest, true));
+        containingElement.addElement(new ElementTwo(stick));
+        containingElement.addElement(new ElementTwo(chest));
         List<ElementTwo> elementList = containingElement.getElementList();
         String firstElementName = commandParser.getFirstElement(pickStickChest, elementList).getName();
         assertEquals( firstElementName, stick);
@@ -58,8 +58,8 @@ public class CommandParserTest {
     public void getCommandTest() {
         CommandParser commandParser = this.initializeCommandParser();
         ElementTwo containingElement = this.initializeContainingElement();
-        containingElement.addElement(new ElementTwo(stick, true));
-        containingElement.addElement(new ElementTwo(chest, true));
+        containingElement.addElement(new ElementTwo(stick));
+        containingElement.addElement(new ElementTwo(chest));
         List<ElementTwo> elementList = containingElement.getElementList();
         ElementTwo firstElement = commandParser.getFirstElement(pickStickChest, elementList);
         assertNotEquals(firstElement,null);

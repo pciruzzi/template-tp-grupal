@@ -16,8 +16,8 @@ public class IInterpreterTest {
 
     @Test
     public void testInterpreterReturnsTrueWhenConteinsOneElement() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick =  new ElementTwo("stick");
         room.addElement(stick);
 
         ArrayList<String> stringList = new ArrayList<String>();
@@ -30,7 +30,7 @@ public class IInterpreterTest {
 
     @Test
     public void testInterpreterReturnsFalseWhenRoomDoesntContainStick() {
-        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo room = new ElementTwo("room");
 
         ArrayList<String> stringList = new ArrayList<String>();
         stringList.add("stick");
@@ -42,10 +42,10 @@ public class IInterpreterTest {
 
     @Test
     public void testInterpreterReturnsFalseWhenConteinsStickAndBroomButDoesNotContainWindow() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
-        ElementTwo broom =  new ElementTwo("broom", true);
-        ElementTwo window =  new ElementTwo("window", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick =  new ElementTwo("stick");
+        ElementTwo broom =  new ElementTwo("broom");
+        ElementTwo window =  new ElementTwo("window");
 
         room.addElement(stick);
         room.addElement(broom);
@@ -62,9 +62,9 @@ public class IInterpreterTest {
 
     @Test
     public void testOrInterpreterReturnsTrueWhenConteinsOneElementInRoomOneOrTwo() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo room2 = new ElementTwo("room2", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo room2 = new ElementTwo("room2");
+        ElementTwo stick =  new ElementTwo("stick");
         room.addElement(stick);
 
         ArrayList<String> stringList = new ArrayList<String>();
@@ -79,10 +79,10 @@ public class IInterpreterTest {
 
     @Test
     public void testOrInterpreterReturnsFalseWhenRoom1HasBroomAndRoom2HasStick() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo room2 = new ElementTwo("room2", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
-        ElementTwo broom = new ElementTwo("broom", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo room2 = new ElementTwo("room2");
+        ElementTwo stick =  new ElementTwo("stick");
+        ElementTwo broom = new ElementTwo("broom");
 
         room.addElement(broom);
         room2.addElement(stick);
@@ -101,9 +101,9 @@ public class IInterpreterTest {
 
     @Test
     public void testAndInterpretorReturnsTrueWhenRoomOneAndTwoHasStick() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo room2 = new ElementTwo("room2", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo room2 = new ElementTwo("room2");
+        ElementTwo stick =  new ElementTwo("stick");
 
         room.addElement(stick);
         room2.addElement(stick);
@@ -122,8 +122,8 @@ public class IInterpreterTest {
 
     @Test
     public void testAndInterpretorReturnsFalseWhenRoomOneHasStickButRoom2Doesnt() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick =  new ElementTwo("stick", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick =  new ElementTwo("stick");
 
         room.addElement(stick);
 
@@ -132,7 +132,7 @@ public class IInterpreterTest {
         ArrayList<String> stringListRoom2 = new ArrayList<String>();
         stringListRoom2.add("broom");
 
-        ElementTwo room2 = new ElementTwo("room2", true);
+        ElementTwo room2 = new ElementTwo("room2");
 
         TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
         TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
@@ -143,10 +143,10 @@ public class IInterpreterTest {
 
     @Test
     public void testMixedAndOrReturnTrueWhenChestHasBroomOrStickAndRoomHasWindow() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo chest = new ElementTwo("chest", true);
-        ElementTwo broom = new ElementTwo("broom", true);
-        ElementTwo window = new ElementTwo("window", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo chest = new ElementTwo("chest");
+        ElementTwo broom = new ElementTwo("broom");
+        ElementTwo window = new ElementTwo("window");
 
         chest.addElement(broom);
         room.addElement(window);
@@ -171,10 +171,10 @@ public class IInterpreterTest {
 
     @Test
     public void testTwoOrExpressionConectedWithAnAndExpressionReturnsTrueWhenOrTrue() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo chest = new ElementTwo("chest", true);
-        ElementTwo broom = new ElementTwo("broom", true);
-        ElementTwo window = new ElementTwo("window", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo chest = new ElementTwo("chest");
+        ElementTwo broom = new ElementTwo("broom");
+        ElementTwo window = new ElementTwo("window");
 
         chest.addElement(broom);
         room.addElement(window);
@@ -203,7 +203,7 @@ public class IInterpreterTest {
 
     @Test
     public void testNotExpressionReturnsTrueWhenEmptyRoom() {
-        ElementTwo room = new ElementTwo("room", true);
+        ElementTwo room = new ElementTwo("room");
         ArrayList<String> roomList = new ArrayList<>();
         roomList.add("stick");
 
@@ -213,9 +213,9 @@ public class IInterpreterTest {
 
     @Test
     public void testNotExpressionReturnsTrueWhenRoomHasStickAndDoorButDoesntHaveKey() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick = new ElementTwo("stick", true);
-        ElementTwo door = new ElementTwo("door", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick = new ElementTwo("stick");
+        ElementTwo door = new ElementTwo("door");
 
         room.addElement(stick);
         room.addElement(door);
@@ -229,8 +229,8 @@ public class IInterpreterTest {
 
     @Test
     public void testNotExpressionReturnsFalseWhenRoomHasStick() {
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick = new ElementTwo("stick", true);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick = new ElementTwo("stick");
 
         room.addElement(stick);
 

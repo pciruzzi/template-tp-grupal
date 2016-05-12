@@ -15,9 +15,9 @@ public class FetchConfiguration implements GameBuilder {
     public Game build() {
         Game game = new Game("Fetch Quest");
 
-        ElementTwo room = new ElementTwo("room", true);
-        ElementTwo stick = new ElementTwo("stick", true);
-        ElementTwo player = new ElementTwo("player", false);
+        ElementTwo room = new ElementTwo("room");
+        ElementTwo stick = new ElementTwo("stick");
+        ElementTwo player = new ElementTwo("player");
 
         game.setPlayer(player);
 
