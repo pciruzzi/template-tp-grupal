@@ -20,7 +20,6 @@ public class Game {
     public Game(String name) {
         this.name = name;
         this.gameWon = false;
-        this.description = "descripcion";
     }
 
     public String getName() {
@@ -35,7 +34,11 @@ public class Game {
         return this.description;
     }
 
-    public String play(String cmd) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public  String play(String cmd) {
         String returnMessage;
         returnMessage = playerPosition.doCommand(cmd);
         return returnMessage;
