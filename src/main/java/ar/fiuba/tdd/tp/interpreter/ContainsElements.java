@@ -13,26 +13,36 @@ public class ContainsElements extends TerminalExpression{
     }
 
     public boolean interpret() {
+        boolean encontrado = false;
+
         List<ElementTwo> elementList = this.element.getElementList();
         if (elementList.size() == 0) {
             return false;
         }
 
         for (String elementName : elementsListNames) {
-            boolean encontrado = false;
-            for (ElementTwo element : elementList) {
-                if(element.getName().equals(elementName)) {
-                   encontrado = true;
-                }
+            encontrado = isEncontrado(elementList, elementName);
+            if (!encontrado) {
+                return false;
             }
-            if (!encontrado) return false;
-        }
 
 //        for (ElementTwo element : elementList) {
 //            if (elementsListNames.contains(element.getName()) == false) {
 //                return false;
 //            }
 //        }
-        return true;
+            //todo capaz aca haya un error, antes habia un return true
+        }
+        return encontrado;
+    }
+
+    private boolean isEncontrado(List<ElementTwo> elementList, String elementName) {
+        boolean encontrado = false;
+        for (ElementTwo element : elementList) {
+            if (element.getName().equals(elementName)) {
+                encontrado = true;
+            }
+        }
+        return encontrado;
     }
 }

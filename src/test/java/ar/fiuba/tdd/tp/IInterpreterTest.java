@@ -41,7 +41,7 @@ public class IInterpreterTest {
     }
 
     @Test
-    public void testInterpreterReturnsFalseWhenConteinsStickAndBroomButDoesNotContainWindow() {
+    public void testInterpreterReturnsTrueWhenConteinsStickAndBroomButDoesNotContainWindow() {
         ElementTwo room = new ElementTwo("room");
         ElementTwo stick =  new ElementTwo("stick");
         ElementTwo broom =  new ElementTwo("broom");
@@ -57,7 +57,7 @@ public class IInterpreterTest {
 
         TerminalExpression terminal = new ContainsElements(room,stringList);
 
-        assertFalse(terminal.interpret());
+        assertTrue(terminal.interpret());
     }
 
     @Test
