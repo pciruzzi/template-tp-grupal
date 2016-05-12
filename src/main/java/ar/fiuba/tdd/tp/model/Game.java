@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
 //import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.ElementTwo;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -11,7 +10,7 @@ public class Game {
 
     private ElementTwo player;
     private ElementTwo playerPosition;
-    private HashMap<String,ElementTwo> visibleElements;
+    private Map<String,ElementTwo> visibleElements;
     private IInterpreter winInterpreter;
     private String name;
     private String description;
@@ -33,6 +32,12 @@ public class Game {
 
     public String getDescription() {
         return this.description;
+    }
+
+    public  String play(String cmd) {
+        String returnMessage;
+        returnMessage = playerPosition.doCommand(cmd);
+        return returnMessage;
     }
 
     public String play(String cmd, String element) {
@@ -77,7 +82,7 @@ public class Game {
     }
 
     private void calculateVisibleElements() {
-        HashMap<String, ElementTwo>  elements;
+        Map<String, ElementTwo> elements;
         elements = playerPosition.getVisibleElements();
         elements.putAll(player.getVisibleElements());
         visibleElements = elements;
@@ -88,4 +93,9 @@ public class Game {
         return visibleElements;
     }
 
+    public List<ElementTwo> getVisibleElementList() {
+        this.calculateVisibleElements();
+        List<ElementTwo> returnList = new ArrayList<ElementTwo>(visibleElements.values());
+        return returnList;
+    }
 }
