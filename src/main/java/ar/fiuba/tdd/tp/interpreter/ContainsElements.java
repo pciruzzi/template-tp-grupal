@@ -26,7 +26,7 @@ public class ContainsElements extends TerminalExpression{
                 return false;
             }
 
-//        for (ElementTwo element : elementList) {
+//        for (Element element : elementList) {
 //            if (elementsListNames.contains(element.getName()) == false) {
 //                return false;
 //            }

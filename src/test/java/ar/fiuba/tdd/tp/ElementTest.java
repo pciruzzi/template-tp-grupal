@@ -8,13 +8,13 @@ import static org.junit.Assert.assertEquals;
 public class ElementTest {
 
     @Test
-    public void testElementTwoSizeSet() {
+    public void testElementSizeSet() {
         Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
     }
 
     @Test
-    public void testElementTwoSizeDecreasesWhen() {
+    public void testElementSizeDecreasesWhen() {
         Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
         Element stick = new Element("stick");
@@ -23,7 +23,7 @@ public class ElementTest {
     }
 
     @Test
-    public void testElementTwoBigStickDecreases() {
+    public void testElementBigStickDecreases() {
         Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
         Element stick = new Element("big stick");
@@ -33,7 +33,7 @@ public class ElementTest {
     }
 
     @Test
-    public void testElementTwoRemoveElementFromElementResetSize() {
+    public void testElementRemoveElementFromElementResetSize() {
         Element element = new Element("chest");
         assertEquals(999,  element.getCapacity());
         Element stick = new Element("big stick");

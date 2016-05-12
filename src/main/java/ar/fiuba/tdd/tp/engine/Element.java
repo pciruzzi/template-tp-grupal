@@ -126,4 +126,10 @@ public class Element {
     public Map<String, Element> getElementMap() {
         return elementMap;
     }
+
+    public void changeElementsState(boolean state) {
+        for (Element element: elementMap.values()) {
+            element.setState(state);
+        }
+    }
 }

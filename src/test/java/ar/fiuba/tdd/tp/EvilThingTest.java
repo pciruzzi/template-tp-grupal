@@ -19,52 +19,52 @@ public class EvilThingTest {
 //    @Test
 //    public void lookArroundTest() {
 //        Game game = this.initializeGame();
-//        assertEquals(game.doAction(lookArround), "There's a key and a door in the room.");
+//        assertEquals(game.play(lookArround), "There's a key and a door in the room.");
 //    }
 //
 //    @Test
 //    public void pickKeyTest() {
 //        Game game = this.initializeGame();
-//        assertEquals(game.doAction(pickKey), movementAccepted);
+//        assertEquals(game.play(pickKey), movementAccepted);
 //    }
 //
 //    @Test
 //    public void openDoorWithKey() {
 //        Game game = this.initializeGame();
-//        game.doAction(pickKey);
-//        assertEquals(game.doAction(openDoor),movementAccepted);
+//        game.play(pickKey);
+//        assertEquals(game.play(openDoor),movementAccepted);
 //    }
 //
 //    @Test
 //    public void roomTwoHasAthief() {
 //        Game game = this.initializeGame();
-//        game.doAction(pickKey);
-//        game.doAction(openDoor);
-//        assertEquals(game.doAction(lookArround),"There's a door and a thief in the room.");
+//        game.play(pickKey);
+//        game.play(openDoor);
+//        assertEquals(game.play(lookArround),"There's a door and a thief in the room.");
 //    }
 //
 //    @Test
 //    public void youCantEnterRoom3WithRoom() {
 //        Game game = this.initializeGame();
-//        game.doAction(pickKey);
-//        game.doAction(openDoor);
-//        assertEquals(game.doAction(openDoor),OPEN_DOOR_ERROR);
+//        game.play(pickKey);
+//        game.play(openDoor);
+//        assertEquals(game.play(openDoor),OPEN_DOOR_ERROR);
 //    }
 //
 //    @Test
 //    public void youAreAbleToSpeakToTheThief() {
 //        Game game = this.initializeGame();
-//        game.doAction(pickKey);
-//        game.doAction(openDoor);
-//        assertEquals(game.doAction("talkTo thief"),"The thief has just stolen your object!");
+//        game.play(pickKey);
+//        game.play(openDoor);
+//        assertEquals(game.play("talkTo thief"),"The thief has just stolen your object!");
 //    }
 //
 //    @Test
 //    public void ifTheThiefStealsYouYouCanOpenDoor2AndWin() {
 //        Game game = this.initializeGame();
-//        game.doAction(pickKey);
-//        game.doAction(openDoor);
-//        game.doAction("talkTo thief");
-//        assertEquals(game.doAction(openDoor),wonGame);
+//        game.play(pickKey);
+//        game.play(openDoor);
+//        game.play("talkTo thief");
+//        assertEquals(game.play(openDoor),wonGame);
 //    }
 }

@@ -16,23 +16,23 @@ public class ICommandTest {
     @Test
     public void testOpen() {
         Game game = new FetchQuest();
-        Element elementTwo;
-        elementTwo = new Element("chest", false);
-        elementTwo.addCommand(new Open());
+        Element Element;
+        Element = new Element("chest", false);
+        Element.addCommand(new Open());
 
-        elementTwo.doCommand("open");
+        Element.doCommand("open");
 
-        assertTrue(elementTwo.getState());
+        assertTrue(Element.getState());
     }
 
     @Test
     public void testClose() {
-        Element elementTwo = new Element("chest", true);
-        elementTwo.addCommand(new Close());
+        Element Element = new Element("chest", true);
+        Element.addCommand(new Close());
 
-        elementTwo.doCommand("close");
+        Element.doCommand("close");
 
-        assertFalse(elementTwo.getState());
+        assertFalse(Element.getState());
     }
 
 }
