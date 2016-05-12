@@ -30,6 +30,33 @@ public class OpenDoorConfiguration implements GameBuilder {
         key.setState(true);
     }
 
+    private void configureLookAround(Game game) {
+        ICommand lookAround = new LookAround("look around", game);
+        roomOne.addCommand(lookAround);
+    }
+
+    private void configureKey(Game game) {
+        ICommand pick = new MoveToPlayer("pick", game);
+        key.addCommand(pick);
+    }
+
+    private void setWinCondition() {
+        ArrayList<String> winConditionsArray = new ArrayList<>();
+        winConditionsArray.add("player");
+        winCondition = new ContainsElements(roomTwo, winConditionsArray);
+    }
+
+    private void setDoorTwoOneRequirements(Game game) {
+        ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
+        doorTwoOne.addCommand(openDoorTwoOne);
+    }
+
+    private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
+        IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
+        doorOneTwo.addCommand(openDoorOneTwo);
+    }
+
     public Game build() {
 
         setAllVariablesOfOpenDoor();
@@ -58,33 +85,6 @@ public class OpenDoorConfiguration implements GameBuilder {
         game.setWinInterpreter(winCondition);
 
         return game;
-    }
-
-    private void configureLookAround(Game game) {
-        ICommand lookAround = new LookAround("look around", game);
-        roomOne.addCommand(lookAround);
-    }
-
-    private void configureKey(Game game) {
-        ICommand pick = new MoveToPlayer("pick", game);
-        key.addCommand(pick);
-    }
-
-    private void setWinCondition() {
-        ArrayList<String> winConditionsArray = new ArrayList<>();
-        winConditionsArray.add("player");
-        winCondition = new ContainsElements(roomTwo, winConditionsArray);
-    }
-
-    private void setDoorTwoOneRequirements(Game game) {
-        ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
-        doorTwoOne.addCommand(openDoorTwoOne);
-    }
-
-    private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
-        IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
-        ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
-        doorOneTwo.addCommand(openDoorOneTwo);
     }
 
 }

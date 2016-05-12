@@ -1,13 +1,11 @@
 package ar.fiuba.tdd.tp.interpreter;
 
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.ElementTwo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by gg on 5/9/2016.
- */
 public class ContainsElements extends TerminalExpression{
 
     public ContainsElements(ElementTwo element, ArrayList<String> elementsNames) {
@@ -19,11 +17,22 @@ public class ContainsElements extends TerminalExpression{
         if (elementList.size() == 0) {
             return false;
         }
-        for (ElementTwo element : this.element.getElementList()) {
-            if (elementsListNames.contains(element.getName()) == false) {
-                return false;
+
+        for (String elementName : elementsListNames) {
+            boolean encontrado = false;
+            for (ElementTwo element : elementList) {
+                if(element.getName().equals(elementName)) {
+                   encontrado = true;
+                }
             }
+            if (!encontrado) return false;
         }
+
+//        for (ElementTwo element : elementList) {
+//            if (elementsListNames.contains(element.getName()) == false) {
+//                return false;
+//            }
+//        }
         return true;
     }
 }
