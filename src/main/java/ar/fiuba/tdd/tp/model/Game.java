@@ -35,7 +35,7 @@ public class Game {
         return this.description;
     }
 
-    public  String play(String cmd) {
+    public String play(String cmd) {
         String returnMessage;
         returnMessage = playerPosition.doCommand(cmd);
         return returnMessage;
@@ -47,9 +47,18 @@ public class Game {
         if (visibleElements.containsKey(element)) {
             Element actualElement = visibleElements.get(element);
             returnMessage = actualElement.doCommand(cmd);
+        } else if (player.getElementMap().containsKey(element)) {
+            Element actualElement = player.getElementMap().get(element);
+            returnMessage = actualElement.doCommand(cmd);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
+
+        returnMessage = checkGameWon(returnMessage);
+        return returnMessage;
+    }
+
+    private String checkGameWon(String returnMessage) {
         if (this.hasWon()) {
             gameWon = true;
             return GAME_WON;

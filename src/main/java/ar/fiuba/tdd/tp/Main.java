@@ -18,7 +18,7 @@ public class Main {
         writer.write("You can start playing now...");
         String input = "";
         String returnCode = "";
-        while (! input.equals("exit") && !returnCode.equals("You won!!!")) {
+        while (! input.equals("exit") && !returnCode.equals("You won!!!!")) {
             input = reader.read();
             returnCode = engine.doCommand(input);
             writer.write(returnCode);
