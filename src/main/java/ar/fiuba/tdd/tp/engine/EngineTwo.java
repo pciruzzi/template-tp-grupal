@@ -5,12 +5,8 @@ import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-/**
- * Created by panchoubuntu on 12/05/16.
- */
 public class EngineTwo {
 
     private Map<String,ElementTwo> elementsMap;
@@ -24,7 +20,10 @@ public class EngineTwo {
     }
 
     public String doCommand(String action) {
+
+
         ArrayList<ElementTwo> elementsList = new ArrayList<>(elementsMap.values());
+
         ElementTwo firstElement = commandParser.getFirstElement(action,elementsList);
 
         if ( firstElement == null ) {

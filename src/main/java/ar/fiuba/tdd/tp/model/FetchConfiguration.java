@@ -19,6 +19,8 @@ public class FetchConfiguration implements GameBuilder {
         ElementTwo stick = new ElementTwo("stick");
         ElementTwo player = new ElementTwo("player");
 
+        stick.setState(true);
+
         game.setPlayer(player);
 
         ICommand lookArround = new LookArround(game);
