@@ -25,6 +25,7 @@ public class MoveToPlayer extends ICommand {
             ElementTwo playerPosition = game.getPlayerPosition();
             ElementTwo player = game.getPlayer();
             playerPosition.removeElement(element);
+            element.setState(false);
             player.addElement(element);
             return "Ok.";
         } else {

@@ -25,6 +25,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         doorOneTwo = new ElementTwo("door");
         doorOneTwo.setState(true);
         doorTwoOne = new ElementTwo("door");
+        doorTwoOne.setState(true);
         player = new ElementTwo("player");
         key = new ElementTwo("key");
         key.setState(true);
@@ -33,11 +34,14 @@ public class OpenDoorConfiguration implements GameBuilder {
     private void configureLookAround(Game game) {
         ICommand lookAround = new LookAround("look around", game);
         roomOne.addCommand(lookAround);
+        roomTwo.addCommand(lookAround);
     }
 
     private void configureKey(Game game) {
         ICommand pick = new MoveToPlayer("pick", game);
+        ICommand drop = new DropOnPosition("drop", game);
         key.addCommand(pick);
+        key.addCommand(drop);
     }
 
     private void setWinCondition() {

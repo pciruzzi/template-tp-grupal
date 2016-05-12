@@ -9,11 +9,12 @@ public class ElementTwo {
     private boolean state;
     private String name;
     private Map<String, ICommand> commandMap;
+
     private Map<String, ElementTwo> elementMap;
+
     private int size;
     private ElementTwo objetiveElement;
     private int capacity;
-
 
     public ElementTwo(String name) {
         commandMap = new HashMap<String, ICommand>();
@@ -24,6 +25,7 @@ public class ElementTwo {
         this.size = 1;
         this.objetiveElement = null;
     }
+
 
     public String doCommand(String commandName) {
         if (commandMap.containsKey(commandName)) {
@@ -60,7 +62,6 @@ public class ElementTwo {
     }
 
     public void removeElement(ElementTwo element) {
-
         elementMap.remove(element.getName());
         this.capacity = this.capacity + element.getSize();
     }
@@ -123,5 +124,9 @@ public class ElementTwo {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public Map<String, ElementTwo> getElementMap() {
+        return elementMap;
     }
 }

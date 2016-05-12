@@ -20,8 +20,6 @@ public class EngineTwo {
     }
 
     public String doCommand(String action) {
-
-
         ArrayList<ElementTwo> elementsList = new ArrayList<>(elementsMap.values());
 
         ElementTwo firstElement = commandParser.getFirstElement(action,elementsList);
