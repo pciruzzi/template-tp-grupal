@@ -83,4 +83,9 @@ public class Game {
         visibleElements = elements;
     }
 
+    public Map<String,ElementTwo> getCurrentPositionElements() {
+        this.calculateVisibleElements();
+        return visibleElements;
+    }
+
 }

@@ -1,18 +1,36 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.engine.EngineTwo;
+import ar.fiuba.tdd.tp.model.FetchConfiguration;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.server.BuilderLoader;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+        EngineTwo engine = new EngineTwo();
+        GameBuilder fetchConfiguration = new FetchConfiguration();
+        engine.createGame(fetchConfiguration);
+
+//        Game fetchQuest = fetch.build();
+
+        Reader reader = new Console();
+        Writer writer = new Console();
+        writer.write("You can start playing now...");
+        String input = "";
+        String returnCode = "";
+        while (! input.equals("exit") && !returnCode.equals("You won!!!")) {
+            input = reader.read();
+            returnCode = engine.doCommand(input);
+            writer.write(returnCode);
+        }
+
 //        GameBuilder builder = BuilderLoader.load(args[0]);
 //        builder.build();
 //import ar.fiuba.tdd.tp.engine.Engine;
 //
 //public class Main {
 //    public static void main(String[] args) {
-//        Reader reader = new Console();
-//        Writer writer = new Console();
+
 //
 //        writer.write("Welcome to hell");
 //        writer.write("Type the game you'd like to play:");
