@@ -8,16 +8,16 @@ public class MoveToPlayer extends ICommand {
     private Game game;
     private IInterpreter condition;
 
-    public MoveToPlayer(String name, Game game) {
-        this.game = game;
-        this.name = name;
-        this.condition = new TrueExpression();
-    }
-
     public MoveToPlayer(String name, Game game, IInterpreter condition) {
         this.game = game;
         this.name = name;
         this.condition = condition;
+    }
+
+    public MoveToPlayer(String name, Game game) {
+        this.game = game;
+        this.name = name;
+        this.condition = new TrueExpression();
     }
 
     public String doAction(ElementTwo element) {

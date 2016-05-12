@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.ElementTwo;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.LookArround;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -12,14 +9,14 @@ import java.util.ArrayList;
 
 public class OpenDoorConfiguration implements GameBuilder {
 
-    Game game;
-    ElementTwo roomOne;
-    ElementTwo roomTwo;
-    ElementTwo doorOneTwo;
-    ElementTwo doorTwoOne;
-    ElementTwo player;
-    IInterpreter winCondition;
-    ElementTwo key;
+    private Game game;
+    private ElementTwo roomOne;
+    private ElementTwo roomTwo;
+    private ElementTwo doorOneTwo;
+    private ElementTwo doorTwoOne;
+    private ElementTwo player;
+    private IInterpreter winCondition;
+    private ElementTwo key;
 
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door");
@@ -62,12 +59,12 @@ public class OpenDoorConfiguration implements GameBuilder {
     }
 
     private void configureLookAround(Game game) {
-        ICommand lookArround = new LookArround(game);
-        roomOne.addCommand(lookArround);
+        ICommand lookAround = new LookAround("look around", game);
+        roomOne.addCommand(lookAround);
     }
 
     private void configureKey(Game game) {
-        ICommand pick = new MoveToPlayer(game);
+        ICommand pick = new MoveToPlayer("pick", game);
         key.addCommand(pick);
     }
 
