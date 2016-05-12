@@ -57,11 +57,13 @@ public class ElementTwo {
     }
 
     public List<ElementTwo> getElementList() {
-        List<ElementTwo> returnList = new ArrayList<ElementTwo>();
-        for (String key : elementMap.keySet()) {
-            returnList.add(elementMap.get(key));
-        }
-        return returnList;
+        List<ElementTwo> returnElementList = new ArrayList<ElementTwo>(elementMap.values());
+        return returnElementList;
+    }
+
+    public List<ICommand> getCommandList() {
+        List<ICommand> returnCommandList = new ArrayList<ICommand>(commandMap.values());
+        return returnCommandList;
     }
 
     public boolean getState() {
@@ -88,9 +90,8 @@ public class ElementTwo {
         return capacity;
     }
 
-    public HashMap<String, ElementTwo> getVisibleElements() {
-        HashMap<String, ElementTwo> visibleElements = new HashMap<>();
-
+    public Map<String, ElementTwo> getVisibleElements() {
+        Map<String, ElementTwo> visibleElements = new HashMap<>();
         for (ElementTwo element: getElementList()) {
             if (element.getState()) {
                 visibleElements.put(element.getName(),element);

@@ -5,9 +5,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
 
-
 public class MovePlayerTo extends ICommand {
-
     private Game game;
     private IInterpreter condition;
 

@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.ElementTwo;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
@@ -21,11 +20,13 @@ public class FetchConfiguration implements GameBuilder {
 
         game.setPlayer(player);
 
-        ICommand lookArround = new LookArround(game);
-        room.addCommand(lookArround);
+        ICommand lookAround = new LookAround("look around", game);
+        room.addCommand(lookAround);
 
-        ICommand pick = new MoveToPlayer(game);
+        ICommand pick = new MoveToPlayer("pick", game);
+        ICommand question = new Question("what can i do");
         stick.addCommand(pick);
+        stick.addCommand(question);
 
         room.addElement(stick);
 
