@@ -3,8 +3,6 @@ package ar.fiuba.tdd.tp.connection.server;
 import ar.fiuba.tdd.tp.Console;
 import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.FetchConfiguration;
-import ar.fiuba.tdd.tp.model.GameBuilder;
 
 import java.io.IOException;
 import java.net.*;

@@ -9,26 +9,20 @@ import java.util.Map;
 
 public class Engine {
 
-    private Map<String,Element> elementsMap;
     private CommandParser commandParser;
     private Game game;
 
     public void createGame(GameBuilder gameBuilder) {
         commandParser = new CommandParser();
         game = gameBuilder.build();
-        elementsMap = game.getCurrentPositionElements();
     }
 
     public String doCommand(String action) {
-
-
-        ArrayList<Element> elementsList = new ArrayList<Element>(elementsMap.values());
-
+        ArrayList<Element> elementsList = new ArrayList<Element>(game.getCurrentPositionElements().values());
         Element firstElement = commandParser.getFirstElement(action,elementsList);
 
         if ( firstElement == null ) {
             return game.play(action);
-//            return "Invalid element";
         }
         String firstElementName = firstElement.getName();
 
@@ -42,7 +36,6 @@ public class Engine {
         String secondElementName = secondElement.getName();
 
         return game.play(command, firstElementName, secondElementName);
-
     }
 
     public boolean isGameWon() {

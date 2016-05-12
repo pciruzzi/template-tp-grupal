@@ -7,18 +7,17 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
-
-public class FetchConfiguration implements GameBuilder {
+public class FetchQuestConfiguration implements GameBuilder {
 
     public Game build() {
         Game game = new Game("Fetch Quest");
 
         Element room = new Element("room");
-        Element stick = new Element("stick");
-        Element player = new Element("player");
 
+        Element stick = new Element("stick");
         stick.setState(true);
 
+        Element player = new Element("player");
         game.setPlayer(player);
 
         ICommand lookAround = new LookAround("look around", game);
