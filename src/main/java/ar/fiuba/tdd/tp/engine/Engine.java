@@ -31,8 +31,18 @@ public class Engine {
 //            return "Invalid element";
         }
         String firstElementName = firstElement.getName();
+
+        Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
         String command = commandParser.getCommand(action, firstElementName);
-        return game.play(command, firstElementName);
+
+        if ( secondElement == null ) {
+            return game.play(command, firstElementName);
+        }
+
+        String secondElementName = secondElement.getName();
+
+        return game.play(command, firstElementName, secondElementName);
+
     }
 
     public boolean isGameWon() {

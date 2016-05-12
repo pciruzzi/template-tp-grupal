@@ -34,6 +34,15 @@ public class Element {
         }
     }
 
+    public String doCommand(String commandName, Element originElement, Element destElement) {
+        if (commandMap.containsKey(commandName)) {
+            ICommand command = commandMap.get(commandName);
+            return command.doAction(originElement, this, destElement);
+        } else {
+            return "I can't do that.";
+        }
+    }
+
     public void addCommand(ICommand command) {
         commandMap.put(command.getName(), command);
     }

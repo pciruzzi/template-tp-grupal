@@ -25,7 +25,7 @@ public class FetchConfiguration implements GameBuilder {
         room.addCommand(lookAround);
 
         ICommand pick = new MoveToPlayer("pick", game);
-        ICommand question = new Question("what can i do");
+        ICommand question = new Question("ask");
         stick.addCommand(pick);
         stick.addCommand(question);
 
