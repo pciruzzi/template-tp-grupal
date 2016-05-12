@@ -15,8 +15,15 @@ public class DropOnPosition extends ICommand {
     public String doAction(Element element) {
         Element player = game.getPlayer();
         Element position = game.getPlayerPosition();
-        player.removeElement(element);
-        position.addElement(element);
-        return "Ok.";
+        //Si esta en el inventario
+        if (player.getElementMap().containsKey(element.getName())) {
+            player.removeElement(element);
+            element.setState(true);
+            position.addElement(element);
+            return "Ok.";
+        } else {
+            //no esta en el inventario
+            return "You can't drop the " + element.getName() + ".";
+        }
     }
 }

@@ -22,12 +22,18 @@ public class MoveToPlayer extends ICommand {
 
     public String doAction(Element element) {
         if (this.condition.interpret()) {
-            Element playerPosition = game.getPlayerPosition();
-            Element player = game.getPlayer();
-            playerPosition.removeElement(element);
-            player.addElement(element);
-            element.setState(false);
-            return "Ok.";
+            //Si esta en el piso
+            if (game.getPlayerPosition().getElementMap().containsKey(element.getName())) {
+                Element playerPosition = game.getPlayerPosition();
+                Element player = game.getPlayer();
+                playerPosition.removeElement(element);
+                element.setState(false);
+                player.addElement(element);
+                return "Ok.";
+            } else {
+                //No esta en el piso
+                return "You can't take the " + element.getName() + ".";
+            }
         } else {
             return "You can't do that.";
         }

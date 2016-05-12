@@ -23,9 +23,12 @@ public class MovePlayerTo extends ICommand {
 
     public String doAction(Element element) {
         if (condition.interpret()) {
+            //Saco al al player de la "habitación" que estaba antes.
             game.getPlayerPosition().removeElement(game.getPlayer());
-            element.getObjetiveElement().addElement(game.getPlayer());
-            game.setPlayerPosition(element.getObjetiveElement());
+            //A la "habitación" que tengo como objetivo, le agrego el player.
+            element.getObjectiveElement().addElement(game.getPlayer());
+            //Al player le seteo a la habitación donde tiene que ir.
+            game.setPlayerPosition(element.getObjectiveElement());
             return "You have crossed";
         }
         return "Error";
