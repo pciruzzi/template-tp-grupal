@@ -58,7 +58,6 @@ public class WSCConfiguration implements GameBuilder {
         southShore.addElement(sheep);
         southShore.addElement(cabbage);
 
-
         southShore.addElement(northShore);
         northShore.addElement(southShore);
 
@@ -76,42 +75,45 @@ public class WSCConfiguration implements GameBuilder {
 
         wolf.addCommand(pick);
         wolf.addCommand(drop);
+
         sheep.addCommand(pick);
-        cabbage.addCommand(pick);
-
-
         sheep.addCommand(drop);
+
+        cabbage.addCommand(pick);
         cabbage.addCommand(drop);
     }
 
     private void createGameCommands() {
 
-        ArrayList<String> wolfConditionElements = new ArrayList<>();
-        wolfConditionElements.add("sheep");
-        wolfConditionElements.add("cabbage");
+        this.createSimpleCommands();
+
+        ArrayList<String> sheepCabbage = new ArrayList<>();
+        sheepCabbage.add("sheep");
+        sheepCabbage.add("cabbage");
 
 
-        ArrayList<String> cabbageConditionElements = new ArrayList<>();
-        cabbageConditionElements.add("wolf");
-        cabbageConditionElements.add("sheep");
+        ArrayList<String> sheepWolf = new ArrayList<>();
+        sheepWolf.add("wolf");
+        sheepWolf.add("sheep");
 
+        IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
+        IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
 
-        IInterpreter wolfCrossNorthCondition = new DoesNotContainElements(southShore, wolfConditionElements);
-        IInterpreter cabbageCrossNorthCondition = new DoesNotContainElements(southShore, cabbageConditionElements);
+        IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
+        IInterpreter southCondition = new NotExpression(orSouth);
 
+        ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
 
-        IInterpreter crossNorthCondition = new AndExpression(wolfCrossNorthCondition, cabbageCrossNorthCondition);
+        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
+        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
 
-        IInterpreter wolfCrossSouthCondition = new DoesNotContainElements(northShore, wolfConditionElements);
-        IInterpreter cabbageCrossSouthCondition = new DoesNotContainElements(northShore, cabbageConditionElements);
+        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
+        IInterpreter northCondition = new NotExpression(orNorth);
 
-        IInterpreter crossSouthCondition = new AndExpression(wolfCrossSouthCondition, cabbageCrossSouthCondition);
+        ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
 
-        ICommand crossNorth = new MovePlayerTo(game, crossNorthCondition, "cross");
-        ICommand crossSouth = new MovePlayerTo(game, crossSouthCondition, "cross");
-
-        northShore.addCommand(crossSouth);
-        southShore.addCommand(crossNorth);
+        northShore.addCommand(crossNorth);
+        southShore.addCommand(crossSouth);
 
     }
 

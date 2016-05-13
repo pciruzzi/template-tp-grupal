@@ -132,4 +132,18 @@ public class Element {
             element.setState(state);
         }
     }
+
+    public boolean hasAllElements(ArrayList<String> elementsToContain) {
+
+        if (elementMap.size() == 0) {
+            return false;
+        }
+        for (String elementName : elementsToContain) {
+            if (!elementMap.keySet().contains(elementName)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }
