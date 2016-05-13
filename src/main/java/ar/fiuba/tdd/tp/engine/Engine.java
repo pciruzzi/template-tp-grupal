@@ -21,7 +21,6 @@ public class Engine {
 
     public String doCommand(String action) {
 
-
         ArrayList<Element> elementsList = new ArrayList<Element>(elementsMap.values());
 
         Element firstElement = commandParser.getFirstElement(action,elementsList);
