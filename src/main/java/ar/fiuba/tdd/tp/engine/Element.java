@@ -34,6 +34,15 @@ public class Element {
         }
     }
 
+    public String doCommand(String commandName, Element originElement, Element destElement) {
+        if (commandMap.containsKey(commandName)) {
+            ICommand command = commandMap.get(commandName);
+            return command.doAction(originElement, this, destElement);
+        } else {
+            return "I can't do that.";
+        }
+    }
+
     public void addCommand(ICommand command) {
         commandMap.put(command.getName(), command);
     }
@@ -60,7 +69,6 @@ public class Element {
     }
 
     public void removeElement(Element element) {
-
         elementMap.remove(element.getName());
         this.capacity = this.capacity + element.getSize();
     }
@@ -109,6 +117,9 @@ public class Element {
         Map<String, Element> visibleElements = new HashMap<String, Element>();
         for (Element element: getElementList()) {
             if (element.getState()) {
+                for (Element insideElement : getElementList()) {
+                    visibleElements.putAll(insideElement.getVisibleElements());
+                }
                 visibleElements.put(element.getName(),element);
             }
         }
@@ -128,7 +139,7 @@ public class Element {
     }
 
     public void changeElementsState(boolean state) {
-        for (Element element: elementMap.values()) {
+        for (Element element : getElementList()) {
             element.setState(state);
         }
     }

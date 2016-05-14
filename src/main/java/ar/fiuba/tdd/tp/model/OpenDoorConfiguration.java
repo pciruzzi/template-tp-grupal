@@ -17,18 +17,35 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element player;
     private IInterpreter winCondition;
     private Element key;
+    private Element box;
+    private boolean isOpenDoor2;
+    private ICommand question;
+
+    public OpenDoorConfiguration(boolean isOpenDoor2) {
+        this.isOpenDoor2 = isOpenDoor2;
+    }
 
     private void setAllVariablesOfOpenDoor() {
-        game = new Game("Open Door");
         roomOne = new Element("roomOne");
-        roomTwo = new Element("roomTwo");
         doorOneTwo = new Element("door");
         doorOneTwo.setState(true);
+        question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.setState(true);
         player = new Element("player");
+        roomTwo = new Element("roomTwo");
         key = new Element("key");
-        key.setState(true);
+
+        if (isOpenDoor2) {
+            game = new Game("Open Door 2");
+            key.setState(false);
+            box = new Element("box");
+            box.addElement(key);
+            box.setState(true);
+        } else {
+            game = new Game("Open Door");
+            key.setState(true);
+        }
     }
 
     private void configureLookAround(Game game) {
@@ -42,6 +59,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         ICommand drop = new DropOnPosition("drop", game);
         key.addCommand(pick);
         key.addCommand(drop);
+        key.addCommand(question);
     }
 
     private void setWinCondition() {
@@ -53,16 +71,17 @@ public class OpenDoorConfiguration implements GameBuilder {
     private void setDoorTwoOneRequirements(Game game) {
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
+        doorTwoOne.addCommand(question);
     }
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
+        doorOneTwo.addCommand(question);
     }
 
     public Game build() {
-
         setAllVariablesOfOpenDoor();
         doorOneTwo.setObjectiveElement(roomTwo);
         doorTwoOne.setObjectiveElement(roomOne);
@@ -79,11 +98,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         setDoorTwoOneRequirements(game);
         setWinCondition();
 
-        roomOne.addElement(key);
-        roomOne.addElement(doorOneTwo);
-        roomOne.addElement(player);
-
-        roomTwo.addElement(doorTwoOne);
+        setElementsInRoomOneAndTwo();
 
         game.setPlayerPosition(roomOne);
         game.setWinInterpreter(winCondition);
@@ -91,4 +106,25 @@ public class OpenDoorConfiguration implements GameBuilder {
         return game;
     }
 
+    private void setElementsInRoomOneAndTwo() {
+        if (isOpenDoor2) {
+            configureBox();
+            roomOne.addElement(box);
+        } else {
+            roomOne.addElement(key);
+        }
+
+        roomOne.addElement(doorOneTwo);
+        roomOne.addElement(player);
+
+        roomTwo.addElement(doorTwoOne);
+    }
+
+    private void configureBox() {
+        ICommand open = new ChangeVisibility("open", true);
+        ICommand close = new ChangeVisibility("close", false);
+        box.addCommand(open);
+        box.addCommand(close);
+        box.addCommand(question);
+    }
 }

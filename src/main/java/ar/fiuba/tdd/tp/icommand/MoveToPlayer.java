@@ -22,8 +22,8 @@ public class MoveToPlayer extends ICommand {
 
     public String doAction(Element element) {
         if (this.condition.interpret()) {
-            //Si esta en el piso
-            if (game.getPlayerPosition().getElementMap().containsKey(element.getName())) {
+            //Si esta en el piso o dentro de algun elemento del lugar
+            if (checkAvailableElement(game, element)) {
                 Element playerPosition = game.getPlayerPosition();
                 Element player = game.getPlayer();
                 playerPosition.removeElement(element);
@@ -37,5 +37,9 @@ public class MoveToPlayer extends ICommand {
         } else {
             return "You can't do that.";
         }
+    }
+
+    private boolean checkAvailableElement(Game game, Element element) {
+        return (game.getPlayerPosition().getVisibleElements().containsKey(element.getName()));
     }
 }
