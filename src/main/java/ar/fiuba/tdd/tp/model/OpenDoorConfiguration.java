@@ -17,9 +17,14 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element player;
     private IInterpreter winCondition;
     private Element key;
+    private Element box;
+    private boolean isOpenDoor2;
+
+    public OpenDoorConfiguration(boolean isOpenDoor2) {
+        this.isOpenDoor2 = isOpenDoor2;
+    }
 
     private void setAllVariablesOfOpenDoor() {
-        game = new Game("Open Door");
         roomOne = new Element("roomOne");
         roomTwo = new Element("roomTwo");
         doorOneTwo = new Element("door");
@@ -28,7 +33,17 @@ public class OpenDoorConfiguration implements GameBuilder {
         doorTwoOne.setState(true);
         player = new Element("player");
         key = new Element("key");
-        key.setState(true);
+
+        if (isOpenDoor2) {
+            game = new Game("Open Door 2");
+            key.setState(false);
+            box = new Element("box");
+            box.addElement(key);
+            box.setState(true);
+        } else {
+            game = new Game("Open Door");
+            key.setState(true);
+        }
     }
 
     private void configureLookAround(Game game) {
@@ -78,15 +93,32 @@ public class OpenDoorConfiguration implements GameBuilder {
         setDoorTwoOneRequirements(game);
         setWinCondition();
 
-        roomOne.addElement(key);
-        roomOne.addElement(doorOneTwo);
-        roomOne.addElement(player);
-
-        roomTwo.addElement(doorTwoOne);
+        setElementsInRoomOneAndTwo();
 
         game.setPlayerPosition(roomOne);
         game.setWinInterpreter(winCondition);
 
         return game;
+    }
+
+    private void setElementsInRoomOneAndTwo() {
+        if (isOpenDoor2) {
+            configureBox();
+            roomOne.addElement(box);
+        } else {
+            roomOne.addElement(key);
+        }
+
+        roomOne.addElement(doorOneTwo);
+        roomOne.addElement(player);
+
+        roomTwo.addElement(doorTwoOne);
+    }
+
+    private void configureBox() {
+        ICommand open = new ChangeVisibility("open", true);
+        ICommand close = new ChangeVisibility("close", false);
+        box.addCommand(open);
+        box.addCommand(close);
     }
 }

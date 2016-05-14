@@ -40,8 +40,6 @@ public class MoveToPlayer extends ICommand {
     }
 
     private boolean checkAvailableElement(Game game, Element element) {
-        //boolean onTheFloor = game.getPlayerPosition().getElementMap().containsKey(element.getName());
-        boolean inOtherElement = game.getPlayerPosition().getVisibleElements().containsKey(element.getName());
-        return inOtherElement;
+        return (game.getPlayerPosition().getVisibleElements().containsKey(element.getName()));
     }
 }

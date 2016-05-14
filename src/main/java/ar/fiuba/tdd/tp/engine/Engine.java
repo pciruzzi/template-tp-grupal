@@ -24,6 +24,7 @@ public class Engine {
         if ( firstElement == null ) {
             return game.play(action);
         }
+
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
