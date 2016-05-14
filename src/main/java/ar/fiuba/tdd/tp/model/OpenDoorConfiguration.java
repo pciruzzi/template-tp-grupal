@@ -19,6 +19,7 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element key;
     private Element box;
     private boolean isOpenDoor2;
+    private ICommand question;
 
     public OpenDoorConfiguration(boolean isOpenDoor2) {
         this.isOpenDoor2 = isOpenDoor2;
@@ -26,12 +27,13 @@ public class OpenDoorConfiguration implements GameBuilder {
 
     private void setAllVariablesOfOpenDoor() {
         roomOne = new Element("roomOne");
-        roomTwo = new Element("roomTwo");
         doorOneTwo = new Element("door");
         doorOneTwo.setState(true);
+        question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.setState(true);
         player = new Element("player");
+        roomTwo = new Element("roomTwo");
         key = new Element("key");
 
         if (isOpenDoor2) {
@@ -57,6 +59,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         ICommand drop = new DropOnPosition("drop", game);
         key.addCommand(pick);
         key.addCommand(drop);
+        key.addCommand(question);
     }
 
     private void setWinCondition() {
@@ -68,12 +71,14 @@ public class OpenDoorConfiguration implements GameBuilder {
     private void setDoorTwoOneRequirements(Game game) {
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
+        doorTwoOne.addCommand(question);
     }
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
+        doorOneTwo.addCommand(question);
     }
 
     public Game build() {
@@ -120,5 +125,6 @@ public class OpenDoorConfiguration implements GameBuilder {
         ICommand close = new ChangeVisibility("close", false);
         box.addCommand(open);
         box.addCommand(close);
+        box.addCommand(question);
     }
 }

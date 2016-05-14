@@ -98,17 +98,17 @@ public class EvilThingConfiguration implements GameBuilder {
 
     private void createGameElements() {
         // Creo los elementos
+        roomTwo = new Element("roomTwo");
         cursedObject = new Element("key");
         cursedObject.setState(true);
-        roomOne = new Element("roomOne");
-        roomTwo = new Element("roomTwo");
-        roomThree = new Element("roomThree");
         doorOneTwo = new Element("door");
         doorOneTwo.setState(true);
+        roomThree = new Element("roomThree");
         doorTwoOne = new Element("door");
         doorTwoOne.setState(true);
         doorTwoThree = new Element("otherDoor");
         doorTwoThree.setState(true);
+        roomOne = new Element("roomOne");
         player = new Element("player");
         thief = new Element("thief");
         thief.setState(true);
