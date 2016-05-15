@@ -12,6 +12,9 @@ public class MoveFromPlayer extends ICommand {
     public MoveFromPlayer(String name, Game game) {
         this.game = game;
         this.name = name;
+        this.correctMovementMessage = " has just stolen your object!";
+        this.incorrectMovementMessage = "Nothing happens.";
+        this.auxiliarMessage = "Hi!\n" + "The ";
     }
 
     public String doAction(Element element) {
@@ -27,10 +30,10 @@ public class MoveFromPlayer extends ICommand {
                 //Agregar los elementos en el otro elemento
                 element.addElement(actualElement);
             }
-            return "The " + element.getName() + " has just stolen your object!";
+            return  auxiliarMessage + element.getName() + correctMovementMessage;
         } else {
             //Si el jugador tiene el inventario vacio.
-            return "Nothing happens.";
+            return incorrectMovementMessage;
         }
     }
 }

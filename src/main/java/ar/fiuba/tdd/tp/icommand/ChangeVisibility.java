@@ -13,12 +13,14 @@ public class ChangeVisibility extends ICommand {
     public ChangeVisibility(String name, boolean state) {
         this.name = name;
         this.state = state;
+        this.correctMovementMessage = " is opened!.";
+        this.correctMovementMessage = "You can't do that.";
+        this.auxiliarMessage = " is closed!.";
         this.condition = new TrueExpression();
     }
 
     public ChangeVisibility(String name, boolean state, IInterpreter condition) {
-        this.name = name;
-        this.state = state;
+        this(name, state);
         this.condition = condition;
     }
 
@@ -26,11 +28,11 @@ public class ChangeVisibility extends ICommand {
         if (this.condition.interpret()) {
             element.changeElementsState(state);
             if (state) {
-                return "The " + element.getName() + " is opened!.";
+                return "The " + element.getName() + correctMovementMessage;
             } else {
-                return "The " + element.getName() + " is closed!.";
+                return "The " + element.getName() + auxiliarMessage;
             }
         }
-        return "You can't do that.";
+        return incorrectMovementMessage;
     }
 }

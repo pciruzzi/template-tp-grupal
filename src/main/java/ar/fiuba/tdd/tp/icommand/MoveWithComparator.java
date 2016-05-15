@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +43,7 @@ public class MoveWithComparator extends ICommand {
         List<Element> elementListOrigin = originElement.getElementList();
 
         if ( elementListOrigin.size() == 0 ) {
-            return "The stack from where you are trying to move is empty";
+            return auxiliarMessage;
         }
 
         elementListOrigin.sort(comparator);
@@ -55,9 +53,9 @@ public class MoveWithComparator extends ICommand {
 
             originElement.removeElement(movingElementOrigin);
             destinationElement.addElement(movingElementOrigin);
-            return "Ok";
+            return correctMovementMessage;
         }
-        return "You can't move that way";
+        return incorrectMovementMessage;
     }
 
     public String doAction(Element element) {

@@ -19,7 +19,12 @@ public class Question extends ICommand {
 
         for (int i = 0; i < commandListSize; i++) {
             ICommand actualCommand = commandList.get(i);
-            returnMessage.append(actualCommand.getName());
+
+            // Esto es para que no se agregue la pregunta
+            if ( !actualCommand.getName().equals(this.getName()) ) {
+                returnMessage.append(actualCommand.getName());
+            }
+            
             if (i != commandListSize - 1) {
                 returnMessage.append( "/");
             }

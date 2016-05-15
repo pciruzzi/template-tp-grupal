@@ -10,6 +10,8 @@ public class DropOnPosition extends ICommand {
     public DropOnPosition(String name, Game game) {
         this.game = game;
         this.name = name;
+        this.correctMovementMessage = "You dropped the ";
+        this.incorrectMovementMessage = "You can't drop the ";
     }
 
     public String doAction(Element element) {
@@ -20,10 +22,10 @@ public class DropOnPosition extends ICommand {
             player.removeElement(element);
             element.setState(true);
             position.addElement(element);
-            return "Ok.";
+            return correctMovementMessage + element.getName();
         } else {
             //No esta en el inventario.
-            return "You can't drop the " + element.getName() + ".";
+            return incorrectMovementMessage + element.getName() + ".";
         }
     }
 }

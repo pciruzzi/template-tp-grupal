@@ -29,11 +29,11 @@ public class Check extends ICommand {
         List<Element> elementList = element.getElementList();
 
         if (elementList.size() == 0) {
-            return "The stack you are trying to check is empty";
+            return incorrectMovementMessage;
         }
 
         elementList.sort(comparator);
 
-        return "The size of the top is " + elementList.get(0).getSize() + ".";
+        return correctMovementMessage + elementList.get(0).getSize() + ".";
     }
 }

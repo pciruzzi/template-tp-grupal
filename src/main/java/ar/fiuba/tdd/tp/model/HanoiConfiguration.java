@@ -93,12 +93,17 @@ public class HanoiConfiguration implements GameBuilder{
 
         // Agrego las acciones
         ICommand moveSmallest = new MoveWithComparator("move top", (Element e1, Element e2) -> e1.getSize() - e2.getSize());
+        moveSmallest.correctMovementMessage("You moved the disk!");
+        moveSmallest.incorrectMovementMessage("You can't move a bigger disk over a smaller one!");
+        moveSmallest.auxiliarMessage("The stack from where you are trying to move is empty");
 
         stackOne.addCommand(moveSmallest);
         stackTwo.addCommand(moveSmallest);
         stackThree.addCommand(moveSmallest);
 
         ICommand checkTop = new Check("check top",(Element e1, Element e2) -> e1.getSize() - e2.getSize());
+        checkTop.correctMovementMessage("The size of the top is ");
+        checkTop.incorrectMovementMessage("The stack you are trying to check is empty.");
 
         stackOne.addCommand(checkTop);
         stackTwo.addCommand(checkTop);
