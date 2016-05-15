@@ -23,11 +23,11 @@ public class Question extends ICommand {
             // Esto es para que no se agregue la pregunta
             if ( !actualCommand.getName().equals(this.getName()) ) {
                 returnMessage.append(actualCommand.getName());
+                if (i != commandListSize - 1) {
+                    returnMessage.append( "/");
+                }
             }
-            
-            if (i != commandListSize - 1) {
-                returnMessage.append( "/");
-            }
+
         }
         returnMessage.append(" the ").append(element.getName()).append(".");
         return returnMessage.toString();

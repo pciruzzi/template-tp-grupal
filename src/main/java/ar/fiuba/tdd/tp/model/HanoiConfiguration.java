@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.Check;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.LookAround;
-import ar.fiuba.tdd.tp.icommand.MoveWithComparator;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.OrExpression;
@@ -112,5 +109,13 @@ public class HanoiConfiguration implements GameBuilder{
         ICommand lookAround = new LookAround("look around", game);
         room.addCommand(lookAround);
 
+        addQuestions();
+    }
+
+    private void addQuestions() {
+        ICommand question = new Question("ask");
+        stackOne.addCommand(question);
+        stackTwo.addCommand(question);
+        stackThree.addCommand(question);
     }
 }

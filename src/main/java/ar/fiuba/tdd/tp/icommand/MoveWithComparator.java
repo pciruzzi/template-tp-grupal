@@ -60,6 +60,6 @@ public class MoveWithComparator extends ICommand {
 
     public String doAction(Element element) {
 
-        return "Que injusta es la vida";
+        return incorrectMovementMessage;
     }
 }

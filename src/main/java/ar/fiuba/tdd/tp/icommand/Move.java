@@ -32,6 +32,6 @@ public class Move extends ICommand {
 
     public String doAction(Element element) {
 
-        return "Que injusta es la vida";
+        return incorrectMovementMessage;
     }
 }
