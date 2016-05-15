@@ -117,7 +117,7 @@ public class Element {
         Map<String, Element> visibleElements = new HashMap<String, Element>();
         for (Element element: getElementList()) {
             if (element.getState()) {
-                for (Element insideElement : getElementList()) {
+                for (Element insideElement : element.getElementList()) {
                     visibleElements.putAll(insideElement.getVisibleElements());
                 }
                 visibleElements.put(element.getName(),element);

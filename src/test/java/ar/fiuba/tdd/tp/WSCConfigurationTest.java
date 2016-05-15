@@ -32,7 +32,7 @@ public class WSCConfigurationTest {
 //    @Test
 //    public void takeSheepOnBoatTest() {
 //        Game game = this.initializeGame();
-//        assertEquals(game.play(take,sheep),pickSuccesfull);
+//        assertEquals(game.play(take,sheep),"You picked the sheep");
 //    }
 //
 //    @Test
@@ -69,7 +69,7 @@ public class WSCConfigurationTest {
 //    public void canTakeWolfAndLeaveItInTheSameShoreTest() {
 //        Game game = this.initializeGame();
 //        game.play(take,wolf);
-//        assertEquals(game.play(leave, wolf),pickSuccesfull);
+//        assertEquals(game.play(leave, wolf),"You dropped the wolf");
 //    }
 //
 //    @Test
@@ -127,9 +127,6 @@ public class WSCConfigurationTest {
 //    }
 //
 //
-//
-//    TEST QUE NO PASAN POR PROBLEMAS CON LOS MENSAJES PERO LA LOGICA ESTA BIEN
-
 //    @Test
 //    public void cantPickWolfFromNorthShore() {
 //        Game game = this.initializeGame();
@@ -140,14 +137,14 @@ public class WSCConfigurationTest {
 //    @Test
 //    public void whenBoatIsFullCantTakeOtherThingTest() {
 //        Game game = this.initializeGame();
-//        game.play(take,sheep);
+//        System.out.println(game.play(take,sheep));
 //        assertEquals(game.play(take,wolf),"You can't do that! You already have the sheep");
 //    }
 //
 //    @Test
 //    public void cantMoveToSouthShoreFromSouthShoreTest() {
 //        Game game = this.initializeGame();
-//        assertEquals(game.play(cross,south),invalidAction);
+//        assertEquals(game.play(cross,south),error);
 //    }
 
 }

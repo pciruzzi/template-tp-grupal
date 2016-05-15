@@ -30,7 +30,9 @@ public class MoveToPlayer extends ICommand {
                 Element player = game.getPlayer();
                 playerPosition.removeElement(element);
                 element.setState(false);
-                player.addElement(element);
+                if (!player.addElement(element)) {
+                    return "You can't do that, the " + player.getName() + " is full";
+                }
                 return correctMovementMessage + element.getName();
             } else {
                 //No esta en el piso

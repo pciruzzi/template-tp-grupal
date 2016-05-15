@@ -18,6 +18,9 @@ public class WSCConfiguration implements GameBuilder {
     private Element northShore;
     private Element southShore;
     private Element boat;
+    private Element riverSouthToNorth;
+    private Element riverNorthToSouth;
+
     private Game game;
 
     private IInterpreter winInterpreter;
@@ -27,8 +30,11 @@ public class WSCConfiguration implements GameBuilder {
 
         this.game = new Game("WSC");
 
-        this.createGameElements();
-        this.createGameCommands();
+        this.createElements();
+        this.assignElementStates();
+        this.assignSimpleCommand();
+        this.assignComplexCommand();
+
         this.createGameWinInterpreter();
 
         game.setWinInterpreter(winInterpreter);
@@ -38,40 +44,46 @@ public class WSCConfiguration implements GameBuilder {
         return this.game;
     }
 
-    private void createGameElements() {
-
-        wolf = new Element("wolf");
-        sheep = new Element("sheep");
-        cabbage = new Element("cabbage");
-
-        wolf.setState(true);
-        sheep.setState(true);
-        cabbage.setState(true);
-
-        northShore = new Element("north-shore");
-        southShore = new Element("south-shore");
-
-        northShore.setState(true);
-        southShore.setState(true);
-
-        southShore.addElement(wolf);
-        southShore.addElement(sheep);
-        southShore.addElement(cabbage);
-
-        southShore.addElement(northShore);
-        northShore.addElement(southShore);
-
-        northShore.setObjectiveElement(northShore);
-        southShore.setObjectiveElement(southShore);
-
-        boat = new Element("boat");
-        //boat.setSize(1);
-        southShore.addElement(boat);
-
-
+    private ArrayList<String> buildCondition(String elementOne, String elementTwo) {
+        ArrayList<String> returnArray = new ArrayList<>();
+        returnArray.add(elementOne);
+        returnArray.add(elementTwo);
+        return returnArray;
     }
 
-    private void createSimpleCommands() {
+    private void assignComplexCommand() {
+
+        ArrayList<String> sheepCabbage = buildCondition("sheep", "cabbage");
+        ArrayList<String> sheepWolf = buildCondition("wolf", "sheep");
+
+        IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
+        IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
+
+        IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
+        IInterpreter southCondition = new NotExpression(orSouth);
+
+        ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
+        //crossNorth.correctMovementMessage("You have crossed!");
+        crossNorth.incorrectMovementMessage("You cant do that!");
+        crossNorth.auxiliarMessage("They'll eat each other.");
+
+        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
+        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
+
+        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
+        IInterpreter northCondition = new NotExpression(orNorth);
+
+        ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
+        //crossSouth.correctMovementMessage("You have crossed!");
+        crossSouth.incorrectMovementMessage("You cant do that!");
+        crossSouth.auxiliarMessage("They'll eat each other.");
+
+        riverSouthToNorth.addCommand(crossNorth);
+        riverNorthToSouth.addCommand(crossSouth);
+    }
+
+    private void assignSimpleCommand() {
+
         ICommand drop = new DropOnPosition("leave", game);
         ICommand pick = new MoveToPlayer("take", game);
 
@@ -83,41 +95,47 @@ public class WSCConfiguration implements GameBuilder {
 
         cabbage.addCommand(pick);
         cabbage.addCommand(drop);
+
     }
 
-    private void createGameCommands() {
+    private void assignElementStates() {
+
+        wolf.setState(true);
+        sheep.setState(true);
+        cabbage.setState(true);
+
+        boat.setCapacity(1);
+
+        southShore.addElement(boat);
+
+        riverSouthToNorth.setState(true);
+        riverNorthToSouth.setState(true);
+
+        riverSouthToNorth.setObjectiveElement(northShore);
+        riverNorthToSouth.setObjectiveElement(southShore);
+
+        southShore.addElement(riverSouthToNorth);
+        northShore.addElement(riverNorthToSouth);
+    }
+
+    private void createElements() {
+
+        wolf = new Element("wolf");
+        sheep = new Element("sheep");
+        cabbage = new Element("cabbage");
 
 
-        this.createSimpleCommands();
+        northShore = new Element("north");
+        southShore = new Element("south");
 
-        ArrayList<String> sheepCabbage = new ArrayList<>();
-        sheepCabbage.add("sheep");
-        sheepCabbage.add("cabbage");
+        southShore.addElement(wolf);
+        southShore.addElement(sheep);
+        southShore.addElement(cabbage);
 
+        boat = new Element("boat");
 
-        ArrayList<String> sheepWolf = new ArrayList<>();
-        sheepWolf.add("wolf");
-        sheepWolf.add("sheep");
-
-        IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
-        IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
-
-        IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
-        IInterpreter southCondition = new NotExpression(orSouth);
-
-        ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
-
-        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
-        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
-
-        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
-        IInterpreter northCondition = new NotExpression(orNorth);
-
-        ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
-
-        northShore.addCommand(crossNorth);
-        southShore.addCommand(crossSouth);
-
+        riverNorthToSouth = new Element("south-shore");
+        riverSouthToNorth = new Element("north-shore");
     }
 
     private void createGameWinInterpreter() {
