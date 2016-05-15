@@ -249,11 +249,11 @@ public class IInterpreterTest {
         south.addElement(sheep);
         south.addElement(cabbage);
 
-        ArrayList<String> wCondition = new ArrayList<>();
-        wCondition.add("sheep");
-        wCondition.add("cabbage");
+        ArrayList<String> winCondition = new ArrayList<>();
+        winCondition.add("sheep");
+        winCondition.add("cabbage");
 
-        IInterpreter wolfCondition = new DoesNotContainElements(south,wCondition);
+        IInterpreter wolfCondition = new DoesNotContainElements(south,winCondition);
 
         assertFalse(wolfCondition.interpret());
 

@@ -65,7 +65,9 @@ public class WSCConfiguration implements GameBuilder {
         southShore.setObjectiveElement(southShore);
 
         boat = new Element("boat");
+        //boat.setSize(1);
         southShore.addElement(boat);
+
 
     }
 
@@ -84,6 +86,7 @@ public class WSCConfiguration implements GameBuilder {
     }
 
     private void createGameCommands() {
+
 
         this.createSimpleCommands();
 
