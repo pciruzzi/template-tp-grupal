@@ -12,7 +12,7 @@ public class Main {
         //Si isOpenDoor2 = false -> juego OpenDoor, si = true -> juego OpenDoor2
         //boolean isOpenDoor2 = true;
         //GameBuilder fetchConfiguration = new OpenDoorConfiguration(isOpenDoor2);
-        GameBuilder fetchConfiguration = new EvilThingConfiguration();
+        GameBuilder fetchConfiguration = new HanoiConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();

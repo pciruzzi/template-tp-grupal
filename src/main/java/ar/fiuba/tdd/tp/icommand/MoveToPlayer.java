@@ -9,14 +9,16 @@ public class MoveToPlayer extends ICommand {
     private IInterpreter condition;
 
     public MoveToPlayer(String name, Game game, IInterpreter condition) {
-        this.game = game;
-        this.name = name;
+        this(name, game);
         this.condition = condition;
     }
 
     public MoveToPlayer(String name, Game game) {
         this.game = game;
         this.name = name;
+        this.correctMovementMessage = "You picked the ";
+        this.incorrectMovementMessage = "You can't do that.";
+        this.auxiliarMessage = "You can't take the ";
         this.condition = new TrueExpression();
     }
 
@@ -29,13 +31,13 @@ public class MoveToPlayer extends ICommand {
                 playerPosition.removeElement(element);
                 element.setState(false);
                 player.addElement(element);
-                return "Ok.";
+                return correctMovementMessage + element.getName();
             } else {
                 //No esta en el piso
-                return "You can't take the " + element.getName() + ".";
+                return auxiliarMessage + element.getName() + ".";
             }
         } else {
-            return "You can't do that.";
+            return incorrectMovementMessage;
         }
     }
 

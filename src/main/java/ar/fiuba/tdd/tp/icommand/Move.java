@@ -11,11 +11,13 @@ public class Move extends ICommand {
 
     public Move(String name) {
         this.name = name;
+        this.correctMovementMessage = "You moved the ";
+        this.incorrectMovementMessage = "You can't do that ";
         this.condition = new TrueExpression();
     }
 
     public Move(String name, IInterpreter condition) {
-        this.name = name;
+        this(name);
         this.condition = condition;
     }
 
@@ -23,13 +25,13 @@ public class Move extends ICommand {
         if (condition.interpret()) {
             originElement.removeElement(movingElement);
             destinationElement.addElement(movingElement);
-            return "Ok";
+            return correctMovementMessage;
         }
-        return "Error";
+        return incorrectMovementMessage;
     }
 
     public String doAction(Element element) {
 
-        return "Que injusta es la vida";
+        return incorrectMovementMessage;
     }
 }

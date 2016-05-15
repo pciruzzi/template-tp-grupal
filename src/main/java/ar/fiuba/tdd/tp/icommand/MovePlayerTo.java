@@ -12,12 +12,14 @@ public class MovePlayerTo extends ICommand {
     public MovePlayerTo(Game game, String name) {
         this.game = game;
         this.name = name;
+        this.correctMovementMessage = "You have crossed";
+        this.incorrectMovementMessage = "Ey! Where do you go?! The ";
+        this.auxiliarMessage = " is locked";
         this.condition = new TrueExpression();
     }
 
     public MovePlayerTo(Game game, IInterpreter condition, String name) {
-        this.game = game;
-        this.name = name;
+        this(game, name);
         this.condition = condition;
     }
 
@@ -29,8 +31,8 @@ public class MovePlayerTo extends ICommand {
             element.getObjectiveElement().addElement(game.getPlayer());
             //Al player le seteo a la habitación donde tiene que ir.
             game.setPlayerPosition(element.getObjectiveElement());
-            return "You have crossed";
+            return correctMovementMessage;
         }
-        return "Ey! Where do you go?! The " + element.getName() + " is locked.";
+        return incorrectMovementMessage + element.getName() + auxiliarMessage;
     }
 }
