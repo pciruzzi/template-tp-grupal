@@ -1,12 +1,13 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.*;
+import ar.fiuba.tdd.tp.model.GameBuilder;
+import ar.fiuba.tdd.tp.model.PoisonConfiguration;
+import ar.fiuba.tdd.tp.model.TreasureQuestConfiguration;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
-import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.PoisonConfiguration;
+
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -18,7 +19,7 @@ public class Main {
         //boolean isOpenDoor2 = true;
         //GameBuilder fetchConfiguration = new OpenDoorConfiguration(isOpenDoor2);
 //        GameBuilder fetchConfiguration = new HanoiConfiguration();
-        GameBuilder fetchConfiguration = new PoisonConfiguration();
+        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();

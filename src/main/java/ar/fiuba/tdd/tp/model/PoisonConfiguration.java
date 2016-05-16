@@ -11,12 +11,16 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import java.util.ArrayList;
 
 public class PoisonConfiguration implements GameBuilder {
+
+    private Game game;
+    private Element player;
+
     @Override
     public Game build() {
 
+        game = new Game("Fetch Quest");
+        player = new Element("player");
         Element room = new Element("room");
-        Game game = new Game("Fetch Quest");
-        Element player = new Element("player");
 
         game.setPlayer(player);
         game.setPlayerPosition(room);
@@ -31,6 +35,13 @@ public class PoisonConfiguration implements GameBuilder {
         Element antidote = createAntidote(question, pick);
         room.addElement(antidote);
 
+        createFinishingConditions();
+
+        return game;
+    }
+
+    private void createFinishingConditions() {
+
         ArrayList<String> winArray = new ArrayList<String>();
         winArray.add("antidote");
 
@@ -42,8 +53,6 @@ public class PoisonConfiguration implements GameBuilder {
 
         game.setWinInterpreter(winInterpreter);
         game.setLosingInterpreter(losingInterpreter);
-
-        return game;
     }
 
     private void createStickWithPoison(Element room, ICommand question, ICommand pick) {
