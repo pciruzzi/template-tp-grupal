@@ -22,6 +22,16 @@ public class MoveToPlayer extends ICommand {
         this.condition = new TrueExpression();
     }
 
+    //Return true if the player had an antidote and had been healed.
+    private boolean checkInventoryForAntidote(Game game) {
+        if ( game.getPlayer().getElementMap().containsKey("antidote") ) {
+            game.getPlayer().getElementMap().remove("antidote");
+            game.getPlayer().setPoisoned(false);
+            return true;
+        }
+        return false;
+    }
+
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             //Si esta en el piso o dentro de algun elemento del lugar
@@ -30,16 +40,34 @@ public class MoveToPlayer extends ICommand {
                 Element player = game.getPlayer();
                 playerPosition.removeElement(element);
                 element.setState(false);
+//<<<<<<< HEAD
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
+//=======
+                player.addElement(element);
+
+                //todo aca deberia ver para avisar que lo envenene o cure.
+                checkElementForPoisonAndAntidote(element, player);
                 return correctMovementMessage + element.getName();
+//                return "Ok.";
+//>>>>>>> doingPoison
             } else {
                 //No esta en el piso
                 return auxiliarMessage + element.getName() + ".";
             }
         } else {
             return incorrectMovementMessage;
+        }
+    }
+
+    private void checkElementForPoisonAndAntidote(Element element, Element player) {
+        if (element.isPoisoned()) {
+            player.setPoisoned(true);
+            element.setPoisoned(false);
+        }
+        if (player.isPoisoned()) {
+            checkInventoryForAntidote(game);
         }
     }
 

@@ -4,13 +4,10 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.Move;
-import ar.fiuba.tdd.tp.model.Game;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
 
 public class MoveTest {
 

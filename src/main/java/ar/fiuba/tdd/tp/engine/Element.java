@@ -13,7 +13,7 @@ public class Element {
     private int size;
     private Element objectiveElement;
     private int capacity;
-
+    private boolean poisoned;
 
     public Element(String name) {
         commandMap = new HashMap<String, ICommand>();
@@ -23,7 +23,9 @@ public class Element {
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;
+        this.poisoned = false;
     }
+
 
     public String doCommand(String commandName) {
         if (commandMap.containsKey(commandName)) {
@@ -155,6 +157,13 @@ public class Element {
             }
         }
         return true;
+    }
 
+    public boolean isPoisoned() {
+        return poisoned;
+    }
+
+    public void setPoisoned(boolean poisoned) {
+        this.poisoned = poisoned;
     }
 }
