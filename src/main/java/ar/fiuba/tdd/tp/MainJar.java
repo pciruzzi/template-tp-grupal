@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+
 public class MainJar {
 
     public static void main(String[] args) throws Exception {
@@ -11,11 +13,16 @@ public class MainJar {
 
         Reader reader = new Console();
         Writer writer = new Console();
-        String msg = "";
-        while (! msg.equals("exit") /*&& ! driver.isGameWon()*/) {
-            msg = reader.read();
-            String returnCode = driver.sendCommand(msg);
-            writer.write(returnCode);
+        try {
+            String msg = "";
+            String returnCode = "";
+            while (! msg.equals("exit") && ! returnCode.equals(GAME_WON)) {
+                msg = reader.read();
+                returnCode = driver.sendCommand(msg);
+                writer.write(returnCode);
+            }
+        } catch (Exception e) { // catch de la runtime exception lanzada en el driver.sendCommand
+            writer.writeError(e.toString());
         }
     }
 }

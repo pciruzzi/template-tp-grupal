@@ -11,11 +11,11 @@ public class DriverImplementation implements GameDriver {
     public void initGame(String jarPath) {
         engine = new Engine();
         try {
-            /*return (*/engine.createGame(BuilderLoader.load(jarPath));/* != null);*/
+            engine.createGame(BuilderLoader.load(jarPath));
         } catch (Exception e) {
             Writer writer = new Console();
             writer.writeError("Couldn't load game from file " + jarPath);
-            //return false;
+            throw new RuntimeException("Couldn't load game from file " + jarPath);
         }
     }
 

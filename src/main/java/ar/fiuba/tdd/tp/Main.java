@@ -4,6 +4,8 @@ import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -18,7 +20,7 @@ public class Main {
         writer.write("You can start playing now...");
         String input = "";
         String returnCode = "";
-        while (! input.equals("exit") && !returnCode.equals("You won!!!")) {
+        while (! input.equals("exit") && ! returnCode.equals(GAME_WON)) {
             input = reader.read();
             returnCode = engine.doCommand(input);
             writer.write(returnCode);
