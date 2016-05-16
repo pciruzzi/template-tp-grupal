@@ -20,7 +20,6 @@ public class Game {
     public Game(String name) {
         this.name = name;
         this.gameWon = false;
-        this.description = "descripcion";
     }
 
     public String getName() {
@@ -35,6 +34,10 @@ public class Game {
         return this.description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public  String play(String cmd) {
         String returnMessage;
         returnMessage = playerPosition.doCommand(cmd);
@@ -47,9 +50,35 @@ public class Game {
         if (visibleElements.containsKey(element)) {
             Element actualElement = visibleElements.get(element);
             returnMessage = actualElement.doCommand(cmd);
+        } else if (player.getElementMap().containsKey(element)) {
+            Element actualElement = player.getElementMap().get(element);
+            returnMessage = actualElement.doCommand(cmd);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
+
+        returnMessage = checkGameWon(returnMessage);
+        return returnMessage;
+    }
+
+    public String play(String cmd, String element, String destinationElement) {
+        String returnMessage;
+        this.calculateVisibleElements();
+        if (visibleElements.containsKey(element)) {
+            Element actualElement = visibleElements.get(element);
+            Element destElement = visibleElements.get(destinationElement);
+            returnMessage = actualElement.doCommand(cmd, playerPosition, destElement);
+        } else {
+            returnMessage = "It doesn't exist a " + element + " in the game " + getName();
+        }
+        if (this.hasWon()) {
+            gameWon = true;
+            return "You won!!!";
+        }
+        return returnMessage;
+    }
+
+    private String checkGameWon(String returnMessage) {
         if (this.hasWon()) {
             gameWon = true;
             return GAME_WON;

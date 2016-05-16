@@ -11,7 +11,6 @@ public class DoesNotContainElements extends TerminalExpression {
     }
 
     public boolean interpret() {
-        ContainsElements containsElements = new ContainsElements(this.element, this.elementsListNames);
-        return !(containsElements.interpret());
+        return !element.hasAllElements(elementsListNames);
     }
 }

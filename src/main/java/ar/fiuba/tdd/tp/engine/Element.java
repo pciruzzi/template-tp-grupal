@@ -11,7 +11,7 @@ public class Element {
     private Map<String, ICommand> commandMap;
     private Map<String, Element> elementMap;
     private int size;
-    private Element objetiveElement;
+    private Element objectiveElement;
     private int capacity;
 
 
@@ -22,13 +22,22 @@ public class Element {
         this.state = false;
         this.capacity = 999;
         this.size = 1;
-        this.objetiveElement = null;
+        this.objectiveElement = null;
     }
 
     public String doCommand(String commandName) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
             return command.doAction(this);
+        } else {
+            return "I can't do that.";
+        }
+    }
+
+    public String doCommand(String commandName, Element originElement, Element destElement) {
+        if (commandMap.containsKey(commandName)) {
+            ICommand command = commandMap.get(commandName);
+            return command.doAction(originElement, this, destElement);
         } else {
             return "I can't do that.";
         }
@@ -60,7 +69,6 @@ public class Element {
     }
 
     public void removeElement(Element element) {
-
         elementMap.remove(element.getName());
         this.capacity = this.capacity + element.getSize();
     }
@@ -97,18 +105,21 @@ public class Element {
         return capacity;
     }
 
-    public Element getObjetiveElement() {
-        return objetiveElement;
+    public Element getObjectiveElement() {
+        return objectiveElement;
     }
 
-    public void setObjetiveElement(Element objetiveElement) {
-        this.objetiveElement = objetiveElement;
+    public void setObjectiveElement(Element objectiveElement) {
+        this.objectiveElement = objectiveElement;
     }
 
     public Map<String, Element> getVisibleElements() {
         Map<String, Element> visibleElements = new HashMap<String, Element>();
         for (Element element: getElementList()) {
             if (element.getState()) {
+                for (Element insideElement : element.getElementList()) {
+                    visibleElements.putAll(insideElement.getVisibleElements());
+                }
                 visibleElements.put(element.getName(),element);
             }
         }
@@ -121,5 +132,29 @@ public class Element {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public Map<String, Element> getElementMap() {
+        return elementMap;
+    }
+
+    public void changeElementsState(boolean state) {
+        for (Element element : getElementList()) {
+            element.setState(state);
+        }
+    }
+
+    public boolean hasAllElements(ArrayList<String> elementsToContain) {
+
+        if (elementMap.size() == 0) {
+            return false;
+        }
+        for (String elementName : elementsToContain) {
+            if (!elementMap.keySet().contains(elementName)) {
+                return false;
+            }
+        }
+        return true;
+
     }
 }

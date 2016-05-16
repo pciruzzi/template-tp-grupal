@@ -1,6 +1,8 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.icommand.ICommand;
+import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.*;
 import org.junit.Test;
 
@@ -38,7 +40,7 @@ public class IInterpreterTest {
     }
 
     @Test
-    public void testInterpreterReturnsFalseWhenConteinsStickAndBroomButDoesNotContainWindow() {
+    public void testInterpreterReturnsTrueWhenConteinsStickAndBroomButDoesNotContainWindow() {
         Element room = new Element("room");
         Element stick =  new Element("stick");
         Element broom =  new Element("broom");
@@ -54,7 +56,7 @@ public class IInterpreterTest {
 
         TerminalExpression terminal = new ContainsElements(room,stringList);
 
-        assertFalse(terminal.interpret());
+        assertTrue(terminal.interpret());
     }
 
     @Test
@@ -236,5 +238,24 @@ public class IInterpreterTest {
 
         TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
         assertFalse(notExpression.interpret());
+    }
+
+    @Test
+    public void testShouthShoreConteinsWolfAndSheep() {
+        Element south = new Element("south");
+        Element sheep = new Element("sheep");
+        Element cabbage = new Element("cabbage");
+
+        south.addElement(sheep);
+        south.addElement(cabbage);
+
+        ArrayList<String> winCondition = new ArrayList<>();
+        winCondition.add("sheep");
+        winCondition.add("cabbage");
+
+        IInterpreter wolfCondition = new DoesNotContainElements(south,winCondition);
+
+        assertFalse(wolfCondition.interpret());
+
     }
 }

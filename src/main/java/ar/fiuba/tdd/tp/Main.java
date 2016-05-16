@@ -1,8 +1,7 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
+import ar.fiuba.tdd.tp.model.*;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
@@ -10,10 +9,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new OpenDoorConfiguration();
+        //OpenDoorConfiguration servirá para los dos OpenDoor
+        //Se le va a pasar un booleano que es isOpenDoor2
+        //Si isOpenDoor2 = false -> juego OpenDoor, si = true -> juego OpenDoor2
+        //boolean isOpenDoor2 = true;
+        //GameBuilder fetchConfiguration = new OpenDoorConfiguration(isOpenDoor2);
+        GameBuilder fetchConfiguration = new HanoiConfiguration();
         engine.createGame(fetchConfiguration);
-
-//        Game fetchQuest = fetch.build();
 
         Reader reader = new Console();
         Writer writer = new Console();
@@ -25,31 +27,5 @@ public class Main {
             returnCode = engine.doCommand(input);
             writer.write(returnCode);
         }
-
-//        GameBuilder builder = BuilderLoader.load(args[0]);
-//        builder.build();
-//import ar.fiuba.tdd.tp.engine.Engine;
-//
-//public class Main {
-//    public static void main(String[] args) {
-
-//
-//        writer.write("Welcome to hell");
-//        writer.write("Type the game you'd like to play:");
-//        String gameName = reader.read();
-//
-//        if (Engine.canCreate(gameName)) {
-//            writer.write("You can start playing now...");
-//            Engine engine = new Engine(gameName);
-//            engine.generateGame();
-//            String input = "";
-//            while (! input.equals("exit") && ! engine.getGameWon()) {
-//                input = reader.read();
-//                String returnCode = engine.respondTo(input);
-//                writer.write(returnCode);
-//            }
-//
-//        }
-//    }
     }
 }

@@ -45,15 +45,4 @@ public class CommandParser {
     public String getCommand(String action, String firstElementName) {
         return action.substring(0, action.indexOf(firstElementName)).trim();
     }
-
-    public String lookAround() {
-        return "";
-    }
-
-    public String defaultActions(String action) {
-//        switch (action) {
-//            case
-//        }
-        return "";
-    }
 }

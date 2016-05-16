@@ -12,15 +12,39 @@ public class ContainsElements extends TerminalExpression{
     }
 
     public boolean interpret() {
-        List<Element> elementList = this.element.getElementList();
-        if (elementList.size() == 0) {
-            return false;
-        }
-        for (Element element : this.element.getElementList()) {
-            if (!elementsListNames.contains(element.getName())) {
-                return false;
-            }
-        }
-        return true;
+        return element.hasAllElements(elementsListNames);
     }
+
+//        boolean encontrado = false;
+//
+//        /List<Element> elementList = this.element.getElementList();
+//        if (elementList.size() == 0) {
+//            return false;
+//        }
+//
+//        for (String elementName : elementsListNames) {
+//            encontrado = isEncontrado(elementList, elementName);
+//            if (!encontrado) {
+//                return false;
+//            }
+//
+////        for (Element element : elementList) {
+////            if (elementsListNames.contains(element.getName()) == false) {
+////                return false;
+////            }
+////        }
+//            //todo capaz aca haya un error, antes habia un return true
+//        }
+//        return encontrado;
+//    }
+//
+//    private boolean isEncontrado(List<Element> elementList, String elementName) {
+//        boolean encontrado = false;
+//        for (Element element : elementList) {
+//            if (element.getName().equals(elementName)) {
+//                encontrado = true;
+//            }
+//        }
+//        return encontrado;
+//    }encontrado
 }
