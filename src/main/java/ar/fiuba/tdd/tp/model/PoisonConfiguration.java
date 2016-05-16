@@ -10,9 +10,6 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
-/**
- * Created by santy on 13/05/16.
- */
 public class PoisonConfiguration implements GameBuilder {
     @Override
     public Game build() {
