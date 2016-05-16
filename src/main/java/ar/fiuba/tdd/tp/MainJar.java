@@ -16,7 +16,7 @@ public class MainJar {
         try {
             String msg = "";
             String returnCode = "";
-            while (! msg.equals("exit") && ! returnCode.equals(GAME_WON)) {
+            while (! returnCode.equals(GAME_WON) && ! msg.equals("exit")) {
                 msg = reader.read();
                 returnCode = driver.sendCommand(msg);
                 writer.write(returnCode);
