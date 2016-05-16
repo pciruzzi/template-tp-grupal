@@ -35,7 +35,7 @@ public class Interactor extends SimpleSocket implements Runnable {
             }
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
-        } catch (Exception e) { // catch de la runtime exception lanzada en el driver.sendCommand
+        } catch (RuntimeException e) { // catch de la runtime exception lanzada en el driver.sendCommand
             writer.writeError(e.toString());
         } finally {
             this.closeConnection();

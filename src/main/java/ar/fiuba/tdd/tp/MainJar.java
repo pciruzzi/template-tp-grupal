@@ -21,7 +21,7 @@ public class MainJar {
                 returnCode = driver.sendCommand(msg);
                 writer.write(returnCode);
             }
-        } catch (Exception e) { // catch de la runtime exception lanzada en el driver.sendCommand
+        } catch (RuntimeException e) { // catch de la runtime exception lanzada en el driver.sendCommand
             writer.writeError(e.toString());
         }
     }

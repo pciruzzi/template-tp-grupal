@@ -15,7 +15,7 @@ public class DriverImplementation implements GameDriver {
         } catch (Exception e) {
             Writer writer = new Console();
             writer.writeError("Couldn't load game from file " + jarPath);
-            throw new RuntimeException("Couldn't load game from file " + jarPath);
+            throw new RuntimeException("EXCEPTION: Couldn't load game from file " + jarPath);
         }
     }
 
