@@ -32,10 +32,16 @@ public class PoisonConfiguration implements GameBuilder {
         room.addElement(antidote);
 
         ArrayList<String> winArray = new ArrayList<String>();
-        winArray.add("sticks");
+        winArray.add("antidote");
+
+        ArrayList<String> losingArray = new ArrayList<String>();
+        losingArray.add("stick");
+
         IInterpreter winInterpreter = new ContainsElements(player,winArray);
+        IInterpreter losingInterpreter = new ContainsElements(player,losingArray);
 
         game.setWinInterpreter(winInterpreter);
+        game.setLosingInterpreter(losingInterpreter);
 
         return game;
     }

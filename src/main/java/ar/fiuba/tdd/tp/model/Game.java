@@ -5,6 +5,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.*;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Game {
@@ -13,21 +14,22 @@ public class Game {
     private Element playerPosition;
     private Map<String,Element> visibleElements;
     private IInterpreter winInterpreter;
+    private IInterpreter losingInterpreter;
     private String name;
     private String description;
-    private boolean gameWon;
+    private boolean gameFinished;
 
     public Game(String name) {
         this.name = name;
-        this.gameWon = false;
+        this.gameFinished = false;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public boolean getGameWon() {
-        return this.gameWon;
+    public boolean getGameFinished() {
+        return this.gameFinished;
     }
 
     public String getDescription() {
@@ -57,7 +59,7 @@ public class Game {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
 
-        returnMessage = checkGameWon(returnMessage);
+        returnMessage = checkFinishedGame(returnMessage);
 //        update();
         return returnMessage;
     }
@@ -74,44 +76,48 @@ public class Game {
         }
 //        update();
         if (this.hasWon()) {
-            gameWon = true;
+            gameFinished = true;
             return "You won!!!";
         }
         //Aqui en este método update, checkeo si el personaje esta envenenado, etc, etc.
         return returnMessage;
     }
 
-    private void update() {
-        if (!this.getPlayer().isPoisoned()) {
-            checkInventoryForPoison();
-        } else {
-            checkInventoryForAntidote();
-        }
-    }
+//    private void update() {
+//        if (!this.getPlayer().isPoisoned()) {
+//            checkInventoryForPoison();
+//        } else {
+//            checkInventoryForAntidote();
+//        }
+//    }
+//
+//    //Return true if the player had an antidote and had been healed.
+//    private boolean checkInventoryForAntidote() {
+//        if ( this.getPlayer().getElementMap().containsKey("antidote") ) {
+//            this.getPlayer().getElementMap().remove("antidote");
+//            this.getPlayer().setPoisoned(false);
+//            return true;
+//        }
+//        return false;
+//    }
+//    //Return true if the player has anything poisoned in the inventory
+//    private boolean checkInventoryForPoison() {
+//        for ( Element itemOnInventory : this.getPlayer().getElementList() ) {
+//            if (itemOnInventory.isPoisoned()) {
+//                this.getPlayer().setPoisoned(true);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-    //Return true if the player had an antidote and had been healed.
-    private boolean checkInventoryForAntidote() {
-        if ( this.getPlayer().getElementMap().containsKey("antidote") ) {
-            this.getPlayer().getElementMap().remove("antidote");
-            this.getPlayer().setPoisoned(false);
-            return true;
+    private String checkFinishedGame(String returnMessage) {
+        if (this.hasLost()) {
+            gameFinished = true;
+            return GAME_LOST;
         }
-        return false;
-    }
-    //Return true if the player has anything poisoned in the inventory
-    private boolean checkInventoryForPoison() {
-        for ( Element itemOnInventory : this.getPlayer().getElementList() ) {
-            if (itemOnInventory.isPoisoned()) {
-                this.getPlayer().setPoisoned(true);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private String checkGameWon(String returnMessage) {
         if (this.hasWon()) {
-            gameWon = true;
+            gameFinished = true;
             return GAME_WON;
         }
         return returnMessage;
@@ -121,8 +127,16 @@ public class Game {
         return winInterpreter.interpret();
     }
 
+    private boolean hasLost() {
+        return losingInterpreter.interpret();
+    }
+
     public void setWinInterpreter(IInterpreter winInterpreter) {
         this.winInterpreter = winInterpreter;
+    }
+
+    public void setLosingInterpreter(IInterpreter losingInterpreter) {
+        this.losingInterpreter = losingInterpreter;
     }
 
     public Element getPlayerPosition() {

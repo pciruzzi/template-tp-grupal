@@ -5,7 +5,6 @@ import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Engine {
 
@@ -42,6 +41,6 @@ public class Engine {
     }
 
     public boolean isGameWon() {
-        return this.game.getGameWon();
+        return this.game.getGameFinished();
     }
 }
