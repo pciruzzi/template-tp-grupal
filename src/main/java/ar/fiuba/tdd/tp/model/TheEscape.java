@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
-public class EntregaTemplate implements GameBuilder {
+public class TheEscape implements GameBuilder {
 
     @SuppressWarnings("CPD-START")
     private Game game;
