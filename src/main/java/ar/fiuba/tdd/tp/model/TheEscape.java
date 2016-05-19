@@ -174,6 +174,12 @@ public class TheEscape implements GameBuilder {
         condicionLlave.add("Llave");
         IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
         ICommand abrirCaja = new ChangeVisibility("abrir", true, condicionCaja, game);
+        cajaFuerte.addCommand(abrirCaja);
+
+        // Abrir puerta para hall
+        puertaAPasillo.setObjectiveElement(pasillo);
+        ICommand abrirPuerta = new MovePlayerTo(game, "abrir");
+        puertaAPasillo.addCommand(abrirCaja);
 
     }
 
