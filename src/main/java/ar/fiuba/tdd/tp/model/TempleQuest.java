@@ -15,12 +15,14 @@ public class TempleQuest implements GameBuilder {
     // Los cuartos
     private Element roomOne;
 //    private Element roomHanoi;
-//    private Element roomArchaeologist;
+    private Element roomArchaeologist;
 
     // Las puertas
     private Element doorOneHanoi;
 //    private Element doorHanoiArchaeologist;
-//    private Element doorArchaeologistOutside;
+    private Element doorArchaeologistHanoi;
+    private Element doorArchaeologistOutside;
+//>>>>>>> Stashed changes
 
     // Los elementos levantables
 //    private Element key;
@@ -46,16 +48,20 @@ public class TempleQuest implements GameBuilder {
     private Element diskSeven;
     private Element diskEight;
     private Element diskNine;
+    //El ladron
+    private Element thief;
 
     // Los ICommands
     private ICommand drop;
     private ICommand pick;
-//    private ICommand openDoor;
+    private ICommand openDoor;
     private ICommand openContainer;
     private ICommand closeContainer;
     private ICommand question;
     private ICommand lookAround;
+
 //    private ICommand moveWithComparator;
+    private ICommand talk;
 
     @Override
     public Game build() {
@@ -187,25 +193,42 @@ public class TempleQuest implements GameBuilder {
     }
 
     private void createRoomArchaeologist() {
-//        roomArchaeologist = new Element("roomArchaeologist");
+//<<<<<<< Updated upstream
+////        roomArchaeologist = new Element("roomArchaeologist");
+//=======
+        roomArchaeologist = new Element("roomArchaeologist");
+        thief = new Element("thief");
+        thief.setState(true);
+        doorArchaeologistOutside = new Element("door forward");
+        doorArchaeologistHanoi = new Element("door back");
+//>>>>>>> Stashed changes
 
         combineElementsArchaeologist();
     }
 
     private void combineElementsArchaeologist() {
-
+        roomArchaeologist.addElement(thief);
+        roomArchaeologist.addElement(doorArchaeologistOutside);
+        roomArchaeologist.addElement(doorArchaeologistHanoi);
         addICoomandsToElementsInRoomArchaeologist();
     }
 
     private void addICoomandsToElementsInRoomArchaeologist() {
+        thief.addCommand(talk);
 
+        doorArchaeologistHanoi.addCommand(openDoor);
+
+        ArrayList<String> doorArchaeologistOutsideRequirements = new ArrayList<String>();
+        doorArchaeologistOutsideRequirements.add("diskNine");
+        IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(player, doorArchaeologistOutsideRequirements);
+        ICommand openDoorArchaeologistOutside = new MovePlayerTo(game, doorArchaeologistOutsideCondition, "open");
+        doorArchaeologistOutside.addCommand(openDoorArchaeologistOutside);
     }
 
     private void createFinishingConditions() {
 
         ArrayList<String> playerContains = new ArrayList<String>();
         playerContains.add("algo");
-
 
         IInterpreter playerAlgo = new ContainsElements(player,playerContains);
 
@@ -218,11 +241,12 @@ public class TempleQuest implements GameBuilder {
     private void createICommands() {
         drop            = new DropOnPosition("drop", game);
         pick            = new MoveToPlayer("pick", game);
-//        openDoor        = new MovePlayerTo(game, "open");
+        openDoor        = new MovePlayerTo(game, "open");
         openContainer   = new ChangeVisibility("open", true, game);
         closeContainer  = new ChangeVisibility("close", false, game);
         question        = new Question("ask");
         lookAround      = new LookAround("look around", game);
+        talk            = new MoveFromPlayer("talk", game);
     }
 }
 
