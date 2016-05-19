@@ -319,19 +319,15 @@ public class TheEscape implements GameBuilder {
         pasillo = new Element("pasillo");
         pasillo.addCommand(lookAround);
 
-        doorSalon1 = new Element("Salon1");
-        doorSalon2 = new Element("Salon2");
-        doorSalon3 = new Element("Salon3");
+        doorSalon1 = new Element("salon1");
+        doorSalon2 = new Element("salon2");
+        doorSalon3 = new Element("salon3");
         doorAccesoABibliotecario = new Element("BibliotecaAcceso");
-
-        doorSalon1.addCommand(question);
-        doorSalon2.addCommand(question);
-        doorSalon3.addCommand(question);
-        doorAccesoABibliotecario.addCommand(question);
 
         doorSalon1.addCommand(openDoor);
         doorSalon2.addCommand(openDoor);
         doorSalon3.addCommand(openDoor);
+        doorAccesoABibliotecario.addCommand(openDoor);
 
         doorSalon1.setState(true);
         doorSalon2.setState(true);
@@ -342,6 +338,11 @@ public class TheEscape implements GameBuilder {
         pasillo.addElement(doorSalon2);
         pasillo.addElement(doorSalon3);
         pasillo.addElement(doorAccesoABibliotecario);
+
+        doorSalon1.addCommand(question);
+        doorSalon2.addCommand(question);
+        doorSalon3.addCommand(question);
+        doorAccesoABibliotecario.addCommand(question);
 
         doorSalon1.setObjectiveElement(salonUno);
         doorSalon2.setObjectiveElement(salon2);
@@ -355,7 +356,7 @@ public class TheEscape implements GameBuilder {
     }
 
     private void createSalon3() {
-        salon3 = new Element("salon3");
+        salon3 = new Element("salonTres");
         doorSalon3.setObjectiveElement(salon3);
     }
 //
