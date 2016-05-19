@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.engine;
 
-import ar.fiuba.tdd.tp.CommandParser;
 import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 public class Engine {
 
     private CommandParser commandParser;
+
     private Game game;
 
     public void createGame(GameBuilder gameBuilder) {
@@ -42,5 +42,9 @@ public class Engine {
 
     public boolean isGameWon() {
         return this.game.getGameFinished();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

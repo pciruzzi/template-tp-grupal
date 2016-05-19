@@ -9,6 +9,8 @@ import ar.fiuba.tdd.tp.interpreter.OrExpression;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
+
 public class HanoiConfiguration implements GameBuilder{
 
     private Element diskOne;
@@ -115,6 +117,8 @@ public class HanoiConfiguration implements GameBuilder{
 
         addQuestions();
     }
+
+    @SuppressWarnings("CPD-END")
 
     private void addQuestions() {
         ICommand question = new Question("ask");

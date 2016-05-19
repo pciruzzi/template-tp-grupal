@@ -5,20 +5,25 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
 
+import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
+import static ar.fiuba.tdd.tp.Constants.POISONED;
+
 public class ChangeVisibility extends ICommand {
 
     private IInterpreter condition;
     private boolean state;
     private Game game;
+    private String returnMessage;
 
     public ChangeVisibility(String name, boolean state, Game game) {
         this.name = name;
         this.state = state;
-        this.correctMovementMessage = " is opened!.";
+        this.correctMovementMessage = " is opened.";
         this.incorrectMovementMessage = "You can't do that.";
         this.auxiliarMessage = " is closed!.";
         this.condition = new TrueExpression();
         this.game = game;
+        returnMessage = "";
     }
 
     public ChangeVisibility(String name, boolean state, IInterpreter condition, Game game) {
@@ -29,19 +34,35 @@ public class ChangeVisibility extends ICommand {
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             element.changeElementsState(state);
-            if (element.isPoisoned()) {
-                game.getPlayer().setPoisoned(true);
-            }
+            checkPoison(element);
             if (state) {
-                return "The " + element.getName() + correctMovementMessage;
+                return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
-                return "The " + element.getName() + auxiliarMessage;
+                return "The " + element.getName() + auxiliarMessage + returnMessage;
             }
         }
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element1, Element element2) {
-        return this.doAction(element1);
+    public String doAction(Element playerPosition, Element openableElement, Element element) {
+        String returnMessage;
+        Element player = game.getPlayer();
+        if (player.hasElement(element.getName())) {
+            returnMessage = doAction(openableElement);
+        } else {
+            returnMessage = incorrectMovementMessage + "You haven't got the " + element.getName() + ".";
+        }
+        return returnMessage;
+    }
+
+    private void checkPoison(Element element) {
+        if (element.isPoisoned()) {
+            game.getPlayer().setPoisoned(true);
+            returnMessage = POISONED;
+        }
+        if (game.getPlayer().isPoisoned()) {
+            game.checkInventoryForAntidote();
+            returnMessage += ANTIDOTED;
+        }
     }
 }

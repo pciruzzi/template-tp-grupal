@@ -12,7 +12,7 @@ public abstract class ICommand {
     public abstract String doAction(Element element);
 
     public String doAction(Element originElement, Element element, Element destinationElement) {
-        return "Incorrecto doAction";
+        return "Incorrect doAction";
     }
 
     public void correctMovementMessage(String message) {

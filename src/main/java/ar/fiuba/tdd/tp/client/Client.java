@@ -1,14 +1,13 @@
 package ar.fiuba.tdd.tp.client;
 
-import ar.fiuba.tdd.tp.CommandReader;
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Reader;
-import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.connection.TCPInformation;
+import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
+
+import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Client {
 
@@ -70,7 +69,7 @@ public class Client {
     private void readFromSocket() throws ConnectionLostException, ReadingException {
         String response = socket.read();
         writer.write(response);
-        if (response.equals("You won the game!")) {
+        if (response.equals(GAME_WON)) {
             gameWon = true;
         }
     }

@@ -1,7 +1,7 @@
 package ar.fiuba.tdd.tp.connection;
 
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.console.Console;
+import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.*;
