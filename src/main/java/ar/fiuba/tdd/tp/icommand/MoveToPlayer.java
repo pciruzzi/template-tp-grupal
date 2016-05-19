@@ -87,8 +87,9 @@ public class MoveToPlayer extends ICommand {
             returnMessage = POISONED;
         }
         if (player.isPoisoned()) {
-            game.checkInventoryForAntidote();
-            returnMessage += ANTIDOTED;
+            if ( game.checkInventoryForAntidote() ) {
+                returnMessage += ANTIDOTED;
+            }
         }
     }
 

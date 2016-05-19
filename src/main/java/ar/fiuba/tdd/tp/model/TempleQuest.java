@@ -69,6 +69,7 @@ public class TempleQuest implements GameBuilder {
         game = new Game("Temple Quest");
         player = new Element("player");
 
+        createICommands();
         createRoomOne();
         createRoomHanoi();
         createRoomArchaeologist();
@@ -90,6 +91,7 @@ public class TempleQuest implements GameBuilder {
         roomOne     = new Element("roomOne");
 
         doorOneHanoi = new Element("door");
+        doorOneHanoi.setState(true);
 
         // Los elementos levantables
         antidote    = new Element("antidote");
@@ -99,6 +101,8 @@ public class TempleQuest implements GameBuilder {
         antidote.setAntidote(true);
         apple.setPoisoned(true);
         monkey.setState(true);
+
+        monkey.setSize(0);
 
         // Los elementos contenedores
         skeleton    = new Element("skeleton");
@@ -112,8 +116,14 @@ public class TempleQuest implements GameBuilder {
 
     private void combineElementsRoomOne() {
 
+        roomOne.addElement(chest);
+        roomOne.addElement(skeleton);
+        roomOne.addElement(monkey);
+        roomOne.addElement(doorOneHanoi);
+
         skeleton.addElement(apple);
         chest.addElement(antidote);
+
         addICoomandsToElementsInRoomOne();
     }
 
@@ -123,7 +133,7 @@ public class TempleQuest implements GameBuilder {
         ArrayList<String> monkeyRequirements = new ArrayList<>();
         monkeyRequirements.add("monkey");
 
-        IInterpreter hasMonkey = new ContainsElements(doorOneHanoi, monkeyRequirements);
+        IInterpreter hasMonkey = new ContainsElements(player, monkeyRequirements);
 
         ICommand openDoorWithMonkey = new MovePlayerTo(game, hasMonkey, "open");
 
@@ -133,12 +143,17 @@ public class TempleQuest implements GameBuilder {
         apple.addCommand(pick);
         apple.addCommand(drop);
 
-        skeleton.addCommand(pick);
-        skeleton.addCommand(drop);
+        antidote.addCommand(pick);
+        antidote.addCommand(drop);
+
+        monkey.addCommand(new MoveToPlayer("wake up", game));
 
         // Los elementos contenedores
-        skeleton.addCommand(openContainer);
         chest.addCommand(openContainer);
+
+        ICommand search = new ChangeVisibility("search", true, game);
+        search.correctMovementMessage(" has elements inside.");
+        skeleton.addCommand(search);
 
         chest.addCommand(closeContainer);
 
@@ -162,6 +177,7 @@ public class TempleQuest implements GameBuilder {
 
     private void createRoomHanoi() {
         roomHanoi = new Element("roomHanoi");
+        doorOneHanoi.setObjectiveElement(roomHanoi);
 
         createPillarsAndDisks();
         combineElementsRoomHanoi();
@@ -169,11 +185,34 @@ public class TempleQuest implements GameBuilder {
 
     private void combineElementsRoomHanoi() {
 
+
+
         addICoomandsToElementsInRoomHanoi();
     }
 
     private void addICoomandsToElementsInRoomHanoi() {
 
+        ICommand moveSmallest = new MoveWithComparator("move top", (Element e1, Element e2) -> e1.getSize() - e2.getSize());
+        moveSmallest.correctMovementMessage("You moved the disk!");
+        moveSmallest.incorrectMovementMessage("You can't move a bigger disk over a smaller one!");
+        moveSmallest.auxiliarMessage("The stack from where you are trying to move is empty");
+
+        pillarOne.addCommand(moveSmallest);
+        pillarTwo.addCommand(moveSmallest);
+        pillarThree.addCommand(moveSmallest);
+
+        ICommand checkTop = new Check("check top",(Element e1, Element e2) -> e1.getSize() - e2.getSize());
+        checkTop.correctMovementMessage("The size of the top is ");
+        checkTop.incorrectMovementMessage("The stack you are trying to check is empty.");
+
+        pillarOne.addCommand(checkTop);
+        pillarTwo.addCommand(checkTop);
+        pillarThree.addCommand(checkTop);
+
+        ICommand lookAround = new LookAround("look around", game);
+        roomHanoi.addCommand(lookAround);
+
+        diskNine.addCommand(pick);
 
     }
 
@@ -249,7 +288,7 @@ public class TempleQuest implements GameBuilder {
         ArrayList<String> roomContainsPlayer = new ArrayList<String>();
         roomContainsPlayer.add("player");
 
-        IInterpreter winInterpreter = new ContainsElements(lastRoom, roomContainsPlayer);
+        IInterpreter playerInLastRoom = new ContainsElements(lastRoom, roomContainsPlayer);
 
         ArrayList<String> playerWithDisk = new ArrayList<String>();
         playerWithDisk.add("diskNine");
@@ -257,9 +296,11 @@ public class TempleQuest implements GameBuilder {
         IInterpreter playerWithDiskInterpreter = new ContainsElements(player, playerWithDisk);
         IInterpreter playerIsPoisoned = new IsPoisoned(player, true);
 
-        IInterpreter losingInterpreter = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
+        IInterpreter deadPlayer = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
+        IInterpreter losingInterpreter = new AndExpression(deadPlayer, playerInLastRoom);
 
-        game.setWinInterpreter(winInterpreter);
+
+        game.setWinInterpreter(playerInLastRoom);
         game.setLosingInterpreter(losingInterpreter);
     }
 

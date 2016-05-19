@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
+        GameBuilder fetchConfiguration = new TempleQuest();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();

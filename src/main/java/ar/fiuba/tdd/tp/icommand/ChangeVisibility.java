@@ -61,8 +61,9 @@ public class ChangeVisibility extends ICommand {
             returnMessage = POISONED;
         }
         if (game.getPlayer().isPoisoned()) {
-            game.checkInventoryForAntidote();
-            returnMessage += ANTIDOTED;
+            if ( game.checkInventoryForAntidote() ) {
+                returnMessage += ANTIDOTED;
+            }
         }
     }
 }
