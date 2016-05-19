@@ -6,7 +6,7 @@ import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 
 import java.net.Socket;
 
-import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Interactor extends SimpleSocket implements Runnable {
 
@@ -27,7 +27,7 @@ public class Interactor extends SimpleSocket implements Runnable {
             String msg = "";
             String returnCode = "";
             //this.write("Welcome to game '" + gameFilePath + "'!"); //Envio mensaje de bienvenida
-            while (! msg.equals("exit") && ! terminate && ! returnCode.equals(GAME_WON)) {
+            while (! msg.equals(EXIT) && ! terminate && ! returnCode.equals(GAME_WON) && ! returnCode.equals(GAME_LOST)) {
                 msg = this.read();
                 returnCode = driver.sendCommand(msg);
                 this.write(returnCode);

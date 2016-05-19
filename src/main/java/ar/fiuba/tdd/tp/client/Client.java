@@ -7,20 +7,20 @@ import ar.fiuba.tdd.tp.exceptions.*;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Client {
 
     private SocketClient socket;
     private Reader reader;
     private Writer writer;
-    private boolean gameWon;
+    private boolean gameFinished;
 
     public Client() {
         socket = new SocketClient();
         reader = new Console();
         writer = new Console();
-        gameWon = false;
+        gameFinished = false;
     }
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
@@ -46,7 +46,7 @@ public class Client {
         String command = "";
         try {
 //            this.readFromSocket(); //Leo mensaje de bienvenida del juego
-            while (! command.equals("exit") && ! gameWon) {
+            while (! command.equals(EXIT) && ! gameFinished) {
                 command = this.readFromInput();
                 this.writeToSocket(command);
                 this.readFromSocket();
@@ -69,8 +69,8 @@ public class Client {
     private void readFromSocket() throws ConnectionLostException, ReadingException {
         String response = socket.read();
         writer.write(response);
-        if (response.equals(GAME_WON)) {
-            gameWon = true;
+        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
+            gameFinished = true;
         }
     }
 }
