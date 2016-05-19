@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.LookAround;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
-import ar.fiuba.tdd.tp.icommand.Question;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -32,6 +29,8 @@ public class PoisonConfiguration implements GameBuilder {
 
         ICommand question = new Question("ask");
         ICommand pick = new MoveToPlayer("pick", game);
+        ICommand open = new ChangeVisibility("open", true, game);
+        createChestWithPoison(room, question, open);
         createStickWithPoison(room, question, pick);
 
         Element antidote = createAntidote(question, pick);
@@ -57,13 +56,22 @@ public class PoisonConfiguration implements GameBuilder {
         game.setLosingInterpreter(losingInterpreter);
     }
 
+    private void createChestWithPoison(Element room, ICommand question, ICommand open) {
+        Element chest = new Element("chest");
+        chest.addCommand(question);
+        chest.setState(true);
+        chest.addCommand(open);
+        chest.setPoisoned(true);
+        room.addElement(chest);
+    }
+
     private void createStickWithPoison(Element room, ICommand question, ICommand pick) {
-        Element stick = new Element("stick");
-        stick.addCommand(question);
-        stick.setState(true);
-        stick.addCommand(pick);
-        stick.setPoisoned(true);
-        room.addElement(stick);
+        Element chest = new Element("stick");
+        chest.addCommand(question);
+        chest.setState(true);
+        chest.addCommand(pick);
+        chest.setPoisoned(true);
+        room.addElement(chest);
     }
 
     @SuppressWarnings("CPD-END")

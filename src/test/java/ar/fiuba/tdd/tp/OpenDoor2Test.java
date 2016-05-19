@@ -91,8 +91,7 @@ public class OpenDoor2Test {
         assertTrue(output.contains("key"));
         assertTrue(output.contains("door"));
     }
-
-
+    
     @Test
     public void pickKeyFromOpenBox() {
         Engine engine = initializeEngineOpenDoor2();
