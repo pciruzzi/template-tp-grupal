@@ -16,7 +16,7 @@ public class CommandParserTest {
     public static final String pickStick = pick + " " + stick;
     public static final String pickStickChest = pick + " " + stick + " " + chest;
 
-    private ar.fiuba.tdd.tp.engine.CommandParser initializeCommandParser() {
+    private CommandParser initializeCommandParser() {
         CommandParser commandParser = new CommandParser();
         return commandParser;
     }

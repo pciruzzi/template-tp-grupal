@@ -32,14 +32,18 @@ while true; do
 		-s|--server)
 			command+="$SERVER"
 			eval "$command"
+			# Para ejecutar en otra terminal, pero que se cierra cuando termina
 			#gnome-terminal -e "$command"
+			# Para ejecutar en otra terminal, que queda abierta
 			#gnome-terminal -x sh -c "$command; bash"
 			;;
 		-c|--client)
 			command+="$CLIENT"
 			eval "$command"
-			#gnome-terminal -e "$command" #Para ejecutar en otra terminal, pero que se cierra cuando termina
-			#gnome-terminal -x sh -c "$command; bash" #Para ejecutar en otra terminal, que queda abierta
+			# Para ejecutar en otra terminal, pero que se cierra cuando termina
+			#gnome-terminal -e "$command"
+			# Para ejecutar en otra terminal, que queda abierta
+			#gnome-terminal -x sh -c "$command; bash" 
 			;;
 		--)
 			break;

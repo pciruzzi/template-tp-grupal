@@ -1,8 +1,7 @@
 package ar.fiuba.tdd.tp.server;
 
-import ar.fiuba.tdd.tp.DriverImplementation;
-import ar.fiuba.tdd.tp.GameDriver;
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
+import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 
 import java.net.Socket;
@@ -23,8 +22,8 @@ public class Interactor extends SimpleSocket implements Runnable {
     }
 
     public void run() {
-        driver.initGame(this.gameFilePath);
         try {
+            driver.initGame(this.gameFilePath);
             String msg = "";
             String returnCode = "";
             //this.write("Welcome to game '" + gameFilePath + "'!"); //Envio mensaje de bienvenida
@@ -35,8 +34,8 @@ public class Interactor extends SimpleSocket implements Runnable {
             }
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
-        } catch (RuntimeException e) { // catch de la runtime exception lanzada en el driver.sendCommand
-            writer.writeError(e.toString());
+        } catch (GameLoadFailedException e) { // catch de la exception lanzada en el driver.initGame
+            writer.writeError(e.toString() + ": Couldn't load game from file.");
         } finally {
             this.closeConnection();
         }

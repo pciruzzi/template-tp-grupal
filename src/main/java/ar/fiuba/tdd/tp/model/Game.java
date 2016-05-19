@@ -17,11 +17,13 @@ public class Game {
     private IInterpreter losingInterpreter;
     private String name;
     private String description;
-    private boolean gameFinished;
+    private boolean gameWon;
+    private boolean gameLost;
 
     public Game(String name) {
         this.name = name;
-        this.gameFinished = false;
+        this.gameLost = false;
+        this.gameWon = false;
     }
 
     public String getName() {
@@ -29,7 +31,15 @@ public class Game {
     }
 
     public boolean getGameFinished() {
-        return this.gameFinished;
+        return (this.gameLost || this.gameWon);
+    }
+
+    public boolean getGameWon() {
+        return this.gameWon;
+    }
+
+    public boolean getGameLost() {
+        return this.gameLost;
     }
 
     public String getDescription() {
@@ -79,11 +89,11 @@ public class Game {
 
     private String checkFinishedGame(String returnMessage) {
         if (this.hasLost()) {
-            gameFinished = true;
+            gameLost = true;
             return GAME_LOST;
         }
         if (this.hasWon()) {
-            gameFinished = true;
+            gameWon = true;
             return GAME_WON;
         }
         return returnMessage;
