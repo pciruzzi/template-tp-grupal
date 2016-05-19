@@ -6,7 +6,7 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 
-public class TempleQuest implements GameBuilder {
+public class TheScape implements GameBuilder {
 
     @SuppressWarnings("CPD-START")
     private Game game;
