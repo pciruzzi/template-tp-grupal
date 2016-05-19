@@ -3,6 +3,9 @@ jdk:
   - oraclejdk8
 before_install:
  - chmod +x gradlew
+ - chmod +x jars.sh
+script:
+ - ./jars.sh -e -s -c -g FetchQuest -g EvilThing -g OpenDoor -g OpenDoor2 -g TreasureQuest -g Hanoi -g WSC && ./gradlew check
 after_failure:
  - cat build/reports/*/*.xml
 cache:

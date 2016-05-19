@@ -23,6 +23,7 @@ ROOT="ar/fiuba/tdd/tp"
 CLIENT="$ROOT/client"
 CONNECTION="$ROOT/connection"
 CONSOLE="$ROOT/console"
+DRIVER="$ROOT/driver"
 ENGINE="$ROOT/engine"
 EXCEPTIONS="$ROOT/exceptions"
 ICOMMAND="$ROOT/icommand"
@@ -59,7 +60,7 @@ while true; do
 		-s|--server)
 			manifest="Manifest-version: 1.0\nMain-Class: $ROOT_JAVA.server.MainServer\nClass-Path: ../engine/Engine.jar\n"
 			echo -e "$manifest" > "$SERVER/$MANIFEST"
-			command+="cfm $SERVER/Server.jar $SERVER/$MANIFEST $SERVER/*.class $CONNECTION/*.class $EXCEPTIONS/*.class $CONSOLE/*.class $CONSTANTS $ROOT/GameDriver.class $ROOT/DriverImplementation.class"
+			command+="cfm $SERVER/Server.jar $SERVER/$MANIFEST $SERVER/*.class $CONNECTION/*.class $EXCEPTIONS/*.class $CONSOLE/*.class $CONSTANTS $DRIVER/*.class"
 			eval "$command"
 			;;
 		-c|--client)

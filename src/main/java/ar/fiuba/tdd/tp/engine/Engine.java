@@ -41,7 +41,11 @@ public class Engine {
     }
 
     public boolean isGameWon() {
-        return this.game.getGameFinished();
+        return this.game.getGameWon();
+    }
+
+    public boolean isGameLost() {
+        return this.game.getGameLost();
     }
 
     public Game getGame() {
