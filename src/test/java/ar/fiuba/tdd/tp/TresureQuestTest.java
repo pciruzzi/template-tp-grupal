@@ -134,7 +134,7 @@ public class TresureQuestTest {
         game.play("pick", "antidote");
         game.play("open","door to five");
         assertEquals("The box one is opened.\n"
-                + "You have been posionnd! :(\n"
+                + "You have been posioned! :(\n"
                 + "You have an antidote in the inventory, you have been cured! :D",game.play("open", "box one"));
     }
 
