@@ -70,6 +70,7 @@ public class OpenDoor2Configuration implements GameBuilder {
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
         doorOneTwo.addCommand(question);

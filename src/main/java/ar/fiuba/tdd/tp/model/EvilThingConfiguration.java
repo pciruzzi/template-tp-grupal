@@ -91,11 +91,13 @@ public class EvilThingConfiguration implements GameBuilder {
         ArrayList<String> doorRequirements = new ArrayList<String>();
         doorRequirements.add("key");
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
         IInterpreter door2Condition = new DoesNotContainElements(player, doorRequirements);
+        door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
         ICommand openDoorTwoThree = new MovePlayerTo(game, door2Condition, "open");
         doorTwoThree.addCommand(openDoorTwoThree);
         doorOneTwo.addCommand(question);

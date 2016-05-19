@@ -58,7 +58,7 @@ public class MoveToPlayer extends ICommand {
                 return auxiliarMessage + element.getName() + ".";
             }
         } else {
-            return incorrectMovementMessage;
+            return condition.getFailMessage();
         }
     }
 
