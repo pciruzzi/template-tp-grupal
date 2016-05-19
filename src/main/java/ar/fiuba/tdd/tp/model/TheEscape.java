@@ -60,7 +60,7 @@ public class TheEscape implements GameBuilder {
 
         createSotano();
         createSotanoAbajo();
-        createLastRoom();
+        createLastRoomAndCondicionesDeMorir();
         
         return game;
     }
@@ -111,14 +111,20 @@ public class TheEscape implements GameBuilder {
         ventana.addCommand(romper);
     }
 
-    private void createLastRoom() {
+    private void createLastRoomAndCondicionesDeMorir() {
 
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
 
         game.setWinInterpreter(winCondition);
+
+        ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
+        playerEstaEnCuartoDeLaMuerte.add("player");
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+
+        //Aca estan las condiciones de perder
+        game.setLosingInterpreter(estasEnCuartoDeLaMuerte);
     }
 
 //
