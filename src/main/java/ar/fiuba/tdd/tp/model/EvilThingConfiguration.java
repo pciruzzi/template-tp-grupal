@@ -34,6 +34,8 @@ public class EvilThingConfiguration implements GameBuilder {
         winConditionsArray.add("player");
         IInterpreter winCondition = new ContainsElements(roomThree, winConditionsArray);
         game.setWinInterpreter(winCondition);
+        IInterpreter loseInterpreter = new FalseExpression();
+        game.setLosingInterpreter(loseInterpreter);
 
         // Agrego el player y su posicion.
         game.setPlayer(player);

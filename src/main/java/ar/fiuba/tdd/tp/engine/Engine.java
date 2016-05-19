@@ -18,6 +18,7 @@ public class Engine {
     public String doCommand(String action) {
         ArrayList<Element> elementsList = new ArrayList<Element>(game.getCurrentPositionElements().values());
         elementsList.addAll(game.getPlayer().getElementList());
+
         Element firstElement = commandParser.getFirstElement(action,elementsList);
 
         if ( firstElement == null ) {
@@ -39,6 +40,6 @@ public class Engine {
     }
 
     public boolean isGameWon() {
-        return this.game.getGameWon();
+        return this.game.getGameFinished();
     }
 }

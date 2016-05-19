@@ -13,7 +13,9 @@ public class Element {
     private int size;
     private Element objectiveElement;
     private int capacity;
+    private boolean poisoned;
 
+    private boolean isAntidote;
 
     public Element(String name) {
         commandMap = new HashMap<String, ICommand>();
@@ -23,6 +25,7 @@ public class Element {
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;
+        this.poisoned = false;
     }
 
     public String doCommand(String commandName) {
@@ -33,6 +36,7 @@ public class Element {
             return "I can't do that.";
         }
     }
+
 
     public String doCommand(String commandName, Element originElement, Element destElement) {
         if (commandMap.containsKey(commandName)) {
@@ -117,7 +121,7 @@ public class Element {
         Map<String, Element> visibleElements = new HashMap<String, Element>();
         for (Element element: getElementList()) {
             if (element.getState()) {
-                for (Element insideElement : element.getElementList()) {
+                for (Element insideElement : getElementList()) {
                     visibleElements.putAll(insideElement.getVisibleElements());
                 }
                 visibleElements.put(element.getName(),element);
@@ -155,6 +159,21 @@ public class Element {
             }
         }
         return true;
+    }
 
+    public boolean isPoisoned() {
+        return poisoned;
+    }
+
+    public void setPoisoned(boolean poisoned) {
+        this.poisoned = poisoned;
+    }
+
+    public boolean isAntidote() {
+        return isAntidote;
+    }
+
+    public void setAntidote(boolean antidote) {
+        isAntidote = antidote;
     }
 }

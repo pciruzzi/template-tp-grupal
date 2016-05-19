@@ -4,6 +4,8 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
+import java.util.List;
+
 public class MoveToPlayer extends ICommand {
     private Game game;
     private IInterpreter condition;
@@ -22,6 +24,21 @@ public class MoveToPlayer extends ICommand {
         this.condition = new TrueExpression();
     }
 
+    //Return true if the player had an antidote and had been healed.
+    private boolean checkInventoryForAntidote(Game game) {
+
+        List<Element> elementList = game.getPlayer().getElementList();
+
+        for (Element inventoryElement : elementList ) {
+            if (inventoryElement.isAntidote()) {
+                game.getPlayer().setPoisoned(false);
+                game.getPlayer().getElementMap().remove(inventoryElement.getName());
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             //Si esta en el piso o dentro de algun elemento del lugar
@@ -33,6 +50,10 @@ public class MoveToPlayer extends ICommand {
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
+                player.addElement(element);
+
+                //todo aca deberia ver para avisar que lo envenene o cure.
+                checkElementForPoisonAndAntidote(element, player);
                 return correctMovementMessage + element.getName();
             } else {
                 //No esta en el piso
@@ -40,6 +61,15 @@ public class MoveToPlayer extends ICommand {
             }
         } else {
             return incorrectMovementMessage;
+        }
+    }
+
+    private void checkElementForPoisonAndAntidote(Element element, Element player) {
+        if (element.isPoisoned()) {
+            player.setPoisoned(true);
+        }
+        if (player.isPoisoned()) {
+            checkInventoryForAntidote(game);
         }
     }
 

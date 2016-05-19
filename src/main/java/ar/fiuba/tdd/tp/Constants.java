@@ -19,4 +19,5 @@ public final class Constants {
     public static final int HANOI_STACKS = 3;
 
     public static final String GAME_WON = "You won!!!";
+    public static final String GAME_LOST = "You lost!!!";
 }
