@@ -22,10 +22,9 @@ public class TempleQuest implements GameBuilder {
 //    private Element doorHanoiArchaeologist;
     private Element doorArchaeologistHanoi;
     private Element doorArchaeologistOutside;
-//>>>>>>> Stashed changes
 
     // Los elementos levantables
-//    private Element key;
+    private Element monkey;
     private Element antidote;
     private Element apple;
 
@@ -89,9 +88,11 @@ public class TempleQuest implements GameBuilder {
         // Los elementos levantables
         antidote    = new Element("antidote");
         apple       = new Element("apple");
+        monkey      = new Element("monkey");
 
         antidote.setAntidote(true);
         apple.setPoisoned(true);
+        monkey.setState(true);
 
         // Los elementos contenedores
         skeleton    = new Element("skeleton");
@@ -137,9 +138,19 @@ public class TempleQuest implements GameBuilder {
 
         roomOne.addCommand(lookAround);
 
+        addQuestionsToRoomOne();
+
     }
 
     private void addQuestionsToRoomOne() {
+
+        doorOneHanoi.addCommand(question);
+
+        apple.addCommand(question);
+        antidote.addCommand(question);
+        monkey.addCommand(question);
+
+        chest.addCommand(question);
         skeleton.addCommand(question);
     }
 
@@ -193,15 +204,12 @@ public class TempleQuest implements GameBuilder {
     }
 
     private void createRoomArchaeologist() {
-//<<<<<<< Updated upstream
-////        roomArchaeologist = new Element("roomArchaeologist");
-//=======
+
         roomArchaeologist = new Element("roomArchaeologist");
         thief = new Element("thief");
         thief.setState(true);
         doorArchaeologistOutside = new Element("door forward");
         doorArchaeologistHanoi = new Element("door back");
-//>>>>>>> Stashed changes
 
         combineElementsArchaeologist();
     }
@@ -227,13 +235,14 @@ public class TempleQuest implements GameBuilder {
 
     private void createFinishingConditions() {
 
-        ArrayList<String> playerContains = new ArrayList<String>();
-        playerContains.add("algo");
+        ArrayList<String> playerContainsDisk = new ArrayList<String>();
+        playerContainsDisk.add("algo");
 
-        IInterpreter playerAlgo = new ContainsElements(player,playerContains);
 
-        game.setWinInterpreter(playerAlgo);
-        game.setLosingInterpreter(playerAlgo);
+        IInterpreter losingInterpreter = new ContainsElements(player,playerContainsDisk);
+
+        game.setWinInterpreter(losingInterpreter);
+        game.setLosingInterpreter(losingInterpreter);
     }
 
     @SuppressWarnings("CPD-END")
