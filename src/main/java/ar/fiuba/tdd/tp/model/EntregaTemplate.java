@@ -1,14 +1,11 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.*;
-
-public class TempleQuest implements GameBuilder {
+public class EntregaTemplate implements GameBuilder {
 
     @SuppressWarnings("CPD-START")
     private Game game;
 
-//    // Los cuartos
+    //    // Los cuartos
 //    private Element roomOne;
 //    private Element roomHanoi;
 //    private Element roomArchaeologist;
@@ -77,5 +74,3 @@ public class TempleQuest implements GameBuilder {
 //        lookAround      = new LookAround("look around", game);
 //    }
 }
-
-

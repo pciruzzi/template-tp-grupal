@@ -22,5 +22,6 @@ public final class Constants {
     public static final String GAME_LOST = "You lost!!!";
 
     public static final String POISONED = "\nYou have been posionnd! :(";
+    public static final String ANTIDOTE_PICKED = "\nYou picked an antidote!! iupiiiiiii";
     public static final String ANTIDOTED = "\nYou have an antidote in the inventory, you have been cured! :D";
 }
