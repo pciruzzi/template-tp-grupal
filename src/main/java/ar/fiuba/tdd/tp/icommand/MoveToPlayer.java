@@ -43,13 +43,19 @@ public class MoveToPlayer extends ICommand {
                 Element playerPosition = game.getPlayerPosition();
                 Element player = game.getPlayer();
 
-                removeElement(element, playerPosition);
 
-                playerPosition.removeElement(element);
-                element.setState(false);
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
+
+                element.setState(false);
+
+                // Lo saco del cuarto
+                playerPosition.removeElement(element);
+
+                // Lo saco del objeto que lo contenia
+                removeElement(element, playerPosition);
+
 
                 //todo aca deberia ver para avisar que lo envenene o cure.
                 checkElementForPoisonAndAntidote(element, player);
@@ -65,13 +71,12 @@ public class MoveToPlayer extends ICommand {
 
     private void removeElement(Element elementToRemove, Element elementToRemoveFrom ) {
 
-
         ArrayList<String> elementToRemoveArray = new ArrayList<>();
         elementToRemoveArray.add(elementToRemove.getName());
 
         for ( Element containerElement : elementToRemoveFrom.getElementList()) {
 
-            if ( containerElement.hasAllElements(elementToRemoveArray) ) {
+            if ( containerElement.hasAllElements(elementToRemoveArray) && containerElement.getState() ) {
                 containerElement.removeElement(elementToRemove);
             } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ){
                 removeElement(elementToRemove, containerElement);

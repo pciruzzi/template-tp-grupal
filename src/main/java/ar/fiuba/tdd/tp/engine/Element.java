@@ -71,7 +71,7 @@ public class Element {
     }
 
     public void removeElement(Element element) {
-        elementMap.remove(element.getName());
+        Element removedElement  = elementMap.remove(element.getName());
         this.capacity = this.capacity + element.getSize();
     }
 
