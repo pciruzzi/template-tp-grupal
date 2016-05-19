@@ -34,7 +34,6 @@ public class CommandParserTest {
         containingElement.addElement(new Element(chest));
         List<Element> elementList = containingElement.getElementList();
         Element firstElement = commandParser.getFirstElement(pickStick, elementList);
-        System.out.println(pickStick);
         String firstElementName = firstElement.getName();
         assertNotEquals(firstElement,null);
         assertEquals(firstElementName, stick);

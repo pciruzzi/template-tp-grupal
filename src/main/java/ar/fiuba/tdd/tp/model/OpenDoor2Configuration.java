@@ -115,7 +115,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     }
 
     private void setHelpAndExitCommand() {
-        ICommand exit = new Exit("exit");
+        ICommand exit = new Exit();
         ICommand help = new Help("help", game);
 
         roomOne.addCommand(help);
