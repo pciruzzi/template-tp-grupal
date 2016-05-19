@@ -1,5 +1,9 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.model.Game;
+import ar.fiuba.tdd.tp.model.GameBuilder;
+import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.ConstantVariables.*;
@@ -14,12 +18,17 @@ public class OpenDoor2Test {
 //        return game;
 //    }
 //
-//    @Test
-//    public void lookArroundTest() {
-//        Game game = this.initializeGame();
-//        assertEquals(game.doAction(lookArround), "There's a door and a box in the room.");
-//    }
-//
+    @Test
+    public void lookArroundTest() {
+        boolean isOpenDoor2 = true;
+        Engine engine = new Engine();
+        GameBuilder gameBuilder = new OpenDoorConfiguration(isOpenDoor2);
+        engine.createGame(gameBuilder);
+        String output = engine.doCommand("look around");
+
+        assertEquals(output, "There's a door and a box in the room.");
+    }
+
 //    @Test
 //    public void openLockedDoorShowsError() {
 //        Game game = this.initializeGame();
