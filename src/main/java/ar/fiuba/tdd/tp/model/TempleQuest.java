@@ -15,14 +15,17 @@ public class TempleQuest implements GameBuilder {
     // Los cuartos
     private Element roomOne;
     private Element roomHanoi;
+    private Element roomHanoiBis;
     private Element roomArchaeologist;
     private Element lastRoom;
 
     // Las puertas
     private Element doorOneHanoi;
-    private Element doorHanoiArchaeologist;
+    private Element doorHanoiBisArchaeologist;
     private Element doorArchaeologistHanoi;
     private Element doorArchaeologistOutside;
+    private Element riverForward;
+    private Element riverBackward;
 
     // Los elementos levantables
     private Element monkey;
@@ -59,6 +62,7 @@ public class TempleQuest implements GameBuilder {
     private ICommand closeContainer;
     private ICommand question;
     private ICommand lookAround;
+    private ICommand cross;
 
 //    private ICommand moveWithComparator;
     private ICommand talk;
@@ -72,7 +76,9 @@ public class TempleQuest implements GameBuilder {
         createLastRoom();
         createICommands();
         createRoomOne();
+        roomHanoiBis = new Element("roomHanoiBis");
         createRoomHanoi();
+        createRoomHanoiBis();
         createRoomArchaeologist();
 
         createFinishingConditions();
@@ -177,20 +183,34 @@ public class TempleQuest implements GameBuilder {
         skeleton.addCommand(question);
     }
 
+    private void createRoomHanoiBis() {
+        doorHanoiBisArchaeologist = new Element("door");
+//        roomHanoiBis = new Element("roomHanoiBis");
+        riverBackward = new Element("river");
+        riverBackward.setState(true);
+        riverBackward.setObjectiveElement(roomHanoi);
+        riverBackward.addCommand(cross);
+        roomHanoiBis.addCommand(lookAround);
+        roomHanoiBis.addElement(riverBackward);
+
+        ArrayList<String> containsBigDisk = new ArrayList<>();
+        containsBigDisk.add("disk nine");
+        IInterpreter containsDisk = new ContainsElements(player, containsBigDisk);
+
+        doorHanoiBisArchaeologist.setState(true);
+        doorHanoiBisArchaeologist.addCommand(new MovePlayerTo(game,containsDisk,"open"));
+
+        roomHanoiBis.addElement(doorHanoiBisArchaeologist);
+    }
+
     private void createRoomHanoi() {
         roomHanoi = new Element("roomHanoi");
         doorOneHanoi.setObjectiveElement(roomHanoi);
 
-        doorHanoiArchaeologist = new Element("door");
-        doorHanoiArchaeologist.setState(true);
-
-        ArrayList<String> containsBigDisk = new ArrayList<>();
-        containsBigDisk.add("disk nine");
-
-        IInterpreter containsDisk = new ContainsElements(player, containsBigDisk);
-
-        doorHanoiArchaeologist.addCommand(new MovePlayerTo(game,containsDisk,"open"));
-
+        riverForward = new Element("river");
+        riverForward.setState(true);
+        riverForward.setObjectiveElement(roomHanoiBis);
+        riverForward.addCommand(cross);
 
         createPillarsAndDisks();
         combineElementsRoomHanoi();
@@ -201,8 +221,7 @@ public class TempleQuest implements GameBuilder {
         roomHanoi.addElement(pillarOne);
         roomHanoi.addElement(pillarTwo);
         roomHanoi.addElement(pillarThree);
-
-        roomHanoi.addElement(doorHanoiArchaeologist);
+        roomHanoi.addElement(riverForward);
 
         pillarOne.addCommand(question);
         pillarTwo.addCommand(question);
@@ -287,10 +306,10 @@ public class TempleQuest implements GameBuilder {
     private void createRoomArchaeologist() {
 
         roomArchaeologist = new Element("roomArchaeologist");
-        doorHanoiArchaeologist.setObjectiveElement(roomArchaeologist);
+        doorHanoiBisArchaeologist.setObjectiveElement(roomArchaeologist);
         thief = new Element("thief");
         thief.setState(true);
-        doorArchaeologistOutside = new Element("door forward");
+        doorArchaeologistOutside = new Element("door outside");
         doorArchaeologistHanoi = new Element("door back");
         doorArchaeologistHanoi.setState(true);
         doorArchaeologistOutside.setState(true);
@@ -355,6 +374,15 @@ public class TempleQuest implements GameBuilder {
         question        = new Question("ask");
         lookAround      = new LookAround("look around", game);
         talk            = new MoveFromPlayer("talk", game);
+        createCross();
+    }
+
+    private void createCross() {
+        ArrayList<String> requirementsToCross = new ArrayList<>();
+        requirementsToCross.add("disk nine");
+
+        IInterpreter containsDisk9 = new ContainsElements(player, requirementsToCross);
+        cross = new MovePlayerTo(game, containsDisk9, "cross");
     }
 }
 
