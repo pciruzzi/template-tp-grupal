@@ -273,6 +273,16 @@ public class TempleQuest implements GameBuilder {
         pillarThree.addElement(diskEight);
         pillarThree.addElement(diskNine);
 
+        diskOne.setSize(1);
+        diskTwo.setSize(2);
+        diskThree.setSize(3);
+        diskFour.setSize(4);
+        diskFive.setSize(5);
+        diskSix.setSize(6);
+        diskSeven.setSize(7);
+        diskEight.setSize(8);
+        diskNine.setSize(9);
+
     }
 
     private void createRoomArchaeologist() {
@@ -322,7 +332,7 @@ public class TempleQuest implements GameBuilder {
         IInterpreter playerInLastRoom = new ContainsElements(lastRoom, roomContainsPlayer);
 
         ArrayList<String> playerWithDisk = new ArrayList<String>();
-        playerWithDisk.add("diskNine");
+        playerWithDisk.add("disk nine");
 
         IInterpreter playerWithDiskInterpreter = new ContainsElements(player, playerWithDisk);
         IInterpreter playerIsPoisoned = new IsPoisoned(player, true);
