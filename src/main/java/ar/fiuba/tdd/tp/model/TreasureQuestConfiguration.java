@@ -180,6 +180,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         doorThreeRequirements.add("pokemon");
 
         IInterpreter doorThreeCondition = new ContainsElements(player, doorThreeRequirements);
+        doorThreeCondition.setFailMessage("The door is locked! You need a pokemon to open.");
         ICommand openDoorTwoThree  = new MovePlayerTo(game, doorThreeCondition, "open");
         doorTwoThree.addCommand(openDoorTwoThree);
 
@@ -192,12 +193,16 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ICommand openDoorThreeFour = new MovePlayerTo(game, doorFourCondition, "open");
         doorThreeFour.addCommand(openDoorThreeFour);
 
+
+        addDoorCommands();
+        setObjectiveToDoors();
+    }
+
+    private void addDoorCommands() {
         doorFourThree.addCommand(openDoor);
         doorFourFive.addCommand(openDoor);
         doorFiveFour.addCommand(openDoor);
         doorFiveOne.addCommand(openDoor);
-
-        setObjectiveToDoors();
     }
 
     private void setObjectiveToDoors() {
