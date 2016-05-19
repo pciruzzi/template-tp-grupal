@@ -13,14 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class EvilThingTest {
-
-    private Engine initializeEngineEvilThing() {
-        Engine engine = new Engine();
-        GameBuilder gameBuilder = new EvilThingConfiguration();
-        engine.createGame(gameBuilder);
-        return engine;
-    }
+public class EvilThingTest extends ICommandTest{
 
     @Test
     public void lookAroundTest() {
@@ -31,7 +24,7 @@ public class EvilThingTest {
 
     @Test
     public void crossRoomTest() {
-        Engine engine = initializeEngineEvilThing();
+        Engine engine = this.initializeEngineEvilThing();
         engine.doCommand("pick key");
         assertEquals("You have crossed", engine.doCommand("open door"));
     }
@@ -68,8 +61,6 @@ public class EvilThingTest {
         engine.doCommand("pick key");
         engine.doCommand("open door");
         engine.doCommand("talk to thief");
-
         assertEquals("You won!!!", engine.doCommand("open otherDoor"));
     }
-
 }
