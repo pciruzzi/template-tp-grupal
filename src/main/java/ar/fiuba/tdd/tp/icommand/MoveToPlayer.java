@@ -7,6 +7,7 @@ import ar.fiuba.tdd.tp.model.Game;
 import java.util.ArrayList;
 
 import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
+import static ar.fiuba.tdd.tp.Constants.ANTIDOTE_PICKED;
 import static ar.fiuba.tdd.tp.Constants.POISONED;
 
 public class MoveToPlayer extends ICommand {
@@ -67,13 +68,23 @@ public class MoveToPlayer extends ICommand {
     }
 
     private void checkElementForPoisonAndAntidote(Element element, Element player) {
+
+        checkAntidote(element);
+
         if (element.isPoisoned()) {
             player.setPoisoned(true);
             returnMessage = POISONED;
         }
         if (player.isPoisoned()) {
-            game.checkInventoryForAntidote();
-            returnMessage += ANTIDOTED;
+            if ( game.checkInventoryForAntidote() ) {
+                returnMessage += ANTIDOTED;
+            }
+        }
+    }
+
+    private void checkAntidote(Element element) {
+        if ( element .isAntidote() ) {
+            returnMessage = ANTIDOTE_PICKED;
         }
     }
 

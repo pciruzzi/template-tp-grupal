@@ -10,5 +10,6 @@ public final class Constants {
     public static final String EXIT = "exit";
 
     public static final String POISONED = "\nYou have been posioned! :(";
+    public static final String ANTIDOTE_PICKED = "\nYou picked an antidote!!";
     public static final String ANTIDOTED = "\nYou have an antidote in the inventory, you have been cured! :D";
 }
