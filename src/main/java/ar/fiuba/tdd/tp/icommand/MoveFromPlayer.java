@@ -8,31 +8,31 @@ import java.util.List;
 
 public class MoveFromPlayer extends ICommand {
     private Game game;
+    private String element;
 
-    public MoveFromPlayer(String name, Game game) {
+    public MoveFromPlayer(String name, Game game, String element) {
         this.game = game;
         this.name = name;
-        this.correctMovementMessage = " has just stolen your object!";
-        this.incorrectMovementMessage = "Nothing happens.";
+        this.element = element;
+        this.correctMovementMessage = " has just stolen your ";
+        this.incorrectMovementMessage = "Hi!";
         this.auxiliarMessage = "Hi!\n" + "The ";
     }
 
     public String doAction(Element element) {
         Element player = game.getPlayer();
-        List<Element> playerElementList = player.getElementList();
-        //Si el jugador tiene algo en el inventario.
-        if (playerElementList.size() > 0) {
-            for (Element actualElement : playerElementList) {
-                //Sacar todos los elementos del player
-                player.removeElement(actualElement);
-                //Setear los elementos en false
-                actualElement.setState(false);
-                //Agregar los elementos en el otro elemento
-                element.addElement(actualElement);
-            }
-            return  auxiliarMessage + element.getName() + correctMovementMessage;
+        //Si el jugador tiene el elemento en el inventario.
+        if (player.getElementMap().containsKey(this.element)) {
+            Element actualElement = player.getElement(this.element);
+            //Saca el elemento del player.
+            player.removeElement(actualElement);
+            //Setea el elemento en false, no es visible.
+            actualElement.setState(false);
+            //Agrega el elemento al elemento con el que interactuo.
+            element.addElement(actualElement);
+            return auxiliarMessage + element.getName() + correctMovementMessage + this.element;
         } else {
-            //Si el jugador tiene el inventario vacio.
+            //Si el jugador no tiene el elemento.
             return incorrectMovementMessage;
         }
     }

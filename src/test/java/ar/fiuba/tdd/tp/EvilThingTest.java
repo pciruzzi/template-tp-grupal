@@ -52,7 +52,7 @@ public class EvilThingTest extends ICommandTest{
         Engine engine = this.initializeEngineEvilThing();
         engine.doCommand("pick key");
         engine.doCommand("open door");
-        assertEquals("Hi!\nThe thief has just stolen your object!", engine.doCommand("talk to thief"));
+        assertEquals("Hi!\nThe thief has just stolen your key", engine.doCommand("talk to thief"));
     }
 
     @Test

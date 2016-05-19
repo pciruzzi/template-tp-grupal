@@ -69,7 +69,7 @@ public class EvilThingConfiguration implements GameBuilder {
         // Agrego las acciones de cada elemento
         ICommand question = new Question("ask");
         //Ladron
-        ICommand talkTo = new MoveFromPlayer("talk to", game);
+        ICommand talkTo = new MoveFromPlayer("talk to", game, "key");
         thief.addCommand(talkTo);
         thief.addCommand(question);
         //Objeto maldito
@@ -106,7 +106,7 @@ public class EvilThingConfiguration implements GameBuilder {
     }
 
     private void setHelpAndExitCommand() {
-        ICommand exit = new Exit("exit");
+        ICommand exit = new Exit();
         ICommand help = new Help("help", game);
 
         roomOne.addCommand(help);

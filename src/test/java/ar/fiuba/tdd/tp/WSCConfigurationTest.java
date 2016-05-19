@@ -138,7 +138,7 @@ public class WSCConfigurationTest {
     @Test
     public void whenBoatIsFullCantTakeOtherThingTest() {
         Game game = this.initializeGame();
-        System.out.println(game.play(take,sheep));
+        game.play(take,sheep);
         assertEquals(game.play(take,wolf),"You can't do that, the boat is full");
     }
 

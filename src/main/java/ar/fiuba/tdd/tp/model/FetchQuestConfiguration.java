@@ -20,7 +20,7 @@ public class FetchQuestConfiguration implements GameBuilder {
 
         Element room = new Element("room");
         room.addCommand(new Help("help", game));
-        room.addCommand(new Exit("exit"));
+        room.addCommand(new Exit());
 
         Element stick = new Element("stick");
         stick.setState(true);
