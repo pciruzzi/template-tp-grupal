@@ -7,6 +7,10 @@ public class OrExpression extends LogicalConector {
     }
 
     public boolean interpret() {
-        return (expressionOne.interpret() || expressionTwo.interpret());
+        return super.interpret(true);
+    }
+
+    public String getFailMessage() {
+        return this.failMessage;
     }
 }

@@ -1,3 +1,4 @@
+
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 @SuppressWarnings("CPD-START")
 
 public class WSCConfiguration implements GameBuilder {
+
+    @SuppressWarnings("CPD-START")
 
     private Element wolf;
     private Element sheep;
@@ -54,27 +57,32 @@ public class WSCConfiguration implements GameBuilder {
         ArrayList<String> sheepWolf = buildCondition("wolf", "sheep");
 
         IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
+        southSheepCabbage.setFailMessage("The wolf will eat the sheep!");
         IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
+        southSheepWolf.setFailMessage("The sheep will eat the cabbage!");
 
         IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
+        orSouth.setFailMessage("You can't do that! They'll eat other!");
+
+        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
+        northSheepCabbage.setFailMessage("The wolf will eat the sheep!");
+        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
+        northSheepWolf.setFailMessage("The sheep will eat the cabbage!");
+
+        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
+        orNorth.setFailMessage("You can't do that! They'll eat other!");
+        IInterpreter northCondition = new NotExpression(orNorth);
+
         IInterpreter southCondition = new NotExpression(orSouth);
 
         ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
-        //crossNorth.correctMovementMessage("You have crossed!");
-        crossNorth.incorrectMovementMessage("You cant do that!");
-        crossNorth.auxiliarMessage("They'll eat each other.");
-
-        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
-        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
-
-        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
-        IInterpreter northCondition = new NotExpression(orNorth);
-
         ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
-        //crossSouth.correctMovementMessage("You have crossed!");
-        crossSouth.incorrectMovementMessage("You cant do that!");
-        crossSouth.auxiliarMessage("They'll eat each other.");
 
+        this.setRiverCommands(crossNorth,crossSouth);
+
+    }
+
+    private void setRiverCommands(ICommand crossNorth, ICommand crossSouth) {
         riverSouthToNorth.addCommand(crossNorth);
         riverNorthToSouth.addCommand(crossSouth);
     }
@@ -135,6 +143,8 @@ public class WSCConfiguration implements GameBuilder {
         riverSouthToNorth = new Element("north-shore");
     }
 
+    @SuppressWarnings("CPD-END")
+
     private void createGameWinInterpreter() {
 
         ArrayList<String> winElements = new ArrayList<>();
@@ -164,3 +174,4 @@ public class WSCConfiguration implements GameBuilder {
         return returnArray;
     }
 }
+
