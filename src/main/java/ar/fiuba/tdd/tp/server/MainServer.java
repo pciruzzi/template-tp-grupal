@@ -1,7 +1,7 @@
 package ar.fiuba.tdd.tp.server;
 
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.console.Console;
+import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.exceptions.ExitException;
 
 import static ar.fiuba.tdd.tp.Constants.*;
