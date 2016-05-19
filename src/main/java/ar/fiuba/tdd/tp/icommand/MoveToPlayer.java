@@ -69,7 +69,7 @@ public class MoveToPlayer extends ICommand {
 
     private void checkElementForPoisonAndAntidote(Element element, Element player) {
 
-        checkAntidote(element);
+//        checkAntidote(element);
 
         if (element.isPoisoned()) {
             player.setPoisoned(true);
@@ -82,11 +82,11 @@ public class MoveToPlayer extends ICommand {
         }
     }
 
-    private void checkAntidote(Element element) {
-        if ( element .isAntidote() ) {
-            returnMessage = ANTIDOTE_PICKED;
-        }
-    }
+//    private void checkAntidote(Element element) {
+//        if ( element .isAntidote() ) {
+//            returnMessage = ANTIDOTE_PICKED;
+//        }
+//    }
 
     private boolean checkAvailableElement(Game game, Element element) {
         return (game.getPlayerPosition().getVisibleElements().containsKey(element.getName()));
