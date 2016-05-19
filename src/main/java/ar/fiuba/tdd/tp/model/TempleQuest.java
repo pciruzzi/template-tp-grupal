@@ -146,7 +146,9 @@ public class TempleQuest implements GameBuilder {
         antidote.addCommand(pick);
         antidote.addCommand(drop);
 
-        monkey.addCommand(new MoveToPlayer("wake up", game));
+        ICommand wakeUp = new MoveToPlayer("wake up", game);
+        wakeUp.correctMovementMessage("You woke up the ");
+        monkey.addCommand(wakeUp);
 
         // Los elementos contenedores
         chest.addCommand(openContainer);
@@ -185,7 +187,9 @@ public class TempleQuest implements GameBuilder {
 
     private void combineElementsRoomHanoi() {
 
-
+        roomHanoi.addElement(pillarOne);
+        roomHanoi.addElement(pillarTwo);
+        roomHanoi.addElement(pillarThree);
 
         addICoomandsToElementsInRoomHanoi();
     }
