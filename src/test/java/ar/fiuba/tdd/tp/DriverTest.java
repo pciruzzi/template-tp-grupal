@@ -9,20 +9,16 @@ import static org.junit.Assert.assertEquals;
 public class DriverTest {
 
     @Test
-    public void gameDriverTest() {
+    public void gameDriverTest() throws GameLoadFailedException {
         GameDriver driver = new DriverImplementation();
-        try {
-            driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/EvilThingConfiguration.jar");
-            assertEquals(GameState.Ready, driver.getCurrentState());
-            driver.sendCommand("pick key");
-            assertEquals(GameState.InProgress, driver.getCurrentState());
-            driver.sendCommand("open door");
-            driver.sendCommand("talk to thief");
-            driver.sendCommand("open otherDoor");
-            assertEquals(GameState.Won, driver.getCurrentState());
-        } catch (GameLoadFailedException e) {
-            e.printStackTrace();
-        }
+        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/EvilThingConfiguration.jar");
+        assertEquals(GameState.Ready, driver.getCurrentState());
+        driver.sendCommand("pick key");
+        assertEquals(GameState.InProgress, driver.getCurrentState());
+        driver.sendCommand("open door");
+        driver.sendCommand("talk to thief");
+        driver.sendCommand("open otherDoor");
+        assertEquals(GameState.Won, driver.getCurrentState());
     }
 
 
