@@ -12,12 +12,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        //OpenDoorConfiguration servirá para los dos OpenDoor
-        //Se le va a pasar un booleano que es isOpenDoor2
-        //Si isOpenDoor2 = false -> juego OpenDoor, si = true -> juego OpenDoor2
-        //boolean isOpenDoor2 = true;
-        //GameBuilder fetchConfiguration = new OpenDoorConfiguration(isOpenDoor2);
-//        GameBuilder fetchConfiguration = new HanoiConfiguration();
         GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
         engine.createGame(fetchConfiguration);
 

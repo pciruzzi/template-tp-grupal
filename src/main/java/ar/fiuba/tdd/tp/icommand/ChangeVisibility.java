@@ -41,7 +41,14 @@ public class ChangeVisibility extends ICommand {
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element1, Element element2) {
-        return this.doAction(element1);
+    public String doAction(Element playerPosition, Element openableElement, Element element) {
+        String returnMessage;
+        Element player = game.getPlayer();
+        if (player.hasElement(element.getName())) {
+            returnMessage = doAction(openableElement);
+        } else {
+            returnMessage = incorrectMovementMessage + "You haven't got the " + element.getName() + ".";
+        }
+        return returnMessage;
     }
 }

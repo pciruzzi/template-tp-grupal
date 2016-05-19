@@ -10,6 +10,8 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
+
 public class PoisonConfiguration implements GameBuilder {
 
     private Game game;
@@ -63,6 +65,8 @@ public class PoisonConfiguration implements GameBuilder {
         stick.setPoisoned(true);
         room.addElement(stick);
     }
+
+    @SuppressWarnings("CPD-END")
 
     private Element createAntidote(ICommand question, ICommand pick) {
         Element antidote = new Element("antidote");
