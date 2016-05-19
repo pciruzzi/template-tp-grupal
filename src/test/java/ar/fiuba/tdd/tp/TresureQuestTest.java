@@ -3,6 +3,7 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.model.*;
 import org.junit.Test;
 
+import static ar.fiuba.tdd.tp.Constants.*;
 import static org.junit.Assert.assertEquals;
 
 public class TresureQuestTest {
@@ -150,7 +151,7 @@ public class TresureQuestTest {
         game.play("open","chest");
         game.play("open","door to five");
         game.play("open", "box one");
-        assertEquals("You lost!!!",game.play("open", "door to four"));
+        assertEquals(GAME_LOST,game.play("open", "door to four"));
     }
 
     @Test
@@ -167,6 +168,6 @@ public class TresureQuestTest {
         game.play("open","door to five");
         game.play("open", "box two");
         game.play("pick","treasure");
-        assertEquals("You won!!!",game.play("open","door to one"));
+        assertEquals(GAME_WON,game.play("open","door to one"));
     }
 }

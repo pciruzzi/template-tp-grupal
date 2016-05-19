@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.model.Game;
-import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.WSCConfiguration;
 import org.junit.Test;
 
@@ -17,14 +16,11 @@ public class WSCConfigurationTest {
     private static final String cross = "cross";
     private static final String north = "north-shore";
     private static final String south = "south-shore";
-    private static final String pickSuccesfull = "Ok.";
     private static final String crossSuccesfull = "You have crossed";
-    private static final String error = "Error";
 
     private Game initializeGame() {
         WSCConfiguration gameConfiguration = new WSCConfiguration();
-        Game game = gameConfiguration.build();
-        return game;
+        return gameConfiguration.build();
     }
 
     @Test
