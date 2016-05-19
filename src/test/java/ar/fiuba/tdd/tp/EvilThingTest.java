@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 public class EvilThingTest {
 
     private Engine initializeEngineEvilThing() {
-        boolean isOpenDoor2 = true;
         Engine engine = new Engine();
         GameBuilder gameBuilder = new EvilThingConfiguration();
         engine.createGame(gameBuilder);
@@ -37,36 +36,40 @@ public class EvilThingTest {
         assertEquals("You have crossed", engine.doCommand("open door"));
     }
 
-//    @Test
-//    public void roomTwoHasAthief() {
-//        Game game = this.initializeGame();
-//        game.play(pickKey);
-//        game.play(openDoor);
-//        assertEquals(game.play(lookArround),"There's a door and a thief in the room.");
-//    }
+    @Test
+    public void roomTwoHasAthief() {
+        Engine engine = this.initializeEngineEvilThing();
+        engine.doCommand("pick key");
+        engine.doCommand("open door");
+        String output = engine.doCommand("look around");
+        assertTrue(output.contains("thief"));
+        assertTrue(output.contains("door"));
+    }
 
-//    @Test
-//    public void youCantEnterRoom3WithRoom() {
-//        Game game = this.initializeGame();
-//        game.play(pickKey);
-//        game.play(openDoor);
-//        assertEquals(game.play(openDoor),OPEN_DOOR_ERROR);
-//    }
-//
-//    @Test
-//    public void youAreAbleToSpeakToTheThief() {
-//        Game game = this.initializeGame();
-//        game.play(pickKey);
-//        game.play(openDoor);
-//        assertEquals(game.play("talkTo thief"),"The thief has just stolen your object!");
-//    }
-//
-//    @Test
-//    public void ifTheThiefStealsYouYouCanOpenDoor2AndWin() {
-//        Game game = this.initializeGame();
-//        game.play(pickKey);
-//        game.play(openDoor);
-//        game.play("talkTo thief");
-//        assertEquals(game.play(openDoor),wonGame);
-//    }
+    @Test
+    public void youCantEnterRoom3WithRoom() {
+        Engine engine = this.initializeEngineEvilThing();
+        engine.doCommand("pick key");
+        engine.doCommand("open door");
+        assertEquals("Ey! You can't do that! The otherDoor is locked", engine.doCommand("open otherDoor"));
+    }
+
+    @Test
+    public void youAreAbleToSpeakToTheThief() {
+        Engine engine = this.initializeEngineEvilThing();
+        engine.doCommand("pick key");
+        engine.doCommand("open door");
+        assertEquals("Hi!\nThe thief has just stolen your object!", engine.doCommand("talk to thief"));
+    }
+
+    @Test
+    public void ifTheThiefStealsYouYouCanOpenDoor2AndWin() {
+        Engine engine = this.initializeEngineEvilThing();
+        engine.doCommand("pick key");
+        engine.doCommand("open door");
+        engine.doCommand("talk to thief");
+
+        assertEquals("You won!!!", engine.doCommand("open otherDoor"));
+    }
+
 }
