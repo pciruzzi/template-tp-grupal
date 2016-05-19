@@ -20,7 +20,7 @@ public class TempleQuest implements GameBuilder {
 
     // Las puertas
     private Element doorOneHanoi;
-//    private Element doorHanoiArchaeologist;
+    private Element doorHanoiArchaeologist;
     private Element doorArchaeologistHanoi;
     private Element doorArchaeologistOutside;
 
@@ -69,11 +69,11 @@ public class TempleQuest implements GameBuilder {
         game = new Game("Temple Quest");
         player = new Element("player");
 
+        createLastRoom();
         createICommands();
         createRoomOne();
         createRoomHanoi();
         createRoomArchaeologist();
-        createLastRoom();
 
         createFinishingConditions();
 
@@ -181,6 +181,17 @@ public class TempleQuest implements GameBuilder {
         roomHanoi = new Element("roomHanoi");
         doorOneHanoi.setObjectiveElement(roomHanoi);
 
+        doorHanoiArchaeologist = new Element("door");
+        doorHanoiArchaeologist.setState(true);
+
+        ArrayList<String> containsBigDisk = new ArrayList<>();
+        containsBigDisk.add("disk nine");
+
+        IInterpreter containsDisk = new ContainsElements(player, containsBigDisk);
+
+        doorHanoiArchaeologist.addCommand(new MovePlayerTo(game,containsDisk,"open"));
+
+
         createPillarsAndDisks();
         combineElementsRoomHanoi();
     }
@@ -190,6 +201,8 @@ public class TempleQuest implements GameBuilder {
         roomHanoi.addElement(pillarOne);
         roomHanoi.addElement(pillarTwo);
         roomHanoi.addElement(pillarThree);
+
+        roomHanoi.addElement(doorHanoiArchaeologist);
 
         addICoomandsToElementsInRoomHanoi();
     }
@@ -217,6 +230,11 @@ public class TempleQuest implements GameBuilder {
         roomHanoi.addCommand(lookAround);
 
         diskNine.addCommand(pick);
+        diskNine.setState(true);
+
+        pillarOne.addCommand(question);
+        pillarTwo.addCommand(question);
+        pillarThree.addCommand(question);
 
     }
 
@@ -224,6 +242,10 @@ public class TempleQuest implements GameBuilder {
         pillarOne   = new Element("pillar one");
         pillarTwo   = new Element("pillar two");
         pillarThree = new Element("pillar three");
+
+        pillarOne.setState(true);
+        pillarTwo.setState(true);
+        pillarThree.setState(true);
 
         diskOne    = new Element("disk one");
         diskTwo    = new Element("disk two");
@@ -250,15 +272,19 @@ public class TempleQuest implements GameBuilder {
         pillarThree.addElement(diskSeven);
         pillarThree.addElement(diskEight);
         pillarThree.addElement(diskNine);
+
     }
 
     private void createRoomArchaeologist() {
 
         roomArchaeologist = new Element("roomArchaeologist");
+        doorHanoiArchaeologist.setObjectiveElement(roomArchaeologist);
         thief = new Element("thief");
         thief.setState(true);
         doorArchaeologistOutside = new Element("door forward");
         doorArchaeologistHanoi = new Element("door back");
+        doorArchaeologistHanoi.setState(true);
+        doorArchaeologistOutside.setState(true);
 
         combineElementsArchaeologist();
     }
@@ -284,6 +310,7 @@ public class TempleQuest implements GameBuilder {
         IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(player, doorArchaeologistOutsideRequirements);
         ICommand openDoorArchaeologistOutside = new MovePlayerTo(game, doorArchaeologistOutsideCondition, "open");
         doorArchaeologistOutside.addCommand(openDoorArchaeologistOutside);
+        roomArchaeologist.addCommand(lookAround);
 
     }
 
