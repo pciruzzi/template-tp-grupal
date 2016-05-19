@@ -5,6 +5,7 @@ import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.AndExpression;
+
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -19,6 +20,7 @@ public class TheEscape implements GameBuilder {
     private Element sotano;
     private Element sotanoAbajo;
     private Element lastRoom;
+    private Element cuartoDeLaMuerte;
 
     // Los cuartos
     private Element accesoBiblioteca;
@@ -65,48 +67,80 @@ public class TheEscape implements GameBuilder {
 
         createSotano();
         createSotanoAbajo();
-        createLastRoom();
+//        createLastRoom();
         createBibliotecario();
         createBiblioteca();
-        
+        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+        sotano = new Element("Sotano");
+        sotanoAbajo = new Element("Sotano abajo");
+        lastRoom = new Element("A Fuera");
+
+
+        createLastRoomAndCondicionesDeMorir();
+
         return game;
     }
 
     private void createSotano() {
 
-        sotano = new Element("Sotano");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
         baranda.setState(true);
         escalera.setState(true);
 
+        //Acciones
+        ICommand use = new MovePlayerTo(game, "use");
+
+        baranda.setObjectiveElement(sotano);
+        baranda.addCommand(use);
+
+        escalera.setObjectiveElement(cuartoDeLaMuerte);
+        escalera.addCommand(use);
     }
 
     private void createSotanoAbajo() {
-
-        sotanoAbajo = new Element("Sotano abajo");
 
         Element ventana = new Element("ventana");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
 //        TODO aca hay que hacer el using de santi.
-//        todo tambien hay que hacer la condicion de perder si uso la escalera.
 //     ventana.addCommand();
+
         ventana.setState(true);
+
+        ArrayList<String> listaParaRomperVentana = new ArrayList<>();
+        listaParaRomperVentana.add("martillo");
+        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
+
+        //Acciones
+        ICommand use = new MovePlayerTo(game, "use");
+
+        ICommand romper = new MovePlayerTo(game,requisitosRomper, "break");
+
         escalera.setState(true);
         baranda.setState(true);
 
+        escalera.addCommand(use);
+        escalera.setObjectiveElement(cuartoDeLaMuerte);
+
+        ventana.setObjectiveElement(lastRoom);
+        ventana.addCommand(romper);
     }
 
-    private void createLastRoom() {
+    private void createLastRoomAndCondicionesDeMorir() {
 
-        lastRoom = new Element("A Fuera");
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
 
         game.setWinInterpreter(winCondition);
+
+        ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
+        playerEstaEnCuartoDeLaMuerte.add("player");
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+
+        //Aca estan las condiciones de perder
+        game.setLosingInterpreter(estasEnCuartoDeLaMuerte);
     }
 
     private void createBibliotecario() {
