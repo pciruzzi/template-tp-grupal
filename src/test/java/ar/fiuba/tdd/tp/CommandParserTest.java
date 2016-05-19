@@ -17,13 +17,11 @@ public class CommandParserTest {
     public static final String pickStickChest = pick + " " + stick + " " + chest;
 
     private CommandParser initializeCommandParser() {
-        CommandParser commandParser = new CommandParser();
-        return commandParser;
+        return new CommandParser();
     }
 
     private Element initializeContainingElement() {
-        Element element = new Element("room");
-        return element;
+        return new Element("room");
     }
 
     @Test

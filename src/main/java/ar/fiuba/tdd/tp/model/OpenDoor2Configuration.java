@@ -83,7 +83,6 @@ public class OpenDoor2Configuration implements GameBuilder {
 
         game.setPlayer(player);
         configureLookAround(game);
-
         configureKey(game);
 
         ArrayList<String> doorRequirements = new ArrayList<String>();
@@ -94,7 +93,6 @@ public class OpenDoor2Configuration implements GameBuilder {
         setWinCondition();
 
         setElementsInRoomOneAndTwo();
-
         setHelpAndExitCommand();
 
         game.setPlayerPosition(roomOne);

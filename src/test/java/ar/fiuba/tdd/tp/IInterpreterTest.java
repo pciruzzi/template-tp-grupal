@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.*;
 import org.junit.Test;
 
@@ -19,23 +17,20 @@ public class IInterpreterTest {
         Element stick =  new Element("stick");
         room.addElement(stick);
 
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
         TerminalExpression terminal = new ContainsElements(room,stringList);
-
         assertTrue(terminal.interpret());
     }
 
     @Test
     public void testInterpreterReturnsFalseWhenRoomDoesntContainStick() {
         Element room = new Element("room");
-
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
         TerminalExpression terminal = new ContainsElements(room,stringList);
-
         assertFalse(terminal.interpret());
     }
 
@@ -50,12 +45,11 @@ public class IInterpreterTest {
         room.addElement(broom);
         room.addElement(window);
 
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
         stringList.add("broom");
 
         TerminalExpression terminal = new ContainsElements(room,stringList);
-
         assertTrue(terminal.interpret());
     }
 
@@ -66,7 +60,7 @@ public class IInterpreterTest {
         Element stick =  new Element("stick");
         room.addElement(stick);
 
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
         TerminalExpression terminalRoom1 = new ContainsElements(room,stringList);
@@ -86,9 +80,9 @@ public class IInterpreterTest {
         room.addElement(broom);
         room2.addElement(stick);
 
-        ArrayList<String> stringListRoom1 = new ArrayList<String>();
+        ArrayList<String> stringListRoom1 = new ArrayList<>();
         stringListRoom1.add("stick");
-        ArrayList<String> stringListRoom2 = new ArrayList<String>();
+        ArrayList<String> stringListRoom2 = new ArrayList<>();
         stringListRoom2.add("broom");
 
         TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
@@ -107,9 +101,9 @@ public class IInterpreterTest {
         room.addElement(stick);
         room2.addElement(stick);
 
-        ArrayList<String> stringListRoom1 = new ArrayList<String>();
+        ArrayList<String> stringListRoom1 = new ArrayList<>();
         stringListRoom1.add("stick");
-        ArrayList<String> stringListRoom2 = new ArrayList<String>();
+        ArrayList<String> stringListRoom2 = new ArrayList<>();
         stringListRoom2.add("stick");
 
         TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
@@ -123,12 +117,11 @@ public class IInterpreterTest {
     public void testAndInterpretorReturnsFalseWhenRoomOneHasStickButRoom2Doesnt() {
         Element room = new Element("room");
         Element stick =  new Element("stick");
-
         room.addElement(stick);
 
-        ArrayList<String> stringListRoom1 = new ArrayList<String>();
+        ArrayList<String> stringListRoom1 = new ArrayList<>();
         stringListRoom1.add("stick");
-        ArrayList<String> stringListRoom2 = new ArrayList<String>();
+        ArrayList<String> stringListRoom2 = new ArrayList<>();
         stringListRoom2.add("broom");
 
         Element room2 = new Element("room2");
@@ -150,9 +143,9 @@ public class IInterpreterTest {
         chest.addElement(broom);
         room.addElement(window);
 
-        ArrayList<String> roomElements = new ArrayList<String>();
-        ArrayList<String> chestElementBroom = new ArrayList<String>();
-        ArrayList<String> chestElementStick = new ArrayList<String>();
+        ArrayList<String> roomElements = new ArrayList<>();
+        ArrayList<String> chestElementBroom = new ArrayList<>();
+        ArrayList<String> chestElementStick = new ArrayList<>();
 
         roomElements.add("window");
         chestElementBroom.add("broom");
@@ -178,16 +171,15 @@ public class IInterpreterTest {
         chest.addElement(broom);
         room.addElement(window);
 
-        ArrayList<String> roomElementsWindow = new ArrayList<String>();
-        ArrayList<String> roomElementsPainting = new ArrayList<String>();
-        ArrayList<String> chestElementBroom = new ArrayList<String>();
+        ArrayList<String> roomElementsWindow = new ArrayList<>();
+        ArrayList<String> roomElementsPainting = new ArrayList<>();
+        ArrayList<String> chestElementBroom = new ArrayList<>();
 
         roomElementsWindow.add("window");
         roomElementsPainting.add("painting");
         chestElementBroom.add("broom");
 
-        ArrayList<String> chestElementStick = new ArrayList<String>();
-
+        ArrayList<String> chestElementStick = new ArrayList<>();
         chestElementStick.add("stick");
 
         OrExpression orExpressionChest = new OrExpression(new ContainsElements(chest, chestElementBroom),
@@ -196,14 +188,13 @@ public class IInterpreterTest {
                 new ContainsElements(room, roomElementsWindow));
 
         AndExpression andExpression = new AndExpression(orExpressionChest,orExpressionRoom);
-
         assertTrue(andExpression.interpret());
     }
 
     @Test
     public void testNotExpressionReturnsTrueWhenEmptyRoom() {
         Element room = new Element("room");
-        ArrayList<String> roomList = new ArrayList<String>();
+        ArrayList<String> roomList = new ArrayList<>();
         roomList.add("stick");
 
         TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
@@ -219,7 +210,7 @@ public class IInterpreterTest {
         room.addElement(stick);
         room.addElement(door);
 
-        ArrayList<String> roomList = new ArrayList<String>();
+        ArrayList<String> roomList = new ArrayList<>();
         roomList.add("key");
 
         TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
@@ -233,7 +224,7 @@ public class IInterpreterTest {
 
         room.addElement(stick);
 
-        ArrayList<String> roomList = new ArrayList<String>();
+        ArrayList<String> roomList = new ArrayList<>();
         roomList.add("stick");
 
         TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
@@ -254,8 +245,6 @@ public class IInterpreterTest {
         winCondition.add("cabbage");
 
         IInterpreter wolfCondition = new DoesNotContainElements(south,winCondition);
-
         assertFalse(wolfCondition.interpret());
-
     }
 }

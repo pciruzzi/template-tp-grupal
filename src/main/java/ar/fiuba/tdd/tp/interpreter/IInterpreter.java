@@ -1,9 +1,9 @@
 package ar.fiuba.tdd.tp.interpreter;
 
 public interface IInterpreter {
-    public boolean interpret();
+    boolean interpret();
 
-    public String getFailMessage();
+    String getFailMessage();
 
-    public void setFailMessage(String failMessage);
+    void setFailMessage(String failMessage);
 }

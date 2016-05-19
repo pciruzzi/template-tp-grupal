@@ -26,7 +26,6 @@ public class HanoiConfiguration implements GameBuilder{
     private Game game;
 
     public Game build() {
-
         // Creo el juego
         game = new Game("Hanoi Towers");
         game.setDescription("3 stacks with n disks, try moving the disks around and see what happens");
@@ -35,7 +34,7 @@ public class HanoiConfiguration implements GameBuilder{
         addActions();
 
         // Creo las formas de ganar
-        ArrayList<String> winArray = new ArrayList<String>();
+        ArrayList<String> winArray = new ArrayList<>();
         winArray.add(diskOne.getName());
         winArray.add(diskTwo.getName());
         winArray.add(diskThree.getName());
@@ -65,7 +64,6 @@ public class HanoiConfiguration implements GameBuilder{
     }
 
     private void createElements() {
-
         // Creo los elementos
         diskOne = new Element("diskOne");
         diskTwo = new Element("diskTwo");
@@ -96,7 +94,6 @@ public class HanoiConfiguration implements GameBuilder{
     }
 
     private void addActions() {
-
         // Agrego las acciones
         ICommand moveSmallest = new MoveWithComparator("move top", (Element e1, Element e2) -> e1.getSize() - e2.getSize());
         moveSmallest.correctMovementMessage("You moved the disk!");

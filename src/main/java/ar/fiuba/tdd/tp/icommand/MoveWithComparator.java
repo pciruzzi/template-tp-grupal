@@ -15,32 +15,23 @@ public class MoveWithComparator extends ICommand {
     }
 
     private boolean checkConditions(Element movingElementOrigin, Element destinationElement) {
-
         List<Element> elementListDestination = destinationElement.getElementList();
-
         if ( elementListDestination.size() == 0 ) {
             return true;
         }
-
         elementListDestination.sort(comparator);
         Element movingElementDestination = elementListDestination.get(0);
-
         int comparation = comparator.compare(movingElementOrigin, movingElementDestination);
-
         return comparation < 0;
     }
 
     public String doAction( Element auxElement, Element originElement, Element destinationElement) {
-
         List<Element> elementListOrigin = originElement.getElementList();
-
         if ( elementListOrigin.size() == 0 ) {
             return auxiliarMessage;
         }
-
         elementListOrigin.sort(comparator);
         Element movingElementOrigin = elementListOrigin.get(0);
-
         if ( checkConditions(movingElementOrigin, destinationElement) ) {
 
             originElement.removeElement(movingElementOrigin);
@@ -51,7 +42,6 @@ public class MoveWithComparator extends ICommand {
     }
 
     public String doAction(Element element) {
-
         return incorrectMovementMessage;
     }
 }

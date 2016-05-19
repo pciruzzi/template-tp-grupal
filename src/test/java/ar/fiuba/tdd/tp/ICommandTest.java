@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 public class ICommandTest extends InitializationsForTests{
 
-
     @Test
     public void changeVisibilityTest() {
         //If I open the box and do look around, now pick key must be visible.
@@ -40,21 +39,21 @@ public class ICommandTest extends InitializationsForTests{
 
     @Test
     public void openSomethingAndPlayerGetPoisoned() {
-        Engine engine = this.initializeEnginePoisonConfiguration();
+        Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("open chest");
         assertTrue(engine.getGame().getPlayer().isPoisoned());
     }
 
     @Test
     public void pickSomethingAndPlayerGetPoisoned() {
-        Engine engine = this.initializeEnginePoisonConfiguration();
+        Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("pick stick");
         assertTrue(engine.getGame().getPlayer().isPoisoned());
     }
 
     @Test
     public void pickAntidoteAndGetHealed() {
-        Engine engine = this.initializeEnginePoisonConfiguration();
+        Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("pick stick");
         assertTrue(engine.getGame().getPlayer().isPoisoned());
         engine.doCommand("pick antidote");

@@ -24,13 +24,10 @@ public class InitializationsForTests {
 
 
     static Engine initializeEngineOpenDoor2() {
-
         Engine engine = new Engine();
         GameBuilder gameBuilder = new OpenDoor2Configuration();
         engine.createGame(gameBuilder);
 
         return engine;
     }
-
-
 }

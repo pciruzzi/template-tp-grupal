@@ -82,5 +82,4 @@ public class ElementTest {
         assertEquals(true,player.hasElement("stick"));
         assertEquals(true, player.addElement(venom));
     }
-
 }

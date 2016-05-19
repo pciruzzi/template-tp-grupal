@@ -7,26 +7,25 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
 public class EvilThingTest extends ICommandTest{
 
     @Test
     public void lookAroundTest() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         assertTrue(engine.doCommand("look around").contains("key"));
         assertTrue(engine.doCommand("look around").contains("door"));
     }
 
     @Test
     public void crossRoomTest() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         engine.doCommand("pick key");
         assertEquals("You have crossed", engine.doCommand("open door"));
     }
 
     @Test
     public void roomTwoHasAthief() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         engine.doCommand("pick key");
         engine.doCommand("open door");
         String output = engine.doCommand("look around");
@@ -36,7 +35,7 @@ public class EvilThingTest extends ICommandTest{
 
     @Test
     public void youCantEnterRoom3WithRoom() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         engine.doCommand("pick key");
         engine.doCommand("open door");
         assertEquals("Ey! You can't do that! The otherDoor is locked", engine.doCommand("open otherDoor"));
@@ -44,7 +43,7 @@ public class EvilThingTest extends ICommandTest{
 
     @Test
     public void youAreAbleToSpeakToTheThief() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         engine.doCommand("pick key");
         engine.doCommand("open door");
         assertEquals("Hi!\nThe thief has just stolen your key", engine.doCommand("talk to thief"));
@@ -52,7 +51,7 @@ public class EvilThingTest extends ICommandTest{
 
     @Test
     public void ifTheThiefStealsYouYouCanOpenDoor2AndWin() {
-        Engine engine = this.initializeEngineEvilThing();
+        Engine engine = initializeEngineEvilThing();
         engine.doCommand("pick key");
         engine.doCommand("open door");
         engine.doCommand("talk to thief");

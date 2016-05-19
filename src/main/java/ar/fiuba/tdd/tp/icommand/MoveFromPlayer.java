@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
-
-import java.util.List;
 
 public class MoveFromPlayer extends ICommand {
     private Game game;

@@ -7,7 +7,6 @@ import ar.fiuba.tdd.tp.model.*;
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
-
 public class Main {
     public static void main(String[] args) throws Exception {
 

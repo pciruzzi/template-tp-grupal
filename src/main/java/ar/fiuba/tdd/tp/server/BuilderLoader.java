@@ -33,7 +33,7 @@ public class BuilderLoader {
             throw new IllegalArgumentException("file");
         }
 
-        List<String> foundClasses = new ArrayList<String>();
+        List<String> foundClasses = new ArrayList<>();
         try (JarFile jarFile = new JarFile(file)) {
             jarFile.stream()
                     .filter(e -> e.getName().endsWith(".class"))

@@ -22,5 +22,4 @@ public abstract class TerminalExpression implements IInterpreter {
     public String getFailMessage() {
         return this.failMessage;
     }
-
 }

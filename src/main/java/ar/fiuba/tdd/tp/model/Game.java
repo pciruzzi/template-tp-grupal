@@ -160,15 +160,13 @@ public class Game {
 
     public List<Element> getVisibleElementList() {
         this.calculateVisibleElements();
-        List<Element> returnList = new ArrayList<Element>(visibleElements.values());
+        List<Element> returnList = new ArrayList<>(visibleElements.values());
         return returnList;
     }
 
     //Return true if the player had an antidote and had been healed.
     public boolean checkInventoryForAntidote() {
-
         List<Element> elementList = this.getPlayer().getElementList();
-
         for (Element inventoryElement : elementList ) {
             if (inventoryElement.isAntidote()) {
                 Element player = this.getPlayer();

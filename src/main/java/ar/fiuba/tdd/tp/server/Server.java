@@ -20,8 +20,8 @@ public class Server {
         this.port = port;
         this.portOffset = 0;
         this.writer = new Console();
-        this.threads = new ArrayList<Thread>();
-        this.sockets = new ArrayList<GameSocket>();
+        this.threads = new ArrayList<>();
+        this.sockets = new ArrayList<>();
     }
 
     public String setUp() throws ExitException {

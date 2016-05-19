@@ -17,26 +17,21 @@ public class Engine {
     }
 
     public String doCommand(String action) {
-        ArrayList<Element> elementsList = new ArrayList<Element>(game.getCurrentPositionElements().values());
+        ArrayList<Element> elementsList = new ArrayList<>(game.getCurrentPositionElements().values());
         elementsList.addAll(game.getPlayer().getElementList());
 
         Element firstElement = commandParser.getFirstElement(action,elementsList);
-
         if ( firstElement == null ) {
             return game.play(action);
         }
-
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
         String command = commandParser.getCommand(action, firstElementName);
-
         if ( secondElement == null ) {
             return game.play(command, firstElementName);
         }
-
         String secondElementName = secondElement.getName();
-
         return game.play(command, firstElementName, secondElementName);
     }
 

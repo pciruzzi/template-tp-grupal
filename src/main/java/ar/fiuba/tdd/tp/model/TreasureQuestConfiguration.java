@@ -60,12 +60,9 @@ public class TreasureQuestConfiguration implements GameBuilder {
         game.setDescription("");
 
         createICommands();
-
         createElements();
         insertElements();
-
         createFinishingConditions();
-
         setHelpAndExitCommand();
 
         // Agrego la posicion del player
@@ -75,7 +72,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void createElements() {
-
         // Los cuartos
         roomOne   = new Element("roomOne");
         roomTwo   = new Element("roomTwo");
@@ -84,7 +80,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         roomFive  = new Element("roomFive");
 
         createDoors();
-
         createPickableElements();
 
         // Los contenedores
@@ -193,7 +188,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ICommand openDoorThreeFour = new MovePlayerTo(game, doorFourCondition, "open");
         doorThreeFour.addCommand(openDoorThreeFour);
 
-
         addDoorCommands();
         setObjectiveToDoors();
     }
@@ -219,7 +213,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void insertElements() {
-
         // Elementos de roomOne
         roomOne.addElement(pokemon);
 
@@ -272,7 +265,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-
         ArrayList<String> playerWithTreasure = new ArrayList<String>();
         playerWithTreasure.add("treasure");
 
@@ -282,20 +274,15 @@ public class TreasureQuestConfiguration implements GameBuilder {
         playerInRoomOne.add("player");
 
         IInterpreter playerInRoomOneInterpreter = new ContainsElements(roomOne,playerInRoomOne);
-
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
-
         IInterpreter playerPoisoned = new IsPoisoned(player, true);
-
         IInterpreter losingOneInterpreter = new AndExpression(playerPoisoned, playerInRoomOneInterpreter);
 
         ArrayList<String> playerInRoomFour = new ArrayList<String>();
         playerInRoomFour.add("player");
 
         IInterpreter playerInRoomFourInterpreter = new ContainsElements(roomFour,playerInRoomFour);
-
         IInterpreter losingTwoInterpreter = new AndExpression(playerPoisoned, playerInRoomFourInterpreter);
-
         IInterpreter losingInterpreter = new OrExpression(losingOneInterpreter,losingTwoInterpreter);
 
         game.setWinInterpreter(winInterpreter);

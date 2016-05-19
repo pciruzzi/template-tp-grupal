@@ -5,7 +5,6 @@ import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
 import static ar.fiuba.tdd.tp.Constants.POISONED;
@@ -30,27 +29,20 @@ public class MoveToPlayer extends ICommand {
         this.returnMessage = "";
     }
 
-
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             //Si esta en el piso o dentro de algun elemento del lugar
             if (checkAvailableElement(game, element)) {
                 Element playerPosition = game.getPlayerPosition();
                 Element player = game.getPlayer();
-
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
-
                 element.setState(false);
-
                 // Lo saco del cuarto
                 playerPosition.removeElement(element);
-
                 // Lo saco del objeto que lo contenia
                 removeElement(element, playerPosition);
-
-                //todo aca deberia ver para avisar que lo envenene o cure.
                 checkElementForPoisonAndAntidote(element, player);
                 return correctMovementMessage + element.getName() + returnMessage;
             } else {
@@ -63,12 +55,9 @@ public class MoveToPlayer extends ICommand {
     }
 
     private void removeElement(Element elementToRemove, Element elementToRemoveFrom ) {
-
         ArrayList<String> elementToRemoveArray = new ArrayList<>();
         elementToRemoveArray.add(elementToRemove.getName());
-
         for ( Element containerElement : elementToRemoveFrom.getElementList()) {
-
             if ( containerElement.hasAllElements(elementToRemoveArray) && containerElement.getState() ) {
                 containerElement.removeElement(elementToRemove);
             } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ) {

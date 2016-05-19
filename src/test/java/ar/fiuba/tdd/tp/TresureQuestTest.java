@@ -9,8 +9,7 @@ public class TresureQuestTest {
 
     private Game initializeGame() {
         TreasureQuestConfiguration gameConfiguration = new TreasureQuestConfiguration();
-        Game game = gameConfiguration.build();
-        return game;
+        return gameConfiguration.build();
     }
 
     @Test

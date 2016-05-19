@@ -30,5 +30,4 @@ public abstract class ICommand {
     public String getName() {
         return name;
     }
-
 }

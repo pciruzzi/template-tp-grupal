@@ -18,8 +18,8 @@ public class Element {
     private boolean isAntidote;
 
     public Element(String name) {
-        commandMap = new HashMap<String, ICommand>();
-        elementMap = new HashMap<String, Element>();
+        commandMap = new HashMap<>();
+        elementMap = new HashMap<>();
         this.name = name;
         this.state = false;
         this.capacity = 999;
@@ -78,11 +78,11 @@ public class Element {
     }
 
     public List<Element> getElementList() {
-        return new ArrayList<Element>(elementMap.values());
+        return new ArrayList<>(elementMap.values());
     }
 
     public List<ICommand> getCommandList() {
-        return new ArrayList<ICommand>(commandMap.values());
+        return new ArrayList<>(commandMap.values());
     }
 
     public boolean getState() {
@@ -118,7 +118,7 @@ public class Element {
     }
 
     public Map<String, Element> getVisibleElements() {
-        Map<String, Element> visibleElements = new HashMap<String, Element>();
+        Map<String, Element> visibleElements = new HashMap<>();
         for (Element element: getElementList()) {
             if (element.getState()) {
                 for (Element insideElement : getElementList()) {

@@ -21,8 +21,8 @@ public class GameSocket implements Runnable {
         this.port = port;
         this.gameFilePath = gameFilePath;
         this.writer = new Console();
-        this.threads = new ArrayList<Thread>();
-        this.interactors = new ArrayList<Interactor>();
+        this.threads = new ArrayList<>();
+        this.interactors = new ArrayList<>();
         this.socket = null;
     }
 

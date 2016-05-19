@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,15 +23,11 @@ public class Check extends ICommand {
 //    }
 
     public String doAction(Element element) {
-
         List<Element> elementList = element.getElementList();
-
         if (elementList.size() == 0) {
             return incorrectMovementMessage;
         }
-
         elementList.sort(comparator);
-
         return correctMovementMessage + elementList.get(0).getSize() + ".";
     }
 }

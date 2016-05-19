@@ -1,4 +1,3 @@
-
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
@@ -10,8 +9,6 @@ import java.util.ArrayList;
 @SuppressWarnings("CPD-START")
 
 public class WSCConfiguration implements GameBuilder {
-
-    @SuppressWarnings("CPD-START")
 
     private Element wolf;
     private Element sheep;
@@ -28,7 +25,6 @@ public class WSCConfiguration implements GameBuilder {
 
 
     public Game build() {
-
         this.game = new Game("WSC");
         game.setDescription("You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.");
 
@@ -45,14 +41,12 @@ public class WSCConfiguration implements GameBuilder {
 
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
-
         setHelpAndExitCommand();
 
         return this.game;
     }
 
     private void assignComplexCommand() {
-
         ArrayList<String> sheepCabbage = buildCondition("sheep", "cabbage");
         ArrayList<String> sheepWolf = buildCondition("wolf", "sheep");
 
@@ -79,7 +73,6 @@ public class WSCConfiguration implements GameBuilder {
         ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
 
         this.setRiverCommands(crossNorth,crossSouth);
-
     }
 
     private void setRiverCommands(ICommand crossNorth, ICommand crossSouth) {
@@ -88,7 +81,6 @@ public class WSCConfiguration implements GameBuilder {
     }
 
     private void assignSimpleCommand() {
-
         ICommand drop = new DropOnPosition("leave", game);
         ICommand pick = new MoveToPlayer("take", game);
 
@@ -100,17 +92,14 @@ public class WSCConfiguration implements GameBuilder {
 
         cabbage.addCommand(pick);
         cabbage.addCommand(drop);
-
     }
 
     private void assignElementStates() {
-
         wolf.setState(true);
         sheep.setState(true);
         cabbage.setState(true);
 
         boat.setCapacity(1);
-
         southShore.addElement(boat);
 
         riverSouthToNorth.setState(true);
@@ -124,11 +113,9 @@ public class WSCConfiguration implements GameBuilder {
     }
 
     private void createElements() {
-
         wolf = new Element("wolf");
         sheep = new Element("sheep");
         cabbage = new Element("cabbage");
-
 
         northShore = new Element("north");
         southShore = new Element("south");
@@ -143,10 +130,7 @@ public class WSCConfiguration implements GameBuilder {
         riverSouthToNorth = new Element("north-shore");
     }
 
-    @SuppressWarnings("CPD-END")
-
     private void createGameWinInterpreter() {
-
         ArrayList<String> winElements = new ArrayList<>();
         winElements.add("wolf");
         winElements.add("sheep");

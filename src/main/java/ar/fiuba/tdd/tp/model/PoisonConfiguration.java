@@ -16,7 +16,6 @@ public class PoisonConfiguration implements GameBuilder {
 
     @Override
     public Game build() {
-
         game = new Game("Fetch Quest");
         player = new Element("player");
         Element room = new Element("room");
@@ -42,7 +41,6 @@ public class PoisonConfiguration implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-
         ArrayList<String> winArray = new ArrayList<String>();
         winArray.add("antidote");
 

@@ -27,9 +27,7 @@ public class EvilThingConfiguration implements GameBuilder {
         game.setDescription("Never feel sad if you are removed of a valuable item, sometiemes is the only way out.");
 
         createGameElements();
-
         createGameActions();
-
         createGameContainsElements();
 
         // Creo y seteo las formas de ganar.
@@ -83,12 +81,11 @@ public class EvilThingConfiguration implements GameBuilder {
         roomThree.addCommand(lookAround);
 
         createActionsForDoors(question);
-
     }
 
     private void createActionsForDoors(ICommand question) {
         //Puertas
-        ArrayList<String> doorRequirements = new ArrayList<String>();
+        ArrayList<String> doorRequirements = new ArrayList<>();
         doorRequirements.add("key");
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
         doorCondition.setFailMessage("Ey! You can't do that! The door is locked");

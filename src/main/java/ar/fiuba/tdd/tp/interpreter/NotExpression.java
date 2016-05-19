@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.interpreter;
 
-
 public class NotExpression implements IInterpreter {
 
     private IInterpreter interpreter;

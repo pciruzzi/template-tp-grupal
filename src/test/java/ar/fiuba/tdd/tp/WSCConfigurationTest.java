@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-
 public class WSCConfigurationTest {
 
     private static final String take = "take";
@@ -21,7 +20,6 @@ public class WSCConfigurationTest {
     private static final String pickSuccesfull = "Ok.";
     private static final String crossSuccesfull = "You have crossed";
     private static final String error = "Error";
-
 
     private Game initializeGame() {
         WSCConfiguration gameConfiguration = new WSCConfiguration();
@@ -126,7 +124,6 @@ public class WSCConfigurationTest {
         assertEquals(game.play(cross,south),"The wolf will eat the sheep!");
     }
 
-
     @Test
     public void cantPickWolfFromNorthShore() {
         Game game = this.initializeGame();
@@ -147,5 +144,4 @@ public class WSCConfigurationTest {
         Game game = this.initializeGame();
         assertEquals(game.play(cross,south),"It doesn't exist a south-shore in the game WSC");
     }
-
 }

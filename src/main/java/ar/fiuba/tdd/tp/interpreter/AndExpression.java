@@ -7,12 +7,10 @@ public class AndExpression extends LogicalConector {
     }
 
     public boolean interpret() {
-
         return super.interpret(false);
     }
 
     public String getFailMessage() {
         return this.failMessage;
     }
-
 }
