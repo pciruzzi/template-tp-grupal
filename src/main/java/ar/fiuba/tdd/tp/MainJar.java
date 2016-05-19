@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.console.*;
+
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class MainJar {

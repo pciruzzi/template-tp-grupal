@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp;
 
-import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class CommandParserTest {
     public static final String pickStick = pick + " " + stick;
     public static final String pickStickChest = pick + " " + stick + " " + chest;
 
-    private CommandParser initializeCommandParser() {
+    private ar.fiuba.tdd.tp.engine.CommandParser initializeCommandParser() {
         CommandParser commandParser = new CommandParser();
         return commandParser;
     }

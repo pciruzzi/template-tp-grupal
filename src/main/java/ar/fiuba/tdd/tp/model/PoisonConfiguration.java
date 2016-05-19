@@ -69,6 +69,7 @@ public class PoisonConfiguration implements GameBuilder {
         antidote.addCommand(pick);
         antidote.setState(true);
         antidote.addCommand(question);
+        antidote.setAntidote(true);
         return antidote;
     }
 }

@@ -60,7 +60,6 @@ public class Game {
         }
 
         returnMessage = checkFinishedGame(returnMessage);
-//        update();
         return returnMessage;
     }
 
@@ -74,42 +73,9 @@ public class Game {
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
-//        update();
-        if (this.hasWon()) {
-            gameFinished = true;
-            return "You won!!!";
-        }
-        //Aqui en este método update, checkeo si el personaje esta envenenado, etc, etc.
+        returnMessage = checkFinishedGame(returnMessage);
         return returnMessage;
     }
-
-//    private void update() {
-//        if (!this.getPlayer().isPoisoned()) {
-//            checkInventoryForPoison();
-//        } else {
-//            checkInventoryForAntidote();
-//        }
-//    }
-//
-//    //Return true if the player had an antidote and had been healed.
-//    private boolean checkInventoryForAntidote() {
-//        if ( this.getPlayer().getElementMap().containsKey("antidote") ) {
-//            this.getPlayer().getElementMap().remove("antidote");
-//            this.getPlayer().setPoisoned(false);
-//            return true;
-//        }
-//        return false;
-//    }
-//    //Return true if the player has anything poisoned in the inventory
-//    private boolean checkInventoryForPoison() {
-//        for ( Element itemOnInventory : this.getPlayer().getElementList() ) {
-//            if (itemOnInventory.isPoisoned()) {
-//                this.getPlayer().setPoisoned(true);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     private String checkFinishedGame(String returnMessage) {
         if (this.hasLost()) {

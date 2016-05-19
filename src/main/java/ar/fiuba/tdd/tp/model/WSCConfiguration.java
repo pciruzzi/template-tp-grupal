@@ -41,6 +41,9 @@ public class WSCConfiguration implements GameBuilder {
         game.setPlayer(boat);
         game.setPlayerPosition(southShore);
 
+        IInterpreter loseInterpreter = new FalseExpression();
+        game.setLosingInterpreter(loseInterpreter);
+
         return this.game;
     }
 
