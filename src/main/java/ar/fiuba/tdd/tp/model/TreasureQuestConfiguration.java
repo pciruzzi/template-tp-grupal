@@ -280,7 +280,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
 
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
 
-        IInterpreter playerPoisoned = new HasLoosingCondition(player, true);
+        IInterpreter playerPoisoned = new IsPoisoned(player, true);
 
         IInterpreter losingOneInterpreter = new AndExpression(playerPoisoned, playerInRoomOneInterpreter);
 

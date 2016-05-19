@@ -11,45 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-public class OpenDoor2Test {
-
-    private Engine initializeEngineOpenDoor2() {
-
-        Engine engine = new Engine();
-        GameBuilder gameBuilder = new OpenDoor2Configuration();
-        engine.createGame(gameBuilder);
-
-        return engine;
-    }
-
-    @Test
-    public void changeVisibilityTest() {
-        //If I open the box and do look around, now pick key must be visible.
-        Engine engine = initializeEngineOpenDoor2();
-        assertFalse(engine.doCommand("look around").contains("key"));
-        engine.doCommand("open box");
-        assertTrue(engine.doCommand("look around").contains("key"));
-    }
-
-    @Test
-    public void theKeyMovesFromRoomToPlayerInventory() {
-        Engine engine = initializeEngineOpenDoor2();
-        engine.doCommand("open box");
-        engine.doCommand("pick key");
-        assertTrue(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        assertFalse(engine.getGame().getCurrentPositionElements().containsKey("key"));
-    }
-
-    @Test
-    public void pickKeyAndThenDropTheKey() {
-        Engine engine = initializeEngineOpenDoor2();
-        engine.doCommand("open box");
-        engine.doCommand("pick key");
-        assertTrue(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        engine.doCommand("drop key");
-        assertFalse(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        assertTrue(engine.getGame().getCurrentPositionElements().containsKey("key"));
-    }
+public class OpenDoor2Test extends InitializationsForTests{
 
     @Test
     public void theKeyShouldNotAppearTwoTimesIfIOpenTheBoxTwice() {
@@ -57,7 +19,6 @@ public class OpenDoor2Test {
         engine.doCommand("open box");
         engine.doCommand("pick key");
         engine.doCommand("open box");
-
         assertFalse(engine.doCommand("look around").contains("key"));
     }
 
