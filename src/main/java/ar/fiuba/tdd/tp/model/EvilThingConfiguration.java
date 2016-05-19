@@ -24,6 +24,7 @@ public class EvilThingConfiguration implements GameBuilder {
 
     public Game build() {
         game = new Game("Evil Thing");
+        game.setDescription("Never feel sad if you are removed of a valuable item, sometiemes is the only way out.");
 
         createGameElements();
 
@@ -42,6 +43,8 @@ public class EvilThingConfiguration implements GameBuilder {
         // Agrego el player y su posicion.
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
+
+        setHelpAndExitCommand();
 
         doorOneTwo.setObjectiveElement(roomTwo);
         doorTwoOne.setObjectiveElement(roomOne);
@@ -88,16 +91,30 @@ public class EvilThingConfiguration implements GameBuilder {
         ArrayList<String> doorRequirements = new ArrayList<String>();
         doorRequirements.add("key");
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
         IInterpreter door2Condition = new DoesNotContainElements(player, doorRequirements);
+        door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
         ICommand openDoorTwoThree = new MovePlayerTo(game, door2Condition, "open");
         doorTwoThree.addCommand(openDoorTwoThree);
         doorOneTwo.addCommand(question);
         doorTwoOne.addCommand(question);
         doorTwoThree.addCommand(question);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(help);
+        roomOne.addCommand(exit);
+        roomTwo.addCommand(help);
+        roomTwo.addCommand(exit);
+        roomThree.addCommand(help);
+        roomThree.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

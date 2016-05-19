@@ -13,7 +13,7 @@ public class MovePlayerTo extends ICommand {
         this.game = game;
         this.name = name;
         this.correctMovementMessage = "You have crossed";
-        this.incorrectMovementMessage = "Ey! You can't do that!";
+        this.incorrectMovementMessage = "Ey! You can't do that! The ";
         this.auxiliarMessage = " is locked";
         this.condition = new TrueExpression();
     }
@@ -25,24 +25,11 @@ public class MovePlayerTo extends ICommand {
 
     public String doAction(Element element) {
         if (condition.interpret()) {
-            //Saco al al player de la "habitación" que estaba antes.
             game.getPlayerPosition().removeElement(game.getPlayer());
-            //A la "habitación" que tengo como objetivo, le agrego el player.
             element.getObjectiveElement().addElement(game.getPlayer());
-            //Al player le seteo a la habitación donde tiene que ir.
             game.setPlayerPosition(element.getObjectiveElement());
             return correctMovementMessage;
         }
-        return incorrectMovementMessage + " The " + element.getName() + auxiliarMessage;
-    }
-
-    public String doAction(Element playerPosition, Element elementToOpen, Element element) {
-        String returnMessage;
-        if (game.getPlayer().hasElement(element.getName())) {
-            returnMessage = doAction(elementToOpen);
-        } else {
-            returnMessage = incorrectMovementMessage + " You haven't got the " + element.getName() + ".";
-        }
-        return returnMessage;
+        return condition.getFailMessage();
     }
 }

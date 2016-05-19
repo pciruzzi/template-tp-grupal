@@ -25,6 +25,7 @@ public class OpenDoor2Configuration implements GameBuilder {
 
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door 2");
+        game.setDescription("Is this real life? Is this just fantasy? Look for items in the room, try to leave this torture.");
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -69,6 +70,7 @@ public class OpenDoor2Configuration implements GameBuilder {
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
         IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
         doorOneTwo.addCommand(question);
@@ -93,6 +95,8 @@ public class OpenDoor2Configuration implements GameBuilder {
 
         setElementsInRoomOneAndTwo();
 
+        setHelpAndExitCommand();
+
         game.setPlayerPosition(roomOne);
         game.setWinInterpreter(winCondition);
 
@@ -108,6 +112,16 @@ public class OpenDoor2Configuration implements GameBuilder {
         roomOne.addElement(doorOneTwo);
         roomOne.addElement(player);
         roomTwo.addElement(doorTwoOne);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(help);
+        roomOne.addCommand(exit);
+        roomTwo.addCommand(help);
+        roomTwo.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

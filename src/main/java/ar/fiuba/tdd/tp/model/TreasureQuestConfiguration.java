@@ -57,6 +57,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         player = new Element("player");
         player.setCapacity(2);
         game = new Game("Treasure Quest");
+        game.setDescription("");
 
         createICommands();
 
@@ -64,6 +65,8 @@ public class TreasureQuestConfiguration implements GameBuilder {
         insertElements();
 
         createFinishingConditions();
+
+        setHelpAndExitCommand();
 
         // Agrego la posicion del player
         game.setPlayer(player);
@@ -292,6 +295,22 @@ public class TreasureQuestConfiguration implements GameBuilder {
 
         game.setWinInterpreter(winInterpreter);
         game.setLosingInterpreter(losingInterpreter);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(help);
+        roomOne.addCommand(exit);
+        roomTwo.addCommand(help);
+        roomTwo.addCommand(exit);
+        roomThree.addCommand(help);
+        roomThree.addCommand(exit);
+        roomFour.addCommand(help);
+        roomFour.addCommand(exit);
+        roomFive.addCommand(help);
+        roomFive.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

@@ -1,10 +1,8 @@
+
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.DropOnPosition;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.ArrayList;
 @SuppressWarnings("CPD-START")
 
 public class WSCConfiguration implements GameBuilder {
+
+    @SuppressWarnings("CPD-START")
 
     private Element wolf;
     private Element sheep;
@@ -30,6 +30,7 @@ public class WSCConfiguration implements GameBuilder {
     public Game build() {
 
         this.game = new Game("WSC");
+        game.setDescription("You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.");
 
         this.createElements();
         this.assignElementStates();
@@ -45,6 +46,8 @@ public class WSCConfiguration implements GameBuilder {
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
 
+        setHelpAndExitCommand();
+
         return this.game;
     }
 
@@ -54,27 +57,32 @@ public class WSCConfiguration implements GameBuilder {
         ArrayList<String> sheepWolf = buildCondition("wolf", "sheep");
 
         IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
+        southSheepCabbage.setFailMessage("The wolf will eat the sheep!");
         IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
+        southSheepWolf.setFailMessage("The sheep will eat the cabbage!");
 
         IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
+        orSouth.setFailMessage("You can't do that! They'll eat other!");
+
+        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
+        northSheepCabbage.setFailMessage("The wolf will eat the sheep!");
+        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
+        northSheepWolf.setFailMessage("The sheep will eat the cabbage!");
+
+        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
+        orNorth.setFailMessage("You can't do that! They'll eat other!");
+        IInterpreter northCondition = new NotExpression(orNorth);
+
         IInterpreter southCondition = new NotExpression(orSouth);
 
         ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
-        //crossNorth.correctMovementMessage("You have crossed!");
-        crossNorth.incorrectMovementMessage("You cant do that!");
-        crossNorth.auxiliarMessage("They'll eat each other.");
-
-        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
-        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
-
-        IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
-        IInterpreter northCondition = new NotExpression(orNorth);
-
         ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
-        //crossSouth.correctMovementMessage("You have crossed!");
-        crossSouth.incorrectMovementMessage("You cant do that!");
-        crossSouth.auxiliarMessage("They'll eat each other.");
 
+        this.setRiverCommands(crossNorth,crossSouth);
+
+    }
+
+    private void setRiverCommands(ICommand crossNorth, ICommand crossSouth) {
         riverSouthToNorth.addCommand(crossNorth);
         riverNorthToSouth.addCommand(crossSouth);
     }
@@ -135,6 +143,8 @@ public class WSCConfiguration implements GameBuilder {
         riverSouthToNorth = new Element("north-shore");
     }
 
+    @SuppressWarnings("CPD-END")
+
     private void createGameWinInterpreter() {
 
         ArrayList<String> winElements = new ArrayList<>();
@@ -143,6 +153,16 @@ public class WSCConfiguration implements GameBuilder {
         winElements.add("cabbage");
 
         winInterpreter = new ContainsElements(northShore,winElements);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        northShore.addCommand(help);
+        northShore.addCommand(exit);
+        southShore.addCommand(help);
+        southShore.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")
@@ -154,3 +174,4 @@ public class WSCConfiguration implements GameBuilder {
         return returnArray;
     }
 }
+
