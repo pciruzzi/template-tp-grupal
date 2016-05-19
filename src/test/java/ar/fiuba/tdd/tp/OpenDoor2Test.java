@@ -2,7 +2,7 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
+import ar.fiuba.tdd.tp.model.OpenDoor2Configuration;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.ConstantVariables.*;
@@ -15,9 +15,8 @@ public class OpenDoor2Test {
 
     private Engine initializeEngineOpenDoor2() {
 
-        boolean isOpenDoor2 = true;
         Engine engine = new Engine();
-        GameBuilder gameBuilder = new OpenDoorConfiguration(isOpenDoor2);
+        GameBuilder gameBuilder = new OpenDoor2Configuration();
         engine.createGame(gameBuilder);
 
         return engine;
@@ -52,16 +51,6 @@ public class OpenDoor2Test {
         assertTrue(engine.getGame().getCurrentPositionElements().containsKey("key"));
     }
 
-//    @Test
-//    public void theKeyShouldtAppearTwoTimesIfIOpenTheBoxTwice() {
-//        Engine engine = initializeEngineOpenDoor2();
-//        engine.doCommand("open box");
-//        engine.doCommand("pick key");
-//        engine.doCommand("open box");
-//
-//        assertFalse(engine.doCommand("look around").contains("key"));
-//    }
-
     @Test
     public void lookArroundTest() {
         Engine engine = initializeEngineOpenDoor2();
@@ -92,8 +81,7 @@ public class OpenDoor2Test {
         assertTrue(output.contains("key"));
         assertTrue(output.contains("door"));
     }
-
-
+    
     @Test
     public void pickKeyFromOpenBox() {
         Engine engine = initializeEngineOpenDoor2();

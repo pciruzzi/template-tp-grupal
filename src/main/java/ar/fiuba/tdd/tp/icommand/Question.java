@@ -19,7 +19,6 @@ public class Question extends ICommand {
 
         for (int i = 0; i < commandListSize; i++) {
             ICommand actualCommand = commandList.get(i);
-
             // Esto es para que no se agregue la pregunta
             if ( !actualCommand.getName().equals(this.getName()) ) {
                 returnMessage.append(actualCommand.getName());
@@ -27,9 +26,17 @@ public class Question extends ICommand {
                     returnMessage.append( "/");
                 }
             }
-
         }
+        returnMessage = checkReturnMessage(returnMessage);
         returnMessage.append(" the ").append(element.getName()).append(".");
         return returnMessage.toString();
+    }
+
+    private StringBuilder checkReturnMessage(StringBuilder returnMessage) {
+        int indexOfSlash = returnMessage.lastIndexOf("/");
+        if (indexOfSlash == (returnMessage.length() - 1)) {
+            returnMessage = returnMessage.deleteCharAt(indexOfSlash);
+        }
+        return returnMessage;
     }
 }

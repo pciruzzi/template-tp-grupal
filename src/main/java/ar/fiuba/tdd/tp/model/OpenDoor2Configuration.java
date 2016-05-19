@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("CPD-START")
 
-public class OpenDoorConfiguration implements GameBuilder {
+public class OpenDoor2Configuration implements GameBuilder {
 
     private Game game;
     private Element roomOne;
@@ -20,10 +20,11 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element player;
     private IInterpreter winCondition;
     private Element key;
+    private Element box;
     private ICommand question;
 
     private void setAllVariablesOfOpenDoor() {
-        game = new Game("Open Door");
+        game = new Game("Open Door 2");
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -34,7 +35,10 @@ public class OpenDoorConfiguration implements GameBuilder {
         player = new Element("player");
         roomTwo = new Element("roomTwo");
         key = new Element("key");
-        key.setState(true);
+        key.setState(false);
+        box = new Element("box");
+        box.addElement(key);
+        box.setState(true);
     }
 
     private void configureLookAround(Game game) {
@@ -98,12 +102,21 @@ public class OpenDoorConfiguration implements GameBuilder {
         return game;
     }
 
-    @SuppressWarnings("CPD-END")
-
     private void setElementsInRoomOneAndTwo() {
-        roomOne.addElement(key);
+        configureBox();
+        roomOne.addElement(box);
         roomOne.addElement(doorOneTwo);
         roomOne.addElement(player);
         roomTwo.addElement(doorTwoOne);
+    }
+
+    @SuppressWarnings("CPD-END")
+
+    private void configureBox() {
+        ICommand open = new ChangeVisibility("open", true, game);
+        ICommand close = new ChangeVisibility("close", false, game);
+        box.addCommand(open);
+        box.addCommand(close);
+        box.addCommand(question);
     }
 }

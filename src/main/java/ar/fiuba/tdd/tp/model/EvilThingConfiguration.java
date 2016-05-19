@@ -6,6 +6,8 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
+
 public class EvilThingConfiguration implements GameBuilder {
 
     private Element cursedObject;
@@ -97,6 +99,8 @@ public class EvilThingConfiguration implements GameBuilder {
         doorTwoOne.addCommand(question);
         doorTwoThree.addCommand(question);
     }
+
+    @SuppressWarnings("CPD-END")
 
     private void createGameElements() {
         // Creo los elementos
