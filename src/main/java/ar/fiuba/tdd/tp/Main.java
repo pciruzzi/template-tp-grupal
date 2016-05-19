@@ -22,7 +22,7 @@ public class Main {
         String returnCode = "";
         while (! input.equals("exit") && ! returnCode.equals(GAME_WON) && !returnCode.equals(GAME_LOST) ) {
             input = reader.read();
-            returnCode = engine.doCommand(input);
+            returnCode = engine.doCommand(input.toLowerCase());
             writer.write(returnCode);
         }
     }
