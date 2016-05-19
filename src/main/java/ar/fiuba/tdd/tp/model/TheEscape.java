@@ -1,6 +1,8 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.icommand.ICommand;
+import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -18,6 +20,7 @@ public class TheEscape implements GameBuilder {
     private Element sotano;
     private Element sotanoAbajo;
     private Element lastRoom;
+    private Element cuartoDeLaMuerte;
 
 
 
@@ -49,6 +52,11 @@ public class TheEscape implements GameBuilder {
     public Game build() {
 
         game = new Game("Temple Quest");
+        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+        sotano = new Element("Sotano");
+        sotanoAbajo = new Element("Sotano abajo");
+        lastRoom = new Element("A Fuera");
+
 
         createSotano();
         createSotanoAbajo();
@@ -59,33 +67,44 @@ public class TheEscape implements GameBuilder {
 
     private void createSotano() {
 
-        sotano = new Element("Sotano");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
         baranda.setState(true);
         escalera.setState(true);
 
+        //Acciones
+        ICommand use = new MovePlayerTo(game, "use");
+
+        baranda.setObjectiveElement(sotano);
+        baranda.addCommand(use);
+
+        escalera.setObjectiveElement(cuartoDeLaMuerte);
+        escalera.addCommand(use);
     }
 
     private void createSotanoAbajo() {
-
-        sotanoAbajo = new Element("Sotano abajo");
 
         Element ventana = new Element("ventana");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
 //        TODO aca hay que hacer el using de santi.
-//        todo tambien hay que hacer la condicion de perder si uso la escalera.
 //     ventana.addCommand();
         ventana.setState(true);
+
+        //Acciones
+        ICommand use = new MovePlayerTo(game, "use");
+
         escalera.setState(true);
         baranda.setState(true);
 
+        escalera.addCommand(use);
+        escalera.setObjectiveElement(cuartoDeLaMuerte);
+
+        ventana.setObjectiveElement(lastRoom);
     }
 
     private void createLastRoom() {
 
-        lastRoom = new Element("A Fuera");
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
 
