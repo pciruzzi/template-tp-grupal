@@ -127,6 +127,9 @@ public class TempleQuest implements GameBuilder {
         roomOne.addElement(monkey);
         roomOne.addElement(doorOneHanoi);
 
+        roomOne.addCommand(lookAround);
+
+
         skeleton.addElement(apple);
         chest.addElement(antidote);
 
@@ -145,7 +148,6 @@ public class TempleQuest implements GameBuilder {
         ICommand openDoorWithMonkey = new MovePlayerTo(game, hasMonkey, "open");
 
         doorOneHanoi.addCommand(openDoorWithMonkey);
-
 
         // Los elementos levantables
         apple.addCommand(pick);
@@ -167,7 +169,6 @@ public class TempleQuest implements GameBuilder {
 
         chest.addCommand(closeContainer);
 
-        roomOne.addCommand(lookAround);
 
         addQuestionsToRoomOne();
 
