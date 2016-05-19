@@ -7,19 +7,11 @@ import java.util.List;
 
 public class MoveWithComparator extends ICommand {
 
-//    private IInterpreter condition;
     private Comparator<Element> comparator;
-
-//    public MoveWithComparator(String name, IInterpreter condition, Comparator<Element> comparator) {
-//        this.name = name;
-//        this.comparator = comparator;
-//        this.condition = condition;
-//    }
 
     public MoveWithComparator(String name, Comparator<Element> comparator) {
         this.name = name;
         this.comparator = comparator;
-//        this.condition = new TrueExpression();
     }
 
     private boolean checkConditions(Element movingElementOrigin, Element destinationElement) {

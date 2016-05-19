@@ -1,14 +1,9 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.EvilThingConfiguration;
-import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
 import org.junit.Test;
 
-import javax.xml.bind.annotation.XmlAttribute;
 
-import static ar.fiuba.tdd.tp.ConstantVariables.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

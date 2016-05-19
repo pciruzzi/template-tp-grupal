@@ -1,15 +1,10 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoor2Configuration;
+
 import org.junit.Test;
 
-import static ar.fiuba.tdd.tp.ConstantVariables.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 
 public class OpenDoor2Test extends InitializationsForTests{
 
@@ -34,7 +29,7 @@ public class OpenDoor2Test extends InitializationsForTests{
     @Test
     public void openLockedDoorShowsError() {
         Engine engine = initializeEngineOpenDoor2();
-        assertEquals(OPEN_DOOR_ERROR, engine.doCommand("open door"));
+        assertEquals("Ey! You can't do that! The door is locked", engine.doCommand("open door"));
     }
 
     @Test
