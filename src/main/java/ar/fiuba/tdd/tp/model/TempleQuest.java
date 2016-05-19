@@ -14,8 +14,9 @@ public class TempleQuest implements GameBuilder {
 
     // Los cuartos
     private Element roomOne;
-//    private Element roomHanoi;
+    private Element roomHanoi;
     private Element roomArchaeologist;
+    private Element lastRoom;
 
     // Las puertas
     private Element doorOneHanoi;
@@ -71,6 +72,7 @@ public class TempleQuest implements GameBuilder {
         createRoomOne();
         createRoomHanoi();
         createRoomArchaeologist();
+        createLastRoom();
 
         createFinishingConditions();
 
@@ -78,6 +80,10 @@ public class TempleQuest implements GameBuilder {
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
         return game;
+    }
+
+    private void createLastRoom() {
+        lastRoom = new Element("lastRoom");
     }
 
     private void createRoomOne() {
@@ -155,7 +161,7 @@ public class TempleQuest implements GameBuilder {
     }
 
     private void createRoomHanoi() {
-//        roomHanoi = new Element("roomHanoi");
+        roomHanoi = new Element("roomHanoi");
 
         createPillarsAndDisks();
         combineElementsRoomHanoi();
@@ -218,6 +224,10 @@ public class TempleQuest implements GameBuilder {
         roomArchaeologist.addElement(thief);
         roomArchaeologist.addElement(doorArchaeologistOutside);
         roomArchaeologist.addElement(doorArchaeologistHanoi);
+
+        doorArchaeologistHanoi.setObjectiveElement(roomHanoi);
+        doorArchaeologistOutside.setObjectiveElement(lastRoom);
+
         addICoomandsToElementsInRoomArchaeologist();
     }
 
@@ -231,17 +241,25 @@ public class TempleQuest implements GameBuilder {
         IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(player, doorArchaeologistOutsideRequirements);
         ICommand openDoorArchaeologistOutside = new MovePlayerTo(game, doorArchaeologistOutsideCondition, "open");
         doorArchaeologistOutside.addCommand(openDoorArchaeologistOutside);
+
     }
 
     private void createFinishingConditions() {
 
-        ArrayList<String> playerContainsDisk = new ArrayList<String>();
-        playerContainsDisk.add("algo");
+        ArrayList<String> roomContainsPlayer = new ArrayList<String>();
+        roomContainsPlayer.add("player");
 
+        IInterpreter winInterpreter = new ContainsElements(lastRoom, roomContainsPlayer);
 
-        IInterpreter losingInterpreter = new ContainsElements(player,playerContainsDisk);
+        ArrayList<String> playerWithDisk = new ArrayList<String>();
+        playerWithDisk.add("diskNine");
 
-        game.setWinInterpreter(losingInterpreter);
+        IInterpreter playerWithDiskInterpreter = new ContainsElements(player, playerWithDisk);
+        IInterpreter playerIsPoisoned = new IsPoisoned(player, true);
+
+        IInterpreter losingInterpreter = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
+
+        game.setWinInterpreter(winInterpreter);
         game.setLosingInterpreter(losingInterpreter);
     }
 
