@@ -4,6 +4,10 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class MoveToPlayer extends ICommand {
     private Game game;
     private IInterpreter condition;
@@ -38,26 +42,40 @@ public class MoveToPlayer extends ICommand {
             if (checkAvailableElement(game, element)) {
                 Element playerPosition = game.getPlayerPosition();
                 Element player = game.getPlayer();
+
+                removeElement(element, playerPosition);
+
                 playerPosition.removeElement(element);
                 element.setState(false);
-//<<<<<<< HEAD
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
-//=======
-                player.addElement(element);
 
                 //todo aca deberia ver para avisar que lo envenene o cure.
                 checkElementForPoisonAndAntidote(element, player);
                 return correctMovementMessage + element.getName();
-//                return "Ok.";
-//>>>>>>> doingPoison
             } else {
                 //No esta en el piso
                 return auxiliarMessage + element.getName() + ".";
             }
         } else {
             return incorrectMovementMessage;
+        }
+    }
+
+    private void removeElement(Element elementToRemove, Element elementToRemoveFrom ) {
+
+
+        ArrayList<String> elementToRemoveArray = new ArrayList<>();
+        elementToRemoveArray.add(elementToRemove.getName());
+
+        for ( Element containerElement : elementToRemoveFrom.getElementList()) {
+
+            if ( containerElement.hasAllElements(elementToRemoveArray) ) {
+                containerElement.removeElement(elementToRemove);
+            } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ){
+                removeElement(elementToRemove, containerElement);
+            }
         }
     }
 
