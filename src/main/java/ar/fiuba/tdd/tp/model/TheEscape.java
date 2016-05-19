@@ -1,15 +1,26 @@
 package ar.fiuba.tdd.tp.model;
 
+import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.interpreter.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.IInterpreter;
+
+import java.util.ArrayList;
+
 public class TheEscape implements GameBuilder {
 
     @SuppressWarnings("CPD-START")
     private Game game;
-
-    //    // Los cuartos
+    private Element player;
+    // Los cuartos
 //    private Element roomOne;
 //    private Element roomHanoi;
 //    private Element roomArchaeologist;
-//
+    private Element sotano;
+    private Element sotanoAbajo;
+    private Element lastRoom;
+
+
+
 //    // Las puertas
 //    private Element doorOneHanoi;
 //    private Element doorHanoiArchaeologist;
@@ -39,8 +50,50 @@ public class TheEscape implements GameBuilder {
 
         game = new Game("Temple Quest");
 
+        createSotano();
+        createSotanoAbajo();
+        createLastRoom();
+        
         return game;
     }
+
+    private void createSotano() {
+
+        sotano = new Element("Sotano");
+        Element escalera = new Element("escalera");
+        Element baranda = new Element("baranda");
+        baranda.setState(true);
+        escalera.setState(true);
+
+    }
+
+    private void createSotanoAbajo() {
+
+        sotanoAbajo = new Element("Sotano abajo");
+
+        Element ventana = new Element("ventana");
+        Element escalera = new Element("escalera");
+        Element baranda = new Element("baranda");
+//        TODO aca hay que hacer el using de santi.
+//        todo tambien hay que hacer la condicion de perder si uso la escalera.
+//     ventana.addCommand();
+        ventana.setState(true);
+        escalera.setState(true);
+        baranda.setState(true);
+
+    }
+
+    private void createLastRoom() {
+
+        lastRoom = new Element("A Fuera");
+        ArrayList<String> winConditionArray = new ArrayList<>();
+        winConditionArray.add("player");
+
+        IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
+
+        game.setWinInterpreter(winCondition);
+    }
+
 //
 //    private void createRoomOne() {
 //        roomOne     = new Element("roomOne");
