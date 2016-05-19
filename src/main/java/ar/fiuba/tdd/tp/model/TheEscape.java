@@ -89,10 +89,17 @@ public class TheEscape implements GameBuilder {
         Element baranda = new Element("baranda");
 //        TODO aca hay que hacer el using de santi.
 //     ventana.addCommand();
+
         ventana.setState(true);
+
+        ArrayList<String> listaParaRomperVentana = new ArrayList<>();
+        listaParaRomperVentana.add("martillo");
+        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
 
         //Acciones
         ICommand use = new MovePlayerTo(game, "use");
+
+        ICommand romper = new MovePlayerTo(game,requisitosRomper, "break");
 
         escalera.setState(true);
         baranda.setState(true);
@@ -101,6 +108,7 @@ public class TheEscape implements GameBuilder {
         escalera.setObjectiveElement(cuartoDeLaMuerte);
 
         ventana.setObjectiveElement(lastRoom);
+        ventana.addCommand(romper);
     }
 
     private void createLastRoom() {
