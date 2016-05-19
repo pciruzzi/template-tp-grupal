@@ -3,6 +3,7 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
@@ -102,6 +103,9 @@ public class OpenDoorConfiguration implements GameBuilder {
 
         game.setPlayerPosition(roomOne);
         game.setWinInterpreter(winCondition);
+
+        IInterpreter loseInterpreter = new FalseExpression();
+        game.setLosingInterpreter(loseInterpreter);
 
         return game;
     }

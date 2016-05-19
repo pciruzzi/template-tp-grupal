@@ -3,7 +3,6 @@ package ar.fiuba.tdd.tp.icommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
-import ar.fiuba.tdd.tp.model.Game;
 
 public class ChangeVisibility extends ICommand {
 
@@ -34,5 +33,9 @@ public class ChangeVisibility extends ICommand {
             }
         }
         return incorrectMovementMessage;
+    }
+
+    public String doAction(Element element1, Element element2) {
+        return this.doAction(element1);
     }
 }

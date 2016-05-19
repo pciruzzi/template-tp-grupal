@@ -13,7 +13,7 @@ public class MovePlayerTo extends ICommand {
         this.game = game;
         this.name = name;
         this.correctMovementMessage = "You have crossed";
-        this.incorrectMovementMessage = "Ey! Where do you go?! The ";
+        this.incorrectMovementMessage = "Ey! You can't do that! The ";
         this.auxiliarMessage = " is locked";
         this.condition = new TrueExpression();
     }
