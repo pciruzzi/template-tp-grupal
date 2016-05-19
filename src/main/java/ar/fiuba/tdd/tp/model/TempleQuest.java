@@ -14,16 +14,16 @@ public class TempleQuest implements GameBuilder {
 
     // Los cuartos
     private Element roomOne;
-    private Element roomHanoi;
-    private Element roomArchaeologist;
+//    private Element roomHanoi;
+//    private Element roomArchaeologist;
 
     // Las puertas
     private Element doorOneHanoi;
-    private Element doorHanoiArchaeologist;
-    private Element doorArchaeologistOutside;
+//    private Element doorHanoiArchaeologist;
+//    private Element doorArchaeologistOutside;
 
     // Los elementos levantables
-    private Element key;
+//    private Element key;
     private Element antidote;
     private Element apple;
 
@@ -31,15 +31,31 @@ public class TempleQuest implements GameBuilder {
     private Element skeleton;
     private Element chest;
 
+    // Los pilares de Hanoi
+    private Element pillarOne;
+    private Element pillarTwo;
+    private Element pillarThree;
+
+    // Los discos de Hanoi
+    private Element diskOne;
+    private Element diskTwo;
+    private Element diskThree;
+    private Element diskFour;
+    private Element diskFive;
+    private Element diskSix;
+    private Element diskSeven;
+    private Element diskEight;
+    private Element diskNine;
+
     // Los ICommands
     private ICommand drop;
     private ICommand pick;
-    private ICommand openDoor;
+//    private ICommand openDoor;
     private ICommand openContainer;
     private ICommand closeContainer;
     private ICommand question;
     private ICommand lookAround;
-    private ICommand moveWithComparator;
+//    private ICommand moveWithComparator;
 
     @Override
     public Game build() {
@@ -61,6 +77,8 @@ public class TempleQuest implements GameBuilder {
 
     private void createRoomOne() {
         roomOne     = new Element("roomOne");
+
+        doorOneHanoi = new Element("door");
 
         // Los elementos levantables
         antidote    = new Element("antidote");
@@ -88,11 +106,41 @@ public class TempleQuest implements GameBuilder {
 
     private void addICoomandsToElementsInRoomOne() {
 
+        // La puerta se abre con el mono
+        ArrayList<String> monkeyRequirements = new ArrayList<>();
+        monkeyRequirements.add("monkey");
+
+        IInterpreter hasMonkey = new ContainsElements(doorOneHanoi, monkeyRequirements);
+
+        ICommand openDoorWithMonkey = new MovePlayerTo(game, hasMonkey, "open");
+
+        doorOneHanoi.addCommand(openDoorWithMonkey);
+
+        // Los elementos levantables
+        apple.addCommand(pick);
+        apple.addCommand(drop);
+
+        skeleton.addCommand(pick);
+        skeleton.addCommand(drop);
+
+        // Los elementos contenedores
+        skeleton.addCommand(openContainer);
+        chest.addCommand(openContainer);
+
+        chest.addCommand(closeContainer);
+
+        roomOne.addCommand(lookAround);
+
+    }
+
+    private void addQuestionsToRoomOne() {
+        skeleton.addCommand(question);
     }
 
     private void createRoomHanoi() {
-        roomHanoi = new Element("roomHanoi");
+//        roomHanoi = new Element("roomHanoi");
 
+        createPillarsAndDisks();
         combineElementsRoomHanoi();
     }
 
@@ -103,10 +151,43 @@ public class TempleQuest implements GameBuilder {
 
     private void addICoomandsToElementsInRoomHanoi() {
 
+
+    }
+
+    private void createPillarsAndDisks() {
+        pillarOne   = new Element("pillar one");
+        pillarTwo   = new Element("pillar two");
+        pillarThree = new Element("pillar three");
+
+        diskOne    = new Element("disk one");
+        diskTwo    = new Element("disk two");
+        diskThree  = new Element("disk three");
+        diskFour   = new Element("disk four");
+        diskFive   = new Element("disk five");
+        diskSix    = new Element("disk six");
+        diskSeven  = new Element("disk seven");
+        diskEight  = new Element("disk eight");
+        diskNine   = new Element("disk nine");
+
+        addDisksToPillars();
+    }
+
+    private void addDisksToPillars() {
+        pillarOne.addElement(diskOne);
+        pillarOne.addElement(diskTwo);
+        pillarOne.addElement(diskThree);
+
+        pillarTwo.addElement(diskFour);
+        pillarTwo.addElement(diskFive);
+        pillarTwo.addElement(diskSix);
+
+        pillarThree.addElement(diskSeven);
+        pillarThree.addElement(diskEight);
+        pillarThree.addElement(diskNine);
     }
 
     private void createRoomArchaeologist() {
-        roomArchaeologist = new Element("roomArchaeologist");
+//        roomArchaeologist = new Element("roomArchaeologist");
 
         combineElementsArchaeologist();
     }
@@ -137,7 +218,7 @@ public class TempleQuest implements GameBuilder {
     private void createICommands() {
         drop            = new DropOnPosition("drop", game);
         pick            = new MoveToPlayer("pick", game);
-        openDoor        = new MovePlayerTo(game, "open");
+//        openDoor        = new MovePlayerTo(game, "open");
         openContainer   = new ChangeVisibility("open", true, game);
         closeContainer  = new ChangeVisibility("close", false, game);
         question        = new Question("ask");
