@@ -33,6 +33,6 @@ public class MovePlayerTo extends ICommand {
             game.setPlayerPosition(element.getObjectiveElement());
             return correctMovementMessage;
         }
-        return incorrectMovementMessage + element.getName() + auxiliarMessage;
+        return condition.getFailMessage();
     }
 }
