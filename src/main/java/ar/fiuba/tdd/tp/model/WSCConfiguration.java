@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.icommand.DropOnPosition;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
@@ -30,6 +27,7 @@ public class WSCConfiguration implements GameBuilder {
     public Game build() {
 
         this.game = new Game("WSC");
+        game.setDescription("You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.");
 
         this.createElements();
         this.assignElementStates();
@@ -44,6 +42,8 @@ public class WSCConfiguration implements GameBuilder {
 
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
+
+        setHelpAndExitCommand();
 
         return this.game;
     }
@@ -143,6 +143,16 @@ public class WSCConfiguration implements GameBuilder {
         winElements.add("cabbage");
 
         winInterpreter = new ContainsElements(northShore,winElements);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        northShore.addCommand(help);
+        northShore.addCommand(exit);
+        southShore.addCommand(help);
+        southShore.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

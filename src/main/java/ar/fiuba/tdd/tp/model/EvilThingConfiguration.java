@@ -24,6 +24,7 @@ public class EvilThingConfiguration implements GameBuilder {
 
     public Game build() {
         game = new Game("Evil Thing");
+        game.setDescription("Never feel sad if you are removed of a valuable item, sometiemes is the only way out.");
 
         createGameElements();
 
@@ -42,6 +43,8 @@ public class EvilThingConfiguration implements GameBuilder {
         // Agrego el player y su posicion.
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
+
+        setHelpAndExitCommand();
 
         doorOneTwo.setObjectiveElement(roomTwo);
         doorTwoOne.setObjectiveElement(roomOne);
@@ -98,6 +101,18 @@ public class EvilThingConfiguration implements GameBuilder {
         doorOneTwo.addCommand(question);
         doorTwoOne.addCommand(question);
         doorTwoThree.addCommand(question);
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(help);
+        roomOne.addCommand(exit);
+        roomTwo.addCommand(help);
+        roomTwo.addCommand(exit);
+        roomThree.addCommand(help);
+        roomThree.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

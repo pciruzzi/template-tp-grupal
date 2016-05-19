@@ -16,6 +16,7 @@ public class FetchQuestConfiguration implements GameBuilder {
 
     public Game build() {
         game = new Game("Fetch Quest");
+        game.setDescription("You are in a room, look around to see if there is something useful.");
 
         Element room = new Element("room");
         room.addCommand(new Help("help", game));

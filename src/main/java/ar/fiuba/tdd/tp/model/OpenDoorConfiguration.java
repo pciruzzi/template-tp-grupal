@@ -24,6 +24,7 @@ public class OpenDoorConfiguration implements GameBuilder {
 
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door");
+        game.setDescription("Oh deer... you are trapped inside a room, don't worry, there's always a way out.");
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -89,6 +90,8 @@ public class OpenDoorConfiguration implements GameBuilder {
 
         setElementsInRoomOneAndTwo();
 
+        setHelpAndExitCommand();
+
         game.setPlayerPosition(roomOne);
         game.setWinInterpreter(winCondition);
 
@@ -96,6 +99,16 @@ public class OpenDoorConfiguration implements GameBuilder {
         game.setLosingInterpreter(loseInterpreter);
 
         return game;
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(help);
+        roomOne.addCommand(exit);
+        roomTwo.addCommand(help);
+        roomTwo.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")

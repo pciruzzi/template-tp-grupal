@@ -29,6 +29,7 @@ public class HanoiConfiguration implements GameBuilder{
 
         // Creo el juego
         game = new Game("Hanoi Towers");
+        game.setDescription("3 stacks with n disks, try moving the disks around and see what happens");
 
         createElements();
         addActions();
@@ -57,6 +58,8 @@ public class HanoiConfiguration implements GameBuilder{
 
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
+
+        setHelpAndExitCommand();
 
         return game;
     }
@@ -116,6 +119,14 @@ public class HanoiConfiguration implements GameBuilder{
         room.addCommand(lookAround);
 
         addQuestions();
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit("exit");
+        ICommand help = new Help("help", game);
+
+        room.addCommand(help);
+        room.addCommand(exit);
     }
 
     @SuppressWarnings("CPD-END")
