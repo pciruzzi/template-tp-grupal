@@ -13,7 +13,7 @@ public class MovePlayerTo extends ICommand {
         this.game = game;
         this.name = name;
         this.correctMovementMessage = "You have crossed";
-        this.incorrectMovementMessage = "Ey! You can't do that! The ";
+        this.incorrectMovementMessage = "Ey! You can't do that!";
         this.auxiliarMessage = " is locked";
         this.condition = new TrueExpression();
     }
@@ -33,6 +33,16 @@ public class MovePlayerTo extends ICommand {
             game.setPlayerPosition(element.getObjectiveElement());
             return correctMovementMessage;
         }
-        return incorrectMovementMessage + element.getName() + auxiliarMessage;
+        return incorrectMovementMessage + " The " + element.getName() + auxiliarMessage;
+    }
+
+    public String doAction(Element playerPosition, Element elementToOpen, Element element) {
+        String returnMessage;
+        if (game.getPlayer().hasElement(element.getName())) {
+            returnMessage = doAction(elementToOpen);
+        } else {
+            returnMessage = incorrectMovementMessage + " You haven't got the " + element.getName() + ".";
+        }
+        return returnMessage;
     }
 }

@@ -9,6 +9,7 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
 
 public class WSCConfiguration implements GameBuilder {
 
@@ -45,13 +46,6 @@ public class WSCConfiguration implements GameBuilder {
         game.setLosingInterpreter(loseInterpreter);
 
         return this.game;
-    }
-
-    private ArrayList<String> buildCondition(String elementOne, String elementTwo) {
-        ArrayList<String> returnArray = new ArrayList<>();
-        returnArray.add(elementOne);
-        returnArray.add(elementTwo);
-        return returnArray;
     }
 
     private void assignComplexCommand() {
@@ -151,5 +145,12 @@ public class WSCConfiguration implements GameBuilder {
         winInterpreter = new ContainsElements(northShore,winElements);
     }
 
+    @SuppressWarnings("CPD-END")
 
+    private ArrayList<String> buildCondition(String elementOne, String elementTwo) {
+        ArrayList<String> returnArray = new ArrayList<>();
+        returnArray.add(elementOne);
+        returnArray.add(elementTwo);
+        return returnArray;
+    }
 }

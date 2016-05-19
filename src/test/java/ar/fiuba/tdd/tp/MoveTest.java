@@ -12,7 +12,7 @@ import java.util.Map;
 public class MoveTest {
 
     @Test
-    public void testLookArroundListElements() {
+    public void testLookAroundListElements() {
 
         ICommand move = new Move("move");
 

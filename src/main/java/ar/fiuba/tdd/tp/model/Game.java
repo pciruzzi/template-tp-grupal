@@ -24,6 +24,7 @@ public class Game {
         this.name = name;
         this.gameLost = false;
         this.gameWon = false;
+        this.description = "Descripcion basica.";
     }
 
     public String getName() {
@@ -59,11 +60,10 @@ public class Game {
     public String play(String cmd, String element) {
         String returnMessage;
         this.calculateVisibleElements();
-        if (visibleElements.containsKey(element)) {
-            Element actualElement = visibleElements.get(element);
-            returnMessage = actualElement.doCommand(cmd);
-        } else if (player.getElementMap().containsKey(element)) {
-            Element actualElement = player.getElementMap().get(element);
+
+        Element actualElement = getElement(element);
+
+        if (actualElement != null) {
             returnMessage = actualElement.doCommand(cmd);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
@@ -76,15 +76,30 @@ public class Game {
     public String play(String cmd, String element, String destinationElement) {
         String returnMessage;
         this.calculateVisibleElements();
-        if (visibleElements.containsKey(element)) {
-            Element actualElement = visibleElements.get(element);
-            Element destElement = visibleElements.get(destinationElement);
+
+        Element actualElement = getElement(element);
+        Element destElement = getElement(destinationElement);
+
+        if (actualElement != null && destElement != null) {
             returnMessage = actualElement.doCommand(cmd, playerPosition, destElement);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
+
         returnMessage = checkFinishedGame(returnMessage);
         return returnMessage;
+    }
+
+    private Element getElement(String element) {
+        Element actualElement;
+        if (visibleElements.containsKey(element)) {
+            actualElement = visibleElements.get(element);
+        } else if (player.getElementMap().containsKey(element)) {
+            actualElement = player.getElementMap().get(element);
+        } else {
+            actualElement = null;
+        }
+        return actualElement;
     }
 
     private String checkFinishedGame(String returnMessage) {
@@ -148,4 +163,21 @@ public class Game {
         List<Element> returnList = new ArrayList<Element>(visibleElements.values());
         return returnList;
     }
+
+    //Return true if the player had an antidote and had been healed.
+    public boolean checkInventoryForAntidote() {
+
+        List<Element> elementList = this.getPlayer().getElementList();
+
+        for (Element inventoryElement : elementList ) {
+            if (inventoryElement.isAntidote()) {
+                Element player = this.getPlayer();
+                player.setPoisoned(false);
+                player.removeElement(inventoryElement);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

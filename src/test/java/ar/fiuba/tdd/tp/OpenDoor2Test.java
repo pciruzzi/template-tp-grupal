@@ -1,66 +1,72 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.OpenDoorConfiguration;
+import ar.fiuba.tdd.tp.model.OpenDoor2Configuration;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.ConstantVariables.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
-public class OpenDoor2Test {
+public class OpenDoor2Test extends InitializationsForTests{
 
-//    private Game initializeGame() {
-//        Game game = new OpenDoor2();
-//        game.createGame();
-//        return game;
-//    }
-//
     @Test
-    public void lookArroundTest() {
-        boolean isOpenDoor2 = true;
-        Engine engine = new Engine();
-        GameBuilder gameBuilder = new OpenDoorConfiguration(isOpenDoor2);
-        engine.createGame(gameBuilder);
-        String output = engine.doCommand("look around");
-
-        assertEquals(output, "There's a door and a box in the room.");
+    public void theKeyShouldNotAppearTwoTimesIfIOpenTheBoxTwice() {
+        Engine engine = initializeEngineOpenDoor2();
+        engine.doCommand("open box");
+        engine.doCommand("pick key");
+        engine.doCommand("open box");
+        assertFalse(engine.doCommand("look around").contains("key"));
     }
 
-//    @Test
-//    public void openLockedDoorShowsError() {
-//        Game game = this.initializeGame();
-//        assertEquals(game.doAction(openDoor), OPEN_DOOR_ERROR);
-//    }
-//
-//    @Test
-//    public void openBoxIsAVAlidMove() {
-//        Game game = this.initializeGame();
-//        assertEquals(game.doAction("open box"), movementAccepted);
-//    }
-//
-//    @Test
-//    public void openBoxAndLookArroundShowsKey() {
-//        Game game = this.initializeGame();
-//        game.doAction("open box");
-//        assertEquals(game.doAction(lookArround),"There's a box, a door and a key in the room.");
-//    }
-//
-//
-//    @Test
-//    public void pickKeyFromOpenBox() {
-//        Game game = this.initializeGame();
-//        game.doAction("open box");
-//        assertEquals(game.doAction(pickKey),movementAccepted);
-//    }
-//
-//    @Test
-//    public void openDoorWithKeyWinsGame() {
-//        Game game = this.initializeGame();
-//        game.doAction("open box");
-//        game.doAction(pickKey);
-//        assertEquals(game.doAction(openDoor),wonGame);
-//    }
+    @Test
+    public void lookAroundTest() {
+        Engine engine = initializeEngineOpenDoor2();
+        String output = engine.doCommand("look around");
+
+        assertTrue(output.contains("door"));
+        assertTrue(output.contains("box"));
+    }
+
+    @Test
+    public void openLockedDoorShowsError() {
+        Engine engine = initializeEngineOpenDoor2();
+        assertEquals(OPEN_DOOR_ERROR, engine.doCommand("open door"));
+    }
+
+    @Test
+    public void openBoxIsAValidMove() {
+        Engine engine = initializeEngineOpenDoor2();
+        assertEquals("The box is opened.", engine.doCommand("open box"));
+    }
+
+    @Test
+    public void openBoxAndLookAroundShowsKey() {
+        Engine engine = initializeEngineOpenDoor2();
+        engine.doCommand("open box");
+        String output = engine.doCommand("look around");
+        assertTrue(output.contains("box"));
+        assertTrue(output.contains("key"));
+        assertTrue(output.contains("door"));
+    }
+    
+    @Test
+    public void pickKeyFromOpenBox() {
+        Engine engine = initializeEngineOpenDoor2();
+        engine.doCommand("open box");
+        String output = engine.doCommand("pick key");
+        assertEquals("You picked the key", output);
+    }
+
+    @Test
+    public void openDoorWithKeyWinsGame() {
+        Engine engine = initializeEngineOpenDoor2();
+        engine.doCommand("open box");
+        engine.doCommand("pick key");
+
+        assertEquals("You won!!!", engine.doCommand("open door"));
+    }
 }

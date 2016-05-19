@@ -8,6 +8,8 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
+
 public class FetchQuestConfiguration implements GameBuilder {
 
     private Game game;
@@ -16,6 +18,8 @@ public class FetchQuestConfiguration implements GameBuilder {
         game = new Game("Fetch Quest");
 
         Element room = new Element("room");
+        room.addCommand(new Help("help", game));
+        room.addCommand(new Exit("exit"));
 
         Element stick = new Element("stick");
         stick.setState(true);
@@ -39,6 +43,8 @@ public class FetchQuestConfiguration implements GameBuilder {
 
         return game;
     }
+
+    @SuppressWarnings("CPD-END")
 
     private void setWinAndLoseInterpreter(Element player) {
         ArrayList<String> winArray = new ArrayList<String>();

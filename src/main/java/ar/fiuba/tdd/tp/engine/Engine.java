@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Engine {
 
     private CommandParser commandParser;
+
     private Game game;
 
     public void createGame(GameBuilder gameBuilder) {
@@ -45,5 +46,9 @@ public class Engine {
 
     public boolean isGameLost() {
         return this.game.getGameLost();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
