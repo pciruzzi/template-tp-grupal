@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp.server;
 
-import ar.fiuba.tdd.tp.CommandReader;
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Writer;
+import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.exceptions.ExitException;
 
 import java.util.ArrayList;

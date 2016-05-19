@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.console.Console;
+import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.server.BuilderLoader;
 

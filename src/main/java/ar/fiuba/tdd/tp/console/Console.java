@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;

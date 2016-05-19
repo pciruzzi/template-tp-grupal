@@ -1,8 +1,7 @@
 package ar.fiuba.tdd.tp.server;
 
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Writer;
-import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.console.Console;
+import ar.fiuba.tdd.tp.console.Writer;
 
 import java.io.IOException;
 import java.net.*;
