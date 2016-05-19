@@ -52,7 +52,17 @@ public class OpenDoor2Test {
     }
 
     @Test
-    public void lookArroundTest() {
+    public void theKeyShouldNotAppearTwoTimesIfIOpenTheBoxTwice() {
+        Engine engine = initializeEngineOpenDoor2();
+        engine.doCommand("open box");
+        engine.doCommand("pick key");
+        engine.doCommand("open box");
+
+        assertFalse(engine.doCommand("look around").contains("key"));
+    }
+
+    @Test
+    public void lookAroundTest() {
         Engine engine = initializeEngineOpenDoor2();
         String output = engine.doCommand("look around");
 
@@ -73,7 +83,7 @@ public class OpenDoor2Test {
     }
 
     @Test
-    public void openBoxAndLookArroundShowsKey() {
+    public void openBoxAndLookAroundShowsKey() {
         Engine engine = initializeEngineOpenDoor2();
         engine.doCommand("open box");
         String output = engine.doCommand("look around");
