@@ -25,6 +25,9 @@ public class TheEscape implements GameBuilder {
     // Los cuartos
     private Element accesoBiblioteca;
     private Element biblioteca;
+    private Element pasillo;
+    private Element salon2;
+    private Element salon3;
 //    private Element roomOne;
 //    private Element roomHanoi;
 //    private Element roomArchaeologist;
@@ -32,6 +35,10 @@ public class TheEscape implements GameBuilder {
     // Las puertas
     private Element doorBibliotecario;
     private Element doorSotano;
+    private Element doorSalon1;
+    private Element doorSalon2;
+    private Element doorSalon3;
+
 //    private Element doorOneHanoi;
 //    private Element doorHanoiArchaeologist;
 //    private Element doorArchaeologistOutside;
@@ -64,10 +71,14 @@ public class TheEscape implements GameBuilder {
 
         game = new Game("Temple Quest");
         credencial = new Element("Credencial");
+        player = new Element("player");
+
+        createPasillo();
+        createSalon2();
+        createSalon3();
 
         createSotano();
         createSotanoAbajo();
-//        createLastRoom();
         createBibliotecario();
         createBiblioteca();
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
@@ -77,6 +88,9 @@ public class TheEscape implements GameBuilder {
 
 
         createLastRoomAndCondicionesDeMorir();
+
+        game.setPlayer(player);
+        game.setPlayerPosition(pasillo);
 
         return game;
     }
@@ -196,6 +210,32 @@ public class TheEscape implements GameBuilder {
         biblioteca.addElement(libroViejo);
         biblioteca.addElement(libroUno);
         biblioteca.addElement(libroDos);
+    }
+
+    private void createPasillo() {
+        pasillo = new Element("pasillo");
+
+        doorSalon1 = new Element("Salon1");
+        doorSalon2 = new Element("Salon2");
+        doorSalon3 = new Element("Salon3");
+
+        doorSalon1.setState(true);
+        doorSalon2.setState(true);
+        doorSalon3.setState(true);
+
+        pasillo.addElement(doorSalon1);
+        pasillo.addElement(doorSalon2);
+        pasillo.addElement(doorSalon3);
+    }
+
+    private void createSalon2() {
+        salon2 = new Element("salon2");
+        doorSalon2.setObjectiveElement(salon2);
+    }
+
+    private void createSalon3() {
+        salon3 = new Element("salon3");
+        doorSalon3.setObjectiveElement(salon3);
     }
 
 //
