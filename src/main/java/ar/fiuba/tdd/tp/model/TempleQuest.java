@@ -204,6 +204,10 @@ public class TempleQuest implements GameBuilder {
 
         roomHanoi.addElement(doorHanoiArchaeologist);
 
+        pillarOne.addCommand(question);
+        pillarTwo.addCommand(question);
+        pillarThree.addCommand(question);
+
         addICoomandsToElementsInRoomHanoi();
     }
 
@@ -231,11 +235,6 @@ public class TempleQuest implements GameBuilder {
 
         diskNine.addCommand(pick);
         diskNine.setState(true);
-
-        pillarOne.addCommand(question);
-        pillarTwo.addCommand(question);
-        pillarThree.addCommand(question);
-
     }
 
     private void createPillarsAndDisks() {

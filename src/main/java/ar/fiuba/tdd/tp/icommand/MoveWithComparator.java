@@ -59,6 +59,11 @@ public class MoveWithComparator extends ICommand {
         return incorrectMovementMessage;
     }
 
+    public String doAction(Element element) {
+
+        return incorrectMovementMessage;
+    }
+
     private void checkBiggestDiskAvailable(Element originElement) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 1 ) {
@@ -66,8 +71,5 @@ public class MoveWithComparator extends ICommand {
         }
     }
 
-    public String doAction(Element element) {
 
-        return incorrectMovementMessage;
-    }
 }
