@@ -3,10 +3,7 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
 
-import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.icommand.MoveToPlayer;
+import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.AndExpression;
@@ -90,6 +87,22 @@ public class TheEscape implements GameBuilder {
 
     private Element puertaAPasillo;
 
+    private Element salonDos;
+
+    private Element martillo;
+    private Element destornillador1;
+    private Element destornillador2;
+
+    private Element salonTres;
+
+    private Element llave;
+
+    private ICommand lookAround;
+    private ICommand pick;
+    private ICommand drop;
+    private ICommand open;
+
+
     @Override
     public Game build() {
 
@@ -109,8 +122,19 @@ public class TheEscape implements GameBuilder {
         sotano = new Element("Sotano");
         sotanoAbajo = new Element("Sotano abajo");
         lastRoom = new Element("A Fuera");
+        salonUno = new Element("Salon1");
+        salonDos = new Element("Salon2");
+        salonTres = new Element("Salon3");
+
+        lookAround = new LookAround("look around", game);
+        pick = new MoveToPlayer("pick", game);
+        drop = new DropOnPosition("drop", game);
+        open = new MovePlayerTo(game, "open");
 
 
+        createRoomTwo();
+        createSotano();
+        createSotanoAbajo();
         createLastRoomAndCondicionesDeMorir();
 
         game.setPlayer(player);
@@ -119,9 +143,29 @@ public class TheEscape implements GameBuilder {
         return game;
     }
 
-    private void createRoomOne() {
+    private void createRoomTwo() {
 
-        salonUno = new Element("Salon1");
+        salonDos.addCommand(lookAround);
+
+        martillo = new Element("Martillo");
+        martillo.addCommand(pick);
+        martillo.addCommand(drop);
+
+        destornillador1 = new Element("Destornillador 1");
+        destornillador1.addCommand(pick);
+        destornillador1.addCommand(drop);
+
+        destornillador2 = new Element("Destornillador 2");
+        destornillador2.addCommand(pick);
+        destornillador2.addCommand(drop);
+
+
+        Element puertaAPasillo = new Element("puerta");
+//        puertaAPasillo.setObjectiveElement(passi);
+        puertaAPasillo.addCommand(open);
+    }
+
+    private void createRoomOne() {
 
         // Los elementos levantables
         botellaLicor = new Element("Botella");
@@ -185,6 +229,8 @@ public class TheEscape implements GameBuilder {
 
     private void createSotano() {
 
+        sotano.addCommand(lookAround);
+
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
         baranda.setState(true);
@@ -202,6 +248,8 @@ public class TheEscape implements GameBuilder {
 
     private void createSotanoAbajo() {
 
+
+        sotanoAbajo.addCommand(lookAround);
         Element ventana = new Element("ventana");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
@@ -231,6 +279,7 @@ public class TheEscape implements GameBuilder {
 
     private void createLastRoomAndCondicionesDeMorir() {
 
+        lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
