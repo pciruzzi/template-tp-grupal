@@ -5,6 +5,10 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
 
+import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
+import static ar.fiuba.tdd.tp.Constants.POISONED;
+import static sun.audio.AudioPlayer.player;
+
 public class ChangeVisibility extends ICommand {
 
     private IInterpreter condition;
@@ -27,15 +31,22 @@ public class ChangeVisibility extends ICommand {
     }
 
     public String doAction(Element element) {
+        String returnMessage = "";
         if (this.condition.interpret()) {
             element.changeElementsState(state);
             if (element.isPoisoned()) {
                 game.getPlayer().setPoisoned(true);
+                returnMessage = POISONED;
+            }
+            if (game.getPlayer().isPoisoned()) {
+                game.checkInventoryForAntidote();
+//                checkInventoryForAntidote(game);
+                returnMessage += ANTIDOTED;
             }
             if (state) {
-                return "The " + element.getName() + correctMovementMessage;
+                return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
-                return "The " + element.getName() + auxiliarMessage;
+                return "The " + element.getName() + auxiliarMessage + returnMessage;
             }
         }
         return incorrectMovementMessage;

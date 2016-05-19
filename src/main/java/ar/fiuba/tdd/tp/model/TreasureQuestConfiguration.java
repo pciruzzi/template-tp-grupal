@@ -35,7 +35,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private Element chest;
 
     // Los objetos levantables
-    private Element stick;
     private Element treasure;
     private Element key;
     private Element antidote;
@@ -95,12 +94,13 @@ public class TreasureQuestConfiguration implements GameBuilder {
         poisonBox.setState(true);
         treasureBox.setState(true);
         wardrobe.setState(true);
+
+        poisonBox.setPoisoned(true);
     }
 
     private void createPickableElements() {
         // Los elementos levantables
         key      = new Element("key");
-        stick    = new Element("stick");
         treasure = new Element("treasure");
         antidote = new Element("antidote");
         pokemon  = new Element("pokemon");
@@ -108,7 +108,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         // Los hago visibles
         key.setState(true);
         pokemon.setState(true);
-        stick.setPoisoned(true);
         antidote.setAntidote(true);
     }
 
@@ -225,7 +224,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         roomFour.addElement(wardrobe);
 
         // Elementos de roomFive
-        poisonBox.addElement(stick);
         treasureBox.addElement(treasure);
 
         roomFive.addElement(poisonBox);
@@ -245,11 +243,9 @@ public class TreasureQuestConfiguration implements GameBuilder {
         poisonBox.addCommand(openContainer);
         treasureBox.addCommand(openContainer);
 
-        stick.addCommand(pick);
         treasure.addCommand(pick);
         pokemon.addCommand(pick);
 
-        stick.addCommand(drop);
         treasure.addCommand(drop);
         pokemon.addCommand(drop);
 
@@ -264,7 +260,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         chest.addCommand(question);
         poisonBox.addCommand(question);
         treasureBox.addCommand(question);
-        stick.addCommand(question);
         treasure.addCommand(question);
     }
 
@@ -309,6 +304,4 @@ public class TreasureQuestConfiguration implements GameBuilder {
         openContainer = new ChangeVisibility("open",true, game);
         question = new Question("ask");
     }
-
-
 }
