@@ -14,7 +14,7 @@ public class ChangeVisibility extends ICommand {
     public ChangeVisibility(String name, boolean state, Game game) {
         this.name = name;
         this.state = state;
-        this.correctMovementMessage = " is opened!.";
+        this.correctMovementMessage = " is opened.";
         this.incorrectMovementMessage = "You can't do that.";
         this.auxiliarMessage = " is closed!.";
         this.condition = new TrueExpression();
