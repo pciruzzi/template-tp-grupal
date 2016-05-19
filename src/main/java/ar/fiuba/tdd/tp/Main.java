@@ -17,7 +17,7 @@ public class Main {
         //boolean isOpenDoor2 = true;
         //GameBuilder fetchConfiguration = new OpenDoorConfiguration(isOpenDoor2);
 //        GameBuilder fetchConfiguration = new HanoiConfiguration();
-        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
+        GameBuilder fetchConfiguration = new PoisonConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();

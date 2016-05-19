@@ -46,7 +46,7 @@ public class PoisonConfiguration implements GameBuilder {
         winArray.add("antidote");
 
         ArrayList<String> losingArray = new ArrayList<String>();
-        losingArray.add("stick");
+        losingArray.add("stick2");
 
         IInterpreter winInterpreter = new ContainsElements(player,winArray);
         IInterpreter losingInterpreter = new ContainsElements(player,losingArray);
@@ -69,6 +69,7 @@ public class PoisonConfiguration implements GameBuilder {
         antidote.addCommand(pick);
         antidote.setState(true);
         antidote.addCommand(question);
+        antidote.setAntidote(true);
         return antidote;
     }
 }
