@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp;
 
+import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.*;
 

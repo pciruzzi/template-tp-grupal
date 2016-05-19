@@ -15,6 +15,8 @@ public class Element {
     private int capacity;
     private boolean poisoned;
 
+    private boolean isAntidote;
+
     public Element(String name) {
         commandMap = new HashMap<String, ICommand>();
         elementMap = new HashMap<String, Element>();
@@ -26,7 +28,6 @@ public class Element {
         this.poisoned = false;
     }
 
-
     public String doCommand(String commandName) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
@@ -35,6 +36,7 @@ public class Element {
             return "I can't do that.";
         }
     }
+
 
     public String doCommand(String commandName, Element originElement, Element destElement) {
         if (commandMap.containsKey(commandName)) {
@@ -71,7 +73,7 @@ public class Element {
     }
 
     public void removeElement(Element element) {
-        Element removedElement  = elementMap.remove(element.getName());
+        elementMap.remove(element.getName());
         this.capacity = this.capacity + element.getSize();
     }
 
@@ -165,5 +167,13 @@ public class Element {
 
     public void setPoisoned(boolean poisoned) {
         this.poisoned = poisoned;
+    }
+
+    public boolean isAntidote() {
+        return isAntidote;
+    }
+
+    public void setAntidote(boolean antidote) {
+        isAntidote = antidote;
     }
 }

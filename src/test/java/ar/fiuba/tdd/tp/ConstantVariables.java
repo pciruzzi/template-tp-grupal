@@ -9,7 +9,7 @@ public final class ConstantVariables {
     public static final String movementAccepted = "Ok.";
     public static final String pickKey = "pick key";
     public static final String openDoor = "open door";
-    public static final String OPEN_DOOR_ERROR = "Ey! Where do you go?! The door is locked.";
+    public static final String OPEN_DOOR_ERROR = "Ey! You can't do that! The door is locked";
 
 
 }

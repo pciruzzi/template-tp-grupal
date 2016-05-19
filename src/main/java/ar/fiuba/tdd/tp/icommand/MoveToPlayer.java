@@ -6,7 +6,6 @@ import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MoveToPlayer extends ICommand {
     private Game game;
@@ -28,10 +27,16 @@ public class MoveToPlayer extends ICommand {
 
     //Return true if the player had an antidote and had been healed.
     private boolean checkInventoryForAntidote(Game game) {
-        if ( game.getPlayer().getElementMap().containsKey("antidote") ) {
-            game.getPlayer().getElementMap().remove("antidote");
-            game.getPlayer().setPoisoned(false);
-            return true;
+
+        List<Element> elementList = game.getPlayer().getElementList();
+
+        for (Element inventoryElement : elementList ) {
+            if (inventoryElement.isAntidote()) {
+                Element player = game.getPlayer();
+                player.setPoisoned(false);
+                player.removeElement(inventoryElement);
+                return true;
+            }
         }
         return false;
     }
@@ -42,7 +47,6 @@ public class MoveToPlayer extends ICommand {
             if (checkAvailableElement(game, element)) {
                 Element playerPosition = game.getPlayerPosition();
                 Element player = game.getPlayer();
-
 
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
@@ -55,7 +59,6 @@ public class MoveToPlayer extends ICommand {
 
                 // Lo saco del objeto que lo contenia
                 removeElement(element, playerPosition);
-
 
                 //todo aca deberia ver para avisar que lo envenene o cure.
                 checkElementForPoisonAndAntidote(element, player);
@@ -78,7 +81,7 @@ public class MoveToPlayer extends ICommand {
 
             if ( containerElement.hasAllElements(elementToRemoveArray) && containerElement.getState() ) {
                 containerElement.removeElement(elementToRemove);
-            } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ){
+            } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ) {
                 removeElement(elementToRemove, containerElement);
             }
         }
@@ -87,7 +90,6 @@ public class MoveToPlayer extends ICommand {
     private void checkElementForPoisonAndAntidote(Element element, Element player) {
         if (element.isPoisoned()) {
             player.setPoisoned(true);
-            element.setPoisoned(false);
         }
         if (player.isPoisoned()) {
             checkInventoryForAntidote(game);

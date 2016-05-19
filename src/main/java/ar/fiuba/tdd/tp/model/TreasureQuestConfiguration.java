@@ -83,17 +83,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
 
         createDoors();
 
-        // Los elementos levantables
-        key      = new Element("key");
-        stick    = new Element("stick");
-        treasure = new Element("treasure");
-        antidote = new Element("antidote");
-        pokemon  = new Element("pokemon");
-
-        // Los hago visibles
-        key.setState(true);
-        pokemon.setState(true);
-        stick.setPoisoned(true);
+        createPickableElements();
 
         // Los contenedores
         poisonBox   = new Element("box one");
@@ -105,6 +95,21 @@ public class TreasureQuestConfiguration implements GameBuilder {
         poisonBox.setState(true);
         treasureBox.setState(true);
         wardrobe.setState(true);
+    }
+
+    private void createPickableElements() {
+        // Los elementos levantables
+        key      = new Element("key");
+        stick    = new Element("stick");
+        treasure = new Element("treasure");
+        antidote = new Element("antidote");
+        pokemon  = new Element("pokemon");
+
+        // Los hago visibles
+        key.setState(true);
+        pokemon.setState(true);
+        stick.setPoisoned(true);
+        antidote.setAntidote(true);
     }
 
     private void createDoors() {
@@ -301,7 +306,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         pick = new MoveToPlayer("pick", game);
         drop = new DropOnPosition("drop", game);
         openDoor = new MovePlayerTo(game, "open");
-        openContainer = new ChangeVisibility("open",true);
+        openContainer = new ChangeVisibility("open",true, game);
         question = new Question("ask");
     }
 

@@ -8,12 +8,11 @@ public class HasLoosingCondition extends TerminalExpression {
 
     public HasLoosingCondition(Element element, boolean state) {
         super(element, null);
-        this.state= state;
+        this.state = state;
     }
 
     @Override
     public boolean interpret() {
-
         return element.isPoisoned() == state;
     }
 }

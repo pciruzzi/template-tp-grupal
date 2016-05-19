@@ -125,8 +125,8 @@ public class OpenDoorConfiguration implements GameBuilder {
     }
 
     private void configureBox() {
-        ICommand open = new ChangeVisibility("open", true);
-        ICommand close = new ChangeVisibility("close", false);
+        ICommand open = new ChangeVisibility("open", true, game);
+        ICommand close = new ChangeVisibility("close", false, game);
         box.addCommand(open);
         box.addCommand(close);
         box.addCommand(question);
