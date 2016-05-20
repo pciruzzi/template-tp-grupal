@@ -184,6 +184,18 @@ public class TheEscape implements GameBuilder {
         ICommand abrirPuerta = new MovePlayerTo(game, "abrir");
         puertaAPasillo.addCommand(abrirCaja);
 
+        // Agrego los elementos al salon
+        salonUno.addElement(mesa);
+        salonUno.addElement(botellaLicor);
+        salonUno.addElement(vasoDos);
+        salonUno.addElement(vasoUno);
+        salonUno.addElement(sillaDos);
+        salonUno.addElement(sillaUno);
+        salonUno.addElement(cuadroBarco);
+        salonUno.addElement(cuadroTren);
+        salonUno.addElement(puertaAPasillo);
+
+
     }
 
     private void createSotano() {
