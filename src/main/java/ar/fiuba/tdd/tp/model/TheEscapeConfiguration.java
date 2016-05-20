@@ -268,7 +268,9 @@ public class TheEscapeConfiguration implements GameBuilder {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
         IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
+        condicionCaja.setFailMessage("¿Que haces? Necesitas la Llave para abrir la CajaFuerte");
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
+        abrirCaja.incorrectMovementMessage("¿Que hacés? Necesitas la Llave para abrir la CajaFuerte.");
         cajaFuerte.addCommand(abrirCaja);
         cajaFuerte.addCommand(closeContainer);
     }
@@ -305,9 +307,11 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         barandaSotano.setObjectiveElement(sotanoAbajo);
         barandaSotano.addCommand(use);
+        barandaSotano.addCommand(question);
 
         escalera.setObjectiveElement(cuartoDeLaMuerte);
         escalera.addCommand(use);
+        escalera.addCommand(question);
 
         sotano.addElement(escalera);
         sotano.addElement(barandaSotano);
@@ -330,6 +334,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         ventana.setObjectiveElement(lastRoom);
         ventana.addCommand(romper);
+        ventana.addCommand(question);
         ventana.setState(true);
         sotanoAbajo.addElement(ventana);
     }
@@ -415,7 +420,12 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBibliotecario.setObjectiveElement(accesoBibliotecaBis);
         doorBiblioteca.setState(true);
         doorBiblioteca.addCommand(openDoor);
+        doorBiblioteca.addCommand(question);
+
         accesoBibliotecaBis.addElement(doorBiblioteca);
+        accesoBibliotecaBis.addElement(doorToPasillo);
+
+        accesoBibliotecaBis.addCommand(lookAround);
         accesoBiblioteca.addCommand(lookAround);
     }
 
@@ -423,9 +433,13 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBiblioteca.setObjectiveElement(biblioteca);
 
         libroViejo.setState(true);
-        libroViejo.addCommand(openContainer);
         libroUno.setState(true);
         libroDos.setState(true);
+
+        libroViejo.addCommand(new ChangeVisibility("move", true, game));
+        libroViejo.addCommand(question);
+        libroUno.addCommand(question);
+        libroDos.addCommand(question);
 
         libroViejo.addElement(doorSotano);
         doorSotano.addCommand(openDoor);
