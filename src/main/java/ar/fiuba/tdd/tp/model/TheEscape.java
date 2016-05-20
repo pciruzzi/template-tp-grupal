@@ -123,14 +123,19 @@ public class TheEscape implements GameBuilder {
         createRoomTwo();
         createRoomThree();
 
+        accesoBiblioteca = new Element("accesoBiblioteca");
         createSotano();
         createSotanoAbajo();
         createBibliotecario();
         createAccesoABibliotecaBis();
         createBiblioteca();
 
-        createSotano();
-        createSotanoAbajo();
+//<<<<<<< Updated upstream
+//        createSotano();
+//        createSotanoAbajo();
+//=======
+//
+//>>>>>>> Stashed changes
         createLastRoomAndCondicionesDeMorir();
 
         game.setPlayer(player);
@@ -141,6 +146,7 @@ public class TheEscape implements GameBuilder {
 
     private void createRoomTwo() {
 
+//<<<<<<< Updated upstream
         salonDos.addCommand(lookAround);
         doorSalon2.setObjectiveElement(salonDos);
 
@@ -162,6 +168,10 @@ public class TheEscape implements GameBuilder {
     }
 
     private void createRoomOne() {
+//=======
+        salonUno = new Element("Salon1");
+        salonUno.addCommand(lookAround);
+//>>>>>>> Stashed changes
 
         // Los elementos levantables
         botellaLicor = new Element("Botella");
@@ -303,7 +313,8 @@ public class TheEscape implements GameBuilder {
     }
 
     private void createBibliotecario() {
-        accesoBiblioteca = new Element("accesoBiblioteca");
+        accesoBiblioteca.addCommand(lookAround);
+        doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
         ArrayList<String> tieneCredencial = new ArrayList<>();
         tieneCredencial.add("credencial");
@@ -323,6 +334,8 @@ public class TheEscape implements GameBuilder {
         IInterpreter conLicor = new ContainsElements(player, tieneLicor);
 
         IInterpreter puedePasar = new AndExpression(conLicor, credencialConFoto);
+
+        puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         ICommand pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show Credencial");
 
