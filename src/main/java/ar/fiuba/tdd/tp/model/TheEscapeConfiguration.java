@@ -41,6 +41,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element doorSalon3;
     private Element doorToPasillo;
     private Element doorBibliotecaBibliotecario;
+    private Element pasajeAfuera;
 
     // Los elementos levantables
     private Element credencial;
@@ -83,6 +84,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private ICommand pasarBibliotecario;
     private ICommand move;
 
+
     @Override
     public Game build() {
         game = new Game("The Escape");
@@ -118,7 +120,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         biblioteca = new Element("Biblioteca");
         sotano = new Element("Sotano");
         sotanoAbajo = new Element("Sotano Abajo");
-        lastRoom = new Element("Afuera");
+        lastRoom = new Element("LastRoom");
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
     }
 
@@ -164,6 +166,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBiblioteca = new Element("Biblioteca");
         doorBibliotecaBibliotecario = new Element("Bibliotecario");
         doorSotano = new Element("Sotano");
+        pasajeAfuera = new Element("Afuera");
         doorSalon1.setState(true);
         doorSalon2.setState(true);
         doorSalon3.setState(true);
@@ -334,7 +337,10 @@ public class TheEscapeConfiguration implements GameBuilder {
 //        escalera.addCommand(use);
 //        escalera.setObjectiveElement(cuartoDeLaMuerte);
 
-        ventana.setObjectiveElement(lastRoom);
+//        ventana.setObjectiveElement(lastRoom);
+        pasajeAfuera.addCommand(openDoor);
+        pasajeAfuera.setObjectiveElement(lastRoom);
+        ventana.addElement(pasajeAfuera);
         ventana.addCommand(romper);
         ventana.addCommand(question);
         ventana.setState(true);
@@ -515,6 +521,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         ArrayList<String> listaParaRomperVentana = new ArrayList<>();
         listaParaRomperVentana.add("Martillo");
         IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
-        romper = new MovePlayerTo(game,requisitosRomper, "break");
+        romper = new ChangeVisibility("break", true, requisitosRomper, game);
     }
 }
