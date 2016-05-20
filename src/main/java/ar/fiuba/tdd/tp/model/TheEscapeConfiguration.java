@@ -75,7 +75,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     private ICommand drop;
     private ICommand pick;
     private ICommand openDoor;
-    private ICommand openContainer;
     private ICommand closeContainer;
     private ICommand question;
     private ICommand lookAround;
@@ -197,7 +196,8 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorToPasillo.addCommand(openDoor);
         doorToPasillo.addCommand(question);
 
-        addElementsToRoomTwo();}
+        addElementsToRoomTwo();
+    }
 
     private void addElementsToRoomTwo() {
         salonDos.addElement(martillo);
@@ -246,6 +246,22 @@ public class TheEscapeConfiguration implements GameBuilder {
         cuadroBarco.addCommand(moverCuadro);
 
         // Asigno las preguntas
+        addQuestionCommandToRoomOneElements();
+
+        // Abrir caja fuerte con llave
+        setConditionsForCajaFuerte();
+
+        // Abrir puerta para hall
+        doorToPasillo.setObjectiveElement(pasillo);
+        ICommand abrirPuerta = new MovePlayerTo(game, "goto");
+        doorToPasillo.addCommand(abrirPuerta);
+
+        // Agrego los elementos al salon
+        setElementsToSalon1();
+    }
+
+    private void addQuestionCommandToRoomOneElements() {
+
         mesa.addCommand(question);
         sillaUno.addCommand(question);
         sillaDos.addCommand(question);
@@ -255,18 +271,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         cuadroTren.addCommand(question);
         botellaLicor.addCommand(question);
         cajaFuerte.addCommand(question);
-
-        // Abrir caja fuerte con llave
-        setConditionsForCajaFuerte();
-
-        // Abrir puerta para hall
-        doorToPasillo.setObjectiveElement(pasillo);
-        ICommand abrirPuerta = new MovePlayerTo(game, "goto");
-        doorToPasillo.addCommand(abrirPuerta);
-        doorToPasillo.setState(true);
-
-        // Agrego los elementos al salon
-        setElementsToSalon1();
     }
 
     private void setConditionsForCajaFuerte() {
@@ -302,6 +306,8 @@ public class TheEscapeConfiguration implements GameBuilder {
         mesa.setState(true);
         sillaDos.setState(true);
         sillaUno.setState(true);
+        doorToPasillo.setState(true);
+
     }
 
     private void createSotano() {
@@ -462,12 +468,16 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         doorSotano.setObjectiveElement(sotano);
 
+        addElementsToBiblioteca();
+
+        biblioteca.addCommand(lookAround);
+    }
+
+    private void addElementsToBiblioteca() {
         biblioteca.addElement(libroViejo);
         biblioteca.addElement(libroUno);
         biblioteca.addElement(libroDos);
         biblioteca.addElement(doorBibliotecaBibliotecario);
-
-        biblioteca.addCommand(lookAround);
     }
 
     private void createPasillo() {
@@ -511,7 +521,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         drop            = new DropOnPosition("drop", game);
         pick            = new MoveToPlayer("pick", game);
         openDoor        = new MovePlayerTo(game, "goto");
-        openContainer   = new ChangeVisibility("open", true, game);
         closeContainer  = new ChangeVisibility("close", false, game);
         question        = new Question("ask");
         lookAround      = new LookAround("look around", game);

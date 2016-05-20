@@ -32,10 +32,10 @@ public class Move extends ICommand {
                 destinationElement.addElement(movingElement);
                 return correctMovementMessage + movingElement.getName() + " to the " + destinationElement.getName() + " in the inventory.";
             } else if (playerPosition.hasElement(movingElement.getName()) && playerPosition.hasElement(destinationElement.getName())) {
-                    playerPosition.removeElement(movingElement);
-                    movingElement.setState(false);
-                    destinationElement.addElement(movingElement);
-                    return correctMovementMessage + movingElement.getName() + " to the " + destinationElement.getName() + " on the floor.";
+                playerPosition.removeElement(movingElement);
+                movingElement.setState(false);
+                destinationElement.addElement(movingElement);
+                return correctMovementMessage + movingElement.getName() + " to the " + destinationElement.getName() + " on the floor.";
             }
         }
         return incorrectMovementMessage;
