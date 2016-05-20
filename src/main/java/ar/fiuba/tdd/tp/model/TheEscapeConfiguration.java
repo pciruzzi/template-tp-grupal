@@ -191,7 +191,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createRoomOne() {
 
         salonUno.addCommand(lookAround);
-
         // Los elementos levantables
         botellaLicor = new Element("Botella");
         vasoUno = new Element("Vaso1");
