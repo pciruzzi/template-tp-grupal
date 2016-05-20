@@ -90,30 +90,47 @@ public class TheEscape implements GameBuilder {
 
     private Element puertaAPasillo;
 
+    private Element salonDos;
+
+    private Element martillo;
+    private Element destornillador1;
+    private Element destornillador2;
+
+    private Element salonTres;
+
+    private Element llave;
+
     @Override
     public Game build() {
 
         game = new Game("Temple Quest");
         credencial = new Element("Credencial");
         player = new Element("player");
+        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+        sotano = new Element("Sotano");
+        sotanoAbajo = new Element("Sotano abajo");
+        lastRoom = new Element("A Fuera");
+        salonUno = new Element("Salon1");
+        salonDos = new Element("Salon2");
+        salonTres = new Element("Salon3");
+        pasillo = new Element("pasillo");
+        biblioteca = new Element("biblioteca");
 
         createICommands();
 
-        createRoomOne();
         createPasillo();
-        createSalon2();
-        createSalon3();
+        createRoomOne();
+        createRoomTwo();
+        createRoomThree();
 
         createSotano();
         createSotanoAbajo();
         createBibliotecario();
         createAccesoABibliotecaBis();
         createBiblioteca();
-        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
-        sotano = new Element("Sotano");
-        sotanoAbajo = new Element("Sotano abajo");
-        lastRoom = new Element("A Fuera");
 
+        createSotano();
+        createSotanoAbajo();
         createLastRoomAndCondicionesDeMorir();
 
         game.setPlayer(player);
@@ -122,9 +139,29 @@ public class TheEscape implements GameBuilder {
         return game;
     }
 
-    private void createRoomOne() {
+    private void createRoomTwo() {
 
-        salonUno = new Element("Salon1");
+        salonDos.addCommand(lookAround);
+        doorSalon2.setObjectiveElement(salonDos);
+
+        martillo = new Element("Martillo");
+        martillo.addCommand(pick);
+        martillo.addCommand(drop);
+
+        destornillador1 = new Element("Destornillador 1");
+        destornillador1.addCommand(pick);
+        destornillador1.addCommand(drop);
+
+        destornillador2 = new Element("Destornillador 2");
+        destornillador2.addCommand(pick);
+        destornillador2.addCommand(drop);
+
+        Element puertaAPasillo = new Element("puerta");
+        puertaAPasillo.setObjectiveElement(pasillo);
+        puertaAPasillo.addCommand(openDoor);
+    }
+
+    private void createRoomOne() {
 
         // Los elementos levantables
         botellaLicor = new Element("Botella");
@@ -200,6 +237,8 @@ public class TheEscape implements GameBuilder {
 
     private void createSotano() {
 
+        sotano.addCommand(lookAround);
+
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
         baranda.setState(true);
@@ -217,6 +256,8 @@ public class TheEscape implements GameBuilder {
 
     private void createSotanoAbajo() {
 
+
+        sotanoAbajo.addCommand(lookAround);
         Element ventana = new Element("ventana");
         Element escalera = new Element("escalera");
         Element baranda = new Element("baranda");
@@ -246,6 +287,7 @@ public class TheEscape implements GameBuilder {
 
     private void createLastRoomAndCondicionesDeMorir() {
 
+        lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
@@ -306,7 +348,7 @@ public class TheEscape implements GameBuilder {
     }
 
     private void createBiblioteca() {
-        biblioteca = new Element("biblioteca");
+
         doorBiblioteca.setObjectiveElement(biblioteca);
 
         libroViejo = new Element("LibroViejo");
@@ -328,7 +370,7 @@ public class TheEscape implements GameBuilder {
     }
 
     private void createPasillo() {
-        pasillo = new Element("pasillo");
+
         pasillo.addCommand(lookAround);
 
         doorSalon1 = new Element("salon1");
@@ -362,14 +404,12 @@ public class TheEscape implements GameBuilder {
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
     }
 
-    private void createSalon2() {
-        salon2 = new Element("salon2");
-        doorSalon2.setObjectiveElement(salon2);
-    }
-
-    private void createSalon3() {
-        salon3 = new Element("salonTres");
-        doorSalon3.setObjectiveElement(salon3);
+    private void createRoomThree() {
+        llave = new Element("Llave");
+        salonTres.addCommand(lookAround);
+        llave.addCommand(pick);
+        llave.addCommand(drop);
+        doorSalon3.setObjectiveElement(salonTres);
     }
 //
     @SuppressWarnings("CPD-END")
