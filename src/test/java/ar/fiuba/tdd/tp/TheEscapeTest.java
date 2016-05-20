@@ -10,7 +10,7 @@ public class TheEscapeTest {
     @Test
     public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {
         GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscape.jar");
+        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
@@ -35,7 +35,7 @@ public class TheEscapeTest {
     @Test
     public void itShouldLostIfGotoBasementWithoutAHammer() throws GameLoadFailedException {
         GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscape.jar");
+        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
@@ -60,7 +60,7 @@ public class TheEscapeTest {
     @Test
     public void itShouldWinIfGotoBasementWithAHammer() throws GameLoadFailedException {
         GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscape.jar");
+        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
