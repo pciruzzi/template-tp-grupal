@@ -132,7 +132,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         sillaDos = new Element("SillaDos");
         escalera = new Element("Escalera");
         barandaSotano = new Element("Baranda");
-        ventana = new Element("ventana");
+        ventana = new Element("Ventana");
         llave = new Element("Llave");
     }
 
