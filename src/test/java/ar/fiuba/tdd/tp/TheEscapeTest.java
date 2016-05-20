@@ -7,11 +7,16 @@ import static org.junit.Assert.assertEquals;
 
 public class TheEscapeTest {
 
-    @Test
-    public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {
+    private GameDriver initializeGameDriver() throws GameLoadFailedException {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
+        return driver;
+    }
+
+    @Test
+    public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {
+        GameDriver driver = initializeGameDriver();
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
         driver.sendCommand("goto Salon3");
@@ -34,9 +39,7 @@ public class TheEscapeTest {
 
     @Test
     public void itShouldLostIfGotoBasementWithoutAHammer() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
-        assertEquals(GameState.Ready, driver.getCurrentState());
+        GameDriver driver = initializeGameDriver();
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
         driver.sendCommand("goto Salon3");
@@ -59,9 +62,7 @@ public class TheEscapeTest {
 
     @Test
     public void itShouldWinIfGotoBasementWithAHammer() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TheEscapeConfiguration.jar");
-        assertEquals(GameState.Ready, driver.getCurrentState());
+        GameDriver driver = initializeGameDriver();
         driver.sendCommand("goto BibliotecaAcceso");
         driver.sendCommand("goto Pasillo");
         driver.sendCommand("goto Salon3");
@@ -86,5 +87,4 @@ public class TheEscapeTest {
         driver.sendCommand("goto Afuera");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
-
 }

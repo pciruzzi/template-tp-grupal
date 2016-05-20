@@ -14,9 +14,9 @@ import ar.fiuba.tdd.tp.interpreter.OrExpression;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
 public class TheEscapeConfiguration implements GameBuilder {
 
-    @SuppressWarnings("CPD-START")
     private Game game;
     private Element player;
 
@@ -107,22 +107,12 @@ public class TheEscapeConfiguration implements GameBuilder {
     @Override
     public Game build() {
 
-        game = new Game("Temple Quest");
+        game = new Game("The Escape");
 
         createICommands();
 
         createPlayer();
-        credencial = new Element("Credencial");
-        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
-        sotano = new Element("Sotano");
-        sotanoAbajo = new Element("Sotano abajo");
-        lastRoom = new Element("Afuera");
-        salonUno = new Element("Salon1");
-        salonDos = new Element("Salon2");
-        salonTres = new Element("Salon3");
-        pasillo = new Element("pasillo");
-        biblioteca = new Element("biblioteca");
-        accesoBiblioteca = new Element("accesoBiblioteca");
+        createElements();
 
 
         createPasillo();
@@ -152,7 +142,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         player.setCapacity(4);
 
-        fotoBuena = new Element("Fotoaaa");
+        fotoBuena = new Element("Foto");
         lapicera = new Element("Lapicera");
 
         fotoBuena.addCommand(drop);
@@ -165,9 +155,21 @@ public class TheEscapeConfiguration implements GameBuilder {
         player.addElement(lapicera);
     }
 
-    private void createRoomTwo() {
+    private void createElements() {
+        credencial = new Element("Credencial");
+        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+        sotano = new Element("Sotano");
+        sotanoAbajo = new Element("Sotano abajo");
+        lastRoom = new Element("A Fuera");
+        salonUno = new Element("Salon1");
+        salonDos = new Element("Salon2");
+        salonTres = new Element("Salon3");
+        pasillo = new Element("pasillo");
+        biblioteca = new Element("biblioteca");
+        accesoBiblioteca = new Element("accesoBiblioteca");
+    }
 
-//<<<<<<< Updated upstream
+    private void createRoomTwo() {
         salonDos.addCommand(lookAround);
         doorSalon2.setObjectiveElement(salonDos);
 
@@ -291,12 +293,13 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         sotanoAbajo.addCommand(lookAround);
         Element ventana = new Element("ventana");
+        ventana.setState(true);
         Element escalera = new Element("escalera");
+        escalera.setState(true);
         Element baranda = new Element("baranda");
+        baranda.setState(true);
 //        TODO aca hay que hacer el using de santi.
 //     ventana.addCommand();
-
-        ventana.setState(true);
 
         ArrayList<String> listaParaRomperVentana = new ArrayList<>();
         listaParaRomperVentana.add("martillo");
@@ -305,14 +308,10 @@ public class TheEscapeConfiguration implements GameBuilder {
         //Acciones
         ICommand use = new MovePlayerTo(game, "use");
 
-        ICommand romper = new MovePlayerTo(game,requisitosRomper, "break");
-
-        escalera.setState(true);
-        baranda.setState(true);
-
         escalera.addCommand(use);
         escalera.setObjectiveElement(cuartoDeLaMuerte);
 
+        ICommand romper = new MovePlayerTo(game,requisitosRomper, "break");
         ventana.setObjectiveElement(lastRoom);
         ventana.addCommand(romper);
     }

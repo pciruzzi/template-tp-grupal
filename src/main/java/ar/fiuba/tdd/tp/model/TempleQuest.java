@@ -6,9 +6,9 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
 public class TempleQuest implements GameBuilder {
 
-    @SuppressWarnings("CPD-START")
     private Game game;
     private Element player;
 
@@ -376,8 +376,6 @@ public class TempleQuest implements GameBuilder {
         game.setLosingInterpreter(losingInterpreter);
     }
 
-    @SuppressWarnings("CPD-END")
-
     private void createICommands() {
         drop            = new DropOnPosition("drop", game);
         pick            = new MoveToPlayer("pick", game);
@@ -390,6 +388,7 @@ public class TempleQuest implements GameBuilder {
         createCross();
     }
 
+    @SuppressWarnings("CPD-END")
     private void createCross() {
 //        ArrayList<String> requirementsToCross = new ArrayList<>();
 //        requirementsToCross.add("disk nine");
