@@ -188,17 +188,33 @@ public class TheEscapeConfiguration implements GameBuilder {
         salonDos.addCommand(lookAround);
         doorSalon2.setObjectiveElement(salonDos);
 
-        martillo.addCommand(pick);
-        martillo.addCommand(drop);
-
-        destornillador1.addCommand(pick);
-        destornillador1.addCommand(drop);
-
-        destornillador2.addCommand(pick);
-        destornillador2.addCommand(drop);
+        configureElementsRoomTwo();
 
         doorToPasillo.setObjectiveElement(pasillo);
         doorToPasillo.addCommand(openDoor);
+
+        addElementsToRoomTwo();
+    }
+
+    private void addElementsToRoomTwo() {
+        salonDos.addElement(martillo);
+        salonDos.addElement(destornillador1);
+        salonDos.addElement(destornillador2);
+        salonDos.addElement(doorToPasillo);
+    }
+
+    private void configureElementsRoomTwo() {
+        martillo.addCommand(pick);
+        martillo.addCommand(drop);
+        martillo.setState(true);
+
+        destornillador1.addCommand(pick);
+        destornillador1.addCommand(drop);
+        destornillador1.setState(true);
+
+        destornillador2.addCommand(pick);
+        destornillador2.addCommand(drop);
+        destornillador2.setState(true);
     }
 
     private void createRoomOne() {
