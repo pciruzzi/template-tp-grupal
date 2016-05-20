@@ -193,8 +193,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorToPasillo.setObjectiveElement(pasillo);
         doorToPasillo.addCommand(openDoor);
 
-        addElementsToRoomTwo();
-    }
+        addElementsToRoomTwo();}
 
     private void addElementsToRoomTwo() {
         salonDos.addElement(martillo);
