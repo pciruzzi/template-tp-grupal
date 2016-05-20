@@ -389,12 +389,8 @@ public class TempleQuest implements GameBuilder {
     }
 
     @SuppressWarnings("CPD-END")
-    private void createCross() {
-//        ArrayList<String> requirementsToCross = new ArrayList<>();
-//        requirementsToCross.add("disk nine");
-//
-//        IInterpreter containsDisk9 = new ContainsElements(player, requirementsToCross);
 
+    private void createCross() {
         IInterpreter hasOneDisk = new HasLessElementsThan(player, 3);
         hasOneDisk.setFailMessage("The rope won't support your weight.");
         cross = new MovePlayerTo(game, hasOneDisk, "cross");

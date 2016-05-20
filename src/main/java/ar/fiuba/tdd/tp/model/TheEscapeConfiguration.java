@@ -15,27 +15,25 @@ import ar.fiuba.tdd.tp.interpreter.OrExpression;
 import java.util.ArrayList;
 
 @SuppressWarnings("CPD-START")
+
 public class TheEscapeConfiguration implements GameBuilder {
 
     private Game game;
     private Element player;
 
+    // Los cuartos
+    private Element salonUno;
+    private Element salonDos;
+    private Element salonTres;
+    private Element accesoBiblioteca;
+    private Element accesoBibliotecaBis;
+    private Element biblioteca;
+    private Element pasillo;
     private Element sotano;
     private Element sotanoAbajo;
     private Element lastRoom;
     private Element cuartoDeLaMuerte;
 
-    // Los cuartos
-    private Element accesoBiblioteca;
-    private Element accesoBibliotecaBis;
-    private Element biblioteca;
-    private Element pasillo;
-    private Element salon2;
-    private Element salon3;
-//    private Element roomOne;
-//    private Element roomHanoi;
-//    private Element roomArchaeologist;
-//
     // Las puertas
     private Element doorAccesoABibliotecario;
     private Element doorBibliotecario;
@@ -46,23 +44,33 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element doorSalon3;
     private Element doorToPasillo;
 
-//    private Element doorOneHanoi;
-//    private Element doorHanoiArchaeologist;
-//    private Element doorArchaeologistOutside;
-//
-//    // Los elementos levantables
+    // Los elementos levantables
     private Element credencial;
     private Element libroViejo;
     private Element libroUno;
     private Element libroDos;
-//    private Element key;
-//    private Element antidote;
-//    private Element apple;
-//
-//    // Los elementos contenedores
-//    private Element skeleton;
-//    private Element chest;
-//
+    private Element botellaLicor;
+    private Element vasoUno;
+    private Element vasoDos;
+    private Element fotoBuena;
+    private Element lapicera;
+    private Element fotoDesconocida;
+    private Element martillo;
+    private Element destornillador1;
+    private Element destornillador2;
+
+    // Otros Elements
+    private Element mesa;
+    private Element sillaUno;
+    private Element sillaDos;
+    private Element cuadroBarco;
+    private Element cuadroTren;
+    private Element cajaFuerte;
+    private Element llave;
+    private Element escalera;
+    private Element baranda;
+    private Element ventana;
+
     // Los ICommands
     private ICommand drop;
     private ICommand pick;
@@ -71,63 +79,29 @@ public class TheEscapeConfiguration implements GameBuilder {
     private ICommand closeContainer;
     private ICommand question;
     private ICommand lookAround;
-    private ICommand moveWithComparator;
-//
-    private Element salonUno;
-
-    private Element mesa;
-    private Element botellaLicor;
-    private Element licor;
-    private Element vasoUno;
-    private Element vasoDos;
-    private Element fotoBuena;
-    private Element lapicera;
-
-    private Element sillaUno;
-    private Element sillaDos;
-
-    private Element cuadroBarco;
-    private Element cuadroTren;
-    private Element cajaFuerte;
-
-    private Element fotoDesconocida;
-
-    private Element puertaAPasillo;
-
-    private Element salonDos;
-
-    private Element martillo;
-    private Element destornillador1;
-    private Element destornillador2;
-
-    private Element salonTres;
-
-    private Element llave;
+    private ICommand use;
+    private ICommand romper;
+    private ICommand pasarBibliotecario;
+    private ICommand move;
 
     @Override
     public Game build() {
-
         game = new Game("The Escape");
 
+        initializeElements();
+        initializeRooms();
+        initializeDoors();
         createICommands();
-
         createPlayer();
-        createElements();
-
-
         createPasillo();
         createRoomOne();
         createRoomTwo();
         createBibliotecario();
         createRoomThree();
-
         createSotano();
         createSotanoAbajo();
         createAccesoABibliotecaBis();
         createBiblioteca();
-
-
-
         createLastRoomAndCondicionesDeMorir();
 
         game.setPlayer(player);
@@ -136,16 +110,71 @@ public class TheEscapeConfiguration implements GameBuilder {
         return game;
     }
 
-    private void createPlayer() {
+    private void initializeRooms() {
+        pasillo = new Element("Pasillo");
+        salonUno = new Element("Salon1");
+        salonDos = new Element("Salon2");
+        salonTres = new Element("Salon3");
+        accesoBiblioteca = new Element("BibliotecaAcceso");
+        biblioteca = new Element("Biblioteca");
+        sotano = new Element("Sotano");
+        sotanoAbajo = new Element("Sotano Abajo");
+        lastRoom = new Element("Afuera");
+        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+    }
 
+    private void initializeElements() {
+        initializeFirstGroupOfElements();
+        credencial = new Element("Credencial");
+        cuadroBarco = new Element("CuadroBarco");
+        cuadroTren = new Element("CuadroTren");
+        cajaFuerte = new Element("CajaFuerte");
+        mesa = new Element("Mesa");
+        sillaUno = new Element("SillaUno");
+        sillaDos = new Element("SillaDos");
+        escalera = new Element("Escalera");
+        baranda = new Element("Baranda");
+        ventana = new Element("ventana");
+        llave = new Element("Llave");
+    }
+
+    private void initializeFirstGroupOfElements() {
         player = new Element("player");
+        fotoBuena = new Element("Foto");
+        fotoDesconocida = new Element("FotoDesconocida");
+        lapicera = new Element("Lapicera");
+        martillo = new Element("Martillo");
+        destornillador1 = new Element("Destornillador 1");
+        destornillador2 = new Element("Destornillador 2");
+        botellaLicor = new Element("Botella");
+        vasoUno = new Element("Vaso1");
+        vasoDos = new Element("Vaso2");
+        libroViejo = new Element("LibroViejo");
+        libroUno = new Element("libro quimica");
+        libroDos = new Element("libro fisica");
+    }
 
+    private void initializeDoors() {
+        doorToPasillo = new Element("Pasillo");
+        doorSalon1 = new Element("Salon1");
+        doorSalon2 = new Element("Salon2");
+        doorSalon3 = new Element("Salon3");
+        doorAccesoABibliotecario = new Element("BibliotecaAcceso");
+        doorBibliotecario = new Element("Bibliotecario");
+        accesoBibliotecaBis = new Element("Biblioteca");
+        doorBiblioteca = new Element("Biblioteca");
+        doorSotano = new Element("Sotano");
+        doorSalon1.setState(true);
+        doorSalon2.setState(true);
+        doorSalon3.setState(true);
+        doorAccesoABibliotecario.setState(true);
+    }
+
+    private void createPlayer() {
         player.setCapacity(4);
 
-        fotoBuena = new Element("Foto");
-        lapicera = new Element("Lapicera");
-
         fotoBuena.addCommand(drop);
+        fotoBuena.addCommand(move);
         fotoBuena.addCommand(pick);
 
         lapicera.addCommand(drop);
@@ -155,77 +184,32 @@ public class TheEscapeConfiguration implements GameBuilder {
         player.addElement(lapicera);
     }
 
-    private void createElements() {
-        credencial = new Element("Credencial");
-        cuartoDeLaMuerte = new Element("Cuarto de la muerte");
-        sotano = new Element("Sotano");
-        sotanoAbajo = new Element("Sotano abajo");
-        lastRoom = new Element("A Fuera");
-        salonUno = new Element("Salon1");
-        salonDos = new Element("Salon2");
-        salonTres = new Element("Salon3");
-        pasillo = new Element("pasillo");
-        biblioteca = new Element("biblioteca");
-        accesoBiblioteca = new Element("accesoBiblioteca");
-    }
-
     private void createRoomTwo() {
         salonDos.addCommand(lookAround);
         doorSalon2.setObjectiveElement(salonDos);
 
-        martillo = new Element("Martillo");
         martillo.addCommand(pick);
         martillo.addCommand(drop);
 
-        destornillador1 = new Element("Destornillador 1");
         destornillador1.addCommand(pick);
         destornillador1.addCommand(drop);
 
-        destornillador2 = new Element("Destornillador 2");
         destornillador2.addCommand(pick);
         destornillador2.addCommand(drop);
 
-        Element puertaAPasillo = new Element("puerta");
-        puertaAPasillo.setObjectiveElement(pasillo);
-        puertaAPasillo.addCommand(openDoor);
+        doorToPasillo.setObjectiveElement(pasillo);
+        doorToPasillo.addCommand(openDoor);
     }
 
     private void createRoomOne() {
-
         salonUno.addCommand(lookAround);
-        // Los elementos levantables
-        botellaLicor = new Element("Botella");
-        vasoUno = new Element("Vaso1");
-        vasoDos = new Element("Vaso2");
-        credencial = new Element("Credencial");
-
-        // Los elementos contenedores
-        cuadroBarco = new Element("CuadroBarco");
-        cuadroTren = new Element("CuadroTren");
-        cajaFuerte = new Element("CajaFuerte");
-        puertaAPasillo = new Element("PuertaAPasillo");
-
-        // Los elementos sin comportamiento
-        mesa = new Element("Mesa");
-        sillaUno = new Element("SillaUno");
-        sillaDos = new Element("SillaDos");
-
-        fotoDesconocida = new Element("FotoDesconocida");
 
         // Lleno los contenedores
         credencial.addElement(fotoDesconocida);
         cajaFuerte.addElement(credencial);
         cuadroBarco.addElement(cajaFuerte);
 
-        // Seteo los visibles
-        botellaLicor.setState(true);
-        vasoUno.setState(true);
-        vasoDos.setState(true);
-        cuadroBarco.setState(true);
-        cuadroTren.setState(true);
-        mesa.setState(true);
-        sillaDos.setState(true);
-        sillaUno.setState(true);
+        setVisibleElements();
 
         // Asigno comandos de levantar
         ICommand levantar = new MoveToPlayer("pick", game);
@@ -240,19 +224,28 @@ public class TheEscapeConfiguration implements GameBuilder {
         cuadroBarco.addCommand(moverCuadro);
 
         // Abrir caja fuerte con llave
+        setConditionsForCajaFuerte();
+
+        // Abrir puerta para hall
+        doorToPasillo.setObjectiveElement(pasillo);
+        ICommand abrirPuerta = new MovePlayerTo(game, "goto");
+        doorToPasillo.addCommand(abrirPuerta);
+        doorToPasillo.setState(true);
+
+        // Agrego los elementos al salon
+        setElementsToSalon1();
+    }
+
+    private void setConditionsForCajaFuerte() {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
         IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
         cajaFuerte.addCommand(abrirCaja);
+        cajaFuerte.addCommand(closeContainer);
+    }
 
-        // Abrir puerta para hall
-        puertaAPasillo.setObjectiveElement(pasillo);
-        ICommand abrirPuerta = new MovePlayerTo(game, "goto");
-        puertaAPasillo.addCommand(abrirPuerta);
-        puertaAPasillo.setState(true);
-
-        // Agrego los elementos al salon
+    private void setElementsToSalon1() {
         salonUno.addElement(mesa);
         salonUno.addElement(botellaLicor);
         salonUno.addElement(vasoDos);
@@ -261,22 +254,26 @@ public class TheEscapeConfiguration implements GameBuilder {
         salonUno.addElement(sillaUno);
         salonUno.addElement(cuadroBarco);
         salonUno.addElement(cuadroTren);
-        salonUno.addElement(puertaAPasillo);
+        salonUno.addElement(doorToPasillo);
+    }
 
-
+    private void setVisibleElements() {
+        // Seteo los visibles
+        botellaLicor.setState(true);
+        vasoUno.setState(true);
+        vasoDos.setState(true);
+        cuadroBarco.setState(true);
+        cuadroTren.setState(true);
+        mesa.setState(true);
+        sillaDos.setState(true);
+        sillaUno.setState(true);
     }
 
     private void createSotano() {
-
         sotano.addCommand(lookAround);
 
-        Element escalera = new Element("Escalera");
-        Element baranda = new Element("Baranda");
         baranda.setState(true);
         escalera.setState(true);
-
-        //Acciones
-        ICommand use = new MovePlayerTo(game, "use");
 
         baranda.setObjectiveElement(sotano);
         baranda.addCommand(use);
@@ -289,31 +286,17 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createSotanoAbajo() {
-
-
         sotanoAbajo.addCommand(lookAround);
-        Element ventana = new Element("ventana");
-        ventana.setState(true);
-        Element escalera = new Element("escalera");
+
         escalera.setState(true);
-        Element baranda = new Element("baranda");
         baranda.setState(true);
-//        TODO aca hay que hacer el using de santi.
-//     ventana.addCommand();
-
-        ArrayList<String> listaParaRomperVentana = new ArrayList<>();
-        listaParaRomperVentana.add("martillo");
-        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
-
-        //Acciones
-        ICommand use = new MovePlayerTo(game, "use");
 
         escalera.addCommand(use);
         escalera.setObjectiveElement(cuartoDeLaMuerte);
 
-        ICommand romper = new MovePlayerTo(game,requisitosRomper, "break");
         ventana.setObjectiveElement(lastRoom);
         ventana.addCommand(romper);
+        ventana.setState(true);
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
@@ -336,7 +319,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createBibliotecario() {
         accesoBiblioteca.addCommand(lookAround);
 
-        doorToPasillo = new Element("Pasillo");
         doorToPasillo.setState(true);
         doorToPasillo.addCommand(openDoor);
         doorToPasillo.setObjectiveElement(pasillo);
@@ -344,8 +326,18 @@ public class TheEscapeConfiguration implements GameBuilder {
         accesoBiblioteca.addElement(doorToPasillo);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
+        setBibliotecarioCondition();
+
+        doorBibliotecario.setState(true);
+        doorBibliotecario.addCommand(pasarBibliotecario);
+
+        accesoBiblioteca.addElement(doorBibliotecario);
+
+    }
+
+    private void setBibliotecarioCondition() {
         ArrayList<String> tieneCredencial = new ArrayList<>();
-        tieneCredencial.add("credencial");
+        tieneCredencial.add("Credencial");
 
         IInterpreter playerWithCredential = new ContainsElements(player, tieneCredencial);
 
@@ -365,44 +357,25 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
-        ICommand pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show Credencial");
-
-
-        doorBibliotecario = new Element("Bibliotecario");
-        doorBibliotecario.setState(true);
-        doorBibliotecario.addCommand(pasarBibliotecario);
-
-        accesoBiblioteca.addElement(doorBibliotecario);
-
+        pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show Credencial");
     }
 
     private void createAccesoABibliotecaBis() {
-        accesoBibliotecaBis = new Element("Biblioteca");
         doorBibliotecario.setObjectiveElement(accesoBibliotecaBis);
-
-        doorBiblioteca = new Element("Biblioteca");
         doorBiblioteca.setState(true);
         doorBiblioteca.addCommand(openDoor);
-
         accesoBibliotecaBis.addElement(doorBiblioteca);
         accesoBiblioteca.addCommand(lookAround);
-
     }
 
     private void createBiblioteca() {
-
         doorBiblioteca.setObjectiveElement(biblioteca);
 
-        libroViejo = new Element("LibroViejo");
-        libroUno = new Element("libro quimica");
-        libroDos = new Element("libro fisica");
-
         libroViejo.setState(true);
-        libroViejo.addCommand(new ChangeVisibility("move", true, game));
+        libroViejo.addCommand(openContainer);
         libroUno.setState(true);
         libroDos.setState(true);
 
-        doorSotano = new Element("Sotano");
         libroViejo.addElement(doorSotano);
         doorSotano.addCommand(openDoor);
 
@@ -416,23 +389,12 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createPasillo() {
-
         pasillo.addCommand(lookAround);
-
-        doorSalon1 = new Element("salon1");
-        doorSalon2 = new Element("salon2");
-        doorSalon3 = new Element("salon3");
-        doorAccesoABibliotecario = new Element("BibliotecaAcceso");
 
         doorSalon1.addCommand(openDoor);
         doorSalon2.addCommand(openDoor);
         doorSalon3.addCommand(openDoor);
         doorAccesoABibliotecario.addCommand(openDoor);
-
-        doorSalon1.setState(true);
-        doorSalon2.setState(true);
-        doorSalon3.setState(true);
-        doorAccesoABibliotecario.setState(true);
 
         pasillo.addElement(doorSalon1);
         pasillo.addElement(doorSalon2);
@@ -445,13 +407,12 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorAccesoABibliotecario.addCommand(question);
 
         doorSalon1.setObjectiveElement(salonUno);
-        doorSalon2.setObjectiveElement(salon2);
-        doorSalon3.setObjectiveElement(salon3);
+        doorSalon2.setObjectiveElement(salonDos);
+        doorSalon3.setObjectiveElement(salonTres);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
     }
 
     private void createRoomThree() {
-        llave = new Element("Llave");
         llave.setState(true);
         salonTres.addCommand(lookAround);
         salonTres.addElement(llave);
@@ -460,7 +421,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         salonTres.addElement(doorToPasillo);
         doorSalon3.setObjectiveElement(salonTres);
     }
-//
+
     @SuppressWarnings("CPD-END")
 
     private void createICommands() {
@@ -471,5 +432,12 @@ public class TheEscapeConfiguration implements GameBuilder {
         closeContainer  = new ChangeVisibility("close", false, game);
         question        = new Question("ask");
         lookAround      = new LookAround("look around", game);
+        use             = new MovePlayerTo(game, "use");
+        move            = new Move("put",game);
+
+        ArrayList<String> listaParaRomperVentana = new ArrayList<>();
+        listaParaRomperVentana.add("Martillo");
+        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
+        romper = new MovePlayerTo(game,requisitosRomper, "break");
     }
 }

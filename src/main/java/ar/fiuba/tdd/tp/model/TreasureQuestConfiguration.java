@@ -289,6 +289,18 @@ public class TreasureQuestConfiguration implements GameBuilder {
         game.setLosingInterpreter(losingInterpreter);
     }
 
+    private void createICommands() {
+
+        lookAround = new LookAround("look around", game);
+        pick = new MoveToPlayer("pick", game);
+        drop = new DropOnPosition("drop", game);
+        openDoor = new MovePlayerTo(game, "open");
+        openContainer = new ChangeVisibility("open",true, game);
+        question = new Question("ask");
+    }
+
+    @SuppressWarnings("CPD-END")
+
     private void setHelpAndExitCommand() {
         ICommand exit = new Exit();
         ICommand help = new Help("help", game);
@@ -303,16 +315,5 @@ public class TreasureQuestConfiguration implements GameBuilder {
         roomFour.addCommand(exit);
         roomFive.addCommand(help);
         roomFive.addCommand(exit);
-    }
-
-    @SuppressWarnings("CPD-END")
-    private void createICommands() {
-
-        lookAround = new LookAround("look around", game);
-        pick = new MoveToPlayer("pick", game);
-        drop = new DropOnPosition("drop", game);
-        openDoor = new MovePlayerTo(game, "open");
-        openContainer = new ChangeVisibility("open",true, game);
-        question = new Question("ask");
     }
 }
