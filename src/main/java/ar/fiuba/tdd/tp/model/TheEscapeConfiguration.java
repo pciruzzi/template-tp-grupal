@@ -444,7 +444,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         libroDos.setState(true);
 
         ICommand moveLibro = new ChangeVisibility("move", true, game);
-        moveLibro.correctMovementMessage("opened a secret passage to the basement!");
+        moveLibro.correctMovementMessage(" opened a secret passage to the basement!");
 
         libroViejo.addCommand(moveLibro);
         libroViejo.addCommand(question);
