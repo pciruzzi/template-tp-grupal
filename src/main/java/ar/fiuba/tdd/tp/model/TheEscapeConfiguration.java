@@ -6,12 +6,9 @@ import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
-import ar.fiuba.tdd.tp.interpreter.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.*;
 
-import ar.fiuba.tdd.tp.interpreter.ContainsElements;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-import ar.fiuba.tdd.tp.interpreter.OrExpression;
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @SuppressWarnings("CPD-START")
@@ -346,12 +343,27 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         game.setWinInterpreter(winCondition);
 
+        IInterpreter losingInterpreter = createLosingInterpreter();
+        //Aca estan las condiciones de perder
+        game.setLosingInterpreter(losingInterpreter);
+    }
+
+    private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
         IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
 
-        //Aca estan las condiciones de perder
-        game.setLosingInterpreter(estasEnCuartoDeLaMuerte);
+        ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
+        playerEnSotanoAbajo.add("player");
+        IInterpreter estasEnSotanoAbajo = new ContainsElements(sotanoAbajo, playerEnSotanoAbajo);
+
+        ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
+        playerNoTieneMartillo.add("Martillo");
+        IInterpreter noTenesMartillo = new DoesNotContainElements(player, playerNoTieneMartillo);
+
+        IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
+
+        return new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
     }
 
     private void createBibliotecario() {
