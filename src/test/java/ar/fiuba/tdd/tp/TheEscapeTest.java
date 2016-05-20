@@ -42,9 +42,10 @@ public class TheEscapeTest {
         driver.sendCommand("goto Salon2");
         driver.sendCommand("pick Martillo");
         driver.sendCommand("goto Pasillo");
+        driver.sendCommand("drop Lapicera");
         driver.sendCommand("goto Salon1");
         driver.sendCommand("move CuadroBarco");
-        driver.sendCommand("open CajaFuerta using Llave");
+        driver.sendCommand("open CajaFuerte using Llave");
         enterToTheLibrary(driver);
         driver.sendCommand("move LibroViejo");
         driver.sendCommand("goto Sotano");
@@ -59,7 +60,7 @@ public class TheEscapeTest {
         driver.sendCommand("put Foto in Credencial");
         driver.sendCommand("goto Pasillo");
         driver.sendCommand("goto BibliotecaAcceso");
-        driver.sendCommand("show credencial in Bibliotecario");
+        driver.sendCommand("show credencial Bibliotecario");
         driver.sendCommand("goto Biblioteca");
     }
 

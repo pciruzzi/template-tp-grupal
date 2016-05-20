@@ -522,5 +522,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         listaParaRomperVentana.add("Martillo");
         IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
         romper = new ChangeVisibility("break", true, requisitosRomper, game);
+        romper.correctMovementMessage("is broken.");
     }
 }
