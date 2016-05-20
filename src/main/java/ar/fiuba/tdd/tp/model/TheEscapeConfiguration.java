@@ -192,6 +192,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         doorToPasillo.setObjectiveElement(pasillo);
         doorToPasillo.addCommand(openDoor);
+        doorToPasillo.addCommand(question);
 
         addElementsToRoomTwo();}
 
@@ -205,14 +206,17 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void configureElementsRoomTwo() {
         martillo.addCommand(pick);
         martillo.addCommand(drop);
+        martillo.addCommand(question);
         martillo.setState(true);
 
         destornillador1.addCommand(pick);
         destornillador1.addCommand(drop);
+        destornillador1.addCommand(question);
         destornillador1.setState(true);
 
         destornillador2.addCommand(pick);
         destornillador2.addCommand(drop);
+        destornillador2.addCommand(question);
         destornillador2.setState(true);
     }
 
@@ -237,6 +241,17 @@ public class TheEscapeConfiguration implements GameBuilder {
         ICommand moverCuadro = new ChangeVisibility("move",true ,game);
         cuadroTren.addCommand(moverCuadro);
         cuadroBarco.addCommand(moverCuadro);
+
+        // Asigno las preguntas
+        mesa.addCommand(question);
+        sillaUno.addCommand(question);
+        sillaDos.addCommand(question);
+        vasoUno.addCommand(question);
+        vasoDos.addCommand(question);
+        cuadroBarco.addCommand(question);
+        cuadroTren.addCommand(question);
+        botellaLicor.addCommand(question);
+        cajaFuerte.addCommand(question);
 
         // Abrir caja fuerte con llave
         setConditionsForCajaFuerte();
@@ -345,6 +360,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         doorBibliotecario.setState(true);
         doorBibliotecario.addCommand(pasarBibliotecario);
+        doorBibliotecario.addCommand(question);
 
         accesoBiblioteca.addElement(doorBibliotecario);
 
@@ -433,6 +449,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         salonTres.addElement(llave);
         llave.addCommand(pick);
         llave.addCommand(drop);
+        llave.addCommand(question);
         salonTres.addElement(doorToPasillo);
         doorSalon3.setObjectiveElement(salonTres);
     }
