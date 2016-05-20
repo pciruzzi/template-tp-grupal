@@ -68,7 +68,8 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element cajaFuerte;
     private Element llave;
     private Element escalera;
-    private Element baranda;
+    private Element barandaSotano;
+    private Element barandaSotanoAbajo;
     private Element ventana;
 
     // Los ICommands
@@ -133,7 +134,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         sillaUno = new Element("SillaUno");
         sillaDos = new Element("SillaDos");
         escalera = new Element("Escalera");
-        baranda = new Element("Baranda");
+        barandaSotano = new Element("Baranda");
         ventana = new Element("ventana");
         llave = new Element("Llave");
     }
@@ -287,31 +288,38 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createSotano() {
         sotano.addCommand(lookAround);
 
-        baranda.setState(true);
+        barandaSotano.setState(true);
         escalera.setState(true);
 
-        baranda.setObjectiveElement(sotano);
-        baranda.addCommand(use);
+        barandaSotano.setObjectiveElement(sotanoAbajo);
+        barandaSotano.addCommand(use);
 
         escalera.setObjectiveElement(cuartoDeLaMuerte);
         escalera.addCommand(use);
 
         sotano.addElement(escalera);
-        sotano.addElement(baranda);
+        sotano.addElement(barandaSotano);
     }
 
     private void createSotanoAbajo() {
         sotanoAbajo.addCommand(lookAround);
+        barandaSotanoAbajo = new Element("Baranda");
+        barandaSotanoAbajo.setState(true);
 
-        escalera.setState(true);
-        baranda.setState(true);
 
-        escalera.addCommand(use);
-        escalera.setObjectiveElement(cuartoDeLaMuerte);
+        sotanoAbajo.addElement(barandaSotanoAbajo);
+        sotanoAbajo.addElement(escalera);
+
+//        escalera.setState(true);
+        barandaSotanoAbajo.setState(true);
+
+//        escalera.addCommand(use);
+//        escalera.setObjectiveElement(cuartoDeLaMuerte);
 
         ventana.setObjectiveElement(lastRoom);
         ventana.addCommand(romper);
         ventana.setState(true);
+        sotanoAbajo.addElement(ventana);
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
@@ -345,6 +353,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         doorBibliotecario.setState(true);
         doorBibliotecario.addCommand(pasarBibliotecario);
+        doorBibliotecario.addCommand(question);
 
         accesoBiblioteca.addElement(doorBibliotecario);
 
