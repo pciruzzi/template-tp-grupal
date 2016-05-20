@@ -45,9 +45,6 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     // Los elementos levantables
     private Element credencial;
-    private Element libroViejo;
-    private Element libroUno;
-    private Element libroDos;
     private Element botellaLicor;
     private Element vasoUno;
     private Element vasoDos;
@@ -57,6 +54,16 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element martillo;
     private Element destornillador1;
     private Element destornillador2;
+    private Element libroViejo;
+    private Element libroUno;
+    private Element libroDos;
+    private Element libroTres;
+    private Element libroCuatro;
+    private Element libroCinco;
+    private Element libroSeis;
+    private Element libroSiete;
+    private Element libroOcho;
+    private Element libroNueve;
 
     // Otros Elements
     private Element mesa;
@@ -82,6 +89,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private ICommand romper;
     private ICommand pasarBibliotecario;
     private ICommand move;
+    private ICommand moveLibroNada;
 
 
     @Override
@@ -149,9 +157,20 @@ public class TheEscapeConfiguration implements GameBuilder {
         botellaLicor = new Element("Botella");
         vasoUno = new Element("Vaso1");
         vasoDos = new Element("Vaso2");
+        initializeBooks();
+    }
+
+    private void initializeBooks() {
         libroViejo = new Element("LibroViejo");
         libroUno = new Element("libro quimica");
         libroDos = new Element("libro fisica");
+        libroTres = new Element("libro disenio");
+        libroCuatro = new Element("libro programacion");
+        libroCinco = new Element("libro c");
+        libroSeis = new Element("libro c++");
+        libroSiete = new Element("libro fisica II");
+        libroOcho = new Element("libro matematica");
+        libroNueve = new Element("libro literatura");
     }
 
     private void initializeDoors() {
@@ -340,6 +359,11 @@ public class TheEscapeConfiguration implements GameBuilder {
 //        escalera.setState(true);
         barandaSotanoAbajo.setState(true);
 
+        ICommand barandaNada = new ChangeVisibility("use", true, game);
+        barandaNada.correctMovementMessage(" is not able to climb!");
+        barandaSotanoAbajo.addCommand(barandaNada);
+        barandaSotanoAbajo.addCommand(question);
+
 //        escalera.addCommand(use);
 //        escalera.setObjectiveElement(cuartoDeLaMuerte);
 
@@ -451,17 +475,15 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBibliotecaBibliotecario.addCommand(openDoor);
         doorBibliotecaBibliotecario.addCommand(question);
 
-        libroViejo.setState(true);
-        libroUno.setState(true);
-        libroDos.setState(true);
+        setLibrosVisibles();
 
-        ICommand moveLibro = new ChangeVisibility("move", true, game);
-        moveLibro.correctMovementMessage(" opened a secret passage to the basement!");
+        ICommand moveLibroViejo = new ChangeVisibility("move", true, game);
+        moveLibroViejo.correctMovementMessage(" opened a secret passage to the basement!");
 
-        libroViejo.addCommand(moveLibro);
+        addCommandsToLibros();
+
+        libroViejo.addCommand(moveLibroViejo);
         libroViejo.addCommand(question);
-        libroUno.addCommand(question);
-        libroDos.addCommand(question);
 
         libroViejo.addElement(doorSotano);
         doorSotano.addCommand(openDoor);
@@ -473,11 +495,56 @@ public class TheEscapeConfiguration implements GameBuilder {
         biblioteca.addCommand(lookAround);
     }
 
+    private void setLibrosVisibles() {
+        libroViejo.setState(true);
+        libroUno.setState(true);
+        libroDos.setState(true);
+        libroTres.setState(true);
+        libroCuatro.setState(true);
+        libroCinco.setState(true);
+        libroSeis.setState(true);
+        libroSiete.setState(true);
+        libroOcho.setState(true);
+        libroNueve.setState(true);
+    }
+
+    private void addCommandsToLibros() {
+
+
+
+        libroUno.addCommand(question);
+        libroDos.addCommand(question);
+        libroTres.addCommand(question);
+        libroCuatro.addCommand(question);
+        libroCinco.addCommand(question);
+        libroSeis.addCommand(question);
+        libroSiete.addCommand(question);
+        libroOcho.addCommand(question);
+        libroNueve.addCommand(question);
+
+        libroUno.addCommand(moveLibroNada);
+        libroDos.addCommand(moveLibroNada);
+        libroTres.addCommand(moveLibroNada);
+        libroCuatro.addCommand(moveLibroNada);
+        libroCinco.addCommand(moveLibroNada);
+        libroSeis.addCommand(moveLibroNada);
+        libroSiete.addCommand(moveLibroNada);
+        libroOcho.addCommand(moveLibroNada);
+        libroNueve.addCommand(moveLibroNada);
+    }
+
     private void addElementsToBiblioteca() {
+        biblioteca.addElement(doorBibliotecaBibliotecario);
         biblioteca.addElement(libroViejo);
         biblioteca.addElement(libroUno);
         biblioteca.addElement(libroDos);
-        biblioteca.addElement(doorBibliotecaBibliotecario);
+        biblioteca.addElement(libroTres);
+        biblioteca.addElement(libroCuatro);
+        biblioteca.addElement(libroCinco);
+        biblioteca.addElement(libroSeis);
+        biblioteca.addElement(libroSiete);
+        biblioteca.addElement(libroOcho);
+        biblioteca.addElement(libroNueve);
     }
 
     private void createPasillo() {
@@ -526,6 +593,10 @@ public class TheEscapeConfiguration implements GameBuilder {
         lookAround      = new LookAround("look around", game);
         use             = new MovePlayerTo(game, "use");
         move            = new Move("put",game);
+
+
+        moveLibroNada = new ChangeVisibility("move", true, game);
+        moveLibroNada.correctMovementMessage(" did nothing.");
 
         ArrayList<String> listaParaRomperVentana = new ArrayList<>();
         listaParaRomperVentana.add("Martillo");
