@@ -59,7 +59,7 @@ public class TheEscapeTest {
         driver.sendCommand("put Foto in Credencial");
         driver.sendCommand("goto Pasillo");
         driver.sendCommand("goto BibliotecaAcceso");
-        driver.sendCommand("show Credencial in Bibliotecario");
+        driver.sendCommand("show credencial in Bibliotecario");
         driver.sendCommand("goto Biblioteca");
     }
 

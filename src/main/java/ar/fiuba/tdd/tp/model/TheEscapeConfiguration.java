@@ -40,6 +40,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element doorSalon2;
     private Element doorSalon3;
     private Element doorToPasillo;
+    private Element doorBibliotecaBibliotecario;
 
     // Los elementos levantables
     private Element credencial;
@@ -161,6 +162,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBibliotecario = new Element("Bibliotecario");
         accesoBibliotecaBis = new Element("Biblioteca");
         doorBiblioteca = new Element("Biblioteca");
+        doorBibliotecaBibliotecario = new Element("Bibliotecario");
         doorSotano = new Element("Sotano");
         doorSalon1.setState(true);
         doorSalon2.setState(true);
@@ -413,7 +415,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
-        pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show Credencial");
+        pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");
     }
 
     private void createAccesoABibliotecaBis() {
@@ -432,11 +434,19 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createBiblioteca() {
         doorBiblioteca.setObjectiveElement(biblioteca);
 
+        doorBibliotecaBibliotecario.setState(true);
+        doorBibliotecaBibliotecario.setObjectiveElement(accesoBibliotecaBis);
+        doorBibliotecaBibliotecario.addCommand(openDoor);
+        doorBibliotecaBibliotecario.addCommand(question);
+
         libroViejo.setState(true);
         libroUno.setState(true);
         libroDos.setState(true);
 
-        libroViejo.addCommand(new ChangeVisibility("move", true, game));
+        ICommand moveLibro = new ChangeVisibility("move", true, game);
+        moveLibro.correctMovementMessage("opened a secret passage to the basement!");
+
+        libroViejo.addCommand(moveLibro);
         libroViejo.addCommand(question);
         libroUno.addCommand(question);
         libroDos.addCommand(question);
@@ -449,6 +459,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         biblioteca.addElement(libroViejo);
         biblioteca.addElement(libroUno);
         biblioteca.addElement(libroDos);
+        biblioteca.addElement(doorBibliotecaBibliotecario);
 
         biblioteca.addCommand(lookAround);
     }
