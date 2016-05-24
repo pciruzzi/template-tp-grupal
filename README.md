@@ -1,22 +1,57 @@
-# TP Grupal - Segunda Entrega
+# TP Grupal - Tercera Entrega
 
 ## Enunciado ##
 
-Dada la repercusión que tuvo el motor de juegos de aventura gráfica, muchas personas están interesadas en crear y cargar nuevos juegos al server, pero surge la necesidad de poder crear juegos en runtime a través de configuraciones, sin necesidad de programar y extender clases del motor, es decir que dichos comandos o configuraciones instancien nuestro modelo y lo usen.  Incluso en un futuro fuera del nuestro scope se desearía que desde alguna interfaz o desde algún modo creativo o edición, se puedan crear cualquier tipo de juego dinámicamente.
+Se pide agregar las siguientes funcionalidades al motor de juegos:
 
-Lo que se ha detectado luego de implementar los primeros juegos es que cada juego tiene cosas similares, como objetos que se relacionan con otros objetos, tienen ciertas características generales, tienen estados, tienen acciones que se pueden ejecutar (si corresponde quizás dado su estado u otras restricciones) que al ejecutarse hacen cosas sobre si mismo u otros objetos.
+ 1. Multiplayer.
 
-Se nos pide que nos abstraigamos y pensemos en un modelo capaz de representar a este tipo de juegos, es decir poder crear escenarios, con personajes, poder definirles estados, y agregarles acciones, que realicen cosas al ejecutarlas. Y que al juego se le defina una misión, que de cumplirla ganará el juego, o combinación de cosas que si se cumple perdiera el juego.
+    Mas de un player se puede conectar al juego, y comparten la misma instancia del juego.
+Si un jugador hace algo, la respuesta del comando se le notifica a todos los players para que se enteren de la acción realizada. La respuesta del comando la ve solo quien la ejecuta.
 
-En resumen nos piden: Que el motor debe ser capaz de crear juegos de tipo aventuras, con distintos objetos, escenarios, y personajes, misiones, con solo configurar a los mismos, sin necesidad de programar o crear nuevas clases que extiendan el motor.
+    Ejemplo en los clientes:
 
-Para esta segunda entrega, se nos pide modificar nuestro motor, para soportar los mismos juegos implementados, pero haciendo uso de un modelo genérico de clases, que se pueda configurar pero sin necesidad de extender o de crear clases concretas de un juego en particular. Es decir no queremos tener que escribir clases como Door, Box, Stick, Wolf, etc. Sino usar una genérica a la que le podamos configurar para que represente al cada una de ellas según el juego a implementar.
 
-Se nos pide:
-- Soportar cualquier tipo de juego como los ya realizados.
-- Restricción de no poder heredar para implementar nuevos juegos, solo usar nuestro modelo.
-- La próxima entrega se deberá implementar durante el horario de la clase un juego dado y definido en la clase. El mismo deberá sólo deberá requerir implementar un Builder que configure el juego y sus reglas, para ser cargado en el server para poder jugar.
-Dicha implementación deberá estar en un proyecto separado el cual utilice o referencie el motor desarrollado.
+| cliente 1                               | cliente 2                             |
+| ----------------------------------------|---------------------------------------|
+| ` > connect 127.0.0.1:8081 [Enter]`   | `> connect 127.0.0.1:8081 [Enter]`  |
+| `> Welcome to game1, you are player 1!`   | `> Welcome to game1, you are player 2!` |
+| `> Player 1 join the game`                |                                       |
+| `> look around [Enter]`                 |                                       |
+| `> There’s a key and a door in the room.` | `> Player 1 execute: look around`        |
+|                                         | `> pick key [Enter]`                  |
+| `> Player 2 execute: pick key`              | `> There you go!`                       |
+| `> pick key [Enter]`                    |                                       |
+| `> I’m sorry, no key in the room`          |                                       |
+| `> open door [Enter]`                   |                                       |
+| `> Ey! Where do you go?! Room 2 is locked.`|                                      |
+|                                          | `> open door`                          |
+| `> Player 2 execute: open door`            | `> You enter room 2. You won the game!`|
+| `> Player 2 has WIN. The game is over.`    | `> bye!`                               |
+| `> Player 2 has exited`                    |                                      |
+| `> exit game [Enter]`                      |                                      |
+| `> bye!`                                |                                      |
+
+   Cada juego podrá configurarse si es multiplayer o no. Si es multiplayer podrá configurarse la condición de win y lost de cada uno, logrando que cada jugador tenga una misión distinta en el juego. Si se indica solo 1, se aplica la misma a todos los players.
+   No nos lo piden ahora pero nos dicen que a futuro se podría querer configurar condiciones de win y lost para un tipo de player, y que el player elija que quiere ser al loguearse, por ejemplo el player 1 se suma como policía, y el player 2 como ladrón al igual que el player 3, y los policías tienen ciertos objetivos y condiciones de Win y Lost, distintas que los ladrones.
+
+ 2. Agregar al motor el concepto de **"paso del tiempo"**, y que ciertas acciones se ejecuten automáticamente en cierto momento, por ejemplo:
+    - Cada 6 minutos el reloj se abre y sale el pajaro cucu sonando una campana.
+    - El bibliotecario se despierta a los 10 minutos de haberse dormido.
+    - A los 30 minutos de comenzado el juego se larga a llover.
+    - A romper una ventana el perro se despierta y ladra durante los siguientes 10 minutos
+    - Se pierde el juego si no se sale de la habitación antes de los 30 minutos de comenzado el juego o de haber entrado a la habitación por ejemplo.
+    - Que cada 5 minutos el bibliotecario o una araña cambie su posición a otra habitación de forma **random** de las que están conectadas a la suya.
+
+    El resultado de la acción se notifica al player o a todos los players:
+     - Pasaron 10 minutos y el bibliotecario se despertó:
+     - Notificacion: “El bibliotecario se ha desperado, ten cuidado si te encuentra!!”
+
+3. Concepto **Random**, algunas condiciones pueden basarse en un factor random para ver si se cumplen o no, para darle más incertidumbre al juego. Por ejemplo:
+     - Cada 5 minutos el humor del portero cambia en forma random entre buen humor o mal humor.
+     Si le pido una llave al portero si está de buen humor me la da sino no.
+     - Cada 5 minutos la araña cambia su posición a otra habitación de las conectadas a la habitación actual, elige en forma random a cual ir si hay mas de una posible elección.
+
 
 >**Los requerimientos pueden (y van a) cambiar en cualquier momento.**
 
@@ -47,11 +82,9 @@ Durante la demo y posterior corrección se cargarán issues en GitHub que deben 
 
 | Fecha       |                  |
 |-----------  | -----------------|
-| 5 de Mayo   | Publicación 2da Entrega |
-| 12 de Mayo  | Entrega de notas 1ra Entrega |
-| 19 de Mayo  | **Segunda Entrega** - Publicación 3ra Entrega |
-| 26 de Mayo  | Entrega de notas 2da Entrega |
-| 2 de junio  | **Tercera Entrega** |
-| 9 de Junio  | Revisión |
-| 16 de Junio | Cierre de notas |
+| 26 de Mayo  | Publicación 3ra Entrega |
+| 2 de junio  |  |
+| 9 de Junio  | **Tercera Entrega** |
+| 16 de Junio | Revisión |
+| 23 de Junio | Cierre de notas |
 
