@@ -75,7 +75,7 @@ Durante la demo y posterior corrección se cargarán issues en GitHub que deben 
    - **Que no tengan documentación del diseño del sistema**
 
  - **No hay re-entrega.** Es responsabilidad del grupo realizar las consultas durante las 2-3 semanas disponibles para realizar el TP.
- - Si un alumno no puede concurrir a la demo, se aceptará la entrega pero dicho alumno figurará como ausente. Esto puede repercutir en la nota final.
+ - Si un alumno no puede concurrir a la demo, se aceptará la entrega pero dicho alumno figurará como ausente. Esto puede repercutir en la nota final. El alumno debe avisar con anticipación que no estará presente y podrá ser evaluado posteriormente con preguntas sobre la entrega.
 
 
 ## Calendario tentativo ##
