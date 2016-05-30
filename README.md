@@ -1,4 +1,6 @@
 # TP Grupal - Tercera Entrega
+![Build Status](https://travis-ci.org/pciruzzi/template-tp-grupal.svg)
+
 
 ## Enunciado ##
 
