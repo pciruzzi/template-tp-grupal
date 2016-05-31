@@ -33,9 +33,9 @@ public class MoveToPlayer extends ICommand {
     public String doAction(Element element, int playerId) {
         if (this.condition.interpret()) {
             //Si esta en el piso o dentro de algun elemento del lugar
-            if (checkAvailableElement(game, element)) {
-                Element playerPosition = game.getPlayerPosition();
-                Element player = game.getPlayer();
+            if (checkAvailableElement(element, playerId)) {
+                Element playerPosition = game.getPlayerPosition(playerId);
+                Element player = game.getPlayer(playerId);
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
@@ -88,7 +88,7 @@ public class MoveToPlayer extends ICommand {
 //        }
 //    }
 
-    private boolean checkAvailableElement(Game game, Element element) {
-        return (game.getPlayerPosition().getVisibleElements().containsKey(element.getName()));
+    private boolean checkAvailableElement(Element element, int playerId) {
+        return (game.getPlayerPosition(playerId).getVisibleElements().containsKey(element.getName()));
     }
 }

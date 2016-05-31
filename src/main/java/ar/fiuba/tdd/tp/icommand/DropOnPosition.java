@@ -15,8 +15,8 @@ public class DropOnPosition extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        Element player = game.getPlayer();
-        Element position = game.getPlayerPosition();
+        Element player = game.getPlayer(playerId);
+        Element position = game.getPlayerPosition(playerId);
         //Si esta en el inventario.
         if (player.getElementMap().containsKey(element.getName())) {
             player.removeElement(element);
@@ -29,7 +29,7 @@ public class DropOnPosition extends ICommand {
     }
 
     public String doAction(Element playerPosition, Element originElement, Element destinationElement, int playerId) {
-        Element player = game.getPlayer();
+        Element player = game.getPlayer(playerId);
         //Si esta en el inventario y el elemento esta abierto.
         if (checkInInventoryAndOpenElement(player, originElement, destinationElement)) {
             player.removeElement(originElement);

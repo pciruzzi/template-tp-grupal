@@ -25,8 +25,9 @@ public class MovePlayerTo extends ICommand {
 
     public String doAction(Element element, int playerId) {
         if (condition.interpret()) {
-            game.getPlayerPosition().removeElement(game.getPlayer());
-            element.getObjectiveElement().addElement(game.getPlayer());
+            Element player = game.getPlayer(playerId);
+            game.getPlayerPosition(playerId).removeElement(player);
+            element.getObjectiveElement().addElement(player);
             game.setPlayerPosition(element.getObjectiveElement());
             return correctMovementMessage;
         }
@@ -35,7 +36,7 @@ public class MovePlayerTo extends ICommand {
 
     public String doAction(Element playerPosition, Element elementToOpen, Element element, int playerId) {
         String returnMessage;
-        if (game.getPlayer().hasElement(element.getName())) {
+        if (game.getPlayer(playerId).hasElement(element.getName())) {
             returnMessage = doAction(elementToOpen, playerId);
         } else {
             returnMessage = condition.getFailMessage() + ". You haven't got the " + element.getName() + ".";

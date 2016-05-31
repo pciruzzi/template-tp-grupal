@@ -34,7 +34,7 @@ public class ChangeVisibility extends ICommand {
     public String doAction(Element element, int playerId) {
         if (this.condition.interpret()) {
             element.changeElementsState(state);
-            checkPoison(element);
+            checkPoison(element, playerId);
             if (state) {
                 return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
@@ -50,7 +50,7 @@ public class ChangeVisibility extends ICommand {
     // Ej:  open    chest       with          key
     public String doAction(Element playerPosition, Element openableElement, Element elementToUse, int playerId) {
         String returnMessage;
-        Element player = game.getPlayer();
+        Element player = game.getPlayer(playerId);
         if (player.hasElement(elementToUse.getName())) {
             returnMessage = doAction(openableElement, playerId);
         } else {
@@ -59,9 +59,9 @@ public class ChangeVisibility extends ICommand {
         return returnMessage;
     }
 
-    private void checkPoison(Element element) {
+    private void checkPoison(Element element, int playerId) {
         if (element.isPoisoned()) {
-            game.getPlayer().setPoisoned(true);
+            game.getPlayer(playerId).setPoisoned(true);
             returnMessage = POISONED;
         }
         if (game.getPlayer().isPoisoned()) {

@@ -51,11 +51,6 @@ public class Game {
         players.add(newPlayer);
     }
 
-    public void setPlayerPosition(int id, Element newPlayerPosition) {
-        Element player = getPlayer(id);
-        player.setObjectiveElement(newPlayerPosition);
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -139,10 +134,6 @@ public class Game {
         this.losingInterpreter = losingInterpreter;
     }
 
-    public void setPlayerPosition(Element playerPosition) {
-        this.playerPosition = playerPosition;
-    }
-
     public void setPlayer(Element player) {
         this.player = player;
     }
@@ -184,16 +175,25 @@ public class Game {
         return player;
     }
 
-    private Element getPlayer(int id) {
+    public Element getPlayer(int id) {
         return players.get(id);
     }
 
-    private Element getPlayerPosition(int id) {
+    public Element getPlayerPosition(int id) {
         return getPlayer(id).getObjectiveElement();
     }
 
     public Element getPlayerPosition() {
         return playerPosition;
+    }
+
+    public void setPlayerPosition(int id, Element newPlayerPosition) {
+        Element player = getPlayer(id);
+        player.setObjectiveElement(newPlayerPosition);
+    }
+
+    public void setPlayerPosition(Element playerPosition) {
+        this.playerPosition = playerPosition;
     }
 
 }

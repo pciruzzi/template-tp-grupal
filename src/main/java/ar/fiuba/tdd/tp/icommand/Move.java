@@ -26,7 +26,7 @@ public class Move extends ICommand {
 
     public String doAction(Element playerPosition, Element movingElement, Element destinationElement, int playerId) {
         if (condition.interpret()) {
-            Element player = game.getPlayer();
+            Element player = game.getPlayer(playerId);
             if (player.hasElement(movingElement.getName()) && player.hasElement(destinationElement.getName())) {
                 player.removeElement(movingElement);
                 destinationElement.addElement(movingElement);

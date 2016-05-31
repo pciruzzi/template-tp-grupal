@@ -3,6 +3,7 @@ package ar.fiuba.tdd.tp.icommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.model.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LookAround extends ICommand {
@@ -14,7 +15,8 @@ public class LookAround extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        List<Element> elementList = game.getVisibleElementList();
+
+        List<Element> elementList = new ArrayList<>(game.getPlayer(playerId).getVisibleElements().values());
         int elementsListSize = elementList.size();
 
         if (elementsListSize == 0) {
