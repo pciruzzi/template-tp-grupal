@@ -29,90 +29,90 @@ public class HanoiTowersTest {
 
     private Engine engine;
 
-//    @Before
-//    public void setUp() {
-//        engine = new Engine();
-//        GameBuilder gameBuilder = new HanoiConfiguration();
-//        engine.createGame(gameBuilder);
-//        engine.getGame().createPlayer(0);
-//    }
-//
-//    @Test
-//    public void moveFromStackOneTooTwo() {
-//        assertEquals(engine.doCommand(id, moveOneToTwo),HANOI_MOVESUCCESFULL);
-//    }
-//
-//    @Test
-//    public void moveFromStackOneTooThree() {
-//        assertEquals(engine.doCommand(id, moveOneToThree),HANOI_MOVESUCCESFULL);
-//    }
-//
-//    @Test
-//    public void moveFromStackOneToStackTwoTwoTimes() {
-//        engine.doCommand(id, moveOneToTwo);
-//        assertEquals(engine.doCommand(id, moveTwoToOne),HANOI_MOVESUCCESFULL);
-//    }
-//
-//    @Test
-//    public void moveFromStackOneToTwoAndBackToStackOne() {
-//        engine.doCommand(id, moveOneToTwo);
-//        assertEquals(engine.doCommand(id, moveTwoToOne),HANOI_MOVESUCCESFULL);
-//    }
-//
-//    @Test
-//    public void moveTwoDiskToStackThreeInAValidMove() {
-//        engine.doCommand(id, moveOneToTwo);
-//        engine.doCommand(id, moveOneToThree);
-//        assertEquals(engine.doCommand(id, moveTwoToThree),HANOI_MOVESUCCESFULL);
-//    }
-//
-//    @Test
-//    public void cantMoveBiggerDiskOnTopOfSmallerDisk() {
-//        engine.doCommand(id, moveOneToTwo);
-//        engine.doCommand(id, moveOneToThree);
-//        assertEquals(engine.doCommand(id, moveThreeToTwo),HANOI_MOVEERROR);
-//    }
-//
-//    @Test
-//    public void theGameIsWinnableInStackThree() {
-//        engine.doCommand(id, moveOneToThree);
-//        engine.doCommand(id, moveOneToTwo);
-//        engine.doCommand(id, moveThreeToTwo);
-//        engine.doCommand(id, moveOneToThree);
-//        engine.doCommand(id, moveTwoToOne);
-//        engine.doCommand(id, moveTwoToThree);
-//        assertEquals(engine.doCommand(id, moveOneToThree),GAME_WON);
-//    }
-//
-//    @Test
-//    public void theGameIsWinnableInStackTwo() {
-//        engine.doCommand(id, moveOneToTwo);
-//        engine.doCommand(id, moveOneToThree);
-//        engine.doCommand(id, moveTwoToThree);
-//        engine.doCommand(id, moveOneToTwo);
-//        engine.doCommand(id, moveThreeToOne);
-//        engine.doCommand(id, moveThreeToTwo);
-//        assertEquals(engine.doCommand(id, moveOneToTwo),GAME_WON);
-//    }
-//
-//    @Test
-//    public void checkAvailableActions() {
-//        assertEquals(engine.doCommand(id, "ask stackOne"), HANOI_QUESTION + " the stackOne.");
-//    }
-//
-//    @Test
-//    public void checkSizeOfStack() {
-//        assertEquals(engine.doCommand(id, "check top stackOne"), HANOI_CHECKSIZE + "1.");
-//    }
-//
-//    @Test
-//    public void cantCheckTopEmptyStack() {
-//        assertEquals(engine.doCommand(id, "check top stackTwo"),HANOI_SIZE);
-//    }
-//
-//    @Test
-//    public void cantMoveTopEmptyStack() {
-//        assertEquals(engine.doCommand(id, moveTwoToOne), HANOI_MOVEERRORSTACKEMPTY);
-//    }
+    @Before
+    public void setUp() {
+        engine = new Engine();
+        GameBuilder gameBuilder = new HanoiConfiguration();
+        engine.createGame(gameBuilder);
+        engine.getGame().createPlayer(0);
+    }
+
+    @Test
+    public void moveFromStackOneTooTwo() {
+        assertEquals(engine.doCommand(id, moveOneToTwo),HANOI_MOVESUCCESFULL);
+    }
+
+    @Test
+    public void moveFromStackOneTooThree() {
+        assertEquals(engine.doCommand(id, moveOneToThree),HANOI_MOVESUCCESFULL);
+    }
+
+    @Test
+    public void moveFromStackOneToStackTwoTwoTimes() {
+        engine.doCommand(id, moveOneToTwo);
+        assertEquals(engine.doCommand(id, moveTwoToOne),HANOI_MOVESUCCESFULL);
+    }
+
+    @Test
+    public void moveFromStackOneToTwoAndBackToStackOne() {
+        engine.doCommand(id, moveOneToTwo);
+        assertEquals(engine.doCommand(id, moveTwoToOne),HANOI_MOVESUCCESFULL);
+    }
+
+    @Test
+    public void moveTwoDiskToStackThreeInAValidMove() {
+        engine.doCommand(id, moveOneToTwo);
+        engine.doCommand(id, moveOneToThree);
+        assertEquals(engine.doCommand(id, moveTwoToThree),HANOI_MOVESUCCESFULL);
+    }
+
+    @Test
+    public void cantMoveBiggerDiskOnTopOfSmallerDisk() {
+        engine.doCommand(id, moveOneToTwo);
+        engine.doCommand(id, moveOneToThree);
+        assertEquals(engine.doCommand(id, moveThreeToTwo),HANOI_MOVEERROR);
+    }
+
+    @Test
+    public void theGameIsWinnableInStackThree() {
+        engine.doCommand(id, moveOneToThree);
+        engine.doCommand(id, moveOneToTwo);
+        engine.doCommand(id, moveThreeToTwo);
+        engine.doCommand(id, moveOneToThree);
+        engine.doCommand(id, moveTwoToOne);
+        engine.doCommand(id, moveTwoToThree);
+        assertEquals(engine.doCommand(id, moveOneToThree),GAME_WON);
+    }
+
+    @Test
+    public void theGameIsWinnableInStackTwo() {
+        engine.doCommand(id, moveOneToTwo);
+        engine.doCommand(id, moveOneToThree);
+        engine.doCommand(id, moveTwoToThree);
+        engine.doCommand(id, moveOneToTwo);
+        engine.doCommand(id, moveThreeToOne);
+        engine.doCommand(id, moveThreeToTwo);
+        assertEquals(engine.doCommand(id, moveOneToTwo),GAME_WON);
+    }
+
+    @Test
+    public void checkAvailableActions() {
+        assertEquals(engine.doCommand(id, "ask stackOne"), HANOI_QUESTION + " the stackOne.");
+    }
+
+    @Test
+    public void checkSizeOfStack() {
+        assertEquals(engine.doCommand(id, "check top stackOne"), HANOI_CHECKSIZE + "1.");
+    }
+
+    @Test
+    public void cantCheckTopEmptyStack() {
+        assertEquals(engine.doCommand(id, "check top stackTwo"),HANOI_SIZE);
+    }
+
+    @Test
+    public void cantMoveTopEmptyStack() {
+        assertEquals(engine.doCommand(id, moveTwoToOne), HANOI_MOVEERRORSTACKEMPTY);
+    }
 
 }

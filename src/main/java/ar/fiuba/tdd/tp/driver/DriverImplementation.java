@@ -13,6 +13,7 @@ public class DriverImplementation implements GameDriver {
         engine = new Engine();
         try {
             engine.createGame(BuilderLoader.load(jarPath));
+            engine.createPlayer(0);
             status = GameState.Ready;
         } catch (Exception e) {
             throw new GameLoadFailedException();

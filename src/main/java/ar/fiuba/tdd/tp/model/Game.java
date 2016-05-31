@@ -144,7 +144,7 @@ public class Game {
         this.losingInterpreter = losingInterpreter;
     }
 
-    private Map<String, Element> calculateVisibleElements(int id) {
+    public Map<String, Element> calculateVisibleElements(int id) {
         Map<String, Element> elements;
         elements = getPlayerPosition(id).getVisibleElements();
         elements.putAll(getPlayer(id).getVisibleElements());
