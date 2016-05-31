@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.interpreter;
 
+import ar.fiuba.tdd.tp.engine.Player;
+
 public class FalseExpression extends TerminalExpression {
 
     public FalseExpression() {
@@ -7,6 +9,10 @@ public class FalseExpression extends TerminalExpression {
     }
 
     public boolean interpret() {
+        return false;
+    }
+
+    public boolean interpret(Player player) {
         return false;
     }
 }

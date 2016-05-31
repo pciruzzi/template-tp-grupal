@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -24,11 +24,11 @@ public class MovePlayerTo extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        if (condition.interpret()) {
-            Element player = game.getPlayer(playerId);
+        Player player = game.getPlayer(playerId);
+        if (condition.interpret() || condition.interpret(player)) {
             game.getPlayerPosition(playerId).removeElement(player);
             element.getObjectiveElement().addElement(player);
-            game.setPlayerPosition(element.getObjectiveElement());
+            game.setPlayerPosition(playerId, element.getObjectiveElement());
             return correctMovementMessage;
         }
         return condition.getFailMessage();

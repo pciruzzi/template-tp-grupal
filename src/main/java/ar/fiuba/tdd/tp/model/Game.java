@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.*;
@@ -10,10 +11,8 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Game {
 
-    private Element player;
-    private List<Element> players;
-    private Element playerPosition;
-    private Map<String,Element> visibleElements;
+    private List<Player> players;
+    private Element initialPosition;
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
     private String name;
@@ -23,7 +22,7 @@ public class Game {
 
     public Game(String name) {
         this.name = name;
-        this.players = new ArrayList<Element>();
+        this.players = new ArrayList<Player>();
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";
@@ -46,8 +45,11 @@ public class Game {
     }
 
     public void createPlayer(int id) {
-        Element newPlayer = new Element("player" + id);
-        newPlayer.setObjectiveElement(playerPosition);
+        Player newPlayer = new Player(id);
+        newPlayer.setPlayerPosition(initialPosition);
+        initialPosition.addElement(newPlayer);
+        newPlayer.setWinInterpreter(winInterpreter);
+        newPlayer.setLosingInterpreter(losingInterpreter);
         players.add(newPlayer);
     }
 
@@ -55,20 +57,19 @@ public class Game {
         this.description = description;
     }
 
-    public  String play(int id, String cmd) {
+    public  String play(int playerID, String cmd) {
         String returnMessage;
-        returnMessage = getPlayerPosition(id).doCommand(cmd, id);
+        returnMessage = getPlayerPosition(playerID).doCommand(cmd, playerID);
         return returnMessage;
     }
 
-    public String play(int id, String cmd, String element) {
+    public String play(int playerID, String cmd, String element) {
         String returnMessage;
-        this.calculateVisibleElements(id);
 
-        Element actualElement = getElement(element);
+        Element actualElement = getElement(playerID, element);
 
         if (actualElement != null) {
-            returnMessage = actualElement.doCommand(cmd, id);
+            returnMessage = actualElement.doCommand(cmd, playerID);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
@@ -77,15 +78,14 @@ public class Game {
         return returnMessage;
     }
 
-    public String play(int id, String cmd, String element, String destinationElement) {
+    public String play(int playerID, String cmd, String element, String destinationElement) {
         String returnMessage;
-        this.calculateVisibleElements(id);
 
-        Element actualElement = getElement(element);
-        Element destElement = getElement(destinationElement);
+        Element actualElement = getElement(playerID, element);
+        Element destElement = getElement(playerID, destinationElement);
 
         if (actualElement != null && destElement != null) {
-            returnMessage = actualElement.doCommand(cmd, getPlayerPosition(id), destElement, id);
+            returnMessage = actualElement.doCommand(cmd, getPlayerPosition(playerID), destElement, playerID);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
@@ -94,8 +94,10 @@ public class Game {
         return returnMessage;
     }
 
-    private Element getElement(String element) {
+    private Element getElement(int playerID, String element) {
         Element actualElement;
+        Element player = getPlayer(playerID);
+        Map<String, Element> visibleElements = this.calculateVisibleElements(playerID);
         if (visibleElements.containsKey(element)) {
             actualElement = visibleElements.get(element);
         } else if (player.getElementMap().containsKey(element)) {
@@ -107,23 +109,31 @@ public class Game {
     }
 
     private String checkFinishedGame(String returnMessage) {
-        if (this.hasLost()) {
-            gameLost = true;
-            return GAME_LOST;
-        }
-        if (this.hasWon()) {
-            gameWon = true;
-            return GAME_WON;
+        for (Player player : players) {
+            int playerID = player.getPlayerID();
+
+            if (this.hasLost(playerID)) {
+                gameLost = true;
+                player.setGameLost(true);
+                returnMessage = GAME_LOST;
+            }
+            if (this.hasWon(playerID)) {
+                gameWon = true;
+                player.setGameWon(true);
+                returnMessage = GAME_WON;
+            }
         }
         return returnMessage;
     }
 
-    private boolean hasWon() {
-        return winInterpreter.interpret();
+    private boolean hasWon(int playerID) {
+        Player player = getPlayer(playerID);
+        return (player.getWinInterpreter().interpret() || player.getWinInterpreter().interpret(player));
     }
 
-    private boolean hasLost() {
-        return losingInterpreter.interpret();
+    private boolean hasLost(int playerID) {
+        Player player = getPlayer(playerID);
+        return (player.getLosingInterpreter().interpret() || player.getLosingInterpreter().interpret(player));
     }
 
     public void setWinInterpreter(IInterpreter winInterpreter) {
@@ -134,35 +144,25 @@ public class Game {
         this.losingInterpreter = losingInterpreter;
     }
 
-    public void setPlayer(Element player) {
-        this.player = player;
-    }
-
-    private void calculateVisibleElements(int id) {
+    private Map<String, Element> calculateVisibleElements(int id) {
         Map<String, Element> elements;
         elements = getPlayerPosition(id).getVisibleElements();
         elements.putAll(getPlayer(id).getVisibleElements());
-        visibleElements = elements;
+        return elements;
     }
 
-    public Map<String,Element> getCurrentPositionElements(int id) {
-        this.calculateVisibleElements(id);
-        return visibleElements;
-    }
-
-    public List<Element> getVisibleElementList() {
-        int id = 0;
-        this.calculateVisibleElements(id);
+    public List<Element> getVisibleElementList(int playerID) {
+        Map<String, Element> visibleElements = this.calculateVisibleElements(playerID);
         List<Element> returnList = new ArrayList<>(visibleElements.values());
         return returnList;
     }
 
     //Return true if the player had an antidote and had been healed.
-    public boolean checkInventoryForAntidote() {
-        List<Element> elementList = this.getPlayer().getElementList();
+    public boolean checkInventoryForAntidote(int playerID) {
+        List<Element> elementList = this.getPlayer(playerID).getElementList();
         for (Element inventoryElement : elementList ) {
             if (inventoryElement.isAntidote()) {
-                Element player = this.getPlayer();
+                Element player = this.getPlayer(playerID);
                 player.setPoisoned(false);
                 player.removeElement(inventoryElement);
                 return true;
@@ -171,29 +171,21 @@ public class Game {
         return false;
     }
 
-    public Element getPlayer() {
-        return player;
-    }
-
-    public Element getPlayer(int id) {
+    public Player getPlayer(int id) {
         return players.get(id);
     }
 
     public Element getPlayerPosition(int id) {
-        return getPlayer(id).getObjectiveElement();
-    }
-
-    public Element getPlayerPosition() {
-        return playerPosition;
+        return getPlayer(id).getPlayerPosition();
     }
 
     public void setPlayerPosition(int id, Element newPlayerPosition) {
-        Element player = getPlayer(id);
-        player.setObjectiveElement(newPlayerPosition);
+        Player player = getPlayer(id);
+        player.setPlayerPosition(newPlayerPosition);
     }
 
-    public void setPlayerPosition(Element playerPosition) {
-        this.playerPosition = playerPosition;
+    public void setInitialPosition(Element initialPosition) {
+        this.initialPosition = initialPosition;
     }
 
 }

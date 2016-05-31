@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
@@ -17,7 +18,7 @@ public class EvilThingConfiguration implements GameBuilder {
     private Element doorOneTwo;
     private Element doorTwoThree;
     private Element doorTwoOne;
-    private Element player;
+    private Player player;
     private Element thief;
 
     private Game game;
@@ -38,9 +39,8 @@ public class EvilThingConfiguration implements GameBuilder {
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
 
-        // Agrego el player y su posicion.
-        game.setPlayer(player);
-        game.setPlayerPosition(roomOne);
+        // Agrego la posicion inicial del player.
+        game.setInitialPosition(roomOne);
 
         setHelpAndExitCommand();
 
@@ -56,7 +56,6 @@ public class EvilThingConfiguration implements GameBuilder {
         //Habitacion 1
         roomOne.addElement(cursedObject);
         roomOne.addElement(doorOneTwo);
-        roomOne.addElement(player);
         //Habitacion 2
         roomTwo.addElement(doorTwoOne);
         roomTwo.addElement(thief);
@@ -93,6 +92,7 @@ public class EvilThingConfiguration implements GameBuilder {
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
+        player.addElement(new Element("key"));
         IInterpreter door2Condition = new DoesNotContainElements(player, doorRequirements);
         door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
         ICommand openDoorTwoThree = new MovePlayerTo(game, door2Condition, "open");
@@ -129,7 +129,7 @@ public class EvilThingConfiguration implements GameBuilder {
         doorTwoThree = new Element("otherDoor");
         doorTwoThree.setState(true);
         roomOne = new Element("roomOne");
-        player = new Element("player");
+        player = new Player(0);
         thief = new Element("thief");
         thief.setState(true);
     }

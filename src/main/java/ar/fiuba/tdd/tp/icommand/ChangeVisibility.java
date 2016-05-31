@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -32,7 +33,8 @@ public class ChangeVisibility extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        if (this.condition.interpret()) {
+        Player player = game.getPlayer(playerId);
+        if (this.condition.interpret() || this.condition.interpret(player)) {
             element.changeElementsState(state);
             checkPoison(element, playerId);
             if (state) {
@@ -64,8 +66,8 @@ public class ChangeVisibility extends ICommand {
             game.getPlayer(playerId).setPoisoned(true);
             returnMessage = POISONED;
         }
-        if (game.getPlayer().isPoisoned()) {
-            if ( game.checkInventoryForAntidote() ) {
+        if (game.getPlayer(playerId).isPoisoned()) {
+            if ( game.checkInventoryForAntidote(playerId) ) {
                 returnMessage += ANTIDOTED;
             }
         }

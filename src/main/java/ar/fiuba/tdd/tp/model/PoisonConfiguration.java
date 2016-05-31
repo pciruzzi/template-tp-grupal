@@ -20,8 +20,7 @@ public class PoisonConfiguration implements GameBuilder {
         player = new Element("player");
         Element room = new Element("room");
 
-        game.setPlayer(player);
-        game.setPlayerPosition(room);
+        game.setInitialPosition(room);
 
         ICommand lookAround = new LookAround("look around", game);
         room.addCommand(lookAround);

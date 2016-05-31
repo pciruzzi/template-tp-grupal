@@ -84,8 +84,7 @@ public class TempleQuest implements GameBuilder {
         createFinishingConditions();
 
         // Agrego la posicion del player
-        game.setPlayer(player);
-        game.setPlayerPosition(roomOne);
+        game.setInitialPosition(roomOne);
         return game;
     }
 

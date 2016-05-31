@@ -11,8 +11,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TheEscapeConfiguration();
+        GameBuilder fetchConfiguration = new EvilThingConfiguration();
         engine.createGame(fetchConfiguration);
+        engine.createPlayer(0);
 
         Reader reader = new Console();
         Writer writer = new Console();

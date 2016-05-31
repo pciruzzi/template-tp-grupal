@@ -16,7 +16,7 @@ public class LookAround extends ICommand {
 
     public String doAction(Element element, int playerId) {
 
-        List<Element> elementList = new ArrayList<>(game.getPlayer(playerId).getVisibleElements().values());
+        List<Element> elementList = game.getVisibleElementList(playerId);
         int elementsListSize = elementList.size();
 
         if (elementsListSize == 0) {

@@ -3,7 +3,7 @@ package ar.fiuba.tdd.tp.engine;
 import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Engine {
 
@@ -16,27 +16,27 @@ public class Engine {
         game = gameBuilder.build();
     }
 
-    public void createPlayer(int id) {
-        game.createPlayer(id);
+    public void createPlayer(int playerID) {
+        game.createPlayer(playerID);
     }
 
-    public String doCommand(int id, String action) {
-        ArrayList<Element> elementsList = new ArrayList<>(game.getCurrentPositionElements(id).values());
-        elementsList.addAll(game.getPlayer().getElementList());
+    public String doCommand(int playerID, String action) {
+        List<Element> elementsList = game.getVisibleElementList(playerID);
+        elementsList.addAll(game.getPlayer(playerID).getElementList());
 
         Element firstElement = commandParser.getFirstElement(action,elementsList);
         if ( firstElement == null ) {
-            return game.play(id, action);
+            return game.play(playerID, action);
         }
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
         String command = commandParser.getCommand(action, firstElementName);
         if ( secondElement == null ) {
-            return game.play(id, command, firstElementName);
+            return game.play(playerID, command, firstElementName);
         }
         String secondElementName = secondElement.getName();
-        return game.play(id, command, firstElementName, secondElementName);
+        return game.play(playerID, command, firstElementName, secondElementName);
     }
 
     public boolean isGameWon() {

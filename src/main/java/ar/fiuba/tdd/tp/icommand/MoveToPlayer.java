@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
@@ -31,11 +32,11 @@ public class MoveToPlayer extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        if (this.condition.interpret()) {
+        Player player = game.getPlayer(playerId);
+        if (this.condition.interpret() || this.condition.interpret(player)) {
             //Si esta en el piso o dentro de algun elemento del lugar
             if (checkAvailableElement(element, playerId)) {
                 Element playerPosition = game.getPlayerPosition(playerId);
-                Element player = game.getPlayer(playerId);
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
@@ -44,7 +45,7 @@ public class MoveToPlayer extends ICommand {
                 playerPosition.removeElement(element);
                 // Lo saco del objeto que lo contenia
                 removeElement(element, playerPosition);
-                checkElementForPoisonAndAntidote(element, player);
+                checkElementForPoisonAndAntidote(element, player, playerId);
                 return correctMovementMessage + element.getName() + returnMessage;
             } else {
                 //No esta en el piso
@@ -67,26 +68,18 @@ public class MoveToPlayer extends ICommand {
         }
     }
 
-    private void checkElementForPoisonAndAntidote(Element element, Element player) {
-
-//        checkAntidote(element);
+    private void checkElementForPoisonAndAntidote(Element element, Element player, int playerID) {
 
         if (element.isPoisoned()) {
             player.setPoisoned(true);
             returnMessage = POISONED;
         }
         if (player.isPoisoned()) {
-            if ( game.checkInventoryForAntidote() ) {
+            if ( game.checkInventoryForAntidote(playerID) ) {
                 returnMessage += ANTIDOTED;
             }
         }
     }
-
-//    private void checkAntidote(Element element) {
-//        if ( element .isAntidote() ) {
-//            returnMessage = ANTIDOTE_PICKED;
-//        }
-//    }
 
     private boolean checkAvailableElement(Element element, int playerId) {
         return (game.getPlayerPosition(playerId).getVisibleElements().containsKey(element.getName()));

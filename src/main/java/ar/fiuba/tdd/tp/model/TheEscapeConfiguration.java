@@ -112,8 +112,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         createBiblioteca();
         createLastRoomAndCondicionesDeMorir();
 
-        game.setPlayer(player);
-        game.setPlayerPosition(pasillo);
+        game.setInitialPosition(pasillo);
 
         return game;
     }
