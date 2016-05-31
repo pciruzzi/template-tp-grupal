@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp.engine;
 
+import ar.fiuba.tdd.tp.Time;
 import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 
@@ -10,10 +11,14 @@ public class Engine {
     private CommandParser commandParser;
 
     private Game game;
+    private Time time;
 
     public void createGame(GameBuilder gameBuilder) {
         commandParser = new CommandParser();
+        time = new Time(this);
         game = gameBuilder.build();
+        time.setTimeTasks(game.getTimeCommands());
+        time.start();
     }
 
     public String doCommand(String action) {

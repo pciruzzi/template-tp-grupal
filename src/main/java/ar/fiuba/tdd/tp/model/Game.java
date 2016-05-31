@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
+import ar.fiuba.tdd.tp.Time;
+import ar.fiuba.tdd.tp.TimeCommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -19,12 +21,14 @@ public class Game {
     private String description;
     private boolean gameWon;
     private boolean gameLost;
+    private ArrayList<TimeCommand> timeCommands;
 
     public Game(String name) {
         this.name = name;
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";
+        this.timeCommands = new ArrayList<>();
     }
 
     public String getName() {
@@ -178,4 +182,11 @@ public class Game {
         return false;
     }
 
+    public void addTimeCommand(TimeCommand pickStick) {
+        timeCommands.add(pickStick);
+    }
+
+    public ArrayList<TimeCommand> getTimeCommands() {
+        return timeCommands;
+    }
 }

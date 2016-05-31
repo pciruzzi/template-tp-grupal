@@ -10,6 +10,7 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+
         Engine engine = new Engine();
         GameBuilder fetchConfiguration = new TheEscapeConfiguration();
         engine.createGame(fetchConfiguration);
@@ -21,7 +22,7 @@ public class Main {
         String returnCode = "";
         while (! input.equals("exit") && ! returnCode.equals(GAME_WON) && !returnCode.equals(GAME_LOST) ) {
             input = reader.read();
-            returnCode = engine.doCommand(input);
+            returnCode = engine.doCommand(input.toLowerCase());
             writer.write(returnCode);
         }
     }
