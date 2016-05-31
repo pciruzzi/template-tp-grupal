@@ -73,12 +73,12 @@ public class WSCConfigurationTest {
         assertEquals(game.play(id, leave, wolf),"You dropped the wolf");
     }
 
-    @Test
-    public void cantLeaveShoreWithEmptyBeatTest() {
-        Game game = this.initializeGame();
-        game.createPlayer(0);
-        assertEquals(game.play(id, cross,north),"You can't do that! They'll eat other!");
-    }
+//    @Test
+//    public void cantLeaveShoreWithEmptyBeatTest() {
+//        Game game = this.initializeGame();
+//        game.createPlayer(0);
+//        assertEquals(game.play(id, cross,north),"You can't do that! They'll eat other!");
+//    }
 
 //    @Test
 //    public void withTheRightMovementsYouWinTheGameTest() {

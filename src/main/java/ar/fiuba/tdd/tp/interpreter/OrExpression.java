@@ -13,7 +13,7 @@ public class OrExpression extends LogicalConector {
     }
 
     public boolean interpret(Player player) {
-        return super.interpret(true);
+        return super.interpret(true, player);
     }
 
     public String getFailMessage() {

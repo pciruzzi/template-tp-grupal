@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.interpreter;
 
+import ar.fiuba.tdd.tp.engine.Player;
+
 public abstract class LogicalConector implements IInterpreter {
 
     protected IInterpreter expressionOne;
@@ -19,6 +21,40 @@ public abstract class LogicalConector implements IInterpreter {
         if (expressionOne.interpret() && expressionTwo.interpret()) {
             return true;
         } else if (expressionTwo.interpret()) {
+            this.failMessage = expressionOne.getFailMessage();
+            return bool;
+        } else if (expressionOne.interpret()) {
+            this.failMessage = expressionTwo.getFailMessage();
+            return bool;
+        }
+        return false;
+    }
+
+    public boolean interpret(boolean bool, Player player) {
+        return interpretOptionOne(bool, player) || interpretOptionTwo(bool, player);
+    }
+
+    // Puede ser que el player este solo en una de las dos expresiones,
+    // no puedo usar las dos con player
+    // Pruebo en la primera
+    private boolean interpretOptionOne(boolean bool, Player player) {
+        if (expressionOne.interpret(player) && expressionTwo.interpret()) {
+            return true;
+        } else if (expressionTwo.interpret()) {
+            this.failMessage = expressionOne.getFailMessage();
+            return bool;
+        } else if (expressionOne.interpret(player)) {
+            this.failMessage = expressionTwo.getFailMessage();
+            return bool;
+        }
+        return false;
+    }
+
+    // Pruebo en la segunda
+    private boolean interpretOptionTwo(boolean bool, Player player) {
+        if (expressionOne.interpret() && expressionTwo.interpret(player)) {
+            return true;
+        } else if (expressionTwo.interpret(player)) {
             this.failMessage = expressionOne.getFailMessage();
             return bool;
         } else if (expressionOne.interpret()) {

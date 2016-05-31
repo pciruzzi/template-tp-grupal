@@ -13,7 +13,7 @@ public class AndExpression extends LogicalConector {
     }
 
     public boolean interpret(Player player) {
-        return super.interpret(false);
+        return super.interpret(false, player);
     }
 
     public String getFailMessage() {
