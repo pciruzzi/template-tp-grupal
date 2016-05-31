@@ -16,7 +16,7 @@ public class MoveFromPlayer extends ICommand {
         this.auxiliarMessage = "Hi!\n" + "The ";
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         Element player = game.getPlayer();
         //Si el jugador tiene el elemento en el inventario.
         if (player.getElementMap().containsKey(this.element)) {

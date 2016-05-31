@@ -30,7 +30,7 @@ public class MoveToPlayer extends ICommand {
         this.returnMessage = "";
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         if (this.condition.interpret()) {
             //Si esta en el piso o dentro de algun elemento del lugar
             if (checkAvailableElement(game, element)) {

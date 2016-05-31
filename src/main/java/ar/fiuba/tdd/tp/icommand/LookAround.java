@@ -13,7 +13,7 @@ public class LookAround extends ICommand {
         this.game = game;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         List<Element> elementList = game.getVisibleElementList();
         int elementsListSize = elementList.size();
 

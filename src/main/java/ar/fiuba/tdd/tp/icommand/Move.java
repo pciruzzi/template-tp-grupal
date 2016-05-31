@@ -24,7 +24,7 @@ public class Move extends ICommand {
         this.correctMovementMessage = "You moved the ";
     }
 
-    public String doAction(Element playerPosition, Element movingElement, Element destinationElement) {
+    public String doAction(Element playerPosition, Element movingElement, Element destinationElement, int playerId) {
         if (condition.interpret()) {
             Element player = game.getPlayer();
             if (player.hasElement(movingElement.getName()) && player.hasElement(destinationElement.getName())) {
@@ -41,7 +41,7 @@ public class Move extends ICommand {
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return incorrectMovementMessage;
     }
 }

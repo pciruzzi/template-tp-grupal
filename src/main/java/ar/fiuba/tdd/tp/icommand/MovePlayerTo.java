@@ -23,7 +23,7 @@ public class MovePlayerTo extends ICommand {
         this.condition = condition;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         if (condition.interpret()) {
             game.getPlayerPosition().removeElement(game.getPlayer());
             element.getObjectiveElement().addElement(game.getPlayer());
@@ -33,10 +33,10 @@ public class MovePlayerTo extends ICommand {
         return condition.getFailMessage();
     }
 
-    public String doAction(Element playerPosition, Element elementToOpen, Element element) {
+    public String doAction(Element playerPosition, Element elementToOpen, Element element, int playerId) {
         String returnMessage;
         if (game.getPlayer().hasElement(element.getName())) {
-            returnMessage = doAction(elementToOpen);
+            returnMessage = doAction(elementToOpen, playerId);
         } else {
             returnMessage = condition.getFailMessage() + ". You haven't got the " + element.getName() + ".";
         }

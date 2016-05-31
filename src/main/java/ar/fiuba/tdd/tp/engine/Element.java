@@ -28,20 +28,20 @@ public class Element {
         this.poisoned = false;
     }
 
-    public String doCommand(String commandName) {
+    public String doCommand(String commandName, int playerId) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
-            return command.doAction(this);
+            return command.doAction(this, playerId);
         } else {
             return "I can't do that.";
         }
     }
 
 
-    public String doCommand(String commandName, Element originElement, Element destElement) {
+    public String doCommand(String commandName, Element originElement, Element destElement, int playerId) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
-            return command.doAction(originElement, this, destElement);
+            return command.doAction(originElement, this, destElement, playerId);
         } else {
             return "I can't do that.";
         }

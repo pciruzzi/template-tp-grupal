@@ -22,7 +22,7 @@ public class Check extends ICommand {
 //        this.condition = condition;
 //    }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         List<Element> elementList = element.getElementList();
         if (elementList.size() == 0) {
             return incorrectMovementMessage;

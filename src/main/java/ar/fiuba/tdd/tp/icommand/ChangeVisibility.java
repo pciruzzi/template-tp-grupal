@@ -31,7 +31,7 @@ public class ChangeVisibility extends ICommand {
         this.condition = condition;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         if (this.condition.interpret()) {
             element.changeElementsState(state);
             checkPoison(element);
@@ -44,13 +44,17 @@ public class ChangeVisibility extends ICommand {
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element playerPosition, Element openableElement, Element element) {
+    // Abro el openableElement si tengo el elementToUse
+    //                ^                        ^
+    //                |                        |
+    // Ej:  open    chest       with          key
+    public String doAction(Element playerPosition, Element openableElement, Element elementToUse, int playerId) {
         String returnMessage;
         Element player = game.getPlayer();
-        if (player.hasElement(element.getName())) {
-            returnMessage = doAction(openableElement);
+        if (player.hasElement(elementToUse.getName())) {
+            returnMessage = doAction(openableElement, playerId);
         } else {
-            returnMessage = incorrectMovementMessage + "You haven't got the " + element.getName() + ".";
+            returnMessage = incorrectMovementMessage + "You haven't got the " + elementToUse.getName() + ".";
         }
         return returnMessage;
     }

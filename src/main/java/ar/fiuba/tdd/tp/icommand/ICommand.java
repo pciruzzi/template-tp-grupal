@@ -9,10 +9,10 @@ public abstract class ICommand {
     String incorrectMovementMessage;
     String auxiliarMessage;
 
-    public abstract String doAction(Element element);
+    public abstract String doAction(Element element, int playerId);
 
-    public String doAction(Element originElement, Element element, Element destinationElement) {
-        return "Incorrect doAction";
+    public String doAction(Element originElement, Element element, Element destinationElement, int playerId) {
+        return "Incorrect action";
     }
 
     public void correctMovementMessage(String message) {

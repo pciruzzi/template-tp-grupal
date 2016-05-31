@@ -25,7 +25,7 @@ public class MoveWithComparator extends ICommand {
         return comparation < 0;
     }
 
-    public String doAction( Element auxElement, Element originElement, Element destinationElement) {
+    public String doAction( Element auxElement, Element originElement, Element destinationElement, int playerId) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 0 ) {
             return auxiliarMessage;
@@ -42,7 +42,7 @@ public class MoveWithComparator extends ICommand {
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return incorrectMovementMessage;
     }
 

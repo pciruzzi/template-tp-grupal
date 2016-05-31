@@ -62,7 +62,7 @@ public class Game {
 
     public  String play(int id, String cmd) {
         String returnMessage;
-        returnMessage = getPlayerPosition(id).doCommand(cmd);
+        returnMessage = getPlayerPosition(id).doCommand(cmd, id);
         return returnMessage;
     }
 
@@ -73,7 +73,7 @@ public class Game {
         Element actualElement = getElement(element);
 
         if (actualElement != null) {
-            returnMessage = actualElement.doCommand(cmd);
+            returnMessage = actualElement.doCommand(cmd, id);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
@@ -90,7 +90,7 @@ public class Game {
         Element destElement = getElement(destinationElement);
 
         if (actualElement != null && destElement != null) {
-            returnMessage = actualElement.doCommand(cmd, getPlayerPosition(id), destElement);
+            returnMessage = actualElement.doCommand(cmd, getPlayerPosition(id), destElement, id);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
@@ -139,16 +139,8 @@ public class Game {
         this.losingInterpreter = losingInterpreter;
     }
 
-    public Element getPlayerPosition() {
-        return playerPosition;
-    }
-
     public void setPlayerPosition(Element playerPosition) {
         this.playerPosition = playerPosition;
-    }
-
-    public Element getPlayer() {
-        return player;
     }
 
     public void setPlayer(Element player) {
@@ -188,12 +180,20 @@ public class Game {
         return false;
     }
 
+    public Element getPlayer() {
+        return player;
+    }
+
     private Element getPlayer(int id) {
         return players.get(id);
     }
 
     private Element getPlayerPosition(int id) {
         return getPlayer(id).getObjectiveElement();
+    }
+
+    public Element getPlayerPosition() {
+        return playerPosition;
     }
 
 }
