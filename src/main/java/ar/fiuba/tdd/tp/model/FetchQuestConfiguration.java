@@ -1,5 +1,9 @@
 package ar.fiuba.tdd.tp.model;
 
+import ar.fiuba.tdd.tp.SchedualedTimedAction;
+import ar.fiuba.tdd.tp.SingleTimedAction;
+import ar.fiuba.tdd.tp.Time;
+import ar.fiuba.tdd.tp.TimeCommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
@@ -41,6 +45,16 @@ public class FetchQuestConfiguration implements GameBuilder {
         game.setPlayerPosition(room);
 
         setWinAndLoseInterpreter(player);
+
+
+//        TimeCommand pickStick = new SingleTimedAction(game,10000,"pick stick");
+//        TimeCommand dropStick = new SingleTimedAction(game,7000,"drop stick");
+//        TimeCommand lookAround2 = new SchedualedTimedAction(game,3000,"look around");
+//
+//
+//        game.addTimeCommand(pickStick);
+//        game.addTimeCommand(dropStick);
+//        game.addTimeCommand(lookAround2);
 
         return game;
     }

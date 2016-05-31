@@ -11,8 +11,9 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
+        GameBuilder fetchConfiguration = new FetchQuestConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();
