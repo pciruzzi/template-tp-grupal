@@ -35,6 +35,11 @@ public class Engine {
         return game.play(command, firstElementName, secondElementName);
     }
 
+    public String doCommand(String player, String action) {
+
+        return this.doCommand(action);
+    }
+
     public boolean isGameWon() {
         return this.game.getGameWon();
     }
