@@ -16,28 +16,27 @@ public class Engine {
         game = gameBuilder.build();
     }
 
-    public String doCommand(String action) {
-        ArrayList<Element> elementsList = new ArrayList<>(game.getCurrentPositionElements().values());
+    public void createPlayer(int id) {
+        game.createPlayer(id);
+    }
+
+    public String doCommand(int id, String action) {
+        ArrayList<Element> elementsList = new ArrayList<>(game.getCurrentPositionElements(id).values());
         elementsList.addAll(game.getPlayer().getElementList());
 
         Element firstElement = commandParser.getFirstElement(action,elementsList);
         if ( firstElement == null ) {
-            return game.play(action);
+            return game.play(id, action);
         }
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
         String command = commandParser.getCommand(action, firstElementName);
         if ( secondElement == null ) {
-            return game.play(command, firstElementName);
+            return game.play(id, command, firstElementName);
         }
         String secondElementName = secondElement.getName();
-        return game.play(command, firstElementName, secondElementName);
-    }
-
-    public String doCommand(String player, String action) {
-
-        return this.doCommand(action);
+        return game.play(id, command, firstElementName, secondElementName);
     }
 
     public boolean isGameWon() {

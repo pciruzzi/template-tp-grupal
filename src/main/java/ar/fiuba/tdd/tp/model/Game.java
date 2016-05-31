@@ -11,6 +11,7 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 public class Game {
 
     private Element player;
+    private List<Element> players;
     private Element playerPosition;
     private Map<String,Element> visibleElements;
     private IInterpreter winInterpreter;
@@ -22,6 +23,7 @@ public class Game {
 
     public Game(String name) {
         this.name = name;
+        this.players = new ArrayList<Element>();
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";
@@ -29,10 +31,6 @@ public class Game {
 
     public String getName() {
         return this.name;
-    }
-
-    public boolean getGameFinished() {
-        return (this.gameLost || this.gameWon);
     }
 
     public boolean getGameWon() {
@@ -47,19 +45,30 @@ public class Game {
         return this.description;
     }
 
+    public void createPlayer(int id) {
+        Element newPlayer = new Element("player" + id);
+        newPlayer.setObjectiveElement(playerPosition);
+        players.add(newPlayer);
+    }
+
+    public void setPlayerPosition(int id, Element newPlayerPosition) {
+        Element player = getPlayer(id);
+        player.setObjectiveElement(newPlayerPosition);
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public  String play(String cmd) {
+    public  String play(int id, String cmd) {
         String returnMessage;
-        returnMessage = playerPosition.doCommand(cmd);
+        returnMessage = getPlayerPosition(id).doCommand(cmd);
         return returnMessage;
     }
 
-    public String play(String cmd, String element) {
+    public String play(int id, String cmd, String element) {
         String returnMessage;
-        this.calculateVisibleElements();
+        this.calculateVisibleElements(id);
 
         Element actualElement = getElement(element);
 
@@ -73,15 +82,15 @@ public class Game {
         return returnMessage;
     }
 
-    public String play(String cmd, String element, String destinationElement) {
+    public String play(int id, String cmd, String element, String destinationElement) {
         String returnMessage;
-        this.calculateVisibleElements();
+        this.calculateVisibleElements(id);
 
         Element actualElement = getElement(element);
         Element destElement = getElement(destinationElement);
 
         if (actualElement != null && destElement != null) {
-            returnMessage = actualElement.doCommand(cmd, playerPosition, destElement);
+            returnMessage = actualElement.doCommand(cmd, getPlayerPosition(id), destElement);
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
@@ -146,20 +155,21 @@ public class Game {
         this.player = player;
     }
 
-    private void calculateVisibleElements() {
+    private void calculateVisibleElements(int id) {
         Map<String, Element> elements;
-        elements = playerPosition.getVisibleElements();
-        elements.putAll(player.getVisibleElements());
+        elements = getPlayerPosition(id).getVisibleElements();
+        elements.putAll(getPlayer(id).getVisibleElements());
         visibleElements = elements;
     }
 
-    public Map<String,Element> getCurrentPositionElements() {
-        this.calculateVisibleElements();
+    public Map<String,Element> getCurrentPositionElements(int id) {
+        this.calculateVisibleElements(id);
         return visibleElements;
     }
 
     public List<Element> getVisibleElementList() {
-        this.calculateVisibleElements();
+        int id = 0;
+        this.calculateVisibleElements(id);
         List<Element> returnList = new ArrayList<>(visibleElements.values());
         return returnList;
     }
@@ -176,6 +186,14 @@ public class Game {
             }
         }
         return false;
+    }
+
+    private Element getPlayer(int id) {
+        return players.get(id);
+    }
+
+    private Element getPlayerPosition(int id) {
+        return getPlayer(id).getObjectiveElement();
     }
 
 }
