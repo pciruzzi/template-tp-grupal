@@ -17,18 +17,20 @@ public class GameSocket implements Runnable {
     private int playerNumber;
     private String gameFilePath;
     private Writer writer;
-    private List<Thread> threads;
-    private List<Interactor> interactors;
+    private List<Thread> interactorThreads;
+    private List<InteractorStatus> interactors;
     private ServerSocket socket;
     private GameDriver driver;
     private EventQueue queue;
+    private Dequeuer dequeuer;
+    private Thread dequeuerThread;
 
     public GameSocket(int port, String gameFilePath) {
         this.port = port;
         this.playerNumber = 0;
         this.gameFilePath = gameFilePath;
         this.writer = new Console();
-        this.threads = new ArrayList<>();
+        this.interactorThreads = new ArrayList<>();
         this.interactors = new ArrayList<>();
         this.socket = null;
         this.driver = new DriverImplementation();
@@ -45,8 +47,8 @@ public class GameSocket implements Runnable {
                 writer.writeError(e.toString() + ": Couldn't load game from file.");
             }
 
-            Dequeuer dequeuer = new Dequeuer(this.interactors, this.queue, this.driver);
-            Thread dequeuerThread = new Thread(dequeuer);
+            dequeuer = new Dequeuer(this.interactors, this.queue, this.driver);
+            dequeuerThread = new Thread(dequeuer);
             dequeuerThread.start();
 
             while (true) {
@@ -64,22 +66,27 @@ public class GameSocket implements Runnable {
         Socket connection = socket.accept();
         writer.write("Connection received in port " + port);
         //driver.addPlayer();
-        Interactor runnable = new Interactor(connection, this.playerNumber, this.queue);
+
+        Interactor interactor = new Interactor(connection, this.playerNumber, this.queue);
+        InteractorStatus interactorStatus = new InteractorStatus(interactor);
+        interactor.addStatus(interactorStatus);
         playerNumber++;
-        Thread thread = new Thread(runnable);
+        Thread thread = new Thread(interactor);
         thread.start();
-        interactors.add(runnable);
-        threads.add(thread);
+        interactors.add(interactorStatus);
+        interactorThreads.add(thread);
     }
 
     public void terminate() {
         try {
-            for (Interactor interactor : interactors) {
-                interactor.terminate();
+            for (InteractorStatus interactor : interactors) {
+                interactor.getInteractor().terminate();
             }
-            for (Thread thread : threads) {
+            dequeuer.terminate();
+            for (Thread thread : interactorThreads) {
                 thread.interrupt();
             }
+            dequeuerThread.interrupt();
             socket.close();
         } catch (IOException e) {
             writer.writeError("Error when trying to close socket");

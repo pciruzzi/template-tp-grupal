@@ -14,11 +14,13 @@ public class Client {
     private SocketClient socket;
     private Reader reader;
     private Writer writer;
+    private boolean exitedGame;
 
     public Client() {
         socket = new SocketClient();
         reader = new Console();
         writer = new Console();
+        this.exitedGame = false;
     }
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
@@ -41,23 +43,32 @@ public class Client {
     }
 
     public void playGame() {
-        String command = "";
+        ClientSocketReader socketReader = new ClientSocketReader(writer, socket, this);
+        Thread socketReaderThread = new Thread(socketReader);
         try {
-//            this.readFromSocket(); //Leo mensaje de bienvenida del juego
-            ClientSocketReader socketReader = new ClientSocketReader(writer, socket);
-            Thread thread = new Thread(socketReader);
-            thread.start();
-
-            while (! command.equals(EXIT) && ! socketReader.getGameFinished()) {
-                command = this.readFromInput();
+            socketReaderThread.start();
+            while (! exitedGame && ! socketReader.getGameFinished()) {
+                String command = this.readFromInput();
                 this.writeToSocket(command);
-                //Thread.sleep(1000);
-                //this.readFromSocket();
+                if (command.equals(EXIT)) {
+                    this.exitedGame = true;
+                }
+                Thread.sleep(500); //Esto es porque sino se queda esperando a leer algo cuando se ejecuto exit/gano (y ya se perdio la conexion)
             }
+            writer.write("Client: me fui del juego o mi juego termino");
+        } catch (InterruptedException e) {
+            writer.writeError("Client: " + e.toString());
         } catch (ConnectionException e) {
+            writer.writeError("Connection exception en client");
             writer.writeError(e.getMsg());
         } finally {
-            socket.closeConnection();
+            try {
+                socketReaderThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                socket.closeConnection();
+            }
         }
     }
 
@@ -67,6 +78,10 @@ public class Client {
 
     private void writeToSocket(String command) throws WritingException {
         socket.write(command);
+    }
+
+    public boolean getExitedGame() {
+        return this.exitedGame;
     }
 
 //    private void readFromSocket() throws ConnectionLostException, ReadingException {

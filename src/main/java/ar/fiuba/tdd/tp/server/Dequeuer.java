@@ -7,36 +7,88 @@ import ar.fiuba.tdd.tp.exceptions.WritingException;
 
 import java.util.List;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
+import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+import static ar.fiuba.tdd.tp.Constants.SOMEONE_WON;
+
 public class Dequeuer implements Runnable {
 
-    private List<Interactor> interactors;
+    volatile boolean terminate = false;
+    private List<InteractorStatus> interactors;
+    private boolean gameWon;
+    private int gameWonBy;
     private EventQueue queue;
     private GameDriver driver;
     private Writer writer;
 
-    public Dequeuer(List<Interactor> interactors, EventQueue queue, GameDriver driver) {
+    public Dequeuer(List<InteractorStatus> interactors, EventQueue queue, GameDriver driver) {
         this.interactors = interactors;
         this.queue = queue;
         this.driver = driver;
         this.writer = new Console();
+        this.gameWon = false;
+        this.gameWonBy = -1;
     }
 
     public void run() {
-        while (true) {
+        while (! gameWon && ! terminate) {
+            if (gameWonBy != -1) {
+                gameWon = true;
+            }
             if (! queue.isEmpty()) {
                 CommandPlayer command = queue.pop();
-                for (Interactor interactor : interactors) {
-                    try {
-                        if (interactor.getPlayerNumber() == command.getPlayer()) {
-                            interactor.write(driver.sendCommand(command.getCommmand()));
-                        } else {
-                            interactor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
-                        }
-                    } catch (WritingException e) {
-                        writer.writeError(e.getMsg());
-                    }
-                }
+                sendCommandToInteractors(command);
             }
         }
+    }
+
+    private void sendCommandToInteractors(CommandPlayer command) {
+        try {
+            for (InteractorStatus interactor : interactors) {
+                Interactor actualInteractor = interactor.getInteractor();
+                if (actualInteractor.isAlive()) {
+                    sendCommandToAliveInteractor(command, interactor, actualInteractor);
+                }
+            }
+        } catch (WritingException e) {
+            writer.writeError(e.getMsg());
+        }
+        if (gameWonBy != -1) {
+            CommandPlayer winCommand = new CommandPlayer(gameWonBy, SOMEONE_WON);
+            queue.push(winCommand);
+        }
+    }
+
+    private void sendCommandToAliveInteractor(CommandPlayer command, InteractorStatus interactor,
+                                              Interactor actualInteractor) throws WritingException {
+        if (gameWon) {
+            writer.write("Alguien gano, asique le voy a mandar al resto...");
+            if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
+                actualInteractor.write("Player " + command.getPlayer() + command.getCommmand());
+            }
+        } else {
+            if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
+                String returnCode = driver.sendCommand(command.getCommmand());
+                actualInteractor.write(returnCode);
+                checkStatus(interactor, returnCode);
+            } else {
+                actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
+            }
+        }
+    }
+
+    private void checkStatus(InteractorStatus interactor, String returnCode) {
+        if (returnCode.equals(GAME_WON)) {
+            interactor.won();
+            this.gameWonBy = interactor.getInteractor().getPlayerNumber();
+            writer.write("El juego ha sido ganado por " + this.gameWonBy);
+        }
+        if (returnCode.equals(GAME_LOST)) {
+            interactor.lost();
+        }
+    }
+
+    public void terminate() {
+        this.terminate = true;
     }
 }
