@@ -27,7 +27,7 @@ public class FetchQuestConfiguration implements GameBuilder {
         room.addCommand(new Exit());
 
         Element stick = new Element("stick");
-        stick.setState(true);
+        stick.changeState("visible", true);
 
         Element player = new Element("player");
         game.setPlayer(player);

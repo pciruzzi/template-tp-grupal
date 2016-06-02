@@ -28,14 +28,14 @@ public class OpenDoorConfiguration implements GameBuilder {
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
-        doorOneTwo.setState(true);
+        doorOneTwo.changeState("visible", true);
         question = new Question("ask");
         doorTwoOne = new Element("door");
-        doorTwoOne.setState(true);
+        doorTwoOne.changeState("visible", true);
         player = new Element("player");
         roomTwo = new Element("roomTwo");
         key = new Element("key");
-        key.setState(true);
+        key.changeState("visible", true);
     }
 
     private void configureLookAround(Game game) {

@@ -70,45 +70,45 @@ public class DriverTest {
 //        driver.sendCommand("move top stackOne stackThree");
 //        assertEquals(GameState.Won, driver.getCurrentState());
 //    }
-
-    @Test
-    public void shouldWinTreasureQuestDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
-        assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick pokemon");
-        assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
-        driver.sendCommand("open door to three");
-        driver.sendCommand("drop pokemon");
-        driver.sendCommand("pick key");
-        driver.sendCommand("open door to four");
-        driver.sendCommand("open wardrobe");
-        driver.sendCommand("open chest");
-        driver.sendCommand("open door to five");
-        driver.sendCommand("open box two");
-        driver.sendCommand("pick treasure");
-        driver.sendCommand("open door to one");
-        assertEquals(GameState.Won, driver.getCurrentState());
-    }
-
-    @Test
-    public void shouldLoseTreasureQuestDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
-        assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick pokemon");
-        assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
-        driver.sendCommand("open door to three");
-        driver.sendCommand("drop pokemon");
-        driver.sendCommand("pick key");
-        driver.sendCommand("open door to four");
-        driver.sendCommand("open wardrobe");
-        driver.sendCommand("open chest");
-        driver.sendCommand("open door to five");
-        driver.sendCommand("open box one");
-        driver.sendCommand("open door to four");
-        assertEquals(GameState.Lost, driver.getCurrentState());
-    }
+//
+//    @Test
+//    public void shouldWinTreasureQuestDriverTest() throws GameLoadFailedException {
+//        GameDriver driver = new DriverImplementation();
+//        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
+//        assertEquals(GameState.Ready, driver.getCurrentState());
+//        driver.sendCommand("pick pokemon");
+//        assertEquals(GameState.InProgress, driver.getCurrentState());
+//        driver.sendCommand("open door");
+//        driver.sendCommand("open door to three");
+//        driver.sendCommand("drop pokemon");
+//        driver.sendCommand("pick key");
+//        driver.sendCommand("open door to four");
+//        driver.sendCommand("open wardrobe");
+//        driver.sendCommand("open chest");
+//        driver.sendCommand("open door to five");
+//        driver.sendCommand("open box two");
+//        driver.sendCommand("pick treasure");
+//        driver.sendCommand("open door to one");
+//        assertEquals(GameState.Won, driver.getCurrentState());
+//    }
+//
+//    @Test
+//    public void shouldLoseTreasureQuestDriverTest() throws GameLoadFailedException {
+//        GameDriver driver = new DriverImplementation();
+//        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
+//        assertEquals(GameState.Ready, driver.getCurrentState());
+//        driver.sendCommand("pick pokemon");
+//        assertEquals(GameState.InProgress, driver.getCurrentState());
+//        driver.sendCommand("open door");
+//        driver.sendCommand("open door to three");
+//        driver.sendCommand("drop pokemon");
+//        driver.sendCommand("pick key");
+//        driver.sendCommand("open door to four");
+//        driver.sendCommand("open wardrobe");
+//        driver.sendCommand("open chest");
+//        driver.sendCommand("open door to five");
+//        driver.sendCommand("open box one");
+//        driver.sendCommand("open door to four");
+//        assertEquals(GameState.Lost, driver.getCurrentState());
+//    }
 }

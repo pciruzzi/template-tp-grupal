@@ -6,26 +6,24 @@ import java.util.*;
 
 public class Element {
 
-    private boolean state;
     private String name;
     private Map<String, ICommand> commandMap;
     private Map<String, Element> elementMap;
+    private Map<String, Boolean> stateMap;
     private int size;
     private Element objectiveElement;
     private int capacity;
-    private boolean poisoned;
 
-    private boolean isAntidote;
 
     public Element(String name) {
         commandMap = new HashMap<>();
         elementMap = new HashMap<>();
+        stateMap = new HashMap<>();
+        stateMap.put("visible", false);
         this.name = name;
-        this.state = false;
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;
-        this.poisoned = false;
     }
 
     public String doCommand(String commandName) {
@@ -51,8 +49,8 @@ public class Element {
         commandMap.put(command.getName(), command);
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void addState(String state, Boolean value) {
+        stateMap.put(state, value);
     }
 
     public void setName(String name) {
@@ -65,7 +63,7 @@ public class Element {
 
     public boolean addElement(Element element) {
         if (this.capacity - element.getSize() >= 0) {
-            elementMap.put(element.getName(),element);
+            elementMap.put(element.getName(), element);
             this.capacity = this.capacity - element.getSize();
             return true;
         }
@@ -85,8 +83,8 @@ public class Element {
         return new ArrayList<>(commandMap.values());
     }
 
-    public boolean getState() {
-        return state;
+    public Map<String, Boolean> getStateList() {
+        return stateMap;
     }
 
     public String getName() {
@@ -119,15 +117,22 @@ public class Element {
 
     public Map<String, Element> getVisibleElements() {
         Map<String, Element> visibleElements = new HashMap<>();
-        for (Element element: getElementList()) {
-            if (element.getState()) {
+        for (Element element : getElementList()) {
+            if (element.hasState("visible")) {
                 for (Element insideElement : getElementList()) {
                     visibleElements.putAll(insideElement.getVisibleElements());
                 }
-                visibleElements.put(element.getName(),element);
+                visibleElements.put(element.getName(), element);
             }
         }
         return visibleElements;
+    }
+
+    public boolean hasState(String state) {
+        if (stateMap.containsKey(state)) {
+            return stateMap.get(state);
+        }
+        return false;
     }
 
     public int getSize() {
@@ -142,10 +147,14 @@ public class Element {
         return elementMap;
     }
 
-    public void changeElementsState(boolean state) {
+    public void changeElementsState(String state, Boolean value) {
         for (Element element : getElementList()) {
-            element.setState(state);
+            element.changeState(state, value);
         }
+    }
+
+    public void changeState(String state, Boolean value) {
+        stateMap.replace(state, value);
     }
 
     public boolean hasAllElements(ArrayList<String> elementsToContain) {
@@ -161,19 +170,4 @@ public class Element {
         return true;
     }
 
-    public boolean isPoisoned() {
-        return poisoned;
-    }
-
-    public void setPoisoned(boolean poisoned) {
-        this.poisoned = poisoned;
-    }
-
-    public boolean isAntidote() {
-        return isAntidote;
-    }
-
-    public void setAntidote(boolean antidote) {
-        isAntidote = antidote;
-    }
 }

@@ -20,6 +20,8 @@ public class PoisonConfiguration implements GameBuilder {
         player = new Element("player");
         Element room = new Element("room");
 
+        player.addState("poison", false);
+
         game.setPlayer(player);
         game.setPlayerPosition(room);
 
@@ -57,19 +59,19 @@ public class PoisonConfiguration implements GameBuilder {
     private void createChestWithPoison(Element room, ICommand question, ICommand open) {
         Element chest = new Element("chest");
         chest.addCommand(question);
-        chest.setState(true);
+        chest.changeState("visible", true);
         chest.addCommand(open);
-        chest.setPoisoned(true);
+        chest.addState("poison", true);
         room.addElement(chest);
     }
 
     private void createStickWithPoison(Element room, ICommand question, ICommand pick) {
-        Element chest = new Element("stick");
-        chest.addCommand(question);
-        chest.setState(true);
-        chest.addCommand(pick);
-        chest.setPoisoned(true);
-        room.addElement(chest);
+        Element stick = new Element("stick");
+        stick.addCommand(question);
+        stick.changeState("visible", true);
+        stick.addCommand(pick);
+        stick.addState("poison", true);
+        room.addElement(stick);
     }
 
     @SuppressWarnings("CPD-END")
@@ -77,9 +79,8 @@ public class PoisonConfiguration implements GameBuilder {
     private Element createAntidote(ICommand question, ICommand pick) {
         Element antidote = new Element("antidote");
         antidote.addCommand(pick);
-        antidote.setState(true);
+        antidote.changeState("visible", true);
         antidote.addCommand(question);
-        antidote.setAntidote(true);
         return antidote;
     }
 }

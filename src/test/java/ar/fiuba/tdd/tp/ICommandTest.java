@@ -41,23 +41,24 @@ public class ICommandTest extends InitializationsForTests{
     public void openSomethingAndPlayerGetPoisoned() {
         Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("open chest");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
+        assertTrue(engine.getGame().getPlayer().hasState("poison"));
+
     }
 
     @Test
     public void pickSomethingAndPlayerGetPoisoned() {
         Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("pick stick");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
+        assertTrue(engine.getGame().getPlayer().hasState("poison"));
     }
 
     @Test
     public void pickAntidoteAndGetHealed() {
         Engine engine = initializeEnginePoisonConfiguration();
         engine.doCommand("pick stick");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
+        assertTrue(engine.getGame().getPlayer().hasState("poison"));
         engine.doCommand("pick antidote");
-        assertFalse(engine.getGame().getPlayer().isPoisoned());
+        assertFalse(engine.getGame().getPlayer().hasState("poison"));
     }
 
 }

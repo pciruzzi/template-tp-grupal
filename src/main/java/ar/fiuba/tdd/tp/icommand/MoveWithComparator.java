@@ -49,7 +49,7 @@ public class MoveWithComparator extends ICommand {
     private void checkBiggestDiskAvailable(Element originElement) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 1 ) {
-            elementListOrigin.get(0).setState(true);
+            elementListOrigin.get(0).changeElementsState("visible", true);
         }
     }
 

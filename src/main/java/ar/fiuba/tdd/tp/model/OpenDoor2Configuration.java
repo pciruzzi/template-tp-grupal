@@ -29,17 +29,16 @@ public class OpenDoor2Configuration implements GameBuilder {
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
-        doorOneTwo.setState(true);
+        doorOneTwo.changeState("visible", true);
         question = new Question("ask");
         doorTwoOne = new Element("door");
-        doorTwoOne.setState(true);
+        doorTwoOne.changeState("visible", true);
         player = new Element("player");
         roomTwo = new Element("roomTwo");
         key = new Element("key");
-        key.setState(false);
         box = new Element("box");
         box.addElement(key);
-        box.setState(true);
+        box.changeState("visible", true);
     }
 
     private void configureLookAround(Game game) {

@@ -95,15 +95,15 @@ public class WSCConfiguration implements GameBuilder {
     }
 
     private void assignElementStates() {
-        wolf.setState(true);
-        sheep.setState(true);
-        cabbage.setState(true);
+        wolf.changeState("visible", true);
+        sheep.changeState("visible", true);
+        cabbage.changeState("visible", true);
 
         boat.setCapacity(1);
         southShore.addElement(boat);
 
-        riverSouthToNorth.setState(true);
-        riverNorthToSouth.setState(true);
+        riverSouthToNorth.changeState("visible", true);
+        riverNorthToSouth.changeState("visible", true);
 
         riverSouthToNorth.setObjectiveElement(northShore);
         riverNorthToSouth.setObjectiveElement(southShore);

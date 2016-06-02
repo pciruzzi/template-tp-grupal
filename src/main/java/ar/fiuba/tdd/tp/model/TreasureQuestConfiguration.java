@@ -65,6 +65,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
+        player.addState("poison", false);
         // Agrego la posicion del player
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
@@ -89,11 +90,11 @@ public class TreasureQuestConfiguration implements GameBuilder {
         chest       = new Element("chest");
 
         // Los hago visibles
-        poisonBox.setState(true);
-        treasureBox.setState(true);
-        wardrobe.setState(true);
+        poisonBox.changeState("visible", true);
+        treasureBox.changeState("visible", true);
+        wardrobe.changeState("visible", true);
 
-        poisonBox.setPoisoned(true);
+        poisonBox.addState("poison", true);
     }
 
     private void createPickableElements() {
@@ -104,39 +105,39 @@ public class TreasureQuestConfiguration implements GameBuilder {
         pokemon  = new Element("pokemon");
 
         // Los hago visibles
-        key.setState(true);
-        pokemon.setState(true);
-        antidote.setAntidote(true);
+        key.changeState("visible", true);
+        pokemon.changeState("visible", true);
+
     }
 
     private void createDoors() {
         doorOneTwo = new Element("door");
         doorTwoOne = new Element("door to one");
 
-        doorOneTwo.setState(true);
-        doorTwoOne.setState(true);
+        doorOneTwo.changeState("visible", true);
+        doorTwoOne.changeState("visible", true);
 
         doorTwoThree = new Element("door to three");
         doorThreeTwo = new Element("door to two");
 
-        doorTwoThree.setState(true);
-        doorThreeTwo.setState(true);
+        doorTwoThree.changeState("visible", true);
+        doorThreeTwo.changeState("visible", true);
 
         doorThreeFour = new Element("door to four");
         doorFourThree = new Element("door to three");
 
-        doorThreeFour.setState(true);
-        doorFourThree.setState(true);
+        doorThreeFour.changeState("visible", true);
+        doorFourThree.changeState("visible", true);
 
         doorFourFive = new Element("door to five");
         doorFiveFour = new Element("door to four");
 
-        doorFourFive.setState(true);
-        doorFiveFour.setState(true);
+        doorFourFive.changeState("visible", true);
+        doorFiveFour.changeState("visible", true);
 
         doorFiveOne = new Element("door to one");
 
-        doorFiveOne.setState(true);
+        doorFiveOne.changeState("visible", true);
 
         setDoorsIntoRooms();
     }

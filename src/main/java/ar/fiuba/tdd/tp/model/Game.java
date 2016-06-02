@@ -168,16 +168,13 @@ public class Game {
         return returnList;
     }
 
-    //Return true if the player had an antidote and had been healed.
+    //Return true if the player had an antidote and has been healed.
     public boolean checkInventoryForAntidote() {
-        List<Element> elementList = this.getPlayer().getElementList();
-        for (Element inventoryElement : elementList ) {
-            if (inventoryElement.isAntidote()) {
-                Element player = this.getPlayer();
-                player.setPoisoned(false);
-                player.removeElement(inventoryElement);
-                return true;
-            }
+        Element antidote = player.getElement("antidote");
+        if (antidote != null) {
+            player.changeState("poison", false);
+            player.removeElement(antidote);
+            return true;
         }
         return false;
     }

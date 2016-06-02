@@ -39,12 +39,12 @@ public class MoveToPlayer extends ICommand {
                 if (!player.addElement(element)) {
                     return "You can't do that, the " + player.getName() + " is full";
                 }
-                element.setState(false);
+                element.changeState("visible",false);
                 // Lo saco del cuarto
                 playerPosition.removeElement(element);
                 // Lo saco del objeto que lo contenia
                 removeElement(element, playerPosition);
-                checkElementForPoisonAndAntidote(element, player);
+                checkElementForPoisonAndAntidote(element,  player);
                 return correctMovementMessage + element.getName() + returnMessage;
             } else {
                 //No esta en el piso
@@ -59,9 +59,9 @@ public class MoveToPlayer extends ICommand {
         ArrayList<String> elementToRemoveArray = new ArrayList<>();
         elementToRemoveArray.add(elementToRemove.getName());
         for ( Element containerElement : elementToRemoveFrom.getElementList()) {
-            if ( containerElement.hasAllElements(elementToRemoveArray) && containerElement.getState() ) {
+            if ( containerElement.hasAllElements(elementToRemoveArray) && containerElement.hasState("visible") ) {
                 containerElement.removeElement(elementToRemove);
-            } else if ( containerElement.getState() && containerElement.getElementList().size() != 0 ) {
+            } else if ( containerElement.hasState("visible") && containerElement.getElementList().size() != 0 ) {
                 removeElement(elementToRemove, containerElement);
             }
         }
@@ -71,11 +71,11 @@ public class MoveToPlayer extends ICommand {
 
 //        checkAntidote(element);
 
-        if (element.isPoisoned()) {
-            player.setPoisoned(true);
+        if (element.hasState("poison")) {
+            player.changeState("poison",true);
             returnMessage = POISONED;
         }
-        if (player.isPoisoned()) {
+        if (player.hasState("poison")) {
             if ( game.checkInventoryForAntidote() ) {
                 returnMessage += ANTIDOTED;
             }

@@ -12,7 +12,7 @@ public class Main {
 
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TheEscapeConfiguration();
+        GameBuilder fetchConfiguration = new PoisonConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();
