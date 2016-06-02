@@ -1,31 +1,26 @@
 package ar.fiuba.tdd.tp.server;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class EventQueue {
 
     Queue<CommandPlayer> queue;
 
     public EventQueue() {
-        this.queue = new LinkedList<>();
+        // Otra opcion: this.queue = Collections.synchronizedList(new LinkedList<>());
+        this.queue = new ConcurrentLinkedQueue<>();
     }
 
     public boolean isEmpty() {
-        synchronized (queue) {
-            return this.queue.isEmpty();
-        }
+        return this.queue.isEmpty();
     }
 
     public void push(CommandPlayer command) {
-        synchronized (queue) {
-            this.queue.add(command);
-        }
+        this.queue.add(command);
     }
 
     public CommandPlayer pop() {
-        synchronized (queue) {
-            return this.queue.poll();
-        }
+        return this.queue.poll();
     }
 }
