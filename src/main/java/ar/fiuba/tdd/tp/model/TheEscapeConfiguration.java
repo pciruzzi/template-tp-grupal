@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
+import ar.fiuba.tdd.tp.SchedualedTimedAction;
+import ar.fiuba.tdd.tp.TimeCommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.icommand.*;
 
@@ -77,6 +79,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element barandaSotano;
     private Element barandaSotanoAbajo;
     private Element ventana;
+    private Element relojCucu;
 
     // Los ICommands
     private ICommand drop;
@@ -111,11 +114,25 @@ public class TheEscapeConfiguration implements GameBuilder {
         createAccesoABibliotecaBis();
         createBiblioteca();
         createLastRoomAndCondicionesDeMorir();
+        createTimeEvents();
 
-        game.setPlayer(player);
-        game.setPlayerPosition(pasillo);
+        setPlayerAndPosition();
 
         return game;
+    }
+
+    private void setPlayerAndPosition() {
+        game.setPlayer(player);
+        game.setPlayerPosition(pasillo);
+    }
+
+    private void createTimeEvents() {
+        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
+        relojCucu.addCommand(cucu);
+        relojCucu.setState(true);
+        pasillo.addElement(relojCucu);
+        TimeCommand cucuClock = new SchedualedTimedAction(10000,"sonar Reloj");
+        game.addTimeCommand(cucuClock);
     }
 
     private void initializeRooms() {
@@ -144,6 +161,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         barandaSotano = new Element("Baranda");
         ventana = new Element("Ventana");
         llave = new Element("Llave");
+        relojCucu = new Element("Reloj");
     }
 
     private void initializeFirstGroupOfElements() {

@@ -7,8 +7,9 @@ public class PrintMessage extends ICommand {
 
     private String printMessage;
 
-    public PrintMessage(String message) {
+    public PrintMessage(String name, String message) {
         this.printMessage = message;
+        this.name = name;
     }
 
     public String doAction(Element element) {
