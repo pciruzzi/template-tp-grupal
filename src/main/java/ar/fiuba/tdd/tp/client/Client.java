@@ -14,13 +14,11 @@ public class Client {
     private SocketClient socket;
     private Reader reader;
     private Writer writer;
-    private boolean gameFinished;
 
     public Client() {
         socket = new SocketClient();
         reader = new Console();
         writer = new Console();
-        gameFinished = false;
     }
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
@@ -46,10 +44,15 @@ public class Client {
         String command = "";
         try {
 //            this.readFromSocket(); //Leo mensaje de bienvenida del juego
-            while (! command.equals(EXIT) && ! gameFinished) {
+            ClientSocketReader socketReader = new ClientSocketReader(writer, socket);
+            Thread thread = new Thread(socketReader);
+            thread.start();
+
+            while (! command.equals(EXIT) && ! socketReader.getGameFinished()) {
                 command = this.readFromInput();
                 this.writeToSocket(command);
-                this.readFromSocket();
+                //Thread.sleep(1000);
+                //this.readFromSocket();
             }
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
@@ -66,11 +69,13 @@ public class Client {
         socket.write(command);
     }
 
-    private void readFromSocket() throws ConnectionLostException, ReadingException {
-        String response = socket.read();
-        writer.write(response);
-        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
-            gameFinished = true;
-        }
-    }
+//    private void readFromSocket() throws ConnectionLostException, ReadingException {
+//        writer.writeError("Leyendo del socket...");
+//        String response = socket.read();
+//        writer.writeError("Lei del socket");
+//        writer.write(response);
+//        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
+//            gameFinished = true;
+//        }
+//    }
 }

@@ -10,35 +10,36 @@ import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Interactor extends SimpleSocket implements Runnable {
 
-    private String gameFilePath;
     volatile boolean terminate = false;
-    private GameDriver driver;
+    private int playerNumber;
+    private EventQueue queue;
 
-    public Interactor(Socket socket, String gameFilePath) {
+    public Interactor(Socket socket, int playerNumber, EventQueue queue) {
         super();
         this.connection = socket;
-        this.gameFilePath = gameFilePath;
-        this.driver = new DriverImplementation();
+        this.playerNumber = playerNumber;
+        this.queue = queue;
     }
 
     public void run() {
         try {
-            driver.initGame(this.gameFilePath);
             String msg = "";
             String returnCode = "";
-            //this.write("Welcome to game '" + gameFilePath + "'!"); //Envio mensaje de bienvenida
+            this.write("Welcome to game xxxxxxxxx, you are player " + playerNumber + "!"); //Envio mensaje de bienvenida
             while (! msg.equals(EXIT) && ! terminate && ! returnCode.equals(GAME_WON) && ! returnCode.equals(GAME_LOST)) {
                 msg = this.read();
-                returnCode = driver.sendCommand(msg);
-                this.write(returnCode);
+                CommandPlayer message = new CommandPlayer(playerNumber, msg);
+                queue.push(message);
             }
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
-        } catch (GameLoadFailedException e) { // catch de la exception lanzada en el driver.initGame
-            writer.writeError(e.toString() + ": Couldn't load game from file.");
         } finally {
             this.closeConnection();
         }
+    }
+
+    public int getPlayerNumber() {
+        return this.playerNumber;
     }
 
     public void terminate() {
