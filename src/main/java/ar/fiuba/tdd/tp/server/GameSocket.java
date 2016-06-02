@@ -51,7 +51,7 @@ public class GameSocket implements Runnable {
             dequeuerThread = new Thread(dequeuer);
             dequeuerThread.start();
 
-            while (true) {
+            while (true) { //TODO: While not gameWon? (Lo saco del dequeuer)
                 acceptConnections();
             }
         } catch (SocketException e) {

@@ -53,13 +53,11 @@ public class Client {
                 if (command.equals(EXIT)) {
                     this.exitedGame = true;
                 }
-                Thread.sleep(500); //Esto es porque sino se queda esperando a leer algo cuando se ejecuto exit/gano (y ya se perdio la conexion)
+                Thread.sleep(500); //Esto es porque sino se queda esperando a leer algo cuando se ejecuto exit (y ya se perdio la conexion)
             }
-            writer.write("Client: me fui del juego o mi juego termino");
         } catch (InterruptedException e) {
             writer.writeError("Client: " + e.toString());
         } catch (ConnectionException e) {
-            writer.writeError("Connection exception en client");
             writer.writeError(e.getMsg());
         } finally {
             try {

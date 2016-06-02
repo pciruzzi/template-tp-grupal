@@ -30,9 +30,7 @@ public class ClientSocketReader implements Runnable {
                     gameFinished = true;
                 }
             }
-            writer.write("ClientSocketReader: Termino el juego o aprete exit");
         } catch (ConnectionException e) {
-            writer.writeError("Connection exception en ClientSocketReader");
             writer.writeError(e.getMsg());
         } finally {
             socket.closeConnection();

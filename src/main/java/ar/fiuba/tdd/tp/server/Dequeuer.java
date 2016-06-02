@@ -62,7 +62,6 @@ public class Dequeuer implements Runnable {
     private void sendCommandToAliveInteractor(CommandPlayer command, InteractorStatus interactor,
                                               Interactor actualInteractor) throws WritingException {
         if (gameWon) {
-            writer.write("Alguien gano, asique le voy a mandar al resto...");
             if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
                 actualInteractor.write("Player " + command.getPlayer() + command.getCommmand());
             }
@@ -81,7 +80,6 @@ public class Dequeuer implements Runnable {
         if (returnCode.equals(GAME_WON)) {
             interactor.won();
             this.gameWonBy = interactor.getInteractor().getPlayerNumber();
-            writer.write("El juego ha sido ganado por " + this.gameWonBy);
         }
         if (returnCode.equals(GAME_LOST)) {
             interactor.lost();
