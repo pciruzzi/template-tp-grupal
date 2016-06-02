@@ -38,9 +38,10 @@ public class GameSocket implements Runnable {
     }
 
     public void run() {
+        String gameName = getGameName();
         try {
             socket = new ServerSocket(port);
-            writer.write(gameFilePath + " loaded and listening on port " + port);
+            writer.write(gameName + " loaded and listening on port " + port);
             try {
                 driver.initGame(this.gameFilePath);
             } catch (GameLoadFailedException e) {
@@ -51,23 +52,33 @@ public class GameSocket implements Runnable {
             dequeuerThread = new Thread(dequeuer);
             dequeuerThread.start();
 
-            while (true) { //TODO: While not gameWon? (Lo saco del dequeuer)
-                acceptConnections();
+            GameCloser closer = new GameCloser(this, dequeuer);
+            Thread closerThread = new Thread(closer);
+            closerThread.start();
+
+            while (true) {
+                acceptConnections(gameName);
             }
         } catch (SocketException e) {
             writer.write("Socket in port " + port + " has been closed.");
         } catch (IOException e) {
-            writer.writeError("Unable to create game in port " + port);
+            writer.writeError("Unable to create game " + gameName + " in port " + port);
         }
     }
 
-    private void acceptConnections() throws IOException {
+    private String getGameName() {
+        int lastSlash = this.gameFilePath.lastIndexOf('/');
+        String gameName = this.gameFilePath.substring(lastSlash + 1);
+        return gameName.replace("Configuration.jar", "");
+    }
+
+    private void acceptConnections(String gameName) throws IOException {
         writer.write("Waiting for connections in port " + port);
         Socket connection = socket.accept();
         writer.write("Connection received in port " + port);
         //driver.addPlayer();
 
-        Interactor interactor = new Interactor(connection, this.playerNumber, this.queue);
+        Interactor interactor = new Interactor(connection, this.playerNumber, this.queue, gameName);
         InteractorStatus interactorStatus = new InteractorStatus(interactor);
         interactor.addStatus(interactorStatus);
         playerNumber++;

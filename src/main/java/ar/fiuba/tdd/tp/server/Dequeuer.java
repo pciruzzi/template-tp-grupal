@@ -53,6 +53,10 @@ public class Dequeuer implements Runnable {
         } catch (WritingException e) {
             writer.writeError(e.getMsg());
         }
+        pushWinCommand();
+    }
+
+    private void pushWinCommand() {
         if (gameWonBy != -1) {
             CommandPlayer winCommand = new CommandPlayer(gameWonBy, SOMEONE_WON);
             queue.push(winCommand);
@@ -63,6 +67,11 @@ public class Dequeuer implements Runnable {
                                               Interactor actualInteractor) throws WritingException {
         if (gameWon) {
             if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
+                try {
+                    Thread.sleep(300); //Para que pueda enviar la devolucion del exit
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 actualInteractor.write("Player " + command.getPlayer() + command.getCommmand());
             }
         } else {
@@ -88,5 +97,9 @@ public class Dequeuer implements Runnable {
 
     public void terminate() {
         this.terminate = true;
+    }
+
+    public boolean getGameWon() {
+        return this.gameWon;
     }
 }

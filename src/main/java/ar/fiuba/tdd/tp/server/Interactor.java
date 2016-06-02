@@ -11,27 +11,29 @@ public class Interactor extends SimpleSocket implements Runnable {
 
     volatile boolean terminate = false;
     private int playerNumber;
+    private String gameName;
     private boolean exitedGame;
     private EventQueue queue;
     private InteractorStatus status;
 
-    public Interactor(Socket socket, int playerNumber, EventQueue queue) {
+    public Interactor(Socket socket, int playerNumber, EventQueue queue, String gameName) {
         super();
         this.connection = socket;
         this.playerNumber = playerNumber;
         this.queue = queue;
         this.exitedGame = false;
+        this.gameName = gameName;
     }
 
     public void run() {
         try {
-            this.write("Welcome to game xxxxxxxxx, you are player " + playerNumber + "!"); //Envio mensaje de bienvenida
+            this.write("Welcome to game " + this.gameName + ", you are player " + playerNumber + "!"); //Envio mensaje de bienvenida
             while (this.isAlive()) {
                 String msg = this.read();
                 CommandPlayer message = new CommandPlayer(playerNumber, msg);
                 queue.push(message);
                 if (msg.equals(EXIT)) {
-                    Thread.sleep(500); //Para que pueda enviar la devolucion del exit
+                    Thread.sleep(1000); //Para que pueda enviar la devolucion del exit
                     exitedGame = true;
                 }
             }
