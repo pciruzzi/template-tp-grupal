@@ -10,7 +10,7 @@ public class Exit extends ICommand {
         this.name = EXIT;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return "You exit the game. Goodbye!";
     }
 }

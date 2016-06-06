@@ -14,9 +14,9 @@ public class DropOnPosition extends ICommand {
         this.incorrectMovementMessage = "You can't drop the ";
     }
 
-    public String doAction(Element element) {
-        Element player = game.getPlayer();
-        Element position = game.getPlayerPosition();
+    public String doAction(Element element, int playerId) {
+        Element player = game.getPlayer(playerId);
+        Element position = game.getPlayerPosition(playerId);
         //Si esta en el inventario.
         if (player.getElementMap().containsKey(element.getName())) {
             player.removeElement(element);
@@ -28,8 +28,8 @@ public class DropOnPosition extends ICommand {
         return incorrectMovementMessage + element.getName() + ".";
     }
 
-    public String doAction(Element playerPosition, Element originElement, Element destinationElement) {
-        Element player = game.getPlayer();
+    public String doAction(Element playerPosition, Element originElement, Element destinationElement, int playerId) {
+        Element player = game.getPlayer(playerId);
         //Si esta en el inventario y el elemento esta abierto.
         if (checkInInventoryAndOpenElement(player, originElement, destinationElement)) {
             player.removeElement(originElement);

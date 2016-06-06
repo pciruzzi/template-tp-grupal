@@ -25,7 +25,7 @@ public class MoveWithComparator extends ICommand {
         return comparation < 0;
     }
 
-    public String doAction( Element auxElement, Element originElement, Element destinationElement) {
+    public String doAction( Element auxElement, Element originElement, Element destinationElement, int playerId) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 0 ) {
             return auxiliarMessage;
@@ -36,17 +36,20 @@ public class MoveWithComparator extends ICommand {
 
             originElement.removeElement(movingElementOrigin);
             destinationElement.addElement(movingElementOrigin);
-            checkBiggestDiskAvailable(movingElementOrigin);
+            checkBiggestAvailable(movingElementOrigin);
             return correctMovementMessage;
         }
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return incorrectMovementMessage;
     }
 
-    private void checkBiggestDiskAvailable(Element originElement) {
+    // Esto se usa para el caso en que se necesite agarrar el ultimo disco, cuaderno o lo que sea de
+    // la pila. Solo va a estar visible cuando se hayan removido todos los otros de esa pila.
+    // TODO: Revisar con lo de multiples estados.
+    private void checkBiggestAvailable(Element originElement) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 1 ) {
             elementListOrigin.get(0).setState(true);

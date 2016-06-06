@@ -13,6 +13,7 @@ public class DriverImplementation implements GameDriver {
         engine = new Engine();
         try {
             engine.createGame(BuilderLoader.load(jarPath));
+            engine.createPlayer(0);
             status = GameState.Ready;
         } catch (Exception e) {
             throw new GameLoadFailedException();
@@ -22,7 +23,8 @@ public class DriverImplementation implements GameDriver {
     @Override
     public String sendCommand(String cmd) {
         status = GameState.InProgress;
-        String returnMessage = engine.doCommand(cmd);
+        int id = 0;
+        String returnMessage = engine.doCommand(id,cmd);
         if (engine.isGameWon()) {
             status = GameState.Won;
         } else if (engine.isGameLost()) {

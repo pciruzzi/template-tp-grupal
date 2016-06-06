@@ -2,6 +2,7 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import ar.fiuba.tdd.tp.model.Game;
@@ -24,9 +25,9 @@ public class Move extends ICommand {
         this.correctMovementMessage = "You moved the ";
     }
 
-    public String doAction(Element playerPosition, Element movingElement, Element destinationElement) {
-        if (condition.interpret()) {
-            Element player = game.getPlayer();
+    public String doAction(Element playerPosition, Element movingElement, Element destinationElement, int playerId) {
+        Player player = game.getPlayer(playerId);
+        if (condition.interpret() || condition.interpret(player)) {
             if (player.hasElement(movingElement.getName()) && player.hasElement(destinationElement.getName())) {
                 player.removeElement(movingElement);
                 destinationElement.addElement(movingElement);
@@ -41,7 +42,7 @@ public class Move extends ICommand {
         return incorrectMovementMessage;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return incorrectMovementMessage;
     }
 }

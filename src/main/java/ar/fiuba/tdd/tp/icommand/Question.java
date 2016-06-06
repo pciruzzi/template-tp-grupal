@@ -10,7 +10,7 @@ public class Question extends ICommand {
         this.name = name;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         StringBuilder returnMessage = new StringBuilder();
         returnMessage.append("You can ");
 

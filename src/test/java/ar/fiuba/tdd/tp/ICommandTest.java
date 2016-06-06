@@ -8,56 +8,58 @@ import static org.junit.Assert.assertTrue;
 
 public class ICommandTest extends InitializationsForTests{
 
+    private static final int id = 0;
+
     @Test
     public void changeVisibilityTest() {
         //If I open the box and do look around, now pick key must be visible.
         Engine engine = initializeEngineOpenDoor2();
-        assertFalse(engine.doCommand("look around").contains("key"));
-        engine.doCommand("open box");
-        assertTrue(engine.doCommand("look around").contains("key"));
+        assertFalse(engine.doCommand(id, "look around").contains("key"));
+        engine.doCommand(id, "open box");
+        assertTrue(engine.doCommand(id, "look around").contains("key"));
     }
 
     @Test
     public void theKeyMovesFromRoomToPlayerInventory() {
         Engine engine = initializeEngineOpenDoor2();
-        engine.doCommand("open box");
-        engine.doCommand("pick key");
-        assertTrue(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        assertFalse(engine.getGame().getCurrentPositionElements().containsKey("key"));
+        engine.doCommand(id, "open box");
+        engine.doCommand(id, "pick key");
+        assertTrue(engine.getGame().getPlayer(id).getElementMap().containsKey("key"));
+        assertFalse(engine.getGame().calculateVisibleElements(id).containsKey("key"));
     }
 
     @Test
     public void pickKeyAndThenDropTheKey() {
         Engine engine = initializeEngineOpenDoor2();
-        engine.doCommand("open box");
-        engine.doCommand("pick key");
-        assertTrue(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        engine.doCommand("drop key");
-        assertFalse(engine.getGame().getPlayer().getElementMap().containsKey("key"));
-        assertTrue(engine.getGame().getCurrentPositionElements().containsKey("key"));
+        engine.doCommand(id, "open box");
+        engine.doCommand(id, "pick key");
+        assertTrue(engine.getGame().getPlayer(id).getElementMap().containsKey("key"));
+        engine.doCommand(id, "drop key");
+        assertFalse(engine.getGame().getPlayer(id).getElementMap().containsKey("key"));
+        assertTrue(engine.getGame().calculateVisibleElements(id).containsKey("key"));
     }
 
     @Test
     public void openSomethingAndPlayerGetPoisoned() {
         Engine engine = initializeEnginePoisonConfiguration();
-        engine.doCommand("open chest");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
+        engine.doCommand(id, "open chest");
+        assertTrue(engine.getGame().getPlayer(id).isPoisoned());
     }
 
     @Test
     public void pickSomethingAndPlayerGetPoisoned() {
         Engine engine = initializeEnginePoisonConfiguration();
-        engine.doCommand("pick stick");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
+        engine.doCommand(id, "pick stick");
+        assertTrue(engine.getGame().getPlayer(id).isPoisoned());
     }
 
     @Test
     public void pickAntidoteAndGetHealed() {
         Engine engine = initializeEnginePoisonConfiguration();
-        engine.doCommand("pick stick");
-        assertTrue(engine.getGame().getPlayer().isPoisoned());
-        engine.doCommand("pick antidote");
-        assertFalse(engine.getGame().getPlayer().isPoisoned());
+        engine.doCommand(id, "pick stick");
+        assertTrue(engine.getGame().getPlayer(id).isPoisoned());
+        engine.doCommand(id, "pick antidote");
+        assertFalse(engine.getGame().getPlayer(id).isPoisoned());
     }
 
 }

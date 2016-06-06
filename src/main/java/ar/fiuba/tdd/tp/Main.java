@@ -11,8 +11,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TheEscapeConfiguration();
+        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
         engine.createGame(fetchConfiguration);
+        engine.createPlayer(0);
 
         Reader reader = new Console();
         Writer writer = new Console();
@@ -21,7 +22,8 @@ public class Main {
         String returnCode = "";
         while (! input.equals("exit") && ! returnCode.equals(GAME_WON) && !returnCode.equals(GAME_LOST) ) {
             input = reader.read();
-            returnCode = engine.doCommand(input);
+            int id = 0;
+            returnCode = engine.doCommand(id,input);
             writer.write(returnCode);
         }
     }

@@ -66,8 +66,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         setHelpAndExitCommand();
 
         // Agrego la posicion del player
-        game.setPlayer(player);
-        game.setPlayerPosition(roomOne);
+        game.setInitialPosition(roomOne);
         return game;
     }
 
@@ -265,6 +264,8 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void createFinishingConditions() {
+
+        // Creo la condicion de ganar
         ArrayList<String> playerWithTreasure = new ArrayList<String>();
         playerWithTreasure.add("treasure");
 
@@ -275,6 +276,8 @@ public class TreasureQuestConfiguration implements GameBuilder {
 
         IInterpreter playerInRoomOneInterpreter = new ContainsElements(roomOne,playerInRoomOne);
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
+
+        // Creo la condicion de perder
         IInterpreter playerPoisoned = new IsPoisoned(player, true);
         IInterpreter losingOneInterpreter = new AndExpression(playerPoisoned, playerInRoomOneInterpreter);
 

@@ -12,7 +12,7 @@ public class Help extends ICommand {
         this.game = game;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         return game.getDescription();
     }
 }
