@@ -13,9 +13,9 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/FetchQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("ask stick");
+        driver.sendCommand("0ask stick");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("pick stick");
+        driver.sendCommand("0pick stick");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -24,9 +24,9 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoorConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick key");
+        driver.sendCommand("0pick key");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
+        driver.sendCommand("0open door");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -35,10 +35,10 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoor2Configuration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("open box");
+        driver.sendCommand("0open box");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("pick key");
-        driver.sendCommand("open door");
+        driver.sendCommand("0pick key");
+        driver.sendCommand("0open door");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -47,11 +47,11 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/EvilThingConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick key");
+        driver.sendCommand("0pick key");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
-        driver.sendCommand("talk to thief");
-        driver.sendCommand("open otherDoor");
+        driver.sendCommand("0open door");
+        driver.sendCommand("0talk to thief");
+        driver.sendCommand("0open otherDoor");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -60,14 +60,14 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/HanoiConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("move top stackOne stackThree");
+        driver.sendCommand("0move top stackOne stackThree");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("move top stackOne stackTwo");
-        driver.sendCommand("move top stackThree stackTwo");
-        driver.sendCommand("move top stackOne stackThree");
-        driver.sendCommand("move top stackTwo stackOne");
-        driver.sendCommand("move top stackTwo stackThree");
-        driver.sendCommand("move top stackOne stackThree");
+        driver.sendCommand("0move top stackOne stackTwo");
+        driver.sendCommand("0move top stackThree stackTwo");
+        driver.sendCommand("0move top stackOne stackThree");
+        driver.sendCommand("0move top stackTwo stackOne");
+        driver.sendCommand("0move top stackTwo stackThree");
+        driver.sendCommand("0move top stackOne stackThree");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -76,19 +76,19 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick pokemon");
+        driver.sendCommand("0pick pokemon");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
-        driver.sendCommand("open door to three");
-        driver.sendCommand("drop pokemon");
-        driver.sendCommand("pick key");
-        driver.sendCommand("open door to four");
-        driver.sendCommand("open wardrobe");
-        driver.sendCommand("open chest");
-        driver.sendCommand("open door to five");
-        driver.sendCommand("open box two");
-        driver.sendCommand("pick treasure");
-        driver.sendCommand("open door to one");
+        driver.sendCommand("0open door");
+        driver.sendCommand("0open door to three");
+        driver.sendCommand("0drop pokemon");
+        driver.sendCommand("0pick key");
+        driver.sendCommand("0open door to four");
+        driver.sendCommand("0open wardrobe");
+        driver.sendCommand("0open chest");
+        driver.sendCommand("0open door to five");
+        driver.sendCommand("0open box two");
+        driver.sendCommand("0pick treasure");
+        driver.sendCommand("0open door to one");
         assertEquals(GameState.Won, driver.getCurrentState());
     }
 
@@ -97,18 +97,18 @@ public class DriverTest {
         GameDriver driver = new DriverImplementation();
         driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
-        driver.sendCommand("pick pokemon");
+        driver.sendCommand("0pick pokemon");
         assertEquals(GameState.InProgress, driver.getCurrentState());
-        driver.sendCommand("open door");
-        driver.sendCommand("open door to three");
-        driver.sendCommand("drop pokemon");
-        driver.sendCommand("pick key");
-        driver.sendCommand("open door to four");
-        driver.sendCommand("open wardrobe");
-        driver.sendCommand("open chest");
-        driver.sendCommand("open door to five");
-        driver.sendCommand("open box one");
-        driver.sendCommand("open door to four");
+        driver.sendCommand("0open door");
+        driver.sendCommand("0open door to three");
+        driver.sendCommand("0drop pokemon");
+        driver.sendCommand("0pick key");
+        driver.sendCommand("0open door to four");
+        driver.sendCommand("0open wardrobe");
+        driver.sendCommand("0open chest");
+        driver.sendCommand("0open door to five");
+        driver.sendCommand("0open box one");
+        driver.sendCommand("0open door to four");
         assertEquals(GameState.Lost, driver.getCurrentState());
     }
 }

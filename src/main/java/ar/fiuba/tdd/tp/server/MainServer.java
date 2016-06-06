@@ -12,8 +12,8 @@ public class MainServer {
         Writer writer = new Console();
         try {
             //while (true) { TODO: Borrar!
-                String gameFilePath = server.setUp();
-                server.initializeGame(gameFilePath);
+            String gameFilePath = server.setUp();
+            server.initializeGame(gameFilePath);
             //}
         } catch (ExitException e) {
             server.terminate();

@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new TreasureQuestConfiguration();
+        GameBuilder fetchConfiguration = new TheEscapeConfiguration();
         engine.createGame(fetchConfiguration);
         engine.createPlayer(0);
 

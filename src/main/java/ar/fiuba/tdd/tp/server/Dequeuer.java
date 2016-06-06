@@ -76,11 +76,21 @@ public class Dequeuer implements Runnable {
             }
         } else {
             if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
-                String returnCode = driver.sendCommand(command.getCommmand());
-                actualInteractor.write(returnCode);
-                checkStatus(interactor, returnCode);
+
+                // Si es un player nuevo lo agrego, sino mando el comando que tiene que ejecutar
+                if (command.isNewPlayer()) {
+                    driver.sendCommand(command.getPlayer() + "newPlayer");
+                } else {
+                    String returnCode = driver.sendCommand(command.getPlayer() + command.getCommmand());
+                    actualInteractor.write(returnCode);
+                    checkStatus(interactor, returnCode);
+                }
             } else {
-                actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
+                if (command.isNewPlayer()) {
+                    actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
+                } else {
+                    actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
+                }
             }
         }
     }

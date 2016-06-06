@@ -28,6 +28,9 @@ public class Interactor extends SimpleSocket implements Runnable {
     public void run() {
         try {
             this.write("Welcome to game " + this.gameName + ", you are player " + playerNumber + "!"); //Envio mensaje de bienvenida
+            CommandPlayer newPlayer = new CommandPlayer(playerNumber, "");
+            newPlayer.setNewPlayer();
+            queue.push(newPlayer);
             while (this.isAlive()) {
                 String msg = this.read();
                 CommandPlayer message = new CommandPlayer(playerNumber, msg);

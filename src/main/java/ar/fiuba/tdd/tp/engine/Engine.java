@@ -16,8 +16,8 @@ public class Engine {
         game = gameBuilder.build();
     }
 
-    public void createPlayer(int playerID) {
-        game.createPlayer(playerID);
+    public String createPlayer(int playerID) {
+        return game.createPlayer(playerID);
     }
 
     public String doCommand(int playerID, String action) {

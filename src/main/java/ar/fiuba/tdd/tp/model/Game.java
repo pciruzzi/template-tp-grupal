@@ -44,13 +44,22 @@ public class Game {
         return this.description;
     }
 
-    public void createPlayer(int id) {
-        Player newPlayer = new Player(id);
-        newPlayer.setPlayerPosition(initialPosition);
-        initialPosition.addElement(newPlayer);
-        newPlayer.setWinInterpreter(winInterpreter);
-        newPlayer.setLosingInterpreter(losingInterpreter);
-        players.add(newPlayer);
+    public String createPlayer(int id) {
+
+        String returnMessage = "Already exists a player " + id;
+
+        // Si el id del player es igual al indice del proximo que tengo que meter lo deja meter.
+        // Sino dice que se metio mal el indice del player
+        if (id == players.size()) {
+            Player newPlayer = new Player(id);
+            newPlayer.setPlayerPosition(initialPosition);
+            initialPosition.addElement(newPlayer);
+            newPlayer.setWinInterpreter(winInterpreter);
+            newPlayer.setLosingInterpreter(losingInterpreter);
+            players.add(newPlayer);
+            returnMessage = "The player " + id + " has entered the game!";
+        }
+        return returnMessage;
     }
 
     public void setDescription(String description) {

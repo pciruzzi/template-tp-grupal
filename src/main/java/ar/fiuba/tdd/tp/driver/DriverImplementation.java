@@ -23,8 +23,14 @@ public class DriverImplementation implements GameDriver {
     @Override
     public String sendCommand(String cmd) {
         status = GameState.InProgress;
-        int id = 0;
-        String returnMessage = engine.doCommand(id,cmd);
+        int id = Character.getNumericValue(cmd.charAt(0));
+        cmd = cmd.substring(1);
+        String returnMessage = "";
+        if (cmd.equals("newPlayer")) {
+            returnMessage = engine.createPlayer(id);
+        } else {
+            returnMessage = engine.doCommand(id,cmd);
+        }
         if (engine.isGameWon()) {
             status = GameState.Won;
         } else if (engine.isGameLost()) {
