@@ -53,6 +53,22 @@ Si un jugador hace algo, la respuesta del comando se le notifica a todos los pla
      - Cada 5 minutos la araña cambia su posición a otra habitación de las conectadas a la habitación actual, elige en forma random a cual ir si hay mas de una posible elección.
 
 
+4. Actividad para validar en clase: "EL ESCAPE 2"
+
+Se pide modificar el juego del escape, para incorporar los siguientes escenarios. Subirlo a un branch llamado ejercicio-it3 y llevarlo a la entrega 3, para validarlo con los ayudantes. El mismo se usara para validar los nuevos requerimientos. 
+
+"EL ESCAPE 2"
+Pueden ingresar hasta 4 jugadores.
+El objetivo del Juego es que el primer personaje que salga del edificio donde se encuentra gana. 
+El juego se basa en el mismo del escape pero con los siguientes cambios:
+
+- El bibliotecario se despierta a los 2 minutos de haberse dormido.
+- Una vez despierto, cada 4 minutos el bibliotecario cambia su posición a otra habitación (elije de forma random entre las que están conectadas a la suya). Si cuando un jugador quiere ingresar a la biblioteca no está el bibliotecario entonces el jugador puede ingresar directamente.
+- Si el jugador ingresó a la biblioteca sin haberse autenticado con la credencial correcta, si el bibliotecario se cruza en alguna habitación con el jugador, el jugador pierde.
+
+
+
+
 >**Los requerimientos pueden (y van a) cambiar en cualquier momento.**
 
 ## Condiciones ##
