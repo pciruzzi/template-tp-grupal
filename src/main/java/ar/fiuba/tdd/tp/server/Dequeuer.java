@@ -3,6 +3,8 @@ package ar.fiuba.tdd.tp.server;
 import ar.fiuba.tdd.tp.console.Console;
 import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.driver.GameDriver;
+import ar.fiuba.tdd.tp.driver.PlayerJoinFailedException;
+import ar.fiuba.tdd.tp.driver.UnknownPlayerException;
 import ar.fiuba.tdd.tp.exceptions.WritingException;
 
 import java.util.List;
@@ -66,24 +68,26 @@ public class Dequeuer implements Runnable {
     private void sendCommandToAliveInteractor(CommandPlayer command, InteractorStatus interactor,
                                               Interactor actualInteractor) throws WritingException {
         if (gameWon) {
-            if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
-                try {
-                    Thread.sleep(300); //Para que pueda enviar la devolucion del exit
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                actualInteractor.write("Player " + command.getPlayer() + command.getCommmand());
-            }
+            sendGameWon(command, actualInteractor);
         } else {
             if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
 
                 // Si es un player nuevo lo agrego, sino mando el comando que tiene que ejecutar
                 if (command.isNewPlayer()) {
-                    driver.sendCommand(command.getPlayer() + "newPlayer");
+                    try {
+                        driver.joinPlayer();
+                    } catch (PlayerJoinFailedException e) {
+                        writer.writeError(e.getMsg());
+                    }
+//                    driver.sendCommand(command.getPlayer() + "newPlayer");
                 } else {
-                    String returnCode = driver.sendCommand(command.getPlayer() + command.getCommmand());
-                    actualInteractor.write(returnCode);
-                    checkStatus(interactor, returnCode);
+                    try {
+                        String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                        actualInteractor.write(returnCode);
+                        checkStatus(interactor, returnCode);
+                    } catch (UnknownPlayerException e) {
+                        writer.writeError(e.getMsg());
+                    }
                 }
             } else {
                 if (command.isNewPlayer()) {
@@ -92,6 +96,18 @@ public class Dequeuer implements Runnable {
                     actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
                 }
             }
+        }
+    }
+
+    private void sendGameWon(CommandPlayer command, Interactor actualInteractor) throws WritingException {
+
+        if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
+            try {
+                Thread.sleep(300); //Para que pueda enviar la devolucion del exit
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            actualInteractor.write("Player " + command.getPlayer() + command.getCommmand());
         }
     }
 
@@ -112,4 +128,5 @@ public class Dequeuer implements Runnable {
     public boolean getGameWon() {
         return this.gameWon;
     }
+
 }

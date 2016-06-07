@@ -44,9 +44,9 @@ public class Game {
         return this.description;
     }
 
-    public String createPlayer(int id) {
+    public int createPlayer(int id) {
 
-        String returnMessage = "Already exists a player " + id;
+//        String returnMessage = "Already exists a player " + id;
 
         // Si el id del player es igual al indice del proximo que tengo que meter lo deja meter.
         // Sino dice que se metio mal el indice del player
@@ -57,9 +57,10 @@ public class Game {
             newPlayer.setWinInterpreter(winInterpreter);
             newPlayer.setLosingInterpreter(losingInterpreter);
             players.add(newPlayer);
-            returnMessage = "The player " + id + " has entered the game!";
+//            returnMessage = "The player " + id + " has entered the game!";
+            return id;
         }
-        return returnMessage;
+        return -1;
     }
 
     public void setDescription(String description) {

@@ -16,7 +16,7 @@ public class Engine {
         game = gameBuilder.build();
     }
 
-    public String createPlayer(int playerID) {
+    public int createPlayer(int playerID) {
         return game.createPlayer(playerID);
     }
 
