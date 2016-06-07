@@ -1,6 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -23,20 +23,21 @@ public class MovePlayerTo extends ICommand {
         this.condition = condition;
     }
 
-    public String doAction(Element element) {
-        if (condition.interpret()) {
-            game.getPlayerPosition().removeElement(game.getPlayer());
-            element.getObjectiveElement().addElement(game.getPlayer());
-            game.setPlayerPosition(element.getObjectiveElement());
+    public String doAction(Element element, int playerId) {
+        Player player = game.getPlayer(playerId);
+        if (condition.interpret() || condition.interpret(player)) {
+            game.getPlayerPosition(playerId).removeElement(player);
+            element.getObjectiveElement().addElement(player);
+            game.setPlayerPosition(playerId, element.getObjectiveElement());
             return correctMovementMessage;
         }
         return condition.getFailMessage();
     }
 
-    public String doAction(Element playerPosition, Element elementToOpen, Element element) {
+    public String doAction(Element playerPosition, Element elementToOpen, Element element, int playerId) {
         String returnMessage;
-        if (game.getPlayer().hasElement(element.getName())) {
-            returnMessage = doAction(elementToOpen);
+        if (game.getPlayer(playerId).hasElement(element.getName())) {
+            returnMessage = doAction(elementToOpen, playerId);
         } else {
             returnMessage = condition.getFailMessage() + ". You haven't got the " + element.getName() + ".";
         }

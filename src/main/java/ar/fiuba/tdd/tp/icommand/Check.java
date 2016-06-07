@@ -7,22 +7,14 @@ import java.util.List;
 
 public class Check extends ICommand {
 
-//    private IInterpreter condition;
     private Comparator<Element> comparator;
 
     public Check(String name, Comparator<Element> comparator) {
         this.name = name;
         this.comparator = comparator;
-//        this.condition = new TrueExpression();
     }
 
-//    public Check(String name, IInterpreter condition, Comparator<Element> comparator) {
-//        this.name = name;
-//        this.comparator = comparator;
-//        this.condition = condition;
-//    }
-
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerId) {
         List<Element> elementList = element.getElementList();
         if (elementList.size() == 0) {
             return incorrectMovementMessage;

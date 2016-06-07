@@ -46,14 +46,11 @@ public class HanoiConfiguration implements GameBuilder{
         // Combino las formas de ganar
         IInterpreter winingWays = new OrExpression(winInterpreterStackTwo, winInterpreterStackThree);
 
-        Element player = new Element("player");
-        game.setPlayer(player);
-
         // Seteo las formas de ganar
         game.setWinInterpreter(winingWays);
 
         // Agrego la posicion del player, esto esta mal
-        game.setPlayerPosition(room);
+        game.setInitialPosition(room);
 
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);

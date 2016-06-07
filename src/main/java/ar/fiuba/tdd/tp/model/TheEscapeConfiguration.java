@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.SchedualedTimedAction;
-import ar.fiuba.tdd.tp.TimeCommand;
-import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
 
 import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
@@ -10,7 +8,6 @@ import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @SuppressWarnings("CPD-START")
@@ -116,15 +113,11 @@ public class TheEscapeConfiguration implements GameBuilder {
         createLastRoomAndCondicionesDeMorir();
         createTimeEvents();
 
-        setPlayerAndPosition();
+        game.setInitialPosition(pasillo);
 
         return game;
     }
 
-    private void setPlayerAndPosition() {
-        game.setPlayer(player);
-        game.setPlayerPosition(pasillo);
-    }
 
     private void createTimeEvents() {
         ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");

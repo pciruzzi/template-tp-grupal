@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.FalseExpression;
@@ -17,7 +18,7 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element roomTwo;
     private Element doorOneTwo;
     private Element doorTwoOne;
-    private Element player;
+    private Player player;
     private IInterpreter winCondition;
     private Element key;
     private ICommand question;
@@ -32,7 +33,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.setState(true);
-        player = new Element("player");
+        player = new Player(0);
         roomTwo = new Element("roomTwo");
         key = new Element("key");
         key.setState(true);
@@ -77,7 +78,6 @@ public class OpenDoorConfiguration implements GameBuilder {
         doorOneTwo.setObjectiveElement(roomTwo);
         doorTwoOne.setObjectiveElement(roomOne);
 
-        game.setPlayer(player);
         configureLookAround(game);
         configureKey(game);
 
@@ -91,7 +91,7 @@ public class OpenDoorConfiguration implements GameBuilder {
         setElementsInRoomOneAndTwo();
         setHelpAndExitCommand();
 
-        game.setPlayerPosition(roomOne);
+        game.setInitialPosition(roomOne);
         game.setWinInterpreter(winCondition);
 
         IInterpreter loseInterpreter = new FalseExpression();
@@ -115,7 +115,6 @@ public class OpenDoorConfiguration implements GameBuilder {
     private void setElementsInRoomOneAndTwo() {
         roomOne.addElement(key);
         roomOne.addElement(doorOneTwo);
-        roomOne.addElement(player);
         roomTwo.addElement(doorTwoOne);
     }
 }

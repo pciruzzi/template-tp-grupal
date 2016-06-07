@@ -81,7 +81,6 @@ public class OpenDoor2Configuration implements GameBuilder {
         doorOneTwo.setObjectiveElement(roomTwo);
         doorTwoOne.setObjectiveElement(roomOne);
 
-        game.setPlayer(player);
         configureLookAround(game);
         configureKey(game);
 
@@ -95,7 +94,7 @@ public class OpenDoor2Configuration implements GameBuilder {
         setElementsInRoomOneAndTwo();
         setHelpAndExitCommand();
 
-        game.setPlayerPosition(roomOne);
+        game.setInitialPosition(roomOne);
         game.setWinInterpreter(winCondition);
 
         IInterpreter loseInterpreter = new FalseExpression();
@@ -108,7 +107,6 @@ public class OpenDoor2Configuration implements GameBuilder {
         configureBox();
         roomOne.addElement(box);
         roomOne.addElement(doorOneTwo);
-        roomOne.addElement(player);
         roomTwo.addElement(doorTwoOne);
     }
 

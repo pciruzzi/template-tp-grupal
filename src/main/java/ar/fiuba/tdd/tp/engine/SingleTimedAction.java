@@ -1,6 +1,4 @@
-package ar.fiuba.tdd.tp;
-
-import ar.fiuba.tdd.tp.model.Game;
+package ar.fiuba.tdd.tp.engine;
 
 public class SingleTimedAction extends TimeCommand{
 

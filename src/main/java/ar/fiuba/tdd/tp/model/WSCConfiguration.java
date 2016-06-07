@@ -36,8 +36,7 @@ public class WSCConfiguration implements GameBuilder {
         this.createGameWinInterpreter();
 
         game.setWinInterpreter(winInterpreter);
-        game.setPlayer(boat);
-        game.setPlayerPosition(southShore);
+        game.setInitialPosition(southShore);
 
         IInterpreter loseInterpreter = new FalseExpression();
         game.setLosingInterpreter(loseInterpreter);
@@ -100,7 +99,6 @@ public class WSCConfiguration implements GameBuilder {
         cabbage.setState(true);
 
         boat.setCapacity(1);
-        southShore.addElement(boat);
 
         riverSouthToNorth.setState(true);
         riverNorthToSouth.setState(true);

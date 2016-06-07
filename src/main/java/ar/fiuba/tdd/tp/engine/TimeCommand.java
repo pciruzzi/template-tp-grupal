@@ -1,12 +1,5 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.engine;
 
-
-import ar.fiuba.tdd.tp.Time;
-import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.model.FetchQuestConfiguration;
-import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +20,7 @@ public abstract class TimeCommand {
     public TimerTask start() {
         TimerTask timerTask = new TimerTask() {
             public void run() {
-                System.out.println(engine.doCommand(comandito));
+                System.out.println(engine.doCommand(0, comandito));
             }
         };
         return timerTask;

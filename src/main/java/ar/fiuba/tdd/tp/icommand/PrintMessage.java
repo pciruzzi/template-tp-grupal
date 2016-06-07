@@ -12,7 +12,7 @@ public class PrintMessage extends ICommand {
         this.name = name;
     }
 
-    public String doAction(Element element) {
+    public String doAction(Element element, int playerID) {
         return printMessage;
     }
 }

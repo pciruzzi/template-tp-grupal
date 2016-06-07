@@ -26,7 +26,9 @@ public class Server {
 
     public String setUp() throws ExitException {
         writer.write("Write the command 'load game <path-to-jar-file>' to begin");
-        String command = CommandReader.readCommand("load game ");
+        //String command = CommandReader.readCommand("load game ");
+//        String command = "load game ar/fiuba/tdd/tp/model/FetchQuestConfiguration.jar"; //TODO: Borrar
+        String command = "load game ar/fiuba/tdd/tp/model/OpenDoor2Configuration.jar"; //TODO: Borrar
         return command.replaceAll("^load game ", "");
     }
 

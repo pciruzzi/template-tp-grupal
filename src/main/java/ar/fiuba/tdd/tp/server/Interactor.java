@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.server;
 
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
-import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 
 import java.net.Socket;
@@ -10,35 +9,56 @@ import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Interactor extends SimpleSocket implements Runnable {
 
-    private String gameFilePath;
     volatile boolean terminate = false;
-    private GameDriver driver;
+    private int playerNumber;
+    private String gameName;
+    private boolean exitedGame;
+    private EventQueue queue;
+    private InteractorStatus status;
 
-    public Interactor(Socket socket, String gameFilePath) {
+    public Interactor(Socket socket, int playerNumber, EventQueue queue, String gameName) {
         super();
         this.connection = socket;
-        this.gameFilePath = gameFilePath;
-        this.driver = new DriverImplementation();
+        this.playerNumber = playerNumber;
+        this.queue = queue;
+        this.exitedGame = false;
+        this.gameName = gameName;
     }
 
     public void run() {
         try {
-            driver.initGame(this.gameFilePath);
-            String msg = "";
-            String returnCode = "";
-            //this.write("Welcome to game '" + gameFilePath + "'!"); //Envio mensaje de bienvenida
-            while (! msg.equals(EXIT) && ! terminate && ! returnCode.equals(GAME_WON) && ! returnCode.equals(GAME_LOST)) {
-                msg = this.read();
-                returnCode = driver.sendCommand(msg);
-                this.write(returnCode);
+            this.write("Welcome to game " + this.gameName + ", you are player " + playerNumber + "!"); //Envio mensaje de bienvenida
+            CommandPlayer newPlayer = new CommandPlayer(playerNumber, "");
+            newPlayer.setNewPlayer();
+            queue.push(newPlayer);
+            while (this.isAlive()) {
+                String msg = this.read();
+                CommandPlayer message = new CommandPlayer(playerNumber, msg);
+                queue.push(message);
+                if (msg.equals(EXIT)) {
+                    Thread.sleep(1000); //Para que pueda enviar la devolucion del exit
+                    exitedGame = true;
+                }
             }
+        } catch (InterruptedException e) {
+            writer.write("Interactor: " + e.toString());
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
-        } catch (GameLoadFailedException e) { // catch de la exception lanzada en el driver.initGame
-            writer.writeError(e.toString() + ": Couldn't load game from file.");
         } finally {
             this.closeConnection();
         }
+    }
+
+    public void addStatus(InteractorStatus status) {
+        this.status = status;
+    }
+
+    public boolean isAlive() {
+        return (! exitedGame && ! terminate && ! status.getHasWon() && ! status.getHasLost());
+    }
+
+    public int getPlayerNumber() {
+        return this.playerNumber;
     }
 
     public void terminate() {

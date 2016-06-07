@@ -1,10 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
-import ar.fiuba.tdd.tp.SchedualedTimedAction;
-import ar.fiuba.tdd.tp.SingleTimedAction;
-import ar.fiuba.tdd.tp.Time;
-import ar.fiuba.tdd.tp.TimeCommand;
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.FalseExpression;
@@ -29,9 +26,6 @@ public class FetchQuestConfiguration implements GameBuilder {
         Element stick = new Element("stick");
         stick.setState(true);
 
-        Element player = new Element("player");
-        game.setPlayer(player);
-
         ICommand lookAround = new LookAround("look around", game);
         room.addCommand(lookAround);
 
@@ -41,7 +35,8 @@ public class FetchQuestConfiguration implements GameBuilder {
         stick.addCommand(question);
 
         room.addElement(stick);
-        game.setPlayerPosition(room);
+        game.setInitialPosition(room);
+        Player player = new Player(0);
         setWinAndLoseInterpreter(player);
 
 
@@ -59,7 +54,7 @@ public class FetchQuestConfiguration implements GameBuilder {
 
     @SuppressWarnings("CPD-END")
 
-    private void setWinAndLoseInterpreter(Element player) {
+    private void setWinAndLoseInterpreter(Player player) {
         ArrayList<String> winArray = new ArrayList<>();
         winArray.add("stick");
 
