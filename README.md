@@ -1,6 +1,13 @@
 # TP Grupal - Tercera Entrega
 ![Build Status](https://travis-ci.org/pciruzzi/template-tp-grupal.svg)
 
+## Uso
+
+Para el uso del TP, los pasos a seguir son:
+ 1. Correr el script travis.sh (`./travis.sh`), que se encarga de llamar al `gradlew assemble` (Compila), luego crear los archivos _jars_ y por último `gradlew check` (Corre chequeos y ejecuta tests).
+ 2. Abrir una terminal en la raíz del proyecto y ejecutar `./run.sh --server` para levantar un servidor.
+ 3. Dentro del servidor, ejecutar comandos del tipo `load game ar/fiuba/tdd/tp/model/XXXConfiguration.jar`, donde XXX será el nombre de algún juego.
+ 4. Abrir otras terminales en la raíz del proyecto y ejecutar `./run.sh --client` para levantar distintos clientes. Para conectarse al juego deseado, se debe saber en qué puerto fue creado dentro del servidor.
 
 ## Enunciado ##
 
