@@ -2,16 +2,24 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.driver.*;
 
+import ar.fiuba.tdd.tp.server.EventQueue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class DriverTest {
 
+    private GameDriver createDriver(String path) throws GameLoadFailedException, PlayerJoinFailedException {
+        EventQueue queue = new EventQueue();
+        GameDriver driver = new DriverImplementation(queue);
+        driver.initGame(path);
+        driver.joinPlayer();
+        return driver;
+    }
+
     @Test
-    public void shouldWinFetchQuestDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/FetchQuestConfiguration.jar");
+    public void shouldWinFetchQuestDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/FetchQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("ask stick", 0);
@@ -24,9 +32,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldWinOpenDoorDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoorConfiguration.jar");
+    public void shouldWinOpenDoorDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoorConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("pick key", 0);
@@ -39,9 +46,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldWinOpenDoor2DriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoor2Configuration.jar");
+    public void shouldWinOpenDoor2DriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/OpenDoor2Configuration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("open box", 0);
@@ -55,9 +61,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldWinEvilThingDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/EvilThingConfiguration.jar");
+    public void shouldWinEvilThingDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/EvilThingConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("pick key", 0);
@@ -72,9 +77,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldWinHanoiDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/HanoiConfiguration.jar");
+    public void shouldWinHanoiDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/HanoiConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("move top stackOne stackThree", 0);
@@ -92,9 +96,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldWinTreasureQuestDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
+    public void shouldWinTreasureQuestDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("pick pokemon",0);
@@ -117,9 +120,8 @@ public class DriverTest {
     }
 
     @Test
-    public void shouldLoseTreasureQuestDriverTest() throws GameLoadFailedException {
-        GameDriver driver = new DriverImplementation();
-        driver.initGame("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
+    public void shouldLoseTreasureQuestDriverTest() throws GameLoadFailedException, PlayerJoinFailedException {
+        GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/TreasureQuestConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
         try {
             driver.sendCommand("pick pokemon",0);

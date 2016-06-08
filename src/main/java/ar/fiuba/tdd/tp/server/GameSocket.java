@@ -5,6 +5,7 @@ import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.driver.DriverImplementation;
 import ar.fiuba.tdd.tp.driver.GameDriver;
 import ar.fiuba.tdd.tp.driver.GameLoadFailedException;
+import ar.fiuba.tdd.tp.driver.PlayerJoinFailedException;
 
 import java.io.IOException;
 import java.net.*;
@@ -14,7 +15,6 @@ import java.util.List;
 public class GameSocket implements Runnable {
 
     private int port;
-    private int playerNumber;
     private String gameFilePath;
     private Writer writer;
     private List<Thread> interactorThreads;
@@ -27,14 +27,13 @@ public class GameSocket implements Runnable {
 
     public GameSocket(int port, String gameFilePath) {
         this.port = port;
-        this.playerNumber = 0;
         this.gameFilePath = gameFilePath;
         this.writer = new Console();
         this.interactorThreads = new ArrayList<>();
         this.interactors = new ArrayList<>();
         this.socket = null;
-        this.driver = new DriverImplementation();
         this.queue = new EventQueue();
+        this.driver = new DriverImplementation(this.queue);
     }
 
     public void run() {
@@ -76,16 +75,18 @@ public class GameSocket implements Runnable {
         writer.write("Waiting for connections in port " + port);
         Socket connection = socket.accept();
         writer.write("Connection received in port " + port);
-        //driver.addPlayer();
-
-        Interactor interactor = new Interactor(connection, this.playerNumber, this.queue, gameName);
-        InteractorStatus interactorStatus = new InteractorStatus(interactor);
-        interactor.addStatus(interactorStatus);
-        playerNumber++;
-        Thread thread = new Thread(interactor);
-        thread.start();
-        interactors.add(interactorStatus);
-        interactorThreads.add(thread);
+        try {
+            int playerNumber = driver.joinPlayer();
+            Interactor interactor = new Interactor(connection, playerNumber, this.queue, gameName);
+            InteractorStatus interactorStatus = new InteractorStatus(interactor);
+            interactor.addStatus(interactorStatus);
+            Thread thread = new Thread(interactor);
+            thread.start();
+            interactors.add(interactorStatus);
+            interactorThreads.add(thread);
+        } catch (PlayerJoinFailedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void terminate() {

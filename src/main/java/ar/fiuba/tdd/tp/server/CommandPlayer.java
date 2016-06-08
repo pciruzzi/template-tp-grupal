@@ -5,11 +5,13 @@ public class CommandPlayer {
     private String command;
     private int player;
     private boolean newPlayer;
+    private boolean broadcast;
 
     public CommandPlayer(int player, String command) {
         this.player = player;
         this.command = command;
         this.newPlayer = false;
+        this.broadcast = false;
     }
 
     public int getPlayer() {
@@ -26,5 +28,13 @@ public class CommandPlayer {
 
     public boolean isNewPlayer() {
         return newPlayer;
+    }
+
+    public void setBroadcast() {
+        broadcast = true;
+    }
+
+    public boolean isBroadcast() {
+        return broadcast;
     }
 }

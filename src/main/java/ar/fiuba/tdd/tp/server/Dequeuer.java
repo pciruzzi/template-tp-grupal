@@ -3,7 +3,6 @@ package ar.fiuba.tdd.tp.server;
 import ar.fiuba.tdd.tp.console.Console;
 import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.driver.GameDriver;
-import ar.fiuba.tdd.tp.driver.PlayerJoinFailedException;
 import ar.fiuba.tdd.tp.driver.UnknownPlayerException;
 import ar.fiuba.tdd.tp.exceptions.WritingException;
 
@@ -71,27 +70,18 @@ public class Dequeuer implements Runnable {
             sendGameWon(command, actualInteractor);
         } else {
             if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
-
-                // Si es un player nuevo lo agrego, sino mando el comando que tiene que ejecutar
-                if (command.isNewPlayer()) {
-                    try {
-                        driver.joinPlayer();
-                    } catch (PlayerJoinFailedException e) {
-                        writer.writeError(e.getMsg());
-                    }
-//                    driver.sendCommand(command.getPlayer() + "newPlayer");
-                } else {
-                    try {
-                        String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
-                        actualInteractor.write(returnCode);
-                        checkStatus(interactor, returnCode);
-                    } catch (UnknownPlayerException e) {
-                        writer.writeError(e.getMsg());
-                    }
+                try {
+                    String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                    actualInteractor.write(returnCode);
+                    checkStatus(interactor, returnCode);
+                } catch (UnknownPlayerException e) {
+                    writer.writeError(e.getMsg());
                 }
             } else {
                 if (command.isNewPlayer()) {
                     actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
+                } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
+                    actualInteractor.write(command.getCommmand());
                 } else {
                     actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
                 }
@@ -100,7 +90,6 @@ public class Dequeuer implements Runnable {
     }
 
     private void sendGameWon(CommandPlayer command, Interactor actualInteractor) throws WritingException {
-
         if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
             try {
                 Thread.sleep(300); //Para que pueda enviar la devolucion del exit

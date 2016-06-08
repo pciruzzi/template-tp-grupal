@@ -3,9 +3,9 @@ package ar.fiuba.tdd.tp.server;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class EventQueue {
+public class EventQueue implements BroadcastQueue {
 
-    Queue<CommandPlayer> queue;
+    private Queue<CommandPlayer> queue;
 
     public EventQueue() {
         // Otra opcion: this.queue = Collections.synchronizedList(new LinkedList<>());
@@ -22,5 +22,12 @@ public class EventQueue {
 
     public CommandPlayer pop() {
         return this.queue.poll();
+    }
+
+    @Override
+    public void pushBroadcast(String broadcast) {
+        CommandPlayer broadcastCommand = new CommandPlayer(-1, broadcast);
+        broadcastCommand.setBroadcast();
+        this.push(broadcastCommand);
     }
 }
