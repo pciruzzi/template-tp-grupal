@@ -1,8 +1,8 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.*;
-import ar.fiuba.tdd.tp.engine.TimeCommand;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
+import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public class Game {
 
     public Game(String name) {
         this.name = name;
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";

@@ -1,8 +1,8 @@
 package ar.fiuba.tdd.tp.driver;
 
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.server.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.BuilderLoader;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 
 public class DriverImplementation implements GameDriver {
 
@@ -17,7 +17,7 @@ public class DriverImplementation implements GameDriver {
 
     @Override
     public void initGame(String jarPath) throws GameLoadFailedException {
-        engine = new Engine();
+        engine = new Engine(queue);
         playerCount = 0;
         try {
             engine.createGame(BuilderLoader.load(jarPath));
@@ -40,7 +40,6 @@ public class DriverImplementation implements GameDriver {
     @Override
     @Deprecated
     public String sendCommand(String cmd) {
-        this.queue.pushBroadcast(""); //TODO: Solo para que no chille el findbugs
         String error = "Estas usando el send command viejo de DriverImplementation.";
         System.out.println(error);
         return error;

@@ -8,7 +8,6 @@ import ar.fiuba.tdd.tp.model.Game;
 import java.util.ArrayList;
 
 import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
-import static ar.fiuba.tdd.tp.Constants.ANTIDOTE_PICKED;
 import static ar.fiuba.tdd.tp.Constants.POISONED;
 
 public class MoveToPlayer extends ICommand {

@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.tp.server;
 
+import ar.fiuba.tdd.tp.server.queue.Dequeuer;
+
 public class GameCloser implements Runnable {
 
     private GameSocket socket;

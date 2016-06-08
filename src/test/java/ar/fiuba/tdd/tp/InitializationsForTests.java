@@ -5,11 +5,14 @@ import ar.fiuba.tdd.tp.model.EvilThingConfiguration;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.OpenDoor2Configuration;
 import ar.fiuba.tdd.tp.model.PoisonConfiguration;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 
 public class InitializationsForTests {
 
     static Engine initializeEngineEvilThing() {
-        Engine engine = new Engine();
+        BroadcastQueue queue = new EventQueue();
+        Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new EvilThingConfiguration();
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer(0);
@@ -17,7 +20,8 @@ public class InitializationsForTests {
     }
 
     static Engine initializeEnginePoisonConfiguration() {
-        Engine engine = new Engine();
+        BroadcastQueue queue = new EventQueue();
+        Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new PoisonConfiguration();
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer(0);
@@ -26,7 +30,8 @@ public class InitializationsForTests {
 
 
     static Engine initializeEngineOpenDoor2() {
-        Engine engine = new Engine();
+        BroadcastQueue queue = new EventQueue();
+        Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new OpenDoor2Configuration();
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer(0);

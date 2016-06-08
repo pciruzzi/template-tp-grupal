@@ -2,11 +2,9 @@ package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
-
-import ar.fiuba.tdd.tp.icommand.ChangeVisibility;
-import ar.fiuba.tdd.tp.icommand.ICommand;
-import ar.fiuba.tdd.tp.icommand.MovePlayerTo;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
+import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
 
@@ -124,7 +122,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         relojCucu.addCommand(cucu);
         relojCucu.setState(true);
         pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new SchedualedTimedAction(10000,"sonar Reloj");
+        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
         game.addTimeCommand(cucuClock);
     }
 

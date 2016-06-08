@@ -1,7 +1,9 @@
-package ar.fiuba.tdd.tp.server;
+package ar.fiuba.tdd.tp.server.queue;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static ar.fiuba.tdd.tp.Constants.BROADCAST;
 
 public class EventQueue implements BroadcastQueue {
 
@@ -26,7 +28,7 @@ public class EventQueue implements BroadcastQueue {
 
     @Override
     public void pushBroadcast(String broadcast) {
-        CommandPlayer broadcastCommand = new CommandPlayer(-1, broadcast);
+        CommandPlayer broadcastCommand = new CommandPlayer(BROADCAST, broadcast);
         broadcastCommand.setBroadcast();
         this.push(broadcastCommand);
     }

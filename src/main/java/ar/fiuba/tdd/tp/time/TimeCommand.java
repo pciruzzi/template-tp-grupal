@@ -1,5 +1,7 @@
-package ar.fiuba.tdd.tp.engine;
+package ar.fiuba.tdd.tp.time;
 
+
+import ar.fiuba.tdd.tp.engine.Engine;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,7 +11,6 @@ public abstract class TimeCommand {
     private Engine engine;
     protected Timer time;
     private int timeOfAction;
-
     private String comandito;
 
     public TimeCommand(int timeOfAction, String comandito) {

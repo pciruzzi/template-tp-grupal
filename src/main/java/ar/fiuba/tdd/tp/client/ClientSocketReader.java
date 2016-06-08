@@ -3,9 +3,7 @@ package ar.fiuba.tdd.tp.client;
 import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
 
-import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
-import static ar.fiuba.tdd.tp.Constants.GAME_WON;
-import static ar.fiuba.tdd.tp.Constants.SOMEONE_WON;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class ClientSocketReader implements Runnable {
 

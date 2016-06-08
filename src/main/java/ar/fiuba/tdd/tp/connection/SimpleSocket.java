@@ -18,7 +18,7 @@ public class SimpleSocket {
         this.writer = new Console();
     }
 
-    public void write(String command) throws WritingException {
+    public synchronized void write(String command) throws WritingException {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
             OutputStreamWriter osw = new OutputStreamWriter(bos, ENCODING);

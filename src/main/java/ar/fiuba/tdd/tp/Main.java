@@ -3,15 +3,16 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.*;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-
-        Engine engine = new Engine();
+        BroadcastQueue queue = new EventQueue();
+        Engine engine = new Engine(queue);
         GameBuilder fetchConfiguration = new TheEscapeConfiguration();
         engine.createGame(fetchConfiguration);
         engine.createPlayer(0);

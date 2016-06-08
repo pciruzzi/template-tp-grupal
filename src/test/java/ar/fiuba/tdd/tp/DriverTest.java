@@ -2,7 +2,7 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.driver.*;
 
-import ar.fiuba.tdd.tp.server.EventQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

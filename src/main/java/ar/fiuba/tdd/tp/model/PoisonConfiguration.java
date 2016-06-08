@@ -40,10 +40,10 @@ public class PoisonConfiguration implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-        ArrayList<String> winArray = new ArrayList<String>();
+        ArrayList<String> winArray = new ArrayList<>();
         winArray.add("antidote");
 
-        ArrayList<String> losingArray = new ArrayList<String>();
+        ArrayList<String> losingArray = new ArrayList<>();
         losingArray.add("stick");
 
         IInterpreter winInterpreter = new ContainsElements(player,winArray);

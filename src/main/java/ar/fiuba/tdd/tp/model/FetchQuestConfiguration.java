@@ -42,7 +42,7 @@ public class FetchQuestConfiguration implements GameBuilder {
 
 //        TimeCommand pickStick = new SingleTimedAction(game,10000,"pick stick");
 //        TimeCommand dropStick = new SingleTimedAction(game,7000,"drop stick");
-//        TimeCommand lookAround2 = new SchedualedTimedAction(game,3000,"look around");
+//        TimeCommand lookAround2 = new ScheduledTimedAction(game,3000,"look around");
 //
 //
 //        game.addTimeCommand(pickStick);

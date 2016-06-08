@@ -2,6 +2,8 @@ package ar.fiuba.tdd.tp.server;
 
 import ar.fiuba.tdd.tp.connection.SimpleSocket;
 import ar.fiuba.tdd.tp.exceptions.ConnectionException;
+import ar.fiuba.tdd.tp.server.queue.CommandPlayer;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 
 import java.net.Socket;
 

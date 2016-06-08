@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.server;
+package ar.fiuba.tdd.tp.server.queue;
 
 public class CommandPlayer {
 

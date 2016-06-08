@@ -13,4 +13,7 @@ public final class Constants {
     public static final String POISONED = "\nYou have been posioned! :(";
     public static final String ANTIDOTE_PICKED = "\nYou picked the antidote";
     public static final String ANTIDOTED = "\nYou have an antidote in the inventory, you have been cured! :D";
+
+    public static final int BROADCAST = -1;
+    public static final int NONE = -1;
 }

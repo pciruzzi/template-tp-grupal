@@ -6,10 +6,13 @@ import ar.fiuba.tdd.tp.driver.DriverImplementation;
 import ar.fiuba.tdd.tp.driver.GameDriver;
 import ar.fiuba.tdd.tp.driver.GameLoadFailedException;
 import ar.fiuba.tdd.tp.driver.PlayerJoinFailedException;
+import ar.fiuba.tdd.tp.server.queue.Dequeuer;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameSocket implements Runnable {
@@ -30,7 +33,7 @@ public class GameSocket implements Runnable {
         this.gameFilePath = gameFilePath;
         this.writer = new Console();
         this.interactorThreads = new ArrayList<>();
-        this.interactors = new ArrayList<>();
+        this.interactors = Collections.synchronizedList(new ArrayList<>());
         this.socket = null;
         this.queue = new EventQueue();
         this.driver = new DriverImplementation(this.queue);

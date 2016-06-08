@@ -2,6 +2,8 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.*;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +33,8 @@ public class HanoiTowersTest {
 
     @Before
     public void setUp() {
-        engine = new Engine();
+        BroadcastQueue queue = new EventQueue();
+        engine = new Engine(queue);
         GameBuilder gameBuilder = new HanoiConfiguration();
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer(0);

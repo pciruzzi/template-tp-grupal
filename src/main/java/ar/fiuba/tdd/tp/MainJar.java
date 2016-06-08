@@ -2,7 +2,7 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.driver.*;
-import ar.fiuba.tdd.tp.server.EventQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 
 import static ar.fiuba.tdd.tp.Constants.*;
 

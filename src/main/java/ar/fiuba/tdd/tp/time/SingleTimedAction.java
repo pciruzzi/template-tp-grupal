@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp.engine;
+package ar.fiuba.tdd.tp.time;
 
 public class SingleTimedAction extends TimeCommand{
 

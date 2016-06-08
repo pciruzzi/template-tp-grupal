@@ -3,7 +3,6 @@ package ar.fiuba.tdd.tp.icommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.model.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LookAround extends ICommand {

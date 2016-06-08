@@ -1,16 +1,16 @@
-package ar.fiuba.tdd.tp.server;
+package ar.fiuba.tdd.tp.server.queue;
 
 import ar.fiuba.tdd.tp.console.Console;
 import ar.fiuba.tdd.tp.console.Writer;
 import ar.fiuba.tdd.tp.driver.GameDriver;
 import ar.fiuba.tdd.tp.driver.UnknownPlayerException;
 import ar.fiuba.tdd.tp.exceptions.WritingException;
+import ar.fiuba.tdd.tp.server.Interactor;
+import ar.fiuba.tdd.tp.server.InteractorStatus;
 
 import java.util.List;
 
-import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
-import static ar.fiuba.tdd.tp.Constants.GAME_WON;
-import static ar.fiuba.tdd.tp.Constants.SOMEONE_WON;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Dequeuer implements Runnable {
 
@@ -28,12 +28,12 @@ public class Dequeuer implements Runnable {
         this.driver = driver;
         this.writer = new Console();
         this.gameWon = false;
-        this.gameWonBy = -1;
+        this.gameWonBy = NONE;
     }
 
     public void run() {
         while (! gameWon && ! terminate) {
-            if (gameWonBy != -1) {
+            if (gameWonBy != NONE) {
                 gameWon = true;
             }
             if (! queue.isEmpty()) {
@@ -45,10 +45,12 @@ public class Dequeuer implements Runnable {
 
     private void sendCommandToInteractors(CommandPlayer command) {
         try {
-            for (InteractorStatus interactor : interactors) {
-                Interactor actualInteractor = interactor.getInteractor();
-                if (actualInteractor.isAlive()) {
-                    sendCommandToAliveInteractor(command, interactor, actualInteractor);
+            synchronized (interactors) {
+                for (InteractorStatus interactor : interactors) {
+                    Interactor actualInteractor = interactor.getInteractor();
+                    if (actualInteractor.isAlive()) {
+                        sendCommandToAliveInteractor(command, interactor, actualInteractor);
+                    }
                 }
             }
         } catch (WritingException e) {
@@ -58,7 +60,7 @@ public class Dequeuer implements Runnable {
     }
 
     private void pushWinCommand() {
-        if (gameWonBy != -1) {
+        if (gameWonBy != NONE) {
             CommandPlayer winCommand = new CommandPlayer(gameWonBy, SOMEONE_WON);
             queue.push(winCommand);
         }
@@ -71,9 +73,11 @@ public class Dequeuer implements Runnable {
         } else {
             if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
                 try {
-                    String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
-                    actualInteractor.write(returnCode);
-                    checkStatus(interactor, returnCode);
+                    if (! command.isNewPlayer()) {
+                        String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                        actualInteractor.write(returnCode);
+                        checkStatus(interactor, returnCode);
+                    }
                 } catch (UnknownPlayerException e) {
                     writer.writeError(e.getMsg());
                 }
@@ -82,6 +86,7 @@ public class Dequeuer implements Runnable {
                     actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
                 } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
                     actualInteractor.write(command.getCommmand());
+                    writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
                 } else {
                     actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
                 }
@@ -90,7 +95,7 @@ public class Dequeuer implements Runnable {
     }
 
     private void sendGameWon(CommandPlayer command, Interactor actualInteractor) throws WritingException {
-        if (actualInteractor.getPlayerNumber() != command.getPlayer()) {
+        if (actualInteractor.getPlayerNumber() != command.getPlayer() && command.getPlayer() != BROADCAST) {
             try {
                 Thread.sleep(300); //Para que pueda enviar la devolucion del exit
             } catch (InterruptedException e) {
