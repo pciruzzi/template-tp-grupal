@@ -2,6 +2,7 @@ package ar.fiuba.tdd.tp.time;
 
 
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,19 +10,21 @@ import java.util.TimerTask;
 public abstract class TimeCommand {
 
     private Engine engine;
-    protected Timer time;
+    protected Timer timer;
     private int timeOfAction;
-    private String comandito;
+    private String command;
+    private BroadcastQueue queue;
 
-    public TimeCommand(int timeOfAction, String comandito) {
+    public TimeCommand(int timeOfAction, String command) {
         this.timeOfAction = timeOfAction;
-        this.comandito = comandito;
+        this.command = command;
     }
 
     public TimerTask start() {
         TimerTask timerTask = new TimerTask() {
             public void run() {
-                System.out.println(engine.doCommand(0, comandito));
+                queue.pushBroadcast(engine.doCommand(-1, command));
+//                System.out.println(engine.doCommand(0, command));
             }
         };
         return timerTask;
@@ -36,7 +39,11 @@ public abstract class TimeCommand {
     }
 
     public void setTimer(Timer time) {
-        this.time = time;
+        this.timer = time;
+    }
+
+    public void setBroadcastQueue(BroadcastQueue queue) {
+        this.queue = queue;
     }
 
     public abstract void startTimeAction();

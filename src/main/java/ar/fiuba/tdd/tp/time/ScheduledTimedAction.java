@@ -6,6 +6,6 @@ public class ScheduledTimedAction extends TimeCommand {
     }
 
     public void startTimeAction() {
-        time.scheduleAtFixedRate(this.start(),this.getTimeOfAction(),this.getTimeOfAction());
+        timer.scheduleAtFixedRate(this.start(),this.getTimeOfAction(),this.getTimeOfAction());
     }
 }

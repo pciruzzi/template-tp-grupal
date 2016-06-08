@@ -12,12 +12,10 @@ public class Engine {
     private CommandParser commandParser;
     private Game game;
     private Time time;
-    private BroadcastQueue queue;
 
     public Engine(BroadcastQueue queue) {
-        this.queue = queue;
         this.commandParser = new CommandParser();
-        this.time = new Time(this);
+        this.time = new Time(this, queue);
     }
 
     public void createGame(GameBuilder gameBuilder) {
@@ -27,7 +25,6 @@ public class Engine {
     }
 
     public int createPlayer(int playerID) {
-        queue.pushBroadcast("BROADCAST: Se creo el jugador " + playerID); //TODO: Borrar, solo por el findbugs
         return game.createPlayer(playerID);
     }
 

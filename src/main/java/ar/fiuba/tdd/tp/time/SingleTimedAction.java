@@ -7,6 +7,6 @@ public class SingleTimedAction extends TimeCommand{
     }
 
     public void startTimeAction() {
-        time.schedule(this.start(),this.getTimeOfAction());
+        timer.schedule(this.start(),this.getTimeOfAction());
     }
 }
