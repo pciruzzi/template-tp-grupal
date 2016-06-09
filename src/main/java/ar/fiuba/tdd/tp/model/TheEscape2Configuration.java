@@ -8,6 +8,8 @@ import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
 
+import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
+
 @SuppressWarnings("CPD-START")
 
 public class TheEscape2Configuration implements GameBuilder {
@@ -74,7 +76,11 @@ public class TheEscape2Configuration implements GameBuilder {
     private Element barandaSotano;
     private Element barandaSotanoAbajo;
     private Element ventana;
-    private Element relojCucu;
+
+    // Los elementos que se ejecutan por tiempo
+    private Player relojCucu;
+    private Player spider;
+
 
     // Los ICommands
     private ICommand drop;
@@ -159,12 +165,14 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createTimeEvents() {
-        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-        relojCucu.addCommand(cucu);
+        relojCucu.setName("Reloj");
+        ITimeCommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
+        relojCucu.addTimeCommand(cucu);
         relojCucu.changeState("visible", true);
         pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
+        TimeCommand cucuClock = new ScheduledTimedAction(6000,"sonar Reloj");
         game.addTimeCommand(cucuClock);
+        game.addTimeElement(relojCucu);
     }
 
     private void initializeRooms() {
@@ -178,6 +186,8 @@ public class TheEscape2Configuration implements GameBuilder {
         sotanoAbajo = new Element("Sotano Abajo");
         lastRoom = new Element("LastRoom");
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+
+        addRoomsToGame();
     }
 
     private void initializeElements() {
@@ -193,7 +203,10 @@ public class TheEscape2Configuration implements GameBuilder {
         barandaSotano = new Element("Baranda");
         ventana = new Element("Ventana");
         llave = new Element("Llave");
-        relojCucu = new Element("Reloj");
+        relojCucu = new Player(NON_PLAYER);
+
+        spider = new Player(NON_PLAYER);
+        spider.setName("Spider");
     }
 
     private void initializeFirstGroupOfElements() {
@@ -456,7 +469,11 @@ public class TheEscape2Configuration implements GameBuilder {
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        return new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
+        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(player, spider, game);
+
+        IInterpreter orExpression = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
+
+        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
     }
 
     private void createBibliotecario() {
@@ -642,6 +659,15 @@ public class TheEscape2Configuration implements GameBuilder {
         romper.correctMovementMessage("is broken.");
     }
 
+    private void addRoomsToGame() {
+        game.addContainer(salonUno);
+        game.addContainer(salonDos);
+        game.addContainer(salonTres);
+        game.addContainer(biblioteca);
+        game.addContainer(accesoBiblioteca);
+        game.addContainer(pasillo);
+    }
+
     @SuppressWarnings("CPD-END")
 
     private void createRoomThree() {
@@ -653,5 +679,18 @@ public class TheEscape2Configuration implements GameBuilder {
         llave.addCommand(question);
         salonTres.addElement(doorToPasillo);
         doorSalon3.setObjectiveElement(salonTres);
+
+        spider.changeState("visible", true);
+        spider.setPlayerPosition(salonTres);
+        relojCucu.setPlayerPosition(pasillo);
+        salonTres.addElement(spider);
+
+        ITimeCommand moveRandom = new MoveRandom("cambiar");
+        spider.addTimeCommand(moveRandom);
+
+        TimeCommand cambiarSpider = new ScheduledTimedAction(4000,"cambiar Spider");
+        game.addTimeCommand(cambiarSpider);
+
+        game.addTimeElement(spider);
     }
 }

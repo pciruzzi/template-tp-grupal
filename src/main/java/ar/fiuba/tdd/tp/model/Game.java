@@ -24,6 +24,8 @@ public class Game {
     private boolean gameWon;
     private boolean gameLost;
     private ArrayList<TimeCommand> timeCommands;
+    private ArrayList<Player> timeElements;
+    private ArrayList<Element> containerssList;
 
     public Game(String name) {
         this.name = name;
@@ -32,10 +34,12 @@ public class Game {
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";
-        this.timeCommands = new ArrayList<>();
         this.maxPlayers = 1;
         this.initialElements = null;
         this.genericPlayer = null;
+        this.timeCommands   = new ArrayList<>();
+        this.timeElements   = new ArrayList<>();
+        this.containerssList = new ArrayList<>();
     }
 
     public String getName() {
@@ -142,6 +146,27 @@ public class Game {
         return returnMessage;
     }
 
+
+    public String playTime(String cmd, Player element) {
+        String returnMessage = "It doesn't exist the element";
+
+
+        if (element != null) {
+            returnMessage = element.doTimeCommand(cmd);
+        }
+        returnMessage = checkFinishedGame(returnMessage);
+        return returnMessage;
+    }
+
+
+    public String playTime(String cmd, Element firstElement, Element secondElement) {
+        String returnMessage = "It doesn't exist the element";
+
+        returnMessage = checkFinishedGame(returnMessage);
+
+        return returnMessage;
+    }
+
     private Element getElement(int playerID, String element) {
         Element actualElement;
         Element player = getPlayer(playerID);
@@ -154,6 +179,20 @@ public class Game {
             actualElement = null;
         }
         return actualElement;
+    }
+
+    public List<Player> getTimeElements() {
+        return timeElements;
+    }
+
+    public void addTimeElement(Player element) {
+        for (Player checkedElement : timeElements ) {
+            String elementName = element.getName();
+            if (checkedElement.getName().equals(elementName) ) {
+                System.out.println("Agregaste dos veces el mismo TimeElement: " + elementName);
+            }
+        }
+        timeElements.add(element);
     }
 
     private String checkFinishedGame(String returnMessage) {
@@ -231,6 +270,20 @@ public class Game {
 
     public void notifyExitPlayer(int playerID) {
         isPlayerConnected.set(playerID, false);
+    }
+
+    public void addContainer(Element element) {
+
+        for ( Element room : containerssList) {
+            if ( room.getName().equals(element.getName()) ) {
+                System.out.println("You are adding the same room twice to the game: " + room.getName());
+            }
+        }
+        containerssList.add(element);
+    }
+
+    public List<Element> getContainersList() {
+        return containerssList;
     }
 
 }

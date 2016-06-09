@@ -16,14 +16,6 @@ public abstract class ICommand {
         return "Incorrect action";
     }
 
-    public void correctMovementMessage(String message) {
-        this.correctMovementMessage = message;
-    }
-
-    public void auxiliarMessage(String message) {
-        this.auxiliarMessage = message;
-    }
-
     public void incorrectMovementMessage(String message) {
         this.incorrectMovementMessage = message;
     }
@@ -65,5 +57,13 @@ public abstract class ICommand {
 
         }
         return returnMessage;
+    }
+
+    public void correctMovementMessage(String message) {
+        this.correctMovementMessage = message;
+    }
+
+    public void auxiliarMessage(String message) {
+        this.auxiliarMessage = message;
     }
 }

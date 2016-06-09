@@ -24,6 +24,26 @@ public class CommandParser {
         return firstElement;
     }
 
+    public Player getFirstPlayer(String action, List<Player> elementList) {
+        Player firstElement = null;
+        String elementName;
+        int index;
+        int minIndex = action.length();
+
+        for ( Player element : elementList ) {
+            elementName = element.getName();
+            if ( action.contains( elementName ) ) {
+                index = action.indexOf(elementName);
+                // Se queda con el primer elemento que esta en el String action
+                if ( index < minIndex) {
+                    firstElement = element;
+                    minIndex = index;
+                }
+            }
+        }
+        return firstElement;
+    }
+
     public Element getSecondElement(String action, String firstElementName, List<Element> elementList) {
         // Obtengo la posicion, del ultimo caracter del nombre, del primer elemento que aparece
         // Ej: move stack1 stack2
@@ -33,6 +53,22 @@ public class CommandParser {
         String secondElementName = action.substring(indexOfSecondElement);
 
         for ( Element element : elementList ) {
+            if ( secondElementName.contains( element.getName() ) ) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    public Player getSecondPlayer(String action, String firstElementName, List<Player> elementList) {
+        // Obtengo la posicion, del ultimo caracter del nombre, del primer elemento que aparece
+        // Ej: move stack1 stack2
+        //               ^   <-- Obtuve esa posicion, luego me quedo con el string que sigue,
+        // es decir, el nombre del segundo elemento
+        int indexOfSecondElement = action.indexOf(firstElementName) + firstElementName.length();
+        String secondElementName = action.substring(indexOfSecondElement);
+
+        for ( Player element : elementList ) {
             if ( secondElementName.contains( element.getName() ) ) {
                 return element;
             }

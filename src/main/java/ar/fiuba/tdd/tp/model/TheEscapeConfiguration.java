@@ -75,7 +75,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element barandaSotano;
     private Element barandaSotanoAbajo;
     private Element ventana;
-    private Element relojCucu;
 
     // Los ICommands
     private ICommand drop;
@@ -104,7 +103,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         createPlayer();
         createRooms();
         createLastRoomAndCondicionesDeMorir();
-        createTimeEvents();
+//        createTimeEvents();
 
         setHelpCommand();
         setExitCommand();
@@ -124,6 +123,9 @@ public class TheEscapeConfiguration implements GameBuilder {
         createSotanoAbajo();
         createAccesoABibliotecaBis();
         createBiblioteca();
+        createLastRoomAndCondicionesDeMorir();
+
+        game.setInitialPosition(pasillo);
     }
 
     private void setHelpCommand() {
@@ -158,14 +160,14 @@ public class TheEscapeConfiguration implements GameBuilder {
         cuartoDeLaMuerte.addCommand(exit);
     }
 
-    private void createTimeEvents() {
-        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-        relojCucu.addCommand(cucu);
-        relojCucu.changeState("visible", true);
-        pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
-        game.addTimeCommand(cucuClock);
-    }
+//    private void createTimeEvents() {
+//        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
+//        relojCucu.addCommand(cucu);
+//        relojCucu.changeState("visible", true);
+//        pasillo.addElement(relojCucu);
+//        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
+//        game.addTimeCommand(cucuClock);
+//    }
 
     private void initializeRooms() {
         pasillo = new Element("Pasillo");
@@ -193,7 +195,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         barandaSotano = new Element("Baranda");
         ventana = new Element("Ventana");
         llave = new Element("Llave");
-        relojCucu = new Element("Reloj");
     }
 
     private void initializeFirstGroupOfElements() {
