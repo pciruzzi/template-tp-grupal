@@ -123,8 +123,8 @@ public class WSCConfigurationTest {
     @Test
     public void cantPickWolfFromNorthShore() {
         Game game = this.initializeGame();
-        game.play(take,sheep);
-        game.play(cross,north);
+        System.out.println(game.play(take,sheep));
+        System.out.println(game.play(cross,north));
         assertEquals(game.play(take,wolf),"It doesn't exist a wolf in the game WSC");
     }
 

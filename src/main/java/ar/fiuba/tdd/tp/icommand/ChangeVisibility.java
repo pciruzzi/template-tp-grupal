@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -34,7 +35,7 @@ public class ChangeVisibility extends ICommand {
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             element.changeElementsState("visible",state);
-            affectPlayer(element);
+            returnMessage = affectPlayer(element, game.getPlayer());
             if (state) {
                 return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
@@ -56,16 +57,25 @@ public class ChangeVisibility extends ICommand {
         return returnMessage;
     }
 
-    private void affectPlayer(Element element) {
-        //Arraelement.getStateList();
-        if (element.hasState("poison")) {
-            game.getPlayer().changeState("poison",true);
-            returnMessage = POISONED;
-        }
-        if (game.getPlayer().hasState("poison")) {
-            if ( game.checkInventoryForAntidote() ) {
-                returnMessage += ANTIDOTED;
-            }
-        }
-    }
+//    private void affectPlayer(Element element) {
+//        Element player = game.getPlayer();
+//        State stateToAffect = element.getStateToAffect();
+//
+//        if (stateToAffect == null) {
+//            return;
+//        }
+//
+//        if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
+//            player.changeState(stateToAffect.getName(), stateToAffect.isActive());
+//            returnMessage += "\n" + stateToAffect.getEffectMessage();
+//
+//            if (player.hasElement(stateToAffect.getAntiState())) {
+//                player.changeState(stateToAffect.getName(), !stateToAffect.isActive());
+//                returnMessage += "\n" + stateToAffect.getAntiEffectMessage();
+//            }
+//
+//        }
+//
+//
+//    }
 }

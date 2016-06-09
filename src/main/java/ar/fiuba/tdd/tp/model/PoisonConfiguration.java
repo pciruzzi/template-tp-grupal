@@ -8,7 +8,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("CPD-START")
+
 
 public class PoisonConfiguration implements GameBuilder {
 
@@ -35,15 +35,19 @@ public class PoisonConfiguration implements GameBuilder {
         createChestWithPoison(room, question, open);
         createStickWithPoison(room, question, pick);
 
-        Element antidote = createAntidote(question, pick);
-        State antidoteState = new State("poison", false, true);
-        antidoteState.setEffectMessage("The antidote healed you, PAPA!!");
-        antidote.setStateToAffect(antidoteState);
-        room.addElement(antidote);
+        createAntidote(room, question, pick);
 
         createFinishingConditions();
 
         return game;
+    }
+
+    private void createAntidote(Element room, ICommand question, ICommand pick) {
+        Element antidote = createAntidote2(question, pick);
+        State antidoteState = new State("poison", false, true);
+        antidoteState.setEffectMessage("The antidote healed you, PAPA!!");
+        antidote.setStateToAffect(antidoteState);
+        room.addElement(antidote);
     }
 
     private void createFinishingConditions() {
@@ -65,9 +69,14 @@ public class PoisonConfiguration implements GameBuilder {
         chest.addCommand(question);
         chest.changeState("visible", true);
         chest.addCommand(open);
-        chest.setStateToAffect(new State("poison", true, false));
+        State chestState = new State("poison", true, "antidote", true);
+        chestState.setEffectMessage("You have been poison :( by chest");
+        chestState.setAntiEffectMessage("You have been healed :)");
+        chest.setStateToAffect(chestState);
         room.addElement(chest);
     }
+
+
 
     private void createStickWithPoison(Element room, ICommand question, ICommand pick) {
         Element stick = new Element("stick");
@@ -81,9 +90,8 @@ public class PoisonConfiguration implements GameBuilder {
         room.addElement(stick);
     }
 
-    @SuppressWarnings("CPD-END")
 
-    private Element createAntidote(ICommand question, ICommand pick) {
+    private Element createAntidote2(ICommand question, ICommand pick) {
         Element antidote = new Element("antidote");
         antidote.addCommand(pick);
         antidote.changeState("visible", true);

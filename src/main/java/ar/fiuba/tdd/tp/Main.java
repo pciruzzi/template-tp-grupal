@@ -12,7 +12,7 @@ public class Main {
 
 
         Engine engine = new Engine();
-        GameBuilder fetchConfiguration = new PoisonConfiguration();
+        GameBuilder fetchConfiguration = new WSCConfiguration();
         engine.createGame(fetchConfiguration);
 
         Reader reader = new Console();

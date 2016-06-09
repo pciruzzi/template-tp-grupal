@@ -128,7 +128,7 @@ public class Element {
     public Map<String, Element> getVisibleElements() {
         Map<String, Element> visibleElements = new HashMap<>();
         for (Element element : getElementList()) {
-            if (element.hasState("visible")) {
+            if (element.getValueOfState("visible")) {
                 for (Element insideElement : getElementList()) {
                     visibleElements.putAll(insideElement.getVisibleElements());
                 }
@@ -140,11 +140,7 @@ public class Element {
 
 
     public boolean hasState(String state) {
-        if (stateMap.containsKey(state)) {
-            return true;
-        } else {
-            return false;
-        }
+        return stateMap.containsKey(state);
     }
 
     public boolean getValueOfState(String state) {

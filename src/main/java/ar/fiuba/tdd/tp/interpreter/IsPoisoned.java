@@ -13,6 +13,6 @@ public class IsPoisoned extends TerminalExpression {
 
     @Override
     public boolean interpret() {
-        return element.hasState("poison") == state;
+        return element.getValueOfState("poison") == state;
     }
 }

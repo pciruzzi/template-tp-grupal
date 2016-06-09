@@ -66,7 +66,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
-        player.addState(new State("poison", true, false));
+        player.addState(new State("poison", false, false));
         // Agrego la posicion del player
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
@@ -95,7 +95,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         treasureBox.changeState("visible", true);
         wardrobe.changeState("visible", true);
 
-        poisonBox.addState(new State("poison", true, false));
+        poisonBox.setStateToAffect(new State("poison", true, false));
     }
 
     private void createPickableElements() {
