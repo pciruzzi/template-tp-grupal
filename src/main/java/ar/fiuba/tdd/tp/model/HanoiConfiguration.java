@@ -75,9 +75,9 @@ public class HanoiConfiguration implements GameBuilder{
         stackTwo = new Element("stackTwo");
         stackThree = new Element("stackThree");
 
-        stackOne.setState(true);
-        stackTwo.setState(true);
-        stackThree.setState(true);
+        stackOne.changeState("visible", true);
+        stackTwo.changeState("visible", true);
+        stackThree.changeState("visible", true);
 
         // Combino los elementos
         stackOne.addElement(diskOne);

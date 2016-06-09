@@ -204,20 +204,6 @@ public class Game {
         return new ArrayList<>(visibleElements.values());
     }
 
-    //Return true if the player had an antidote and had been healed.
-    public boolean checkInventoryForAntidote(int playerID) {
-        List<Element> elementList = this.getPlayer(playerID).getElementList();
-        for (Element inventoryElement : elementList ) {
-            if (inventoryElement.isAntidote()) {
-                Element player = this.getPlayer(playerID);
-                player.setPoisoned(false);
-                player.removeElement(inventoryElement);
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void addTimeCommand(TimeCommand pickStick) {
         timeCommands.add(pickStick);
     }

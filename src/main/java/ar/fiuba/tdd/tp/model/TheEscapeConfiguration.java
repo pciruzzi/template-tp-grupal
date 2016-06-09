@@ -161,7 +161,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createTimeEvents() {
         ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
         relojCucu.addCommand(cucu);
-        relojCucu.setState(true);
+        relojCucu.changeState("visible", true);
         pasillo.addElement(relojCucu);
         TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
         game.addTimeCommand(cucuClock);
@@ -235,10 +235,10 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorBibliotecaBibliotecario = new Element("Bibliotecario");
         doorSotano = new Element("Sotano");
         pasajeAfuera = new Element("Afuera");
-        doorSalon1.setState(true);
-        doorSalon2.setState(true);
-        doorSalon3.setState(true);
-        doorAccesoABibliotecario.setState(true);
+        doorSalon1.changeState("visible", true);
+        doorSalon2.changeState("visible", true);
+        doorSalon3.changeState("visible", true);
+        doorAccesoABibliotecario.changeState("visible", true);
     }
 
     private void createPlayer() {
@@ -283,17 +283,17 @@ public class TheEscapeConfiguration implements GameBuilder {
         martillo.addCommand(pick);
         martillo.addCommand(drop);
         martillo.addCommand(question);
-        martillo.setState(true);
+        martillo.changeState("visible", true);
 
         destornillador1.addCommand(pick);
         destornillador1.addCommand(drop);
         destornillador1.addCommand(question);
-        destornillador1.setState(true);
+        destornillador1.changeState("visible", true);
 
         destornillador2.addCommand(pick);
         destornillador2.addCommand(drop);
         destornillador2.addCommand(question);
-        destornillador2.setState(true);
+        destornillador2.changeState("visible", true);
     }
 
     private void createRoomOne() {
@@ -371,23 +371,23 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     private void setVisibleElements() {
         // Seteo los visibles
-        botellaLicor.setState(true);
-        vasoUno.setState(true);
-        vasoDos.setState(true);
-        cuadroBarco.setState(true);
-        cuadroTren.setState(true);
-        mesa.setState(true);
-        sillaDos.setState(true);
-        sillaUno.setState(true);
-        doorToPasillo.setState(true);
+        botellaLicor.changeState("visible", true);
+        vasoUno.changeState("visible", true);
+        vasoDos.changeState("visible", true);
+        cuadroBarco.changeState("visible", true);
+        cuadroTren.changeState("visible", true);
+        mesa.changeState("visible", true);
+        sillaDos.changeState("visible", true);
+        sillaUno.changeState("visible", true);
+        doorToPasillo.changeState("visible", true);
 
     }
 
     private void createSotano() {
         sotano.addCommand(lookAround);
 
-        barandaSotano.setState(true);
-        escalera.setState(true);
+        barandaSotano.changeState("visible", true);
+        escalera.changeState("visible", true);
 
         barandaSotano.setObjectiveElement(sotanoAbajo);
         barandaSotano.addCommand(use);
@@ -404,13 +404,13 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createSotanoAbajo() {
         sotanoAbajo.addCommand(lookAround);
         barandaSotanoAbajo = new Element("Baranda");
-        barandaSotanoAbajo.setState(true);
+        barandaSotanoAbajo.changeState("visible", true);
 
 
         sotanoAbajo.addElement(barandaSotanoAbajo);
         sotanoAbajo.addElement(escalera);
 
-        barandaSotanoAbajo.setState(true);
+        barandaSotanoAbajo.changeState("visible", true);
 
         ICommand barandaNada = new ChangeVisibility("use", true, game);
         barandaNada.correctMovementMessage(" is not able to climb!");
@@ -422,7 +422,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         ventana.addElement(pasajeAfuera);
         ventana.addCommand(romper);
         ventana.addCommand(question);
-        ventana.setState(true);
+        ventana.changeState("visible", true);
         sotanoAbajo.addElement(ventana);
     }
 
@@ -461,7 +461,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createBibliotecario() {
         accesoBiblioteca.addCommand(lookAround);
 
-        doorToPasillo.setState(true);
+        doorToPasillo.changeState("visible", true);
         doorToPasillo.addCommand(openDoor);
         doorToPasillo.setObjectiveElement(pasillo);
 
@@ -470,7 +470,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         setBibliotecarioCondition();
 
-        doorBibliotecario.setState(true);
+        doorBibliotecario.changeState("visible", true);
         doorBibliotecario.addCommand(pasarBibliotecario);
         doorBibliotecario.addCommand(question);
 
@@ -505,7 +505,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     private void createAccesoABibliotecaBis() {
         doorBibliotecario.setObjectiveElement(accesoBibliotecaBis);
-        doorBiblioteca.setState(true);
+        doorBiblioteca.changeState("visible", true);
         doorBiblioteca.addCommand(openDoor);
         doorBiblioteca.addCommand(question);
 
@@ -519,7 +519,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void createBiblioteca() {
         doorBiblioteca.setObjectiveElement(biblioteca);
 
-        doorBibliotecaBibliotecario.setState(true);
+        doorBibliotecaBibliotecario.changeState("visible", true);
         doorBibliotecaBibliotecario.setObjectiveElement(accesoBibliotecaBis);
         doorBibliotecaBibliotecario.addCommand(openDoor);
         doorBibliotecaBibliotecario.addCommand(question);
@@ -545,16 +545,16 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void setLibrosVisibles() {
-        libroViejo.setState(true);
-        libroUno.setState(true);
-        libroDos.setState(true);
-        libroTres.setState(true);
-        libroCuatro.setState(true);
-        libroCinco.setState(true);
-        libroSeis.setState(true);
-        libroSiete.setState(true);
-        libroOcho.setState(true);
-        libroNueve.setState(true);
+        libroViejo.changeState("visible", true);
+        libroUno.changeState("visible", true);
+        libroDos.changeState("visible", true);
+        libroTres.changeState("visible", true);
+        libroCuatro.changeState("visible", true);
+        libroCinco.changeState("visible", true);
+        libroSeis.changeState("visible", true);
+        libroSiete.changeState("visible", true);
+        libroOcho.changeState("visible", true);
+        libroNueve.changeState("visible", true);
     }
 
     private void addCommandsToLibros() {
@@ -621,7 +621,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createRoomThree() {
-        llave.setState(true);
+        llave.changeState("visible", true);
         salonTres.addCommand(lookAround);
         salonTres.addElement(llave);
         llave.addCommand(pick);

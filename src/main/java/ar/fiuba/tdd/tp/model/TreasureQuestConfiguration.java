@@ -1,6 +1,8 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
@@ -41,7 +43,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private Element pokemon;
 
     // Los elementos extra
-    private Element player;
+    private Player player;
 
     // Los ICommands genericos
     private ICommand question;
@@ -54,7 +56,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     @SuppressWarnings("CPD-START")
     public Game build() {
 
-        player = new Element("player");
+        player = new Player(-1);
         player.setCapacity(2);
         game = new Game("Treasure Quest");
         game.setDescription("Try to find the Irish treasure");
@@ -66,8 +68,10 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
+        player.addState(new State("poison", false, false));
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
+        game.setGenericPlayer(player);
         return game;
     }
 
@@ -89,11 +93,14 @@ public class TreasureQuestConfiguration implements GameBuilder {
         chest       = new Element("chest");
 
         // Los hago visibles
-        poisonBox.setState(true);
-        treasureBox.setState(true);
-        wardrobe.setState(true);
+        poisonBox.changeState("visible", true);
+        treasureBox.changeState("visible", true);
+        wardrobe.changeState("visible", true);
 
-        poisonBox.setPoisoned(true);
+        State poisonBoxState = new State("poison", true, "antidote", true);
+        poisonBoxState.setEffectMessage("You have been poison :( by box");
+        poisonBoxState.setAntiEffectMessage("You have been healed :)");
+        poisonBox.setStateToAffect(poisonBoxState);
     }
 
     private void createPickableElements() {
@@ -104,39 +111,39 @@ public class TreasureQuestConfiguration implements GameBuilder {
         pokemon  = new Element("pokemon");
 
         // Los hago visibles
-        key.setState(true);
-        pokemon.setState(true);
-        antidote.setAntidote(true);
+        key.changeState("visible", true);
+        pokemon.changeState("visible", true);
+
     }
 
     private void createDoors() {
         doorOneTwo = new Element("door");
         doorTwoOne = new Element("door to one");
 
-        doorOneTwo.setState(true);
-        doorTwoOne.setState(true);
+        doorOneTwo.changeState("visible", true);
+        doorTwoOne.changeState("visible", true);
 
         doorTwoThree = new Element("door to three");
         doorThreeTwo = new Element("door to two");
 
-        doorTwoThree.setState(true);
-        doorThreeTwo.setState(true);
+        doorTwoThree.changeState("visible", true);
+        doorThreeTwo.changeState("visible", true);
 
         doorThreeFour = new Element("door to four");
         doorFourThree = new Element("door to three");
 
-        doorThreeFour.setState(true);
-        doorFourThree.setState(true);
+        doorThreeFour.changeState("visible", true);
+        doorFourThree.changeState("visible", true);
 
         doorFourFive = new Element("door to five");
         doorFiveFour = new Element("door to four");
 
-        doorFourFive.setState(true);
-        doorFiveFour.setState(true);
+        doorFourFive.changeState("visible", true);
+        doorFiveFour.changeState("visible", true);
 
         doorFiveOne = new Element("door to one");
 
-        doorFiveOne.setState(true);
+        doorFiveOne.changeState("visible", true);
 
         setDoorsIntoRooms();
     }
@@ -279,10 +286,10 @@ public class TreasureQuestConfiguration implements GameBuilder {
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
 
         // Creo la condicion de perder
-        IInterpreter playerPoisoned = new IsPoisoned(player, true);
+        IInterpreter playerPoisoned = new HasValueState(player, "poison", true);
         IInterpreter losingOneInterpreter = new AndExpression(playerPoisoned, playerInRoomOneInterpreter);
 
-        ArrayList<String> playerInRoomFour = new ArrayList<String>();
+        ArrayList<String> playerInRoomFour = new ArrayList<>();
         playerInRoomFour.add("player");
 
         IInterpreter playerInRoomFourInterpreter = new ContainsElements(roomFour,playerInRoomFour);

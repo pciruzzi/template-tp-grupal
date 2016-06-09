@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
@@ -114,16 +115,16 @@ public class TempleQuest implements GameBuilder {
         roomOne     = new Element("roomOne");
 
         doorOneHanoi = new Element("door");
-        doorOneHanoi.setState(true);
+        doorOneHanoi.changeState("visible", true);
 
         // Los elementos levantables
         antidote    = new Element("antidote");
         apple       = new Element("apple");
         monkey      = new Element("monkey");
 
-        antidote.setAntidote(true);
-        apple.setPoisoned(true);
-        monkey.setState(true);
+        //antidote.addState("antidote", true);
+        apple.addState(new State("poison", true, false));
+        monkey.changeState("visible", true);
 
         monkey.setSize(0);
 
@@ -131,8 +132,8 @@ public class TempleQuest implements GameBuilder {
         skeleton    = new Element("skeleton");
         chest       = new Element("chest");
 
-        skeleton.setState(true);
-        chest.setState(true);
+        skeleton.changeState("visible", true);
+        chest.changeState("visible", true);
 
         combineElementsRoomOne();
     }
@@ -207,7 +208,7 @@ public class TempleQuest implements GameBuilder {
         doorHanoiBisArchaeologist = new Element("door");
 //        roomHanoiBis = new Element("roomHanoiBis");
         riverBackward = new Element("river");
-        riverBackward.setState(true);
+        riverBackward.changeState("visible", true);
         riverBackward.setObjectiveElement(roomHanoi);
         riverBackward.addCommand(cross);
         riverBackward.addCommand(question);
@@ -220,7 +221,7 @@ public class TempleQuest implements GameBuilder {
         IInterpreter containsDisk = new ContainsElements(player, containsBigDisk);
         containsDisk.setFailMessage("You need the magic stone to open the door!");
 
-        doorHanoiBisArchaeologist.setState(true);
+        doorHanoiBisArchaeologist.changeState("visible", true);
         doorHanoiBisArchaeologist.addCommand(new MovePlayerTo(game,containsDisk,"open"));
 
         roomHanoiBis.addElement(doorHanoiBisArchaeologist);
@@ -233,7 +234,7 @@ public class TempleQuest implements GameBuilder {
 
 
         riverForward = new Element("river");
-        riverForward.setState(true);
+        riverForward.changeState("visible", true);
         riverForward.setObjectiveElement(roomHanoiBis);
         riverForward.addCommand(cross);
         riverForward.addCommand(question);
@@ -279,7 +280,7 @@ public class TempleQuest implements GameBuilder {
         roomHanoi.addCommand(lookAround);
 
         diskNine.addCommand(pick);
-        diskNine.setState(true);
+        diskNine.changeState("visible", true);
     }
 
     private void createPillarsAndDisks() {
@@ -287,9 +288,9 @@ public class TempleQuest implements GameBuilder {
         pillarTwo   = new Element("pillar two");
         pillarThree = new Element("pillar three");
 
-        pillarOne.setState(true);
-        pillarTwo.setState(true);
-        pillarThree.setState(true);
+        pillarOne.changeState("visible", true);
+        pillarTwo.changeState("visible", true);
+        pillarThree.changeState("visible", true);
 
         diskOne    = new Element("disk one");
         diskTwo    = new Element("disk two");
@@ -334,11 +335,11 @@ public class TempleQuest implements GameBuilder {
         roomArchaeologist = new Element("roomArchaeologist");
         doorHanoiBisArchaeologist.setObjectiveElement(roomArchaeologist);
         archaeologist = new Element("archaeologist");
-        archaeologist.setState(true);
+        archaeologist.changeState("visible", true);
         doorArchaeologistOutside = new Element("door outside");
         doorArchaeologistHanoi = new Element("door back");
-        doorArchaeologistHanoi.setState(true);
-        doorArchaeologistOutside.setState(true);
+        doorArchaeologistHanoi.changeState("visible", true);
+        doorArchaeologistOutside.changeState("visible", true);
 
         combineElementsArchaeologist();
     }
@@ -383,7 +384,7 @@ public class TempleQuest implements GameBuilder {
         playerWithDisk.add("disk nine");
 
         IInterpreter playerWithDiskInterpreter = new ContainsElements(player, playerWithDisk);
-        IInterpreter playerIsPoisoned = new IsPoisoned(player, true);
+        IInterpreter playerIsPoisoned = new HasValueState(player, "poison", true);
 
         IInterpreter deadPlayer = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
         IInterpreter losingInterpreter = new AndExpression(deadPlayer, playerInLastRoom);

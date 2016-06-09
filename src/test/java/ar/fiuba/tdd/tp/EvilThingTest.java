@@ -1,13 +1,14 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.model.EvilThingConfiguration;
 import org.junit.Test;
 
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class EvilThingTest extends ICommandTest{
+public class EvilThingTest extends InitializationsForTests {
 
     private static final int id = 0;
 
@@ -17,6 +18,7 @@ public class EvilThingTest extends ICommandTest{
         assertTrue(engine.doCommand(id, "look around").contains("key"));
         assertTrue(engine.doCommand(id, "look around").contains("door"));
     }
+
 
     @Test
     public void crossRoomTest() {

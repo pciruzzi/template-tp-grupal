@@ -2,12 +2,10 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
-
-import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
-import static ar.fiuba.tdd.tp.Constants.POISONED;
 
 public class ChangeVisibility extends ICommand {
 
@@ -35,8 +33,8 @@ public class ChangeVisibility extends ICommand {
     public String doAction(Element element, int playerId) {
         Player player = game.getPlayer(playerId);
         if (this.condition.interpret() || this.condition.interpret(player)) {
-            element.changeElementsState(state);
-            checkPoison(element, playerId);
+            element.changeElementsState("visible",state);
+            returnMessage = affectPlayer(element, player);
             if (state) {
                 return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
@@ -61,15 +59,25 @@ public class ChangeVisibility extends ICommand {
         return returnMessage;
     }
 
-    private void checkPoison(Element element, int playerId) {
-        if (element.isPoisoned()) {
-            game.getPlayer(playerId).setPoisoned(true);
-            returnMessage = POISONED;
-        }
-        if (game.getPlayer(playerId).isPoisoned()) {
-            if ( game.checkInventoryForAntidote(playerId) ) {
-                returnMessage += ANTIDOTED;
-            }
-        }
-    }
+//    private void affectPlayer(Element element) {
+//        Element player = game.getPlayer();
+//        State stateToAffect = element.getStateToAffect();
+//
+//        if (stateToAffect == null) {
+//            return;
+//        }
+//
+//        if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
+//            player.changeState(stateToAffect.getName(), stateToAffect.isActive());
+//            returnMessage += "\n" + stateToAffect.getEffectMessage();
+//
+//            if (player.hasElement(stateToAffect.getAntiState())) {
+//                player.changeState(stateToAffect.getName(), !stateToAffect.isActive());
+//                returnMessage += "\n" + stateToAffect.getAntiEffectMessage();
+//            }
+//
+//        }
+//
+//
+//    }
 }

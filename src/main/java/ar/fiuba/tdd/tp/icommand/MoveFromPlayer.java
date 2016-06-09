@@ -24,7 +24,7 @@ public class MoveFromPlayer extends ICommand {
             //Saca el elemento del player.
             player.removeElement(actualElement);
             //Setea el elemento en false, no es visible.
-            actualElement.setState(false);
+            actualElement.changeState("visible",false);
             //Agrega el elemento al elemento con el que interactuo.
             element.addElement(actualElement);
             return auxiliarMessage + element.getName() + correctMovementMessage + this.element;

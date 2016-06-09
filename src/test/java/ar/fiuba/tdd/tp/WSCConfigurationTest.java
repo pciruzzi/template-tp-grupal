@@ -137,7 +137,7 @@ public class WSCConfigurationTest {
         game.createPlayer(0);
         game.play(id, take,sheep);
         game.play(id, cross,north);
-        assertEquals(game.play(id, take,wolf),"It doesn't exist a wolf in the game WSC");
+        assertEquals(game.play(id, take, wolf),"It doesn't exist a wolf in the game WSC");
     }
 
 //    @Test

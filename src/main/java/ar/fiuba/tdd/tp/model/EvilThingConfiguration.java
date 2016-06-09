@@ -121,17 +121,17 @@ public class EvilThingConfiguration implements GameBuilder {
         // Creo los elementos
         roomTwo = new Element("roomTwo");
         cursedObject = new Element("key");
-        cursedObject.setState(true);
+        cursedObject.changeState("visible", true);
         doorOneTwo = new Element("door");
-        doorOneTwo.setState(true);
+        doorOneTwo.changeState("visible",true);
         roomThree = new Element("roomThree");
         doorTwoOne = new Element("door");
-        doorTwoOne.setState(true);
+        doorTwoOne.changeState("visible",true);
         doorTwoThree = new Element("otherDoor");
-        doorTwoThree.setState(true);
+        doorTwoThree.changeState("visible",true);
         roomOne = new Element("roomOne");
         player = new Player(0);
         thief = new Element("thief");
-        thief.setState(true);
+        thief.changeState("visible", true);
     }
 }

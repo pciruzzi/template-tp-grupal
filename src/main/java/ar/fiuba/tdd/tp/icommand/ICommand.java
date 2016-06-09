@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 
 public abstract class ICommand {
 
@@ -29,5 +30,40 @@ public abstract class ICommand {
 
     public String getName() {
         return name;
+    }
+
+    protected String affectPlayer(Element element, Element player) {
+
+        String returnMessage = "";
+        State stateToAffect = element.getStateToAffect();
+        if (stateToAffect == null) {
+            return "";
+        }
+
+        if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
+            player.changeState(stateToAffect.getName(), stateToAffect.isActive());
+            returnMessage += "\n" + stateToAffect.getEffectMessage();
+
+            if (stateToAffect.isWillDestroyTheItem()) {
+                player.removeElement(element);
+            }
+
+            returnMessage = checkAntiState(player, returnMessage, stateToAffect);
+
+        }
+        return returnMessage;
+    }
+
+    private String checkAntiState(Element player, String returnMessage, State stateToAffect) {
+        if (player.hasElement(stateToAffect.getAntiState())) {
+            player.changeState(stateToAffect.getName(), !stateToAffect.isActive());
+            returnMessage += "\n" + stateToAffect.getAntiEffectMessage();
+            if (stateToAffect.isWillDestroyTheItem()) {
+                Element elementToRemoveOfAntiEffect = player.getElement(stateToAffect.getAntiState());
+                player.removeElement(elementToRemoveOfAntiEffect);
+            }
+
+        }
+        return returnMessage;
     }
 }

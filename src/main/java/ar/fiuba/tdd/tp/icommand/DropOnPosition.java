@@ -20,7 +20,7 @@ public class DropOnPosition extends ICommand {
         //Si esta en el inventario.
         if (player.getElementMap().containsKey(element.getName())) {
             player.removeElement(element);
-            element.setState(true);
+            element.changeState("visible", true);
             position.addElement(element);
             return correctMovementMessage + element.getName();
         }
@@ -33,7 +33,7 @@ public class DropOnPosition extends ICommand {
         //Si esta en el inventario y el elemento esta abierto.
         if (checkInInventoryAndOpenElement(player, originElement, destinationElement)) {
             player.removeElement(originElement);
-            originElement.setState(true);
+            originElement.changeState("visible", true);
             destinationElement.addElement(originElement);
             return correctMovementMessage + originElement.getName() + ".";
         }
@@ -43,7 +43,7 @@ public class DropOnPosition extends ICommand {
 
     public boolean checkInInventoryAndOpenElement(Element player, Element originElement, Element destinationElement) {
         boolean condition1 = player.getElementMap().containsKey(originElement.getName());
-        boolean condition2 = destinationElement.getState();
+        boolean condition2 = destinationElement.hasState("visible");
         return condition1 && condition2;
     }
 }

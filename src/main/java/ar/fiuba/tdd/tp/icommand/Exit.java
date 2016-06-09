@@ -28,7 +28,7 @@ public class Exit extends ICommand {
         // 3. Agregarlo al lugar donde el player salio
         for (Element actualElement : playerElementList) {
             player.removeElement(actualElement);
-            actualElement.setState(true);
+            actualElement.changeState("visible", true);
             element.addElement(actualElement);
         }
         //Le aviso al game que el jugador salio.

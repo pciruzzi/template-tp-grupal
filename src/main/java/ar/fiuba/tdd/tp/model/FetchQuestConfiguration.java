@@ -25,7 +25,7 @@ public class FetchQuestConfiguration implements GameBuilder {
         room.addCommand(new Exit(game));
 
         Element stick = new Element("stick");
-        stick.setState(true);
+        stick.changeState("visible", true);
 
         ICommand lookAround = new LookAround("look around", game);
         room.addCommand(lookAround);

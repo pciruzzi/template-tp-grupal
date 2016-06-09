@@ -6,26 +6,34 @@ import java.util.*;
 
 public class Element implements Cloneable {
 
-    private boolean state;
     private String name;
     private Map<String, ICommand> commandMap;
     private Map<String, Element> elementMap;
+    private Map<String, State> stateMap;
+
+    public State getStateToAffect() {
+        return stateToAffect;
+    }
+
+    public void setStateToAffect(State stateToAffect) {
+        this.stateToAffect = stateToAffect;
+    }
+
+    private State stateToAffect;
     private int size;
     private Element objectiveElement;
     private int capacity;
-    private boolean poisoned;
 
-    private boolean isAntidote;
 
     public Element(String name) {
         commandMap = new HashMap<>();
         elementMap = new HashMap<>();
+        stateMap = new HashMap<>();
+        stateMap.put("visible", new State("visible", false, false));
         this.name = name;
-        this.state = false;
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;
-        this.poisoned = false;
     }
 
     public Element getClone() {
@@ -46,7 +54,6 @@ public class Element implements Cloneable {
         }
     }
 
-
     public String doCommand(String commandName, Element originElement, Element destElement, int playerId) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
@@ -60,8 +67,8 @@ public class Element implements Cloneable {
         commandMap.put(command.getName(), command);
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void addState(State state) {
+        stateMap.put(state.getName(), state);
     }
 
     public void setName(String name) {
@@ -74,7 +81,7 @@ public class Element implements Cloneable {
 
     public boolean addElement(Element element) {
         if (this.capacity - element.getSize() >= 0) {
-            elementMap.put(element.getName(),element);
+            elementMap.put(element.getName(), element);
             this.capacity = this.capacity - element.getSize();
             return true;
         }
@@ -94,8 +101,8 @@ public class Element implements Cloneable {
         return new ArrayList<>(commandMap.values());
     }
 
-    public boolean getState() {
-        return state;
+    public Map<String, State> getStateList() {
+        return stateMap;
     }
 
     public String getName() {
@@ -128,16 +135,36 @@ public class Element implements Cloneable {
 
     public Map<String, Element> getVisibleElements() {
         Map<String, Element> visibleElements = new HashMap<>();
-        for (Element element: getElementList()) {
-            if (element.getState()) {
+        for (Element element : getElementList()) {
+            if (element.getValueOfState("visible")) {
                 for (Element insideElement : getElementList()) {
                     visibleElements.putAll(insideElement.getVisibleElements());
                 }
-                visibleElements.put(element.getName(),element);
+                visibleElements.put(element.getName(), element);
             }
         }
         return visibleElements;
     }
+
+
+    public boolean hasState(String state) {
+        return stateMap.containsKey(state);
+    }
+
+    public boolean getValueOfState(String state) {
+        if (hasState(state)) {
+            return stateMap.get(state).isActive();
+        } else {
+            return false;
+        }
+    }
+
+//    public boolean hasState(String state) {
+//        if (stateMap.containsKey(state)) {
+//            return stateMap.get(state).isActive();
+//        }
+//        return false;
+//    }
 
     public int getSize() {
         return size;
@@ -151,10 +178,14 @@ public class Element implements Cloneable {
         return elementMap;
     }
 
-    public void changeElementsState(boolean state) {
+    public void changeElementsState(String state, boolean value) {
         for (Element element : getElementList()) {
-            element.setState(state);
+            element.changeState(state, value);
         }
+    }
+
+    public void changeState(String stateName, boolean value) {
+        stateMap.get(stateName).setActive(value);
     }
 
     public boolean hasAllElements(ArrayList<String> elementsToContain) {
@@ -170,19 +201,15 @@ public class Element implements Cloneable {
         return true;
     }
 
-    public boolean isPoisoned() {
-        return poisoned;
+    public List<State> getTrueList() {
+        List<State> returnList = new ArrayList<>();
+        Set<String> keySet = stateMap.keySet();
+        for (String state : keySet) {
+            if (stateMap.get(state).isActive() && (stateMap.get(state).getName().compareTo("visible") != 0)) {
+                returnList.add(stateMap.get(state));
+            }
+        }
+        return returnList;
     }
 
-    public void setPoisoned(boolean poisoned) {
-        this.poisoned = poisoned;
-    }
-
-    public boolean isAntidote() {
-        return isAntidote;
-    }
-
-    public void setAntidote(boolean antidote) {
-        isAntidote = antidote;
-    }
 }

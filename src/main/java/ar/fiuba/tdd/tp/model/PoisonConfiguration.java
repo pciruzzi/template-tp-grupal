@@ -1,13 +1,14 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("CPD-START")
+
 
 public class PoisonConfiguration implements GameBuilder {
 
@@ -21,6 +22,7 @@ public class PoisonConfiguration implements GameBuilder {
         Element room = new Element("room");
 
         game.setInitialPosition(room);
+        player.addState(new State("poison", false, false));
 
         ICommand lookAround = new LookAround("look around", game);
         room.addCommand(lookAround);
@@ -31,13 +33,20 @@ public class PoisonConfiguration implements GameBuilder {
         createChestWithPoison(room, question, open);
         createStickWithPoison(room, question, pick);
 
-        Element antidote = createAntidote(question, pick);
-        room.addElement(antidote);
         room.addCommand(new Exit(game));
+        createAntidote(room, question, pick);
 
         createFinishingConditions();
 
         return game;
+    }
+
+    private void createAntidote(Element room, ICommand question, ICommand pick) {
+        Element antidote = createAntidote2(question, pick);
+        State antidoteState = new State("poison", false, true);
+        antidoteState.setEffectMessage("The antidote healed you, PAPA!!");
+        antidote.setStateToAffect(antidoteState);
+        room.addElement(antidote);
     }
 
     private void createFinishingConditions() {
@@ -57,29 +66,35 @@ public class PoisonConfiguration implements GameBuilder {
     private void createChestWithPoison(Element room, ICommand question, ICommand open) {
         Element chest = new Element("chest");
         chest.addCommand(question);
-        chest.setState(true);
+        chest.changeState("visible", true);
         chest.addCommand(open);
-        chest.setPoisoned(true);
+        State chestState = new State("poison", true, "antidote", true);
+        chestState.setEffectMessage("You have been poison :( by chest");
+        chestState.setAntiEffectMessage("You have been healed :)");
+        chest.setStateToAffect(chestState);
         room.addElement(chest);
     }
+
+
 
     private void createStickWithPoison(Element room, ICommand question, ICommand pick) {
-        Element chest = new Element("stick");
-        chest.addCommand(question);
-        chest.setState(true);
-        chest.addCommand(pick);
-        chest.setPoisoned(true);
-        room.addElement(chest);
+        Element stick = new Element("stick");
+        stick.addCommand(question);
+        stick.changeState("visible", true);
+        stick.addCommand(pick);
+        State poisonState = new State("poison", true, "antidote", true);
+        poisonState.setEffectMessage("You have been poison :(");
+        poisonState.setAntiEffectMessage("You have been healed :)");
+        stick.setStateToAffect(poisonState);
+        room.addElement(stick);
     }
 
-    @SuppressWarnings("CPD-END")
 
-    private Element createAntidote(ICommand question, ICommand pick) {
+    private Element createAntidote2(ICommand question, ICommand pick) {
         Element antidote = new Element("antidote");
         antidote.addCommand(pick);
-        antidote.setState(true);
+        antidote.changeState("visible", true);
         antidote.addCommand(question);
-        antidote.setAntidote(true);
         return antidote;
     }
 }
