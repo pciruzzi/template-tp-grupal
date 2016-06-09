@@ -14,6 +14,19 @@ public class Player extends Element {
         this.id = id;
     }
 
+    public Player getClone() {
+        try {
+            return (Player) super.clone();
+        } catch (CloneNotSupportedException c) {
+            System.out.println("Error cuando se quiere clonar un Player");
+            return null;
+        }
+    }
+
+    public void setPlayerID(int id) {
+        this.id = id;
+    }
+
     public int getPlayerID() {
         return this.id;
     }

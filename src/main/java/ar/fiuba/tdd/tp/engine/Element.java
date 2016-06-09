@@ -4,7 +4,7 @@ import ar.fiuba.tdd.tp.icommand.ICommand;
 
 import java.util.*;
 
-public class Element {
+public class Element implements Cloneable {
 
     private boolean state;
     private String name;
@@ -26,6 +26,15 @@ public class Element {
         this.size = 1;
         this.objectiveElement = null;
         this.poisoned = false;
+    }
+
+    public Element getClone() {
+        try {
+            return (Element) super.clone();
+        } catch (CloneNotSupportedException c) {
+            System.out.println("Error cuando se quiere clonar un Element");
+            return null;
+        }
     }
 
     public String doCommand(String commandName, int playerId) {

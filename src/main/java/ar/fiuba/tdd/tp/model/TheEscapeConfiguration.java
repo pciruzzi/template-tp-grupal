@@ -7,13 +7,14 @@ import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
 public class TheEscapeConfiguration implements GameBuilder {
 
     private Game game;
-    private Element player;
+    private Player player;
 
     // Los cuartos
     private Element salonUno;
@@ -196,7 +197,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        player = new Element("player");
+        player = new Player(0);
         fotoBuena = new Element("Foto");
         fotoDesconocida = new Element("FotoDesconocida");
         lapicera = new Element("Lapicera");
@@ -250,8 +251,12 @@ public class TheEscapeConfiguration implements GameBuilder {
         lapicera.addCommand(drop);
         lapicera.addCommand(pick);
 
-        player.addElement(fotoBuena);
-        player.addElement(lapicera);
+        List<Element> initialElements = new ArrayList<>();
+        initialElements.add(fotoBuena);
+        initialElements.add(lapicera);
+
+        game.setInitialElements(initialElements);
+        game.setGenericPlayer(player);
     }
 
     private void createRoomTwo() {

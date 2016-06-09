@@ -11,8 +11,10 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Game {
 
+    private Player genericPlayer;
     private List<Player> players;
     private List<Boolean> isPlayerConnected;
+    private List<Element> initialElements;
     private Element initialPosition;
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
@@ -32,6 +34,8 @@ public class Game {
         this.description = "Descripcion basica.";
         this.timeCommands = new ArrayList<>();
         this.maxPlayers = 1;
+        this.initialElements = null;
+        this.genericPlayer = null;
     }
 
     public String getName() {
@@ -52,7 +56,18 @@ public class Game {
 
     public int createPlayer(int id) {
         if (getPlayersConnected() < maxPlayers) {
-            Player newPlayer = new Player(id);
+            Player newPlayer;
+            if (genericPlayer != null) {
+                newPlayer = genericPlayer.getClone();
+                newPlayer.setPlayerID(id);
+            } else {
+                newPlayer = new Player(id);
+            }
+            if (initialElements != null) {
+                for (Element element : initialElements) {
+                    newPlayer.addElement(element.getClone());
+                }
+            }
             newPlayer.setPlayerPosition(initialPosition);
             initialPosition.addElement(newPlayer);
             newPlayer.setWinInterpreter(winInterpreter);
@@ -62,6 +77,14 @@ public class Game {
             return id;
         }
         return -1;
+    }
+
+    public void setInitialElements(List<Element> initialElements) {
+        this.initialElements = initialElements;
+    }
+
+    public void setGenericPlayer(Player genericPlayer) {
+        this.genericPlayer = genericPlayer;
     }
 
     public void setDescription(String description) {
