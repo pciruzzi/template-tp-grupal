@@ -40,6 +40,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element doorToPasillo;
     private Element doorBibliotecaBibliotecario;
     private Element pasajeAfuera;
+    private Element doorBibliotecaAccesoBiblioteca;
 
     // Los elementos levantables
     private Element credencial;
@@ -75,6 +76,8 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element barandaSotano;
     private Element barandaSotanoAbajo;
     private Element ventana;
+//    private Element relojCucu;
+    private Player bibliotecario;
 
     // Los ICommands
     private ICommand drop;
@@ -88,6 +91,11 @@ public class TheEscapeConfiguration implements GameBuilder {
     private ICommand pasarBibliotecario;
     private ICommand move;
     private ICommand moveLibroNada;
+    private ICommand giveItem;
+
+    private IInterpreter startTimer;
+    private TimeCommand timer;
+
 
 
     @Override
@@ -195,6 +203,32 @@ public class TheEscapeConfiguration implements GameBuilder {
         barandaSotano = new Element("Baranda");
         ventana = new Element("Ventana");
         llave = new Element("Llave");
+
+//        relojCucu = new Element("Reloj");
+        setMovementOfBibliotecario();
+
+    }
+
+    private void setMovementOfBibliotecario() {
+        bibliotecario = new Player(-1);
+        bibliotecario.setName("Bibliotecario");
+
+        ITimeCommand moveRandom = new MoveRandom("move");
+        moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
+        bibliotecario.addTimeCommand(moveRandom);
+
+        timer = new ScheduledTimedAction(4000, "move Bibliotecario");
+        timer.setStart(false);
+
+        startTimer = new HasValueState(bibliotecario, "dormido", true);
+
+        giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timer );
+        giveItem.correctMovementMessage("");
+        giveItem.incorrectMovementMessage("Hic!");
+        giveItem.auxiliarMessage("");
+
+        game.addTimeCommand(timer);
+        game.addTimeElement(bibliotecario);
     }
 
     private void initializeFirstGroupOfElements() {
@@ -206,9 +240,19 @@ public class TheEscapeConfiguration implements GameBuilder {
         destornillador1 = new Element("Destornillador 1");
         destornillador2 = new Element("Destornillador 2");
         botellaLicor = new Element("Botella");
+        configurarBotellaLicor();
         vasoUno = new Element("Vaso1");
         vasoDos = new Element("Vaso2");
         initializeBooks();
+
+    }
+
+    private void configurarBotellaLicor() {
+
+        State stateBotella = new State("dormido", true, false);
+        stateBotella.setEffectMessage("El Bibliotecario se quedo dormido de la borrachera.");
+        botellaLicor.setStateToAffect(stateBotella);
+
     }
 
     private void initializeBooks() {
@@ -230,8 +274,12 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorSalon2 = new Element("Salon2");
         doorSalon3 = new Element("Salon3");
         doorAccesoABibliotecario = new Element("BibliotecaAcceso");
-        doorBibliotecario = new Element("Bibliotecario");
+        doorBibliotecario = new Element("Bibliotecarioasdghhhsdfsddsaasdasdasd");
         accesoBibliotecaBis = new Element("Biblioteca");
+
+        bibliotecario.setPlayerPosition(accesoBiblioteca);
+
+
         doorBiblioteca = new Element("Biblioteca");
         doorBibliotecaBibliotecario = new Element("Bibliotecario");
         doorSotano = new Element("Sotano");
@@ -240,6 +288,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         doorSalon2.changeState("visible", true);
         doorSalon3.changeState("visible", true);
         doorAccesoABibliotecario.changeState("visible", true);
+        doorBibliotecaAccesoBiblioteca = new Element("doorBiblioteca");
     }
 
     private void createPlayer() {
@@ -360,7 +409,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     private void setElementsToSalon1() {
         salonUno.addElement(mesa);
-        salonUno.addElement(botellaLicor);
+//        salonUno.addElement(botellaLicor);
         salonUno.addElement(vasoDos);
         salonUno.addElement(vasoUno);
         salonUno.addElement(sillaDos);
@@ -460,23 +509,44 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createBibliotecario() {
+
         accesoBiblioteca.addCommand(lookAround);
 
         doorToPasillo.changeState("visible", true);
         doorToPasillo.addCommand(openDoor);
         doorToPasillo.setObjectiveElement(pasillo);
 
+        bibliotecario.changeState("visible", true);
+        bibliotecario.addState(new State("dormido", false, false));
+        bibliotecario.addState(new State("enojado", false, false));
+        bibliotecario.addCommand(giveItem);
+
+        doorBibliotecaAccesoBiblioteca.changeState("visible", true);
+        doorBibliotecaAccesoBiblioteca.setObjectiveElement(biblioteca);
+
+        setOpenWhenSleeped();
+
         accesoBiblioteca.addElement(doorToPasillo);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
-        setBibliotecarioCondition();
+//        setBibliotecarioCondition();
 
         doorBibliotecario.changeState("visible", true);
-        doorBibliotecario.addCommand(pasarBibliotecario);
+
         doorBibliotecario.addCommand(question);
 
-        accesoBiblioteca.addElement(doorBibliotecario);
+//        accesoBiblioteca.addElement(doorBibliotecario);
+        accesoBiblioteca.addElement(bibliotecario);
+        accesoBiblioteca.addElement(doorBibliotecaAccesoBiblioteca);
+    }
 
+    private void setOpenWhenSleeped() {
+        IInterpreter sleepedBibliotecario = new HasValueState(bibliotecario, "dormido", true);
+        sleepedBibliotecario.setFailMessage("You can't cross because bibliotecario is Horny");
+        ICommand openDoorSleeped = new MovePlayerTo(game, sleepedBibliotecario, "goto");
+        openDoorSleeped.incorrectMovementMessage("You can't cross");
+        openDoorSleeped.correctMovementMessage("You have Crossed to the Biblioteca");
+        doorBibliotecaAccesoBiblioteca.addCommand(openDoorSleeped);
     }
 
     private void setBibliotecarioCondition() {
@@ -502,6 +572,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");
+        doorBibliotecario.addCommand(pasarBibliotecario);
     }
 
     private void createAccesoABibliotecaBis() {
@@ -609,6 +680,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         pasillo.addElement(doorSalon2);
         pasillo.addElement(doorSalon3);
         pasillo.addElement(doorAccesoABibliotecario);
+        pasillo.addElement(botellaLicor);
 
         doorSalon1.addCommand(question);
         doorSalon2.addCommand(question);

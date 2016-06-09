@@ -21,11 +21,12 @@ public class State {
         this.name = name;
         this.active = status;
         this.willDestroyTheItem = willDestroyTheItem;
+        this.effectMessage = "";
+        this.antiEffectMessage = "";
     }
 
     public State(String name, boolean status, String antiState, boolean willDestroyTheItem) {
-        this.name = name;
-        this.active = status;
+        this(name, status, willDestroyTheItem);
         this.antiState = antiState;
         this.willDestroyTheItem = willDestroyTheItem;
     }

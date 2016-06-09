@@ -184,7 +184,11 @@ public class Element implements Cloneable {
     }
 
     public void changeState(String stateName, boolean value) {
-        stateMap.get(stateName).setActive(value);
+        if ( stateMap.containsKey(stateName) ) {
+            stateMap.get(stateName).setActive(value);
+        } else {
+            System.out.println("No pude cambiar el estado: " + stateName + " de " + name);
+        }
     }
 
     public boolean hasAllElements(ArrayList<String> elementsToContain) {

@@ -17,13 +17,17 @@ public abstract class TimeCommand {
     private int timeOfAction;
     private String command;
     private BroadcastQueue queue;
+    private boolean startAtBegining;
 
     public TimeCommand(int timeOfAction, String command) {
         this.timeOfAction = timeOfAction;
         this.command = command;
+        startAtBegining = true;
     }
 
     public TimerTask start() {
+        System.out.println("Llegue adentro del start de " + command);
+
         TimerTask timerTask = new TimerTask() {
             public void run() {
 //                String cmd = engine.doTimeCommand(command);
@@ -51,6 +55,14 @@ public abstract class TimeCommand {
 
     public void setBroadcastQueue(BroadcastQueue queue) {
         this.queue = queue;
+    }
+
+    public void setStart(boolean start) {
+        startAtBegining = start;
+    }
+
+    public boolean getStart() {
+        return startAtBegining;
     }
 
     public abstract void startTimeAction();

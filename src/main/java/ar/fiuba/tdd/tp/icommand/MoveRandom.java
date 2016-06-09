@@ -13,7 +13,7 @@ public class MoveRandom extends ITimeCommand{
     public MoveRandom(String name) {
         this.name = name;
         this.correctMovementMessage = "The ";
-        this.incorrectMovementMessage = "The CHUPACABRAS suffered an error.";
+        this.incorrectMovementMessage = " is locked.";
         this.auxiliarMessage = " moved to the ";
     }
 
@@ -34,7 +34,7 @@ public class MoveRandom extends ITimeCommand{
 
         int amountOfDoors = doors.size();
 
-        if ( amountOfDoors >= 0 ) {
+        if ( amountOfDoors > 0 ) {
             Random random = new Random();
 
             // Elijo una puerta al azar
@@ -47,9 +47,10 @@ public class MoveRandom extends ITimeCommand{
             next.addElement(elementToMove);
             elementToMove.setPlayerPosition(next);
 
-            return correctMovementMessage + elementToMove.getName() + auxiliarMessage + next.getName();
+            return auxiliarMessage
+                    + correctMovementMessage + elementToMove.getName() + " moved to the " + next.getName();
         } else {
-            return incorrectMovementMessage;
+            return correctMovementMessage + elementToMove.getName() + incorrectMovementMessage;
         }
 
     }

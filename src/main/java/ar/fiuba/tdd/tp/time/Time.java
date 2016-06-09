@@ -26,7 +26,9 @@ public class Time {
             command.setEngine(this.engine);
             command.setTimer(timer);
             command.setBroadcastQueue(queue);
-            command.startTimeAction();
+            if ( command.getStart() ) {
+                command.startTimeAction();
+            }
         }
     }
 

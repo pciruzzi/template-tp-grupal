@@ -10,14 +10,17 @@ public class TheEscapeTest {
 //    @Test
 //    public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {
 //        GameDriver driver = getGameDriver();
-//        execute5Steps(driver);
-//        driver.sendCommand("goto Salon1");
-//        driver.sendCommand("move CuadroBarco");
-//        driver.sendCommand("open CajaFuerte using Llave");
-//        enterToTheLibrary(driver);
-//        driver.sendCommand("move LibroViejo");
-//        driver.sendCommand("goto Sotano");
-//        driver.sendCommand("use Escalera");
+//        try {
+//            driver.sendCommand("goto Salon1", 0);
+//            driver.sendCommand("pick Botella", 0);
+//            driver.sendCommand("goto Pasillo", 0);
+//            driver.sendCommand("goto BibliotecaAcceso", 0);
+//            driver.sendCommand("goto Sotano", 0);
+//            driver.sendCommand("use Escalera", 0 );
+//        } catch (UnknownPlayerException e) {
+//            e.printStackTrace();
+//        }
+//
 //        assertEquals(GameState.Lost, driver.getCurrentState());
 //    }
 //
