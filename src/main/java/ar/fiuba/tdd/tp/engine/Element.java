@@ -10,15 +10,6 @@ public class Element implements Cloneable {
     private Map<String, ICommand> commandMap;
     private Map<String, Element> elementMap;
     private Map<String, State> stateMap;
-
-    public State getStateToAffect() {
-        return stateToAffect;
-    }
-
-    public void setStateToAffect(State stateToAffect) {
-        this.stateToAffect = stateToAffect;
-    }
-
     private State stateToAffect;
     private int size;
     private Element objectiveElement;
@@ -93,6 +84,14 @@ public class Element implements Cloneable {
         this.capacity = this.capacity + element.getSize();
     }
 
+    public State getStateToAffect() {
+        return stateToAffect;
+    }
+
+    public void setStateToAffect(State stateToAffect) {
+        this.stateToAffect = stateToAffect;
+    }
+
     public List<Element> getElementList() {
         return new ArrayList<>(elementMap.values());
     }
@@ -146,7 +145,6 @@ public class Element implements Cloneable {
         return visibleElements;
     }
 
-
     public boolean hasState(String state) {
         return stateMap.containsKey(state);
     }
@@ -158,13 +156,6 @@ public class Element implements Cloneable {
             return false;
         }
     }
-
-//    public boolean hasState(String state) {
-//        if (stateMap.containsKey(state)) {
-//            return stateMap.get(state).isActive();
-//        }
-//        return false;
-//    }
 
     public int getSize() {
         return size;
