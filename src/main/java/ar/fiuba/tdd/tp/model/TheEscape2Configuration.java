@@ -7,13 +7,14 @@ import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
 public class TheEscape2Configuration implements GameBuilder {
 
     private Game game;
-    private Element player;
+    private Player player;
 
     // Los cuartos
     private Element salonUno;
@@ -108,7 +109,6 @@ public class TheEscape2Configuration implements GameBuilder {
         setHelpCommand();
         setExitCommand();
 
-
         game.setInitialPosition(pasillo);
 
         return game;
@@ -197,7 +197,7 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        player = new Element("player");
+        player = new Player(-1);
         fotoBuena = new Element("Foto");
         fotoDesconocida = new Element("FotoDesconocida");
         lapicera = new Element("Lapicera");
@@ -251,8 +251,12 @@ public class TheEscape2Configuration implements GameBuilder {
         lapicera.addCommand(drop);
         lapicera.addCommand(pick);
 
-        player.addElement(fotoBuena);
-        player.addElement(lapicera);
+        List<Element> initialElements = new ArrayList<>();
+        initialElements.add(fotoBuena);
+        initialElements.add(lapicera);
+
+        game.setInitialElements(initialElements);
+        game.setGenericPlayer(player);
     }
 
     private void createRoomTwo() {
@@ -406,7 +410,6 @@ public class TheEscape2Configuration implements GameBuilder {
         sotanoAbajo.addElement(barandaSotanoAbajo);
         sotanoAbajo.addElement(escalera);
 
-//        escalera.setState(true);
         barandaSotanoAbajo.changeState("visible", true);
 
         ICommand barandaNada = new ChangeVisibility("use", true, game);
@@ -414,10 +417,6 @@ public class TheEscape2Configuration implements GameBuilder {
         barandaSotanoAbajo.addCommand(barandaNada);
         barandaSotanoAbajo.addCommand(question);
 
-//        escalera.addCommand(use);
-//        escalera.setObjectiveElement(cuartoDeLaMuerte);
-
-//        ventana.setObjectiveElement(lastRoom);
         pasajeAfuera.addCommand(openDoor);
         pasajeAfuera.setObjectiveElement(lastRoom);
         ventana.addElement(pasajeAfuera);
