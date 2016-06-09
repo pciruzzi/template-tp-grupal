@@ -1,10 +1,13 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
 import static ar.fiuba.tdd.tp.Constants.ANTIDOTE_PICKED;
@@ -44,7 +47,7 @@ public class MoveToPlayer extends ICommand {
                 playerPosition.removeElement(element);
                 // Lo saco del objeto que lo contenia
                 removeElement(element, playerPosition);
-                checkElementForPoisonAndAntidote(element,  player);
+                affectPlayer(element,  player);
                 return correctMovementMessage + element.getName() + returnMessage;
             } else {
                 //No esta en el piso
@@ -67,26 +70,28 @@ public class MoveToPlayer extends ICommand {
         }
     }
 
-    private void checkElementForPoisonAndAntidote(Element element, Element player) {
+    private void affectPlayer(Element element, Element player) {
 
-//        checkAntidote(element);
+        State stateToAffect = element.getStateToAffect();
 
-        if (element.hasState("poison")) {
-            player.changeState("poison",true);
-            returnMessage = POISONED;
-        }
-        if (player.hasState("poison")) {
-            if ( game.checkInventoryForAntidote() ) {
-                returnMessage += ANTIDOTED;
+        if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
+            player.changeState(stateToAffect.getName(), stateToAffect.isActive());
+            returnMessage += "\n" + stateToAffect.getEffectMessage();
+            if (stateToAffect.isWillDestroyTheItem()) {
+                player.removeElement(element);
             }
+
+            if (player.hasElement(stateToAffect.getAntiState())) {
+                player.changeState(stateToAffect.getName(), !stateToAffect.isActive());
+                returnMessage += "\n" + stateToAffect.getAntiEffectMessage();
+                if (stateToAffect.isWillDestroyTheItem()) {
+                    Element elementToRemoveOfAntiEffect = player.getElement(stateToAffect.getAntiState());
+                    player.removeElement(elementToRemoveOfAntiEffect);
+                }
+            }
+
         }
     }
-
-//    private void checkAntidote(Element element) {
-//        if ( element .isAntidote() ) {
-//            returnMessage = ANTIDOTE_PICKED;
-//        }
-//    }
 
     private boolean checkAvailableElement(Game game, Element element) {
         return (game.getPlayerPosition().getVisibleElements().containsKey(element.getName()));

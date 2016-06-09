@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
@@ -65,7 +66,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
-        player.addState("poison", false);
+        player.addState(new State("poison", true, false));
         // Agrego la posicion del player
         game.setPlayer(player);
         game.setPlayerPosition(roomOne);
@@ -94,7 +95,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         treasureBox.changeState("visible", true);
         wardrobe.changeState("visible", true);
 
-        poisonBox.addState("poison", true);
+        poisonBox.addState(new State("poison", true, false));
     }
 
     private void createPickableElements() {

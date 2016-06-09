@@ -34,7 +34,7 @@ public class ChangeVisibility extends ICommand {
     public String doAction(Element element) {
         if (this.condition.interpret()) {
             element.changeElementsState("visible",state);
-            checkPoison(element);
+            affectPlayer(element);
             if (state) {
                 return "The " + element.getName() + correctMovementMessage + returnMessage;
             } else {
@@ -56,7 +56,8 @@ public class ChangeVisibility extends ICommand {
         return returnMessage;
     }
 
-    private void checkPoison(Element element) {
+    private void affectPlayer(Element element) {
+        //Arraelement.getStateList();
         if (element.hasState("poison")) {
             game.getPlayer().changeState("poison",true);
             returnMessage = POISONED;

@@ -120,7 +120,7 @@ public class EvilThingConfiguration implements GameBuilder {
         // Creo los elementos
         roomTwo = new Element("roomTwo");
         cursedObject = new Element("key");
-        cursedObject.addState("visible", true);
+        cursedObject.changeState("visible", true);
         doorOneTwo = new Element("door");
         doorOneTwo.changeState("visible",true);
         roomThree = new Element("roomThree");

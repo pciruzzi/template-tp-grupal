@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
@@ -104,8 +105,8 @@ public class TempleQuest implements GameBuilder {
         apple       = new Element("apple");
         monkey      = new Element("monkey");
 
-        antidote.addState("antidote", true);
-        apple.addState("posion", true);
+        //antidote.addState("antidote", true);
+        apple.addState(new State("poison", true, false));
         monkey.changeState("visible", true);
 
         monkey.setSize(0);

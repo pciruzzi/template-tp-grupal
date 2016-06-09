@@ -1,5 +1,6 @@
 package ar.fiuba.tdd.tp.engine;
 
+import ar.fiuba.tdd.tp.IEffect;
 import ar.fiuba.tdd.tp.icommand.ICommand;
 
 import java.util.*;
@@ -9,7 +10,17 @@ public class Element {
     private String name;
     private Map<String, ICommand> commandMap;
     private Map<String, Element> elementMap;
-    private Map<String, Boolean> stateMap;
+    private Map<String, State> stateMap;
+
+    public State getStateToAffect() {
+        return stateToAffect;
+    }
+
+    public void setStateToAffect(State stateToAffect) {
+        this.stateToAffect = stateToAffect;
+    }
+
+    private State stateToAffect;
     private int size;
     private Element objectiveElement;
     private int capacity;
@@ -19,7 +30,7 @@ public class Element {
         commandMap = new HashMap<>();
         elementMap = new HashMap<>();
         stateMap = new HashMap<>();
-        stateMap.put("visible", false);
+        stateMap.put("visible", new State("visible", false, false));
         this.name = name;
         this.capacity = 999;
         this.size = 1;
@@ -35,7 +46,6 @@ public class Element {
         }
     }
 
-
     public String doCommand(String commandName, Element originElement, Element destElement) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
@@ -49,8 +59,8 @@ public class Element {
         commandMap.put(command.getName(), command);
     }
 
-    public void addState(String state, Boolean value) {
-        stateMap.put(state, value);
+    public void addState(State state) {
+        stateMap.put(state.getName(), state);
     }
 
     public void setName(String name) {
@@ -83,7 +93,7 @@ public class Element {
         return new ArrayList<>(commandMap.values());
     }
 
-    public Map<String, Boolean> getStateList() {
+    public Map<String, State> getStateList() {
         return stateMap;
     }
 
@@ -128,12 +138,29 @@ public class Element {
         return visibleElements;
     }
 
+
     public boolean hasState(String state) {
         if (stateMap.containsKey(state)) {
-            return stateMap.get(state);
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
+
+    public boolean getValueOfState(String state) {
+        if (hasState(state)) {
+            return stateMap.get(state).isActive();
+        } else {
+            return false;
+        }
+    }
+
+//    public boolean hasState(String state) {
+//        if (stateMap.containsKey(state)) {
+//            return stateMap.get(state).isActive();
+//        }
+//        return false;
+//    }
 
     public int getSize() {
         return size;
@@ -147,14 +174,14 @@ public class Element {
         return elementMap;
     }
 
-    public void changeElementsState(String state, Boolean value) {
+    public void changeElementsState(String state, boolean value) {
         for (Element element : getElementList()) {
             element.changeState(state, value);
         }
     }
 
-    public void changeState(String state, Boolean value) {
-        stateMap.replace(state, value);
+    public void changeState(String stateName, boolean value) {
+        stateMap.get(stateName).setActive(value);
     }
 
     public boolean hasAllElements(ArrayList<String> elementsToContain) {
@@ -168,6 +195,17 @@ public class Element {
             }
         }
         return true;
+    }
+
+    public List<State> getTrueList() {
+        List<State> returnList = new ArrayList<>();
+        Set<String> keySet = stateMap.keySet();
+        for (String state : keySet) {
+            if (stateMap.get(state).isActive() && (stateMap.get(state).getName().compareTo("visible") != 0)) {
+                returnList.add(stateMap.get(state));
+            }
+        }
+        return returnList;
     }
 
 }

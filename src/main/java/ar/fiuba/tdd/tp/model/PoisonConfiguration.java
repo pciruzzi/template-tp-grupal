@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
@@ -20,7 +21,7 @@ public class PoisonConfiguration implements GameBuilder {
         player = new Element("player");
         Element room = new Element("room");
 
-        player.addState("poison", false);
+        player.addState(new State("poison", false, false));
 
         game.setPlayer(player);
         game.setPlayerPosition(room);
@@ -35,6 +36,9 @@ public class PoisonConfiguration implements GameBuilder {
         createStickWithPoison(room, question, pick);
 
         Element antidote = createAntidote(question, pick);
+        State antidoteState = new State("poison", false, true);
+        antidoteState.setEffectMessage("The antidote healed you, PAPA!!");
+        antidote.setStateToAffect(antidoteState);
         room.addElement(antidote);
 
         createFinishingConditions();
@@ -44,10 +48,10 @@ public class PoisonConfiguration implements GameBuilder {
 
     private void createFinishingConditions() {
         ArrayList<String> winArray = new ArrayList<String>();
-        winArray.add("antidote");
+        winArray.add("antidotes");
 
         ArrayList<String> losingArray = new ArrayList<String>();
-        losingArray.add("stick");
+        losingArray.add("stickp");
 
         IInterpreter winInterpreter = new ContainsElements(player,winArray);
         IInterpreter losingInterpreter = new ContainsElements(player,losingArray);
@@ -61,7 +65,7 @@ public class PoisonConfiguration implements GameBuilder {
         chest.addCommand(question);
         chest.changeState("visible", true);
         chest.addCommand(open);
-        chest.addState("poison", true);
+        chest.setStateToAffect(new State("poison", true, false));
         room.addElement(chest);
     }
 
@@ -70,7 +74,10 @@ public class PoisonConfiguration implements GameBuilder {
         stick.addCommand(question);
         stick.changeState("visible", true);
         stick.addCommand(pick);
-        stick.addState("poison", true);
+        State poisonState = new State("poison", true, "antidote", true);
+        poisonState.setEffectMessage("You have been poison :(");
+        poisonState.setAntiEffectMessage("You have been healed :)");
+        stick.setStateToAffect(poisonState);
         room.addElement(stick);
     }
 
