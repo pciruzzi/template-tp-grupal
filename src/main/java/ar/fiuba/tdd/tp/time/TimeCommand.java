@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.time;
 
 
+import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 
@@ -23,7 +24,7 @@ public abstract class TimeCommand {
     public TimerTask start() {
         TimerTask timerTask = new TimerTask() {
             public void run() {
-                queue.pushBroadcast(engine.doCommand(-1, command));
+                queue.pushBroadcast(engine.doTimeCommand(command));
 //                System.out.println(engine.doCommand(0, command));
             }
         };

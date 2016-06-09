@@ -16,4 +16,6 @@ public final class Constants {
 
     public static final int BROADCAST = -1;
     public static final int NONE = -1;
+    public static final int NON_PLAYER = -1;
+
 }

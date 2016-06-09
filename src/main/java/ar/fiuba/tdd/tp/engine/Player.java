@@ -1,6 +1,11 @@
 package ar.fiuba.tdd.tp.engine;
 
+import ar.fiuba.tdd.tp.icommand.ICommand;
+import ar.fiuba.tdd.tp.icommand.ITimeCommand;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player extends Element {
 
@@ -10,6 +15,7 @@ public class Player extends Element {
     private IInterpreter losingInterpreter;
     private boolean playerGameWon;
     private boolean playerGameLost;
+
 
     public Player(int id) {
         super("player");
@@ -61,4 +67,14 @@ public class Player extends Element {
     public boolean getGameLost() {
         return this.playerGameLost;
     }
+
+    public String doTimeCommand(String commandName) {
+        if (timeCommandMap.containsKey(commandName)) {
+            ITimeCommand command = timeCommandMap.get(commandName);
+            return command.doTimeAction(this);
+        } else {
+            return "I can't do that.";
+        }
+    }
+
 }

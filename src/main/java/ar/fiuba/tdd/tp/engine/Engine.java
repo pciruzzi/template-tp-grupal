@@ -47,6 +47,25 @@ public class Engine {
         return game.play(playerID, command, firstElementName, secondElementName);
     }
 
+    public String doTimeCommand(String action) {
+        List<Player> timeElements = game.getTimeElements();
+
+        Player firstElement = commandParser.getFirstPlayer(action,timeElements);
+        if ( firstElement == null ) {
+            return "No hay elemento que realice el TimeCommand " + action;
+        }
+
+        String firstElementName = firstElement.getName();
+
+        Player secondElement = commandParser.getSecondPlayer(action, firstElementName, timeElements);
+        String command = commandParser.getCommand(action, firstElementName);
+        if ( secondElement == null ) {
+            return game.playTime(command, firstElement);
+        }
+//        String secondElementName = secondElement.getName();
+        return game.playTime(command, firstElement, secondElement);
+    }
+
     public boolean isGameWon() {
         return this.game.getGameWon();
     }

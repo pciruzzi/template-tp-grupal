@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BroadcastQueue queue = new EventQueue();
         Engine engine = new Engine(queue);
-        GameBuilder fetchConfiguration = new TheEscapeConfiguration();
+        GameBuilder fetchConfiguration = new TheEscape2Configuration();
         engine.createGame(fetchConfiguration);
         engine.createPlayer(0);
 

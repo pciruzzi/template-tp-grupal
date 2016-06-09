@@ -1,6 +1,8 @@
 package ar.fiuba.tdd.tp.engine;
 
 import ar.fiuba.tdd.tp.icommand.ICommand;
+import ar.fiuba.tdd.tp.icommand.ITimeCommand;
+import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.*;
 
@@ -9,6 +11,7 @@ public class Element {
     private boolean state;
     private String name;
     private Map<String, ICommand> commandMap;
+    protected Map<String, ITimeCommand> timeCommandMap;
     private Map<String, Element> elementMap;
     private int size;
     private Element objectiveElement;
@@ -19,6 +22,7 @@ public class Element {
 
     public Element(String name) {
         commandMap = new HashMap<>();
+        timeCommandMap = new HashMap<>();
         elementMap = new HashMap<>();
         this.name = name;
         this.state = false;
@@ -37,7 +41,6 @@ public class Element {
         }
     }
 
-
     public String doCommand(String commandName, Element originElement, Element destElement, int playerId) {
         if (commandMap.containsKey(commandName)) {
             ICommand command = commandMap.get(commandName);
@@ -45,6 +48,10 @@ public class Element {
         } else {
             return "I can't do that.";
         }
+    }
+
+    public void addTimeCommand(ITimeCommand command) {
+        timeCommandMap.put(command.getName(), command);
     }
 
     public void addCommand(ICommand command) {

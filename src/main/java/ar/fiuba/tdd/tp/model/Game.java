@@ -20,6 +20,7 @@ public class Game {
     private boolean gameWon;
     private boolean gameLost;
     private ArrayList<TimeCommand> timeCommands;
+    private ArrayList<Player> timeElements;
 
     public Game(String name) {
         this.name = name;
@@ -28,6 +29,7 @@ public class Game {
         this.gameWon = false;
         this.description = "Descripcion basica.";
         this.timeCommands = new ArrayList<>();
+        this.timeElements = new ArrayList<>();
     }
 
     public String getName() {
@@ -106,6 +108,23 @@ public class Game {
         return returnMessage;
     }
 
+
+    public String playTime(String cmd, Player element) {
+        String returnMessage = "It doesn't exist the element";
+
+
+        if (element != null) {
+            returnMessage = element.doTimeCommand(cmd);
+        }
+        return returnMessage;
+    }
+
+
+    public String playTime(String cmd, Element firstElement, Element secondElement) {
+
+        return "Funciono dos";
+    }
+
     private Element getElement(int playerID, String element) {
         Element actualElement;
         Element player = getPlayer(playerID);
@@ -118,6 +137,20 @@ public class Game {
             actualElement = null;
         }
         return actualElement;
+    }
+
+    public List<Player> getTimeElements() {
+        return timeElements;
+    }
+
+    public void addTimeElement(Player element) {
+        for (Player checkedElement : timeElements ) {
+            String elementName = element.getName();
+            if (checkedElement.getName().equals(elementName) ) {
+                System.out.println("Agregaste dos veces el mismo TimeElement: " + elementName);
+            }
+        }
+        timeElements.add(element);
     }
 
     private String checkFinishedGame(String returnMessage) {
