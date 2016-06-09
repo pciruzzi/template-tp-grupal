@@ -129,7 +129,7 @@ public class TheEscape2Configuration implements GameBuilder {
         relojCucu.addTimeCommand(cucu);
         relojCucu.setState(true);
         pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
+        TimeCommand cucuClock = new ScheduledTimedAction(6000,"sonar Reloj");
         game.addTimeCommand(cucuClock);
         game.addTimeElement(relojCucu);
     }
@@ -145,6 +145,8 @@ public class TheEscape2Configuration implements GameBuilder {
         sotanoAbajo = new Element("Sotano Abajo");
         lastRoom = new Element("LastRoom");
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+
+        addRoomsToGame();
     }
 
     private void initializeElements() {
@@ -426,7 +428,11 @@ public class TheEscape2Configuration implements GameBuilder {
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        return new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
+        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(player, spider, game);
+
+        IInterpreter orExpression = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
+
+        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
     }
 
     private void createBibliotecario() {
@@ -612,6 +618,15 @@ public class TheEscape2Configuration implements GameBuilder {
         romper.correctMovementMessage("is broken.");
     }
 
+    private void addRoomsToGame() {
+        game.addContainer(salonUno);
+        game.addContainer(salonDos);
+        game.addContainer(salonTres);
+        game.addContainer(biblioteca);
+        game.addContainer(accesoBiblioteca);
+        game.addContainer(pasillo);
+    }
+
     @SuppressWarnings("CPD-END")
 
     private void createRoomThree() {
@@ -632,7 +647,7 @@ public class TheEscape2Configuration implements GameBuilder {
         ITimeCommand moveRandom = new MoveRandom("cambiar");
         spider.addTimeCommand(moveRandom);
 
-        TimeCommand cambiarSpider = new ScheduledTimedAction(5000,"cambiar Spider");
+        TimeCommand cambiarSpider = new ScheduledTimedAction(4000,"cambiar Spider");
         game.addTimeCommand(cambiarSpider);
 
         game.addTimeElement(spider);
