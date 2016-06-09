@@ -68,28 +68,37 @@ public class Dequeuer implements Runnable {
 
     private void sendCommandToAliveInteractor(CommandPlayer command, InteractorStatus interactor,
                                               Interactor actualInteractor) throws WritingException {
+        try {
+            Thread.sleep(300); //Para que no se pisen 2 mensajes a enviar
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (gameWon) {
             sendGameWon(command, actualInteractor);
         } else {
-            if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
-                try {
-                    if (! command.isNewPlayer()) {
-                        String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
-                        actualInteractor.write(returnCode);
-                        checkStatus(interactor, returnCode);
-                    }
-                } catch (UnknownPlayerException e) {
-                    writer.writeError(e.getMsg());
+            sendNoWonMessage(command, interactor, actualInteractor);
+        }
+    }
+
+    private void sendNoWonMessage(CommandPlayer command, InteractorStatus interactor, Interactor actualInteractor) throws WritingException {
+        if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
+            try {
+                if (! command.isNewPlayer()) {
+                    String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                    actualInteractor.write(returnCode);
+                    checkStatus(interactor, returnCode);
                 }
+            } catch (UnknownPlayerException e) {
+                writer.writeError(e.getMsg());
+            }
+        } else {
+            if (command.isNewPlayer()) {
+                actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
+            } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
+                actualInteractor.write(command.getCommmand());
+                writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
             } else {
-                if (command.isNewPlayer()) {
-                    actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
-                } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
-                    actualInteractor.write(command.getCommmand());
-                    writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
-                } else {
-                    actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
-                }
+                actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
             }
         }
     }
