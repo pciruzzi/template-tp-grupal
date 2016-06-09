@@ -170,7 +170,7 @@ public class TheEscape2Configuration implements GameBuilder {
         relojCucu.addTimeCommand(cucu);
         relojCucu.changeState("visible", true);
         pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new ScheduledTimedAction(6000,"sonar Reloj");
+        TimeCommand cucuClock = new ScheduledTimedAction(4000,"sonar Reloj");
         game.addTimeCommand(cucuClock);
         game.addTimeElement(relojCucu);
     }
@@ -687,7 +687,7 @@ public class TheEscape2Configuration implements GameBuilder {
         ITimeCommand moveRandom = new MoveRandom("cambiar");
         spider.addTimeCommand(moveRandom);
 
-        TimeCommand cambiarSpider = new ScheduledTimedAction(4000,"cambiar Spider");
+        TimeCommand cambiarSpider = new ScheduledTimedAction(10000,"cambiar Spider");
         game.addTimeCommand(cambiarSpider);
 
         game.addTimeElement(spider);

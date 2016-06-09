@@ -2,6 +2,7 @@ package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.*;
@@ -23,6 +24,7 @@ public class Game {
     private int maxPlayers;
     private boolean gameWon;
     private boolean gameLost;
+    private BroadcastQueue queue;
     private ArrayList<TimeCommand> timeCommands;
     private ArrayList<Player> timeElements;
     private ArrayList<Element> containerssList;
@@ -40,6 +42,10 @@ public class Game {
         this.timeCommands   = new ArrayList<>();
         this.timeElements   = new ArrayList<>();
         this.containerssList = new ArrayList<>();
+    }
+
+    public void setQueue(BroadcastQueue queue) {
+        this.queue = queue;
     }
 
     public String getName() {
@@ -203,6 +209,7 @@ public class Game {
                 if (this.hasLost(playerID)) {
                     gameLost = true;
                     returnMessage = GAME_LOST;
+                    this.queue.pushLostCommand(playerID);
                 }
                 if (this.hasWon(playerID)) {
                     gameWon = true;

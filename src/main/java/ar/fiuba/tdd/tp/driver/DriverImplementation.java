@@ -52,7 +52,7 @@ public class DriverImplementation implements GameDriver {
         String returnMessage = engine.doCommand(player,cmd);
         if (engine.isGameWon()) {
             status = GameState.Won;
-        } else if (engine.isGameLost()) {
+        } else if (engine.isGameLost()) { //Sirve solo si es para un unico jugador!!!
             status = GameState.Lost;
         }
         return returnMessage;
