@@ -21,6 +21,7 @@ public class Game {
     private boolean gameLost;
     private ArrayList<TimeCommand> timeCommands;
     private ArrayList<Player> timeElements;
+    private ArrayList<Element> containerssList;
 
     public Game(String name) {
         this.name = name;
@@ -28,8 +29,9 @@ public class Game {
         this.gameLost = false;
         this.gameWon = false;
         this.description = "Descripcion basica.";
-        this.timeCommands = new ArrayList<>();
-        this.timeElements = new ArrayList<>();
+        this.timeCommands   = new ArrayList<>();
+        this.timeElements   = new ArrayList<>();
+        this.containerssList = new ArrayList<>();
     }
 
     public String getName() {
@@ -116,13 +118,17 @@ public class Game {
         if (element != null) {
             returnMessage = element.doTimeCommand(cmd);
         }
+        returnMessage = checkFinishedGame(returnMessage);
         return returnMessage;
     }
 
 
     public String playTime(String cmd, Element firstElement, Element secondElement) {
+        String returnMessage = "It doesn't exist the element";
 
-        return "Funciono dos";
+        returnMessage = checkFinishedGame(returnMessage);
+
+        return returnMessage;
     }
 
     private Element getElement(int playerID, String element) {
@@ -239,6 +245,20 @@ public class Game {
 
     public void setInitialPosition(Element initialPosition) {
         this.initialPosition = initialPosition;
+    }
+
+    public void addContainer(Element element) {
+
+        for ( Element room : containerssList) {
+            if ( room.getName().equals(element.getName()) ) {
+                System.out.println("You are adding the same room twice to the game: " + room.getName());
+            }
+        }
+        containerssList.add(element);
+    }
+
+    public List<Element> getContainersList() {
+        return containerssList;
     }
 
 }
