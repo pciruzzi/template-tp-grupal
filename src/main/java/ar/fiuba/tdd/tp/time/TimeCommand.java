@@ -23,7 +23,7 @@ public abstract class TimeCommand {
     public TimerTask start() {
         TimerTask timerTask = new TimerTask() {
             public void run() {
-                queue.pushBroadcast(engine.doCommand(-1, command));
+                queue.pushBroadcast(engine.doCommand(0, command));
 //                System.out.println(engine.doCommand(0, command));
             }
         };

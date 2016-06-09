@@ -34,7 +34,8 @@ public class DriverImplementation implements GameDriver {
         if (result >= 0) {
             return result;
         }
-        throw new PlayerJoinFailedException("Couldn't initialize the new player");
+        playerCount--;
+        throw new PlayerJoinFailedException("A connection has been refused because the maximum players of the game has been reached");
     }
 
     @Override

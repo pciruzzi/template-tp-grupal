@@ -69,6 +69,8 @@ public class TempleQuest implements GameBuilder {
     public Game build() {
 
         game = new Game("Temple Quest");
+        game.setDescription("Think that you're Indiana Jones and then act like him...");
+        game.setMaxPlayers(4);
         player = new Element("player");
 
         createLastRoom();

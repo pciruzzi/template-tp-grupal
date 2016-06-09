@@ -25,7 +25,8 @@ public class OpenDoorConfiguration implements GameBuilder {
 
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door");
-        game.setDescription("Oh deer... you are trapped inside a room, don't worry, there's always a way out.");
+        game.setDescription("Oh dear... you are trapped inside a room, don't worry, there's always a way out.");
+        game.setMaxPlayers(4);
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");

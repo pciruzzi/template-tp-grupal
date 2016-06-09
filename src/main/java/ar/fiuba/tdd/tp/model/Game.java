@@ -18,6 +18,7 @@ public class Game {
     private IInterpreter losingInterpreter;
     private String name;
     private String description;
+    private int maxPlayers;
     private boolean gameWon;
     private boolean gameLost;
     private ArrayList<TimeCommand> timeCommands;
@@ -30,6 +31,7 @@ public class Game {
         this.gameWon = false;
         this.description = "Descripcion basica.";
         this.timeCommands = new ArrayList<>();
+        this.maxPlayers = 1;
     }
 
     public String getName() {
@@ -49,9 +51,7 @@ public class Game {
     }
 
     public int createPlayer(int id) {
-        // Si el id del player es igual al indice del proximo que tengo que meter lo deja meter.
-        // Sino dice que se metio mal el indice del player
-        if (id == players.size()) {
+        if (getPlayersConnected() < maxPlayers) {
             Player newPlayer = new Player(id);
             newPlayer.setPlayerPosition(initialPosition);
             initialPosition.addElement(newPlayer);
@@ -66,6 +66,20 @@ public class Game {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setMaxPlayers(int players) {
+        this.maxPlayers = players;
+    }
+
+    private int getPlayersConnected() {
+        int count = 0;
+        for (Boolean isConnected : this.isPlayerConnected) {
+            if (isConnected) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public  String play(int playerID, String cmd) {
@@ -123,15 +137,15 @@ public class Game {
         for (Player player : players) {
             int playerID = player.getPlayerID();
 
-            if (this.hasLost(playerID)) {
-                gameLost = true;
-                player.setGameLost(true);
-                returnMessage = GAME_LOST;
-            }
-            if (this.hasWon(playerID)) {
-                gameWon = true;
-                player.setGameWon(true);
-                returnMessage = GAME_WON;
+            if (this.isPlayerConnected.get(playerID)) {
+                if (this.hasLost(playerID)) {
+                    gameLost = true;
+                    returnMessage = GAME_LOST;
+                }
+                if (this.hasWon(playerID)) {
+                    gameWon = true;
+                    returnMessage = GAME_WON;
+                }
             }
         }
         return returnMessage;
@@ -164,8 +178,7 @@ public class Game {
 
     public List<Element> getVisibleElementList(int playerID) {
         Map<String, Element> visibleElements = this.calculateVisibleElements(playerID);
-        List<Element> returnList = new ArrayList<>(visibleElements.values());
-        return returnList;
+        return new ArrayList<>(visibleElements.values());
     }
 
     //Return true if the player had an antidote and had been healed.

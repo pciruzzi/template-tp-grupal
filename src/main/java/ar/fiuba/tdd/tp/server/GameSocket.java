@@ -88,7 +88,10 @@ public class GameSocket implements Runnable {
             interactors.add(interactorStatus);
             interactorThreads.add(thread);
         } catch (PlayerJoinFailedException e) {
-            e.printStackTrace();
+            writer.write(e.getMsg());
+            ConnectionRejector rejector = new ConnectionRejector(connection);
+            Thread thread = new Thread(rejector);
+            thread.start();
         }
     }
 

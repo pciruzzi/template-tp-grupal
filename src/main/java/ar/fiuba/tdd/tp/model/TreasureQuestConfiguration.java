@@ -57,7 +57,8 @@ public class TreasureQuestConfiguration implements GameBuilder {
         player = new Element("player");
         player.setCapacity(2);
         game = new Game("Treasure Quest");
-        game.setDescription("");
+        game.setDescription("Try to find the Irish treasure");
+        game.setMaxPlayers(4);
 
         createICommands();
         createElements();

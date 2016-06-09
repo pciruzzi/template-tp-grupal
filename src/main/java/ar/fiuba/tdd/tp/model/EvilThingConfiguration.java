@@ -26,6 +26,7 @@ public class EvilThingConfiguration implements GameBuilder {
     public Game build() {
         game = new Game("Evil Thing");
         game.setDescription("Never feel sad if you are removed of a valuable item, sometiemes is the only way out.");
+        game.setMaxPlayers(4);
 
         createGameElements();
         createGameActions();

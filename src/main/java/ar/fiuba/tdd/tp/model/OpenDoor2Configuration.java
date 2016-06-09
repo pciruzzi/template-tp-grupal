@@ -26,6 +26,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door 2");
         game.setDescription("Is this real life? Is this just fantasy? Look for items in the room, try to leave this torture.");
+        game.setMaxPlayers(4);
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");

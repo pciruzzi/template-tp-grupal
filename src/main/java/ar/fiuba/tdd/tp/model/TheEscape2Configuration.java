@@ -93,6 +93,8 @@ public class TheEscape2Configuration implements GameBuilder {
     @Override
     public Game build() {
         game = new Game("The Escape 2");
+        game.setDescription("You're locked in a house; try to escape without die trying");
+        game.setMaxPlayers(4);
 
         initializeElements();
         initializeRooms();

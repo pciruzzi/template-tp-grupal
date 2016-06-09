@@ -24,7 +24,7 @@ public class ClientSocketReader implements Runnable {
             while (! gameFinished && ! client.getExitedGame()) {
                 String response = socket.read();
                 writer.write(response);
-                if (response.equals(GAME_WON) || response.equals(GAME_LOST) || response.contains(SOMEONE_WON)) {
+                if (isGameFinished(response)) {
                     gameFinished = true;
                 }
             }
@@ -33,6 +33,10 @@ public class ClientSocketReader implements Runnable {
         } finally {
             socket.closeConnection();
         }
+    }
+
+    private boolean isGameFinished(String response) {
+        return response.equals(GAME_WON) || response.equals(GAME_LOST) || response.contains(SOMEONE_WON) || response.equals(REJECTED);
     }
 
     public boolean getGameFinished() {

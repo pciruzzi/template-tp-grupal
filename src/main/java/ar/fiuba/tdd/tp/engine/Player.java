@@ -8,14 +8,10 @@ public class Player extends Element {
     private Element playerPosition;
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
-    private boolean playerGameWon;
-    private boolean playerGameLost;
 
     public Player(int id) {
         super("player");
         this.id = id;
-        this.playerGameWon = false;
-        this.playerGameLost = false;
     }
 
     public int getPlayerID() {
@@ -44,21 +40,5 @@ public class Player extends Element {
 
     public IInterpreter getLosingInterpreter() {
         return this.losingInterpreter;
-    }
-
-    public void setGameWon(boolean gameWon) {
-        this.playerGameWon = gameWon;
-    }
-
-    public boolean getGameWon() {
-        return this.playerGameWon;
-    }
-
-    public void setGameLost(boolean gameLost) {
-        this.playerGameLost = gameLost;
-    }
-
-    public boolean getGameLost() {
-        return this.playerGameLost;
     }
 }

@@ -7,6 +7,7 @@ public final class Constants {
 
     public static final String GAME_WON = "You won!!!";
     public static final String GAME_LOST = "You lost!!!";
+    public static final String REJECTED = "Sorry, but the game has reached the maximum players connected. Try again later.";
     public static final String SOMEONE_WON = " has win! The game is over.";
     public static final String EXIT = "exit";
 
