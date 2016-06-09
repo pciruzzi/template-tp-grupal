@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static ar.fiuba.tdd.tp.Constants.BROADCAST;
+import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 
 public class EventQueue implements BroadcastQueue {
 
@@ -31,5 +32,11 @@ public class EventQueue implements BroadcastQueue {
         CommandPlayer broadcastCommand = new CommandPlayer(BROADCAST, broadcast);
         broadcastCommand.setBroadcast();
         this.push(broadcastCommand);
+    }
+
+    @Override
+    public void pushLostCommand(int playerNumber) {
+        CommandPlayer cmd = new CommandPlayer(playerNumber, GAME_LOST);
+        this.push(cmd);
     }
 }

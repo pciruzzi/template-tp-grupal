@@ -8,6 +8,8 @@ import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
+
 public abstract class TimeCommand {
 
     private Engine engine;
@@ -24,7 +26,12 @@ public abstract class TimeCommand {
     public TimerTask start() {
         TimerTask timerTask = new TimerTask() {
             public void run() {
-                queue.pushBroadcast(engine.doTimeCommand(command));
+                String cmd = engine.doTimeCommand(command);
+                if (cmd.equals(GAME_LOST)) {
+                    queue.pushLostCommand(0);
+                } else {
+                    queue.pushBroadcast(engine.doTimeCommand(command));
+                }
 //                System.out.println(engine.doCommand(0, command));
             }
         };

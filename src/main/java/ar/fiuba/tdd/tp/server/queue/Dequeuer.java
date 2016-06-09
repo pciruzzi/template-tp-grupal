@@ -120,6 +120,7 @@ public class Dequeuer implements Runnable {
             this.gameWonBy = interactor.getInteractor().getPlayerNumber();
         }
         if (returnCode.equals(GAME_LOST)) {
+            writer.write("Le seteo al interactor " + interactor.getInteractor().getPlayerNumber() + " que perdio.");
             interactor.lost();
         }
     }
