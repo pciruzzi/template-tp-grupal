@@ -21,7 +21,7 @@ public class FetchQuestConfiguration implements GameBuilder {
 
         Element room = new Element("room");
         room.addCommand(new Help("help", game));
-        room.addCommand(new Exit());
+        room.addCommand(new Exit(game));
 
         Element stick = new Element("stick");
         stick.setState(true);
@@ -38,16 +38,6 @@ public class FetchQuestConfiguration implements GameBuilder {
         game.setInitialPosition(room);
         Player player = new Player(0);
         setWinAndLoseInterpreter(player);
-
-
-//        TimeCommand pickStick = new SingleTimedAction(game,10000,"pick stick");
-//        TimeCommand dropStick = new SingleTimedAction(game,7000,"drop stick");
-//        TimeCommand lookAround2 = new ScheduledTimedAction(game,3000,"look around");
-//
-//
-//        game.addTimeCommand(pickStick);
-//        game.addTimeCommand(dropStick);
-//        game.addTimeCommand(lookAround2);
 
         return game;
     }

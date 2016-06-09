@@ -305,7 +305,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     @SuppressWarnings("CPD-END")
 
     private void setHelpAndExitCommand() {
-        ICommand exit = new Exit();
+        ICommand exit = new Exit(game);
         ICommand help = new Help("help", game);
 
         roomOne.addCommand(help);

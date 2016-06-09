@@ -33,6 +33,7 @@ public class PoisonConfiguration implements GameBuilder {
 
         Element antidote = createAntidote(question, pick);
         room.addElement(antidote);
+        room.addCommand(new Exit(game));
 
         createFinishingConditions();
 

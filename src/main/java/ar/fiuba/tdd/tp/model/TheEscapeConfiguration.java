@@ -99,6 +99,19 @@ public class TheEscapeConfiguration implements GameBuilder {
         initializeDoors();
         createICommands();
         createPlayer();
+        createRooms();
+        createLastRoomAndCondicionesDeMorir();
+        createTimeEvents();
+
+        setHelpCommand();
+        setExitCommand();
+
+        game.setInitialPosition(pasillo);
+
+        return game;
+    }
+
+    private void createRooms() {
         createPasillo();
         createRoomOne();
         createRoomTwo();
@@ -108,14 +121,39 @@ public class TheEscapeConfiguration implements GameBuilder {
         createSotanoAbajo();
         createAccesoABibliotecaBis();
         createBiblioteca();
-        createLastRoomAndCondicionesDeMorir();
-        createTimeEvents();
-
-        game.setInitialPosition(pasillo);
-
-        return game;
     }
 
+    private void setHelpCommand() {
+        ICommand help = new Help("help", game);
+
+        salonUno.addCommand(help);
+        salonDos.addCommand(help);
+        salonTres.addCommand(help);
+        accesoBiblioteca.addCommand(help);
+        accesoBibliotecaBis.addCommand(help);
+        biblioteca.addCommand(help);
+        pasillo.addCommand(help);
+        sotano.addCommand(help);
+        sotanoAbajo.addCommand(help);
+        lastRoom.addCommand(help);
+        cuartoDeLaMuerte.addCommand(help);
+    }
+
+    private void setExitCommand() {
+        ICommand exit = new Exit(game);
+
+        salonUno.addCommand(exit);
+        salonDos.addCommand(exit);
+        salonTres.addCommand(exit);
+        accesoBiblioteca.addCommand(exit);
+        accesoBibliotecaBis.addCommand(exit);
+        biblioteca.addCommand(exit);
+        pasillo.addCommand(exit);
+        sotano.addCommand(exit);
+        sotanoAbajo.addCommand(exit);
+        lastRoom.addCommand(exit);
+        cuartoDeLaMuerte.addCommand(exit);
+    }
 
     private void createTimeEvents() {
         ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
@@ -365,7 +403,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         sotanoAbajo.addElement(barandaSotanoAbajo);
         sotanoAbajo.addElement(escalera);
 
-//        escalera.setState(true);
         barandaSotanoAbajo.setState(true);
 
         ICommand barandaNada = new ChangeVisibility("use", true, game);
@@ -373,10 +410,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         barandaSotanoAbajo.addCommand(barandaNada);
         barandaSotanoAbajo.addCommand(question);
 
-//        escalera.addCommand(use);
-//        escalera.setObjectiveElement(cuartoDeLaMuerte);
-
-//        ventana.setObjectiveElement(lastRoom);
         pasajeAfuera.addCommand(openDoor);
         pasajeAfuera.setObjectiveElement(lastRoom);
         ventana.addElement(pasajeAfuera);

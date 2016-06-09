@@ -12,6 +12,7 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 public class Game {
 
     private List<Player> players;
+    private List<Boolean> isPlayerConnected;
     private Element initialPosition;
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
@@ -23,6 +24,7 @@ public class Game {
 
     public Game(String name) {
         this.name = name;
+        this.isPlayerConnected = new ArrayList<>();
         this.players = new ArrayList<>();
         this.gameLost = false;
         this.gameWon = false;
@@ -47,9 +49,6 @@ public class Game {
     }
 
     public int createPlayer(int id) {
-
-//        String returnMessage = "Already exists a player " + id;
-
         // Si el id del player es igual al indice del proximo que tengo que meter lo deja meter.
         // Sino dice que se metio mal el indice del player
         if (id == players.size()) {
@@ -59,7 +58,7 @@ public class Game {
             newPlayer.setWinInterpreter(winInterpreter);
             newPlayer.setLosingInterpreter(losingInterpreter);
             players.add(newPlayer);
-//            returnMessage = "The player " + id + " has entered the game!";
+            isPlayerConnected.add(true);
             return id;
         }
         return -1;
@@ -206,6 +205,10 @@ public class Game {
 
     public void setInitialPosition(Element initialPosition) {
         this.initialPosition = initialPosition;
+    }
+
+    public void notifyExitPlayer(int playerID) {
+        isPlayerConnected.set(playerID, false);
     }
 
 }

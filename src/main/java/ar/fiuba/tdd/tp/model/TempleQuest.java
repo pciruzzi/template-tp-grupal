@@ -63,8 +63,6 @@ public class TempleQuest implements GameBuilder {
     private ICommand question;
     private ICommand lookAround;
     private ICommand cross;
-
-//    private ICommand moveWithComparator;
     private ICommand talk;
 
     @Override
@@ -83,9 +81,27 @@ public class TempleQuest implements GameBuilder {
 
         createFinishingConditions();
 
+        setHelpAndExitCommand();
+
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
         return game;
+    }
+
+    private void setHelpAndExitCommand() {
+        ICommand exit = new Exit(game);
+        ICommand help = new Help("help", game);
+
+        roomOne.addCommand(exit);
+        roomOne.addCommand(help);
+        roomHanoi.addCommand(exit);
+        roomHanoi.addCommand(help);
+        roomHanoiBis.addCommand(exit);
+        roomHanoiBis.addCommand(help);
+        roomArchaeologist.addCommand(exit);
+        roomArchaeologist.addCommand(help);
+        lastRoom.addCommand(exit);
+        lastRoom.addCommand(help);
     }
 
     private void createLastRoom() {

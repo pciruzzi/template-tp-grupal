@@ -99,6 +99,20 @@ public class TheEscape2Configuration implements GameBuilder {
         initializeDoors();
         createICommands();
         createPlayer();
+        createRooms();
+        createLastRoomAndCondicionesDeMorir();
+        createTimeEvents();
+
+        setHelpCommand();
+        setExitCommand();
+
+
+        game.setInitialPosition(pasillo);
+
+        return game;
+    }
+
+    private void createRooms() {
         createPasillo();
         createRoomOne();
         createRoomTwo();
@@ -108,14 +122,39 @@ public class TheEscape2Configuration implements GameBuilder {
         createSotanoAbajo();
         createAccesoABibliotecaBis();
         createBiblioteca();
-        createLastRoomAndCondicionesDeMorir();
-        createTimeEvents();
-
-        game.setInitialPosition(pasillo);
-
-        return game;
     }
 
+    private void setHelpCommand() {
+        ICommand help = new Help("help", game);
+
+        salonUno.addCommand(help);
+        salonDos.addCommand(help);
+        salonTres.addCommand(help);
+        accesoBiblioteca.addCommand(help);
+        accesoBibliotecaBis.addCommand(help);
+        biblioteca.addCommand(help);
+        pasillo.addCommand(help);
+        sotano.addCommand(help);
+        sotanoAbajo.addCommand(help);
+        lastRoom.addCommand(help);
+        cuartoDeLaMuerte.addCommand(help);
+    }
+
+    private void setExitCommand() {
+        ICommand exit = new Exit(game);
+
+        salonUno.addCommand(exit);
+        salonDos.addCommand(exit);
+        salonTres.addCommand(exit);
+        accesoBiblioteca.addCommand(exit);
+        accesoBibliotecaBis.addCommand(exit);
+        biblioteca.addCommand(exit);
+        pasillo.addCommand(exit);
+        sotano.addCommand(exit);
+        sotanoAbajo.addCommand(exit);
+        lastRoom.addCommand(exit);
+        cuartoDeLaMuerte.addCommand(exit);
+    }
 
     private void createTimeEvents() {
         ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
