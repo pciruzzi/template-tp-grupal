@@ -64,16 +64,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         playerGenerico.addState(new State("poison", false, false));
         game = new Game("Treasure Quest");
         game.setDescription("Try to find the Irish treasure");
-        maxPlayers = 4;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
-        for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-
-            players.add(newPlayer);
-        }
-        game.setPlayers(players);
+        setPlayers();
 
         createICommands();
         createElements();
@@ -84,9 +75,22 @@ public class TreasureQuestConfiguration implements GameBuilder {
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
         //TODO: Sacar genericPlayer?
-        game.setGenericPlayer(playerGenerico);
+//        game.setGenericPlayer(playerGenerico);
 
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = playerGenerico.getClone();
+            newPlayer.setPlayerID(i);
+
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void createElements() {

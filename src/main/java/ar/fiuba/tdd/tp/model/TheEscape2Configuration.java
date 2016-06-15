@@ -276,7 +276,6 @@ public class TheEscape2Configuration implements GameBuilder {
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = playerGenerico.getClone();
             newPlayer.setPlayerID(i);
-            System.out.println("Se esta clonando un jugador");
             System.out.println("Player ID: " + newPlayer.getPlayerID());
             System.out.println("Capacity: " + newPlayer.getCapacity());
 
@@ -288,8 +287,8 @@ public class TheEscape2Configuration implements GameBuilder {
         }
 
         //TODO: Sacar esto y dejar solo el setPlayers?
-        game.setInitialElements(initialElements);
-        game.setGenericPlayer(playerGenerico);
+//        game.setInitialElements(initialElements);
+//        game.setGenericPlayer(playerGenerico);
         game.setPlayers(players);
     }
 

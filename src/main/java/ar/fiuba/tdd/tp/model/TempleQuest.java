@@ -76,18 +76,7 @@ public class TempleQuest implements GameBuilder {
 
         game = new Game("Temple Quest");
         game.setDescription("Think that you're Indiana Jones and then act like him...");
-        maxPlayers = 4;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
-
-        playerGenerico = new Player(-1);
-        for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-
-            players.add(newPlayer);
-        }
-        game.setPlayers(players);
+        setPlayers();
 
         createLastRoom();
         createICommands();
@@ -104,6 +93,21 @@ public class TempleQuest implements GameBuilder {
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+
+        playerGenerico = new Player(-1);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = playerGenerico.getClone();
+            newPlayer.setPlayerID(i);
+
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void setHelpAndExitCommand() {

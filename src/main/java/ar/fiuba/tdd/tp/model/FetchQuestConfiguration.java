@@ -21,14 +21,7 @@ public class FetchQuestConfiguration implements GameBuilder {
     public Game build() {
         game = new Game("Fetch Quest");
         game.setDescription("You are in a room, look around to see if there is something useful.");
-        maxPlayers = 2;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
-        for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = new Player(i);
-            players.add(newPlayer);
-        }
-        game.setPlayers(players);
+        setPlayers();
 
         Element room = new Element("room");
         room.addCommand(new Help("help", game));
@@ -51,6 +44,17 @@ public class FetchQuestConfiguration implements GameBuilder {
         setWinAndLoseInterpreter(player);
 
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 2;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     @SuppressWarnings("CPD-END")

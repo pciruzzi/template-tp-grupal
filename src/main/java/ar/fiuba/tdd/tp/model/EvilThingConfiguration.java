@@ -29,9 +29,7 @@ public class EvilThingConfiguration implements GameBuilder {
     public Game build() {
         game = new Game("Evil Thing");
         game.setDescription("Never feel sad if you are removed of a valuable item, sometimes is the only way out.");
-        maxPlayers = 4;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
+        setPlayers();
 
         createGameElements();
         createGameActions();
@@ -55,6 +53,12 @@ public class EvilThingConfiguration implements GameBuilder {
         doorTwoThree.setObjectiveElement(roomThree);
 
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
     }
 
     private void createGameContainsElements() {

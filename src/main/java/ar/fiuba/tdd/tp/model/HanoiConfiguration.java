@@ -34,11 +34,10 @@ public class HanoiConfiguration implements GameBuilder{
         // Creo el juego
         game = new Game("Hanoi Towers");
         game.setDescription("3 stacks with n disks, try moving the disks around and see what happens");
-        maxPlayers = 1;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
+        setPlayers();
 
         createElements();
+        addPlayers();
         addActions();
 
         // Creo las formas de ganar
@@ -66,6 +65,12 @@ public class HanoiConfiguration implements GameBuilder{
         setHelpAndExitCommand();
 
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 1;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
     }
 
     private void createElements() {
@@ -96,7 +101,9 @@ public class HanoiConfiguration implements GameBuilder{
         room.addElement(stackOne);
         room.addElement(stackTwo);
         room.addElement(stackThree);
+    }
 
+    private void addPlayers() {
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             players.add(newPlayer);

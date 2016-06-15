@@ -31,9 +31,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door 2");
         game.setDescription("Is this real life? Is this just fantasy? Look for items in the room, try to leave this torture.");
-        maxPlayers = 4;
-        game.setMaxPlayers(maxPlayers);
-        players = new ArrayList<>();
+        setPlayers();
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -52,6 +50,12 @@ public class OpenDoor2Configuration implements GameBuilder {
         box = new Element("box");
         box.addElement(key);
         box.changeState("visible", true);
+    }
+
+    private void setPlayers() {
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
     }
 
     private void configureLookAround(Game game) {

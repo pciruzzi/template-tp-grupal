@@ -12,10 +12,10 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Game {
 
-    private Player genericPlayer;
+//    private Player genericPlayer;
     private List<Player> players;
     private List<Boolean> isPlayerConnected;
-    private List<Element> initialElements;
+//    private List<Element> initialElements;
     private Element initialPosition;
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
@@ -37,8 +37,8 @@ public class Game {
         this.gameWon = false;
         this.description = "Descripcion basica.";
         this.maxPlayers = 1;
-        this.initialElements = null;
-        this.genericPlayer = null;
+//        this.initialElements = null;
+//        this.genericPlayer = null;
         this.timeCommands   = new ArrayList<>();
         this.timeElements   = new ArrayList<>();
         this.containerssList = new ArrayList<>();
@@ -104,13 +104,13 @@ public class Game {
         return null;
     }
 
-    public void setInitialElements(List<Element> initialElements) {
-        this.initialElements = initialElements;
-    }
+//    public void setInitialElements(List<Element> initialElements) {
+//        this.initialElements = initialElements;
+//    }
 
-    public void setGenericPlayer(Player genericPlayer) {
-        this.genericPlayer = genericPlayer;
-    }
+//    public void setGenericPlayer(Player genericPlayer) {
+//        this.genericPlayer = genericPlayer;
+//    }
 
     public void setDescription(String description) {
         this.description = description;
