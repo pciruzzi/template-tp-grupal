@@ -8,6 +8,7 @@ import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
@@ -18,15 +19,20 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element roomTwo;
     private Element doorOneTwo;
     private Element doorTwoOne;
-    private Player player;
+    private Player playerGenerico;
     private IInterpreter winCondition;
     private Element key;
     private ICommand question;
 
+    private List<Player> players;
+    private int maxPlayers;
+
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door");
         game.setDescription("Oh dear... you are trapped inside a room, don't worry, there's always a way out.");
-        game.setMaxPlayers(4);
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -34,7 +40,12 @@ public class OpenDoorConfiguration implements GameBuilder {
         question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.changeState("visible", true);
-        player = new Player(0);
+        playerGenerico = new Player(-1);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
         roomTwo = new Element("roomTwo");
         key = new Element("key");
         key.changeState("visible", true);
@@ -67,7 +78,7 @@ public class OpenDoorConfiguration implements GameBuilder {
     }
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
-        IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        IInterpreter doorCondition = new ContainsElements(playerGenerico, doorRequirements);
         doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);

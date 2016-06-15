@@ -15,7 +15,7 @@ public class InitializationsForTests {
         Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new EvilThingConfiguration();
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.getGame().createPlayer();
         return engine;
     }
 
@@ -24,7 +24,7 @@ public class InitializationsForTests {
         Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new PoisonConfiguration();
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.getGame().createPlayer();
         return engine;
     }
 
@@ -34,7 +34,7 @@ public class InitializationsForTests {
         Engine engine = new Engine(queue);
         GameBuilder gameBuilder = new OpenDoor2Configuration();
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.getGame().createPlayer();
         return engine;
     }
 }

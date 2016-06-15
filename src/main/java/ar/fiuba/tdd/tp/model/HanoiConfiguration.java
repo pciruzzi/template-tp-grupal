@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.FalseExpression;
@@ -8,6 +9,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.OrExpression;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
@@ -23,12 +25,18 @@ public class HanoiConfiguration implements GameBuilder{
 
     private Element room;
 
+    private List<Player> players;
+    private int maxPlayers;
+
     private Game game;
 
     public Game build() {
         // Creo el juego
         game = new Game("Hanoi Towers");
         game.setDescription("3 stacks with n disks, try moving the disks around and see what happens");
+        maxPlayers = 1;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         createElements();
         addActions();
@@ -88,6 +96,12 @@ public class HanoiConfiguration implements GameBuilder{
         room.addElement(stackOne);
         room.addElement(stackTwo);
         room.addElement(stackThree);
+
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void addActions() {

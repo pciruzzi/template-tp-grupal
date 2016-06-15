@@ -64,29 +64,44 @@ public class Game {
         return this.description;
     }
 
-    public int createPlayer(int id) {
+    public int createPlayer() {
         if (getPlayersConnected() < maxPlayers) {
-            Player newPlayer;
-            if (genericPlayer != null) {
-                newPlayer = genericPlayer.getClone();
-                newPlayer.setPlayerID(id);
-            } else {
-                newPlayer = new Player(id);
+            Player newPlayer = getEmptyPlayer();
+//            if (genericPlayer != null) {
+//                newPlayer = genericPlayer.getClone();
+//                newPlayer.setPlayerID(id);
+//            } else {
+//                System.out.println("No se esta clonando un jugador, sino creandolo");
+//                newPlayer = new Player(id);
+//            }
+//            if (initialElements != null) {
+//                System.out.println("Copiando elementos iniciales");
+//                for (Element element : initialElements) {
+//                    newPlayer.addElement(element.getClone());
+//                }
+//            }
+            if (newPlayer != null) {
+                newPlayer.setPlayerPosition(initialPosition);
+                initialPosition.addElement(newPlayer);
+                //TODO: Change interpreters
+                newPlayer.setWinInterpreter(winInterpreter);
+                newPlayer.setLosingInterpreter(losingInterpreter);
+                int playerID = newPlayer.getPlayerID();
+                isPlayerConnected.set(playerID, true);
+                return playerID;
             }
-            if (initialElements != null) {
-                for (Element element : initialElements) {
-                    newPlayer.addElement(element.getClone());
-                }
-            }
-            newPlayer.setPlayerPosition(initialPosition);
-            initialPosition.addElement(newPlayer);
-            newPlayer.setWinInterpreter(winInterpreter);
-            newPlayer.setLosingInterpreter(losingInterpreter);
-            players.add(newPlayer);
-            isPlayerConnected.add(true);
-            return id;
+            System.err.println("PlayerConnected != max, pero no se pudo crear player");
         }
         return -1;
+    }
+
+    private Player getEmptyPlayer() {
+        for (int i = 0; i < isPlayerConnected.size(); i++) {
+            if (! isPlayerConnected.get(i)) {
+                return players.get(i);
+            }
+        }
+        return null;
     }
 
     public void setInitialElements(List<Element> initialElements) {
@@ -291,6 +306,13 @@ public class Game {
 
     public List<Element> getContainersList() {
         return containerssList;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+        for (int i = 0; i < players.size(); i++) {
+            this.isPlayerConnected.add(false);
+        }
     }
 
 }

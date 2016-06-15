@@ -27,8 +27,8 @@ public class Engine {
         time.start();
     }
 
-    public int createPlayer(int playerID) {
-        return game.createPlayer(playerID);
+    public int createPlayer() {
+        return game.createPlayer();
     }
 
     public String doCommand(int playerID, String action) {
@@ -42,6 +42,7 @@ public class Engine {
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
+        action = action.concat(" " + playerID); //por si es un comando que requiere el playerID, sino lo descarta...
         String command = commandParser.getCommand(action, firstElementName);
         if ( secondElement == null ) {
             return game.play(playerID, command, firstElementName);

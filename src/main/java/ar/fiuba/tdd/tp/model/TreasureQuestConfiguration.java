@@ -7,10 +7,13 @@ import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TreasureQuestConfiguration implements GameBuilder {
 
     private Game game;
+    private List<Player> players;
+    private int maxPlayers;
 
     // Los cuartos
     private Element roomOne;
@@ -43,7 +46,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private Element pokemon;
 
     // Los elementos extra
-    private Player player;
+    private Player playerGenerico;
 
     // Los ICommands genericos
     private ICommand question;
@@ -56,11 +59,21 @@ public class TreasureQuestConfiguration implements GameBuilder {
     @SuppressWarnings("CPD-START")
     public Game build() {
 
-        player = new Player(-1);
-        player.setCapacity(2);
+        playerGenerico = new Player(-1);
+        playerGenerico.setCapacity(2);
+        playerGenerico.addState(new State("poison", false, false));
         game = new Game("Treasure Quest");
         game.setDescription("Try to find the Irish treasure");
-        game.setMaxPlayers(4);
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = playerGenerico.getClone();
+            newPlayer.setPlayerID(i);
+
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
 
         createICommands();
         createElements();
@@ -68,10 +81,11 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
-        player.addState(new State("poison", false, false));
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
-        game.setGenericPlayer(player);
+        //TODO: Sacar genericPlayer?
+        game.setGenericPlayer(playerGenerico);
+
         return game;
     }
 
@@ -178,20 +192,20 @@ public class TreasureQuestConfiguration implements GameBuilder {
         doorTwoOne.addCommand(openDoor);
         doorTwoThree.addCommand(openDoor);
 
-        ArrayList<String> doorThreeRequirements = new ArrayList<String>();
+        ArrayList<String> doorThreeRequirements = new ArrayList<>();
         doorThreeRequirements.add("pokemon");
 
-        IInterpreter doorThreeCondition = new ContainsElements(player, doorThreeRequirements);
+        IInterpreter doorThreeCondition = new ContainsElements(playerGenerico, doorThreeRequirements);
         doorThreeCondition.setFailMessage("The door is locked! You need a pokemon to open.");
         ICommand openDoorTwoThree  = new MovePlayerTo(game, doorThreeCondition, "open");
         doorTwoThree.addCommand(openDoorTwoThree);
 
         doorThreeTwo.addCommand(openDoor);
 
-        ArrayList<String> doorFourRequirements = new ArrayList<String>();
+        ArrayList<String> doorFourRequirements = new ArrayList<>();
         doorFourRequirements.add("key");
 
-        IInterpreter doorFourCondition = new ContainsElements(player, doorFourRequirements);
+        IInterpreter doorFourCondition = new ContainsElements(playerGenerico, doorFourRequirements);
         ICommand openDoorThreeFour = new MovePlayerTo(game, doorFourCondition, "open");
         doorThreeFour.addCommand(openDoorThreeFour);
 
@@ -274,19 +288,19 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private void createFinishingConditions() {
 
         // Creo la condicion de ganar
-        ArrayList<String> playerWithTreasure = new ArrayList<String>();
+        ArrayList<String> playerWithTreasure = new ArrayList<>();
         playerWithTreasure.add("treasure");
 
-        IInterpreter playerWithTreasureInterpreter = new ContainsElements(player,playerWithTreasure);
+        IInterpreter playerWithTreasureInterpreter = new ContainsElements(playerGenerico,playerWithTreasure);
 
-        ArrayList<String> playerInRoomOne = new ArrayList<String>();
+        ArrayList<String> playerInRoomOne = new ArrayList<>();
         playerInRoomOne.add("player");
 
         IInterpreter playerInRoomOneInterpreter = new ContainsElements(roomOne,playerInRoomOne);
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
 
         // Creo la condicion de perder
-        IInterpreter playerPoisoned = new HasValueState(player, "poison", true);
+        IInterpreter playerPoisoned = new HasValueState(playerGenerico, "poison", true);
         IInterpreter losingOneInterpreter = new AndExpression(playerPoisoned, playerInRoomOneInterpreter);
 
         ArrayList<String> playerInRoomFour = new ArrayList<>();

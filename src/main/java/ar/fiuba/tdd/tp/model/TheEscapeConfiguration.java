@@ -3,8 +3,6 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
-import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
-import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,10 @@ import java.util.List;
 public class TheEscapeConfiguration implements GameBuilder {
 
     private Game game;
-    private Player player;
+    private Player playerGenerico;
+
+    private List<Player> players;
+    private int maxPlayers;
 
     // Los cuartos
     private Element salonUno;
@@ -94,7 +95,9 @@ public class TheEscapeConfiguration implements GameBuilder {
     public Game build() {
         game = new Game("The Escape");
         game.setDescription("You're locked in a house; try to escape without die trying");
-        game.setMaxPlayers(4);
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         initializeElements();
         initializeRooms();
@@ -107,8 +110,6 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         setHelpCommand();
         setExitCommand();
-
-        game.setInitialPosition(pasillo);
 
         return game;
     }
@@ -198,7 +199,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        player = new Player(0);
+        playerGenerico = new Player(-1);
         fotoBuena = new Element("Foto");
         fotoDesconocida = new Element("FotoDesconocida");
         lapicera = new Element("Lapicera");
@@ -243,7 +244,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createPlayer() {
-        player.setCapacity(4);
+        playerGenerico.setCapacity(4);
 
         fotoBuena.addCommand(drop);
         fotoBuena.addCommand(move);
@@ -256,8 +257,24 @@ public class TheEscapeConfiguration implements GameBuilder {
         initialElements.add(fotoBuena);
         initialElements.add(lapicera);
 
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = playerGenerico.getClone();
+            newPlayer.setPlayerID(i);
+            System.out.println("Se esta clonando un jugador");
+            System.out.println("Player ID: " + newPlayer.getPlayerID());
+            System.out.println("Capacity: " + newPlayer.getCapacity());
+
+            System.out.println("Copiando elementos iniciales");
+            for (Element element : initialElements) {
+                newPlayer.addElement(element.getClone());
+            }
+            players.add(newPlayer);
+        }
+
+        //TODO: Sacar esto y dejar solo el setPlayers?
         game.setInitialElements(initialElements);
-        game.setGenericPlayer(player);
+        game.setGenericPlayer(playerGenerico);
+        game.setPlayers(players);
     }
 
     private void createRoomTwo() {
@@ -350,7 +367,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void setConditionsForCajaFuerte() {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
-        IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
+        IInterpreter condicionCaja = new ContainsElements(playerGenerico, condicionLlave);
         condicionCaja.setFailMessage("¿Que haces? Necesitas la Llave para abrir la CajaFuerte");
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
         abrirCaja.incorrectMovementMessage("¿Que hacés? Necesitas la Llave para abrir la CajaFuerte.");
@@ -452,7 +469,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
-        IInterpreter noTenesMartillo = new DoesNotContainElements(player, playerNoTieneMartillo);
+        IInterpreter noTenesMartillo = new DoesNotContainElements(playerGenerico, playerNoTieneMartillo);
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
@@ -483,7 +500,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         ArrayList<String> tieneCredencial = new ArrayList<>();
         tieneCredencial.add("Credencial");
 
-        IInterpreter playerWithCredential = new ContainsElements(player, tieneCredencial);
+        IInterpreter playerWithCredential = new ContainsElements(playerGenerico, tieneCredencial);
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
@@ -495,7 +512,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         ArrayList<String> tieneLicor = new ArrayList<>();
         tieneLicor.add("Botella");
 
-        IInterpreter conLicor = new ContainsElements(player, tieneLicor);
+        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
 
         IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
 
@@ -650,7 +667,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         ArrayList<String> listaParaRomperVentana = new ArrayList<>();
         listaParaRomperVentana.add("Martillo");
-        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
+        IInterpreter requisitosRomper = new ContainsElements(playerGenerico, listaParaRomperVentana);
         romper = new ChangeVisibility("break", true, requisitosRomper, game);
         romper.correctMovementMessage("is broken.");
     }

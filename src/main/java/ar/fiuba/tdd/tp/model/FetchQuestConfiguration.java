@@ -8,17 +8,27 @@ import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
 public class FetchQuestConfiguration implements GameBuilder {
 
     private Game game;
+    private List<Player> players;
+    private int maxPlayers;
 
     public Game build() {
         game = new Game("Fetch Quest");
         game.setDescription("You are in a room, look around to see if there is something useful.");
-        game.setMaxPlayers(2);
+        maxPlayers = 2;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
 
         Element room = new Element("room");
         room.addCommand(new Help("help", game));

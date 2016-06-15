@@ -27,14 +27,14 @@ public class WSCConfigurationTest {
     @Test
     public void takeSheepOnBoatTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         assertEquals(game.play(id, take,sheep),"You picked the sheep");
     }
 
     @Test
     public void takeSheepAndLeaveOnTheOtherShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,sheep);
         game.play(id, cross,north);
         game.play(id, leave,sheep);
@@ -44,7 +44,7 @@ public class WSCConfigurationTest {
     @Test
     public void whenMoveSheepToOtherShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,sheep);
         assertEquals(game.play(id, cross,north),"You have crossed");
     }
@@ -52,7 +52,7 @@ public class WSCConfigurationTest {
     @Test
     public void canTakeWolfButCantCrossToShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,wolf);
         assertEquals(game.play(id, cross,north),"The sheep will eat the cabbage!");
     }
@@ -60,7 +60,7 @@ public class WSCConfigurationTest {
     @Test
     public void canTakeCabbageButCantCrossToShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,cabbage);
         assertEquals(game.play(id, cross,north),"The wolf will eat the sheep!");
     }
@@ -68,7 +68,7 @@ public class WSCConfigurationTest {
     @Test
     public void canTakeWolfAndLeaveItInTheSameShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,wolf);
         assertEquals(game.play(id, leave, wolf),"You dropped the wolf");
     }
@@ -106,7 +106,7 @@ public class WSCConfigurationTest {
     @Test
     public void cantLeaveNorthShoreWithSheepAndCabbageThere() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,sheep);
         game.play(id, cross,north);
         game.play(id, leave,sheep);
@@ -120,7 +120,7 @@ public class WSCConfigurationTest {
     @Test
     public void cantLeaveNorthShoreWithSheepAndWolfThere() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,sheep);
         game.play(id, cross,north);
         game.play(id, leave,sheep);
@@ -134,7 +134,7 @@ public class WSCConfigurationTest {
     @Test
     public void cantPickWolfFromNorthShore() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, take,sheep);
         game.play(id, cross,north);
         assertEquals(game.play(id, take, wolf),"It doesn't exist a wolf in the game WSC");
@@ -151,7 +151,7 @@ public class WSCConfigurationTest {
     @Test
     public void cantMoveToSouthShoreFromSouthShoreTest() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         assertEquals(game.play(id, cross,south),"It doesn't exist a south-shore in the game WSC");
     }
 }

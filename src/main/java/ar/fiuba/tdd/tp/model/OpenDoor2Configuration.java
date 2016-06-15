@@ -1,12 +1,14 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
@@ -17,16 +19,21 @@ public class OpenDoor2Configuration implements GameBuilder {
     private Element roomTwo;
     private Element doorOneTwo;
     private Element doorTwoOne;
-    private Element player;
+    private Player playerGenerico;
     private IInterpreter winCondition;
     private Element key;
     private Element box;
     private ICommand question;
 
+    private List<Player> players;
+    private int maxPlayers;
+
     private void setAllVariablesOfOpenDoor() {
         game = new Game("Open Door 2");
         game.setDescription("Is this real life? Is this just fantasy? Look for items in the room, try to leave this torture.");
-        game.setMaxPlayers(4);
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         roomOne = new Element("roomOne");
         doorOneTwo = new Element("door");
@@ -34,7 +41,12 @@ public class OpenDoor2Configuration implements GameBuilder {
         question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.changeState("visible", true);
-        player = new Element("player");
+        playerGenerico = new Player(-1);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
         roomTwo = new Element("roomTwo");
         key = new Element("key");
         box = new Element("box");
@@ -69,7 +81,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     }
 
     private void setDoorOneTwoRequirements(Game game, ArrayList<String> doorRequirements) {
-        IInterpreter doorCondition = new ContainsElements(player, doorRequirements);
+        IInterpreter doorCondition = new ContainsElements(playerGenerico, doorRequirements);
         doorCondition.setFailMessage("Ey! You can't do that! The door is locked");
         ICommand openDoorOneTwo = new MovePlayerTo(game, doorCondition, "open");
         doorOneTwo.addCommand(openDoorOneTwo);
@@ -84,7 +96,7 @@ public class OpenDoor2Configuration implements GameBuilder {
         configureLookAround(game);
         configureKey(game);
 
-        ArrayList<String> doorRequirements = new ArrayList<String>();
+        ArrayList<String> doorRequirements = new ArrayList<>();
         doorRequirements.add("key");
 
         setDoorOneTwoRequirements(game, doorRequirements);

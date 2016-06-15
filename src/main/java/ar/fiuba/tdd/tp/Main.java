@@ -15,7 +15,7 @@ public class Main {
         Engine engine = new Engine(queue);
         GameBuilder fetchConfiguration = new TheEscape2Configuration();
         engine.createGame(fetchConfiguration);
-        engine.createPlayer(0);
+        engine.createPlayer();
 
         Reader reader = new Console();
         Writer writer = new Console();
