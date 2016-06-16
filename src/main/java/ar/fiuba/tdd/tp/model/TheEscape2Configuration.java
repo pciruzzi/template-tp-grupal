@@ -175,9 +175,9 @@ public class TheEscape2Configuration implements GameBuilder {
         relojCucu.addTimeCommand(cucu);
         relojCucu.changeState("visible", true);
         pasillo.addElement(relojCucu);
-        TimeCommand cucuClock = new ScheduledTimedAction(4000,"sonar Reloj");
-        game.addTimeCommand(cucuClock);
-        game.addTimeElement(relojCucu);
+        //TimeCommand cucuClock = new ScheduledTimedAction(4000,"sonar Reloj");
+        //game.addTimeCommand(cucuClock);
+        //game.addTimeElement(relojCucu);
     }
 
     private void initializeRooms() {
@@ -355,7 +355,10 @@ public class TheEscape2Configuration implements GameBuilder {
         addQuestionCommandToRoomOneElements();
 
         // Abrir caja fuerte con llave
-        setConditionsForCajaFuerte();
+        for (Player player : players) {
+            setConditionsForCajaFuerte(player);
+        }
+        cajaFuerte.addCommand(closeContainer);
 
         // Abrir puerta para hall
         doorToPasillo.setObjectiveElement(pasillo);
@@ -379,15 +382,14 @@ public class TheEscape2Configuration implements GameBuilder {
         cajaFuerte.addCommand(question);
     }
 
-    private void setConditionsForCajaFuerte() {
+    private void setConditionsForCajaFuerte(Player player) {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
-        IInterpreter condicionCaja = new ContainsElements(playerGenerico, condicionLlave);
+        IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
         condicionCaja.setFailMessage("¿Que haces? Necesitas la Llave para abrir la CajaFuerte");
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
         abrirCaja.incorrectMovementMessage("¿Que hacés? Necesitas la Llave para abrir la CajaFuerte.");
         cajaFuerte.addCommand(abrirCaja);
-        cajaFuerte.addCommand(closeContainer);
     }
 
     private void setElementsToSalon1() {
@@ -466,14 +468,19 @@ public class TheEscape2Configuration implements GameBuilder {
         winConditionArray.add("player");
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
 
-        game.setWinInterpreter(winCondition);
+        //game.setWinInterpreter(winCondition);
 
-        IInterpreter losingInterpreter = createLosingInterpreter();
+        for (Player player : players) {
+            player.setWinInterpreter(winCondition);
+            IInterpreter losingInterpreter = createLosingInterpreter(player);
+            player.setLosingInterpreter(losingInterpreter);
+        }
+
         //Aca estan las condiciones de perder
-        game.setLosingInterpreter(losingInterpreter);
+        //game.setLosingInterpreter(losingInterpreter);
     }
 
-    private IInterpreter createLosingInterpreter() {
+    private IInterpreter createLosingInterpreter(Player player) {
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
         IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
@@ -484,15 +491,15 @@ public class TheEscape2Configuration implements GameBuilder {
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
-        IInterpreter noTenesMartillo = new DoesNotContainElements(playerGenerico, playerNoTieneMartillo);
+        IInterpreter noTenesMartillo = new DoesNotContainElements(player, playerNoTieneMartillo);
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(playerGenerico, spider, game);
+//        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(player, spider, game);
 
         IInterpreter orExpression = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
-
-        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
+        return orExpression;
+//        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
     }
 
     private void createBibliotecario() {
@@ -707,9 +714,9 @@ public class TheEscape2Configuration implements GameBuilder {
         ITimeCommand moveRandom = new MoveRandom("cambiar");
         spider.addTimeCommand(moveRandom);
 
-        TimeCommand cambiarSpider = new ScheduledTimedAction(10000,"cambiar Spider");
-        game.addTimeCommand(cambiarSpider);
+        //TimeCommand cambiarSpider = new ScheduledTimedAction(10000,"cambiar Spider");
+        //game.addTimeCommand(cambiarSpider);
 
-        game.addTimeElement(spider);
+        //game.addTimeElement(spider);
     }
 }
