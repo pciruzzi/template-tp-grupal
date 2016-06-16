@@ -275,10 +275,6 @@ public class TheEscape2Configuration implements GameBuilder {
 
             players.add(newPlayer);
         }
-
-        //TODO: Sacar esto y dejar solo el setPlayers?
-//        game.setInitialElements(initialElements);
-//        game.setGenericPlayer(playerGenerico);
         game.setPlayers(players);
     }
 

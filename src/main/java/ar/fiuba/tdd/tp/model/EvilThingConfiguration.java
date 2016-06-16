@@ -34,14 +34,7 @@ public class EvilThingConfiguration implements GameBuilder {
         createGameElements();
         createGameActions();
         createGameContainsElements();
-
-        // Creo y seteo las formas de ganar.
-        ArrayList<String> winConditionsArray = new ArrayList<>();
-        winConditionsArray.add("player");
-        IInterpreter winCondition = new ContainsElements(roomThree, winConditionsArray);
-        game.setWinInterpreter(winCondition);
-        IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
+        setWinAndLoseInterpreter();
 
         // Agrego la posicion inicial del player.
         game.setInitialPosition(roomOne);
@@ -53,6 +46,18 @@ public class EvilThingConfiguration implements GameBuilder {
         doorTwoThree.setObjectiveElement(roomThree);
 
         return game;
+    }
+
+    private void setWinAndLoseInterpreter() {
+        for (Player player : players) {
+            ArrayList<String> winConditionsArray = new ArrayList<>();
+            winConditionsArray.add("player");
+            IInterpreter winCondition = new ContainsElements(roomThree, winConditionsArray);
+            player.setWinInterpreter(winCondition);
+
+            IInterpreter loseInterpreter = new FalseExpression();
+            player.setLosingInterpreter(loseInterpreter);
+        }
     }
 
     private void setPlayers() {
@@ -102,6 +107,7 @@ public class EvilThingConfiguration implements GameBuilder {
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
+        //TODO: Que onda esto? Hay que hacerle algo a los players?
         playerGenerico.addElement(new Element("key"));
         IInterpreter door2Condition = new DoesNotContainElements(playerGenerico, doorRequirements);
         door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
@@ -141,8 +147,7 @@ public class EvilThingConfiguration implements GameBuilder {
         roomOne = new Element("roomOne");
         playerGenerico = new Player(-1);
         for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
+            Player newPlayer = new Player(i);
             players.add(newPlayer);
         }
         game.setPlayers(players);

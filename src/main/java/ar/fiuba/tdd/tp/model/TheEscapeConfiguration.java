@@ -47,8 +47,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     private Element botellaLicor;
     private Element vasoUno;
     private Element vasoDos;
-    private Element fotoBuena;
-    private Element lapicera;
     private Element fotoDesconocida;
     private Element martillo;
     private Element destornillador1;
@@ -200,9 +198,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     private void initializeFirstGroupOfElements() {
         playerGenerico = new Player(-1);
-        fotoBuena = new Element("Foto");
         fotoDesconocida = new Element("FotoDesconocida");
-        lapicera = new Element("Lapicera");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
         destornillador2 = new Element("Destornillador 2");
@@ -245,34 +241,24 @@ public class TheEscapeConfiguration implements GameBuilder {
 
     private void createPlayer() {
         playerGenerico.setCapacity(4);
-
-        fotoBuena.addCommand(drop);
-        fotoBuena.addCommand(move);
-        fotoBuena.addCommand(pick);
-
-        lapicera.addCommand(drop);
-        lapicera.addCommand(pick);
-
-        List<Element> initialElements = new ArrayList<>();
-        initialElements.add(fotoBuena);
-        initialElements.add(lapicera);
-
         for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-            System.out.println("Player ID: " + newPlayer.getPlayerID());
-            System.out.println("Capacity: " + newPlayer.getCapacity());
+            Player newPlayer = new Player(i);
+            newPlayer.setCapacity(4);
 
-            System.out.println("Copiando elementos iniciales");
-            for (Element element : initialElements) {
-                newPlayer.addElement(element.getClone());
-            }
+            Element fotoBuena = new Element("Foto");
+            fotoBuena.addCommand(drop);
+            fotoBuena.addCommand(move);
+            fotoBuena.addCommand(pick);
+
+            Element lapicera = new Element("Lapicera");
+            lapicera.addCommand(drop);
+            lapicera.addCommand(pick);
+
+            newPlayer.addElement(fotoBuena);
+            newPlayer.addElement(lapicera);
+
             players.add(newPlayer);
         }
-
-        //TODO: Sacar esto y dejar solo el setPlayers?
-//        game.setInitialElements(initialElements);
-//        game.setGenericPlayer(playerGenerico);
         game.setPlayers(players);
     }
 
@@ -450,11 +436,14 @@ public class TheEscapeConfiguration implements GameBuilder {
         winConditionArray.add("player");
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
 
-        game.setWinInterpreter(winCondition);
-
         IInterpreter losingInterpreter = createLosingInterpreter();
-        //Aca estan las condiciones de perder
-        game.setLosingInterpreter(losingInterpreter);
+
+        for (Player player : players) {
+            player.setWinInterpreter(winCondition);
+            player.setLosingInterpreter(losingInterpreter);
+        }
+//        game.setWinInterpreter(winCondition);
+//        game.setLosingInterpreter(losingInterpreter);
     }
 
     private IInterpreter createLosingInterpreter() {
@@ -498,23 +487,19 @@ public class TheEscapeConfiguration implements GameBuilder {
     private void setBibliotecarioCondition() {
         ArrayList<String> tieneCredencial = new ArrayList<>();
         tieneCredencial.add("Credencial");
-
         IInterpreter playerWithCredential = new ContainsElements(playerGenerico, tieneCredencial);
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-
         IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
 
         ArrayList<String> tieneLicor = new ArrayList<>();
         tieneLicor.add("Botella");
-
         IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
 
         IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");

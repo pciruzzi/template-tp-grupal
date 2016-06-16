@@ -102,9 +102,7 @@ public class TempleQuest implements GameBuilder {
 
         playerGenerico = new Player(-1);
         for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-
+            Player newPlayer = new Player(i);
             players.add(newPlayer);
         }
         game.setPlayers(players);
@@ -393,7 +391,6 @@ public class TempleQuest implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-
         ArrayList<String> roomContainsPlayer = new ArrayList<>();
         roomContainsPlayer.add("player");
 
@@ -408,9 +405,10 @@ public class TempleQuest implements GameBuilder {
         IInterpreter deadPlayer = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
         IInterpreter losingInterpreter = new AndExpression(deadPlayer, playerInLastRoom);
 
-
-        game.setWinInterpreter(playerInLastRoom);
-        game.setLosingInterpreter(losingInterpreter);
+        for (Player player : players) {
+            player.setWinInterpreter(playerInLastRoom);
+            player.setLosingInterpreter(losingInterpreter);
+        }
     }
 
     private void createICommands() {

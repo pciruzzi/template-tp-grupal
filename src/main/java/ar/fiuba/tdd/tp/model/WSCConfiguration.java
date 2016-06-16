@@ -41,12 +41,13 @@ public class WSCConfiguration implements GameBuilder {
         this.assignComplexCommand();
 
         this.createGameWinInterpreter();
-
-        game.setWinInterpreter(winInterpreter);
-        game.setInitialPosition(southShore);
-
         IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
+        for (Player player : players) {
+            player.setWinInterpreter(winInterpreter);
+            player.setLosingInterpreter(loseInterpreter);
+        }
+
+        game.setInitialPosition(southShore);
         setHelpAndExitCommand();
 
         return this.game;

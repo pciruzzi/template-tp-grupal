@@ -40,8 +40,8 @@ public class FetchQuestConfiguration implements GameBuilder {
 
         room.addElement(stick);
         game.setInitialPosition(room);
-        Player player = new Player(0);
-        setWinAndLoseInterpreter(player);
+
+        setWinAndLoseInterpreter();
 
         return game;
     }
@@ -59,15 +59,15 @@ public class FetchQuestConfiguration implements GameBuilder {
 
     @SuppressWarnings("CPD-END")
 
-    private void setWinAndLoseInterpreter(Player player) {
-        ArrayList<String> winArray = new ArrayList<>();
-        winArray.add("stick");
+    private void setWinAndLoseInterpreter() {
+        for (Player player : players) {
+            ArrayList<String> winArray = new ArrayList<>();
+            winArray.add("stick");
+            IInterpreter winInterpreter = new ContainsElements(player,winArray);
+            player.setWinInterpreter(winInterpreter);
 
-        IInterpreter winInterpreter = new ContainsElements(player,winArray);
-
-        game.setWinInterpreter(winInterpreter);
-
-        IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
+            IInterpreter loseInterpreter = new FalseExpression();
+            player.setLosingInterpreter(loseInterpreter);
+        }
     }
 }

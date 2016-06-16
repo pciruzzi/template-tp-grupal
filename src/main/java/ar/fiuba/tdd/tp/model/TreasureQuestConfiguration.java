@@ -58,7 +58,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
 
     @SuppressWarnings("CPD-START")
     public Game build() {
-
         playerGenerico = new Player(-1);
         playerGenerico.setCapacity(2);
         playerGenerico.addState(new State("poison", false, false));
@@ -72,11 +71,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         createFinishingConditions();
         setHelpAndExitCommand();
 
-        // Agrego la posicion del player
         game.setInitialPosition(roomOne);
-        //TODO: Sacar genericPlayer?
-//        game.setGenericPlayer(playerGenerico);
-
         return game;
     }
 
@@ -85,9 +80,9 @@ public class TreasureQuestConfiguration implements GameBuilder {
         game.setMaxPlayers(maxPlayers);
         players = new ArrayList<>();
         for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-
+            Player newPlayer = new Player(i);
+            newPlayer.addState(new State("poison", false, false));
+            newPlayer.setCapacity(2);
             players.add(newPlayer);
         }
         game.setPlayers(players);
@@ -314,8 +309,13 @@ public class TreasureQuestConfiguration implements GameBuilder {
         IInterpreter losingTwoInterpreter = new AndExpression(playerPoisoned, playerInRoomFourInterpreter);
         IInterpreter losingInterpreter = new OrExpression(losingOneInterpreter,losingTwoInterpreter);
 
-        game.setWinInterpreter(winInterpreter);
-        game.setLosingInterpreter(losingInterpreter);
+//        game.setWinInterpreter(winInterpreter);
+//        game.setLosingInterpreter(losingInterpreter);
+
+        for (Player player : players) {
+            player.setWinInterpreter(winInterpreter);
+            player.setLosingInterpreter(losingInterpreter);
+        }
     }
 
     private void createICommands() {

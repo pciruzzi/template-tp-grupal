@@ -31,7 +31,6 @@ public class HanoiConfiguration implements GameBuilder{
     private Game game;
 
     public Game build() {
-        // Creo el juego
         game = new Game("Hanoi Towers");
         game.setDescription("3 stacks with n disks, try moving the disks around and see what happens");
         setPlayers();
@@ -39,32 +38,33 @@ public class HanoiConfiguration implements GameBuilder{
         createElements();
         addPlayers();
         addActions();
+        setWinAndLoseInterpreter();
 
+        game.setInitialPosition(room);
+        setHelpAndExitCommand();
+        return game;
+    }
+
+    private void setWinAndLoseInterpreter() {
         // Creo las formas de ganar
         ArrayList<String> winArray = new ArrayList<>();
         winArray.add(diskOne.getName());
         winArray.add(diskTwo.getName());
         winArray.add(diskThree.getName());
 
-        // Todos los discos estan en el stackOne o stackTwo
+        // Todos los discos estan en el stackThree o stackTwo
         IInterpreter winInterpreterStackTwo = new ContainsElements(stackTwo,winArray);
         IInterpreter winInterpreterStackThree = new ContainsElements(stackThree,winArray);
 
         // Combino las formas de ganar
         IInterpreter winingWays = new OrExpression(winInterpreterStackTwo, winInterpreterStackThree);
 
-        // Seteo las formas de ganar
-        game.setWinInterpreter(winingWays);
-
-        // Agrego la posicion del player, esto esta mal
-        game.setInitialPosition(room);
-
         IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
 
-        setHelpAndExitCommand();
-
-        return game;
+        for (Player player : players) {
+            player.setWinInterpreter(winingWays);
+            player.setLosingInterpreter(loseInterpreter);
+        }
     }
 
     private void setPlayers() {
@@ -112,7 +112,6 @@ public class HanoiConfiguration implements GameBuilder{
     }
 
     private void addActions() {
-        // Agrego las acciones
         ICommand moveSmallest = new MoveWithComparator("move top", (Element e1, Element e2) -> e1.getSize() - e2.getSize());
         moveSmallest.correctMovementMessage("You moved the disk!");
         moveSmallest.incorrectMovementMessage("You can't move a bigger disk over a smaller one!");

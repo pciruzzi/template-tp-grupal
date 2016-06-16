@@ -12,13 +12,9 @@ import static ar.fiuba.tdd.tp.Constants.GAME_WON;
 
 public class Game {
 
-//    private Player genericPlayer;
     private List<Player> players;
     private List<Boolean> isPlayerConnected;
-//    private List<Element> initialElements;
     private Element initialPosition;
-    private IInterpreter winInterpreter;
-    private IInterpreter losingInterpreter;
     private String name;
     private String description;
     private int maxPlayers;
@@ -83,9 +79,6 @@ public class Game {
             if (newPlayer != null) {
                 newPlayer.setPlayerPosition(initialPosition);
                 initialPosition.addElement(newPlayer);
-                //TODO: Change interpreters
-                newPlayer.setWinInterpreter(winInterpreter);
-                newPlayer.setLosingInterpreter(losingInterpreter);
                 int playerID = newPlayer.getPlayerID();
                 isPlayerConnected.set(playerID, true);
                 return playerID;
@@ -243,14 +236,6 @@ public class Game {
     private boolean hasLost(int playerID) {
         Player player = getPlayer(playerID);
         return (player.getLosingInterpreter().interpret() || player.getLosingInterpreter().interpret(player));
-    }
-
-    public void setWinInterpreter(IInterpreter winInterpreter) {
-        this.winInterpreter = winInterpreter;
-    }
-
-    public void setLosingInterpreter(IInterpreter losingInterpreter) {
-        this.losingInterpreter = losingInterpreter;
     }
 
     public Map<String, Element> calculateVisibleElements(int id) {

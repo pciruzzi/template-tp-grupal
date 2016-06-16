@@ -31,7 +31,7 @@ public class Exit extends ICommand {
             actualElement.changeState("visible", true);
             element.addElement(actualElement);
         }
-        //TODO: Set player generico?
+        //TODO: Set player generico? O ya lo hace solo? -> Chequear
         //Le aviso al game que el jugador salio.
         game.notifyExitPlayer(playerId);
         return "You exit the game. Goodbye!";

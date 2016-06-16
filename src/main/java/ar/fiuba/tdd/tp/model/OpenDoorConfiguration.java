@@ -20,7 +20,6 @@ public class OpenDoorConfiguration implements GameBuilder {
     private Element doorOneTwo;
     private Element doorTwoOne;
     private Player playerGenerico;
-    private IInterpreter winCondition;
     private Element key;
     private ICommand question;
 
@@ -65,12 +64,6 @@ public class OpenDoorConfiguration implements GameBuilder {
         key.addCommand(question);
     }
 
-    private void setWinCondition() {
-        ArrayList<String> winConditionsArray = new ArrayList<>();
-        winConditionsArray.add("player");
-        winCondition = new ContainsElements(roomTwo, winConditionsArray);
-    }
-
     private void setDoorTwoOneRequirements(Game game) {
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
@@ -93,23 +86,32 @@ public class OpenDoorConfiguration implements GameBuilder {
         configureLookAround(game);
         configureKey(game);
 
-        ArrayList<String> doorRequirements = new ArrayList<String>();
+        ArrayList<String> doorRequirements = new ArrayList<>();
         doorRequirements.add("key");
 
         setDoorOneTwoRequirements(game, doorRequirements);
         setDoorTwoOneRequirements(game);
-        setWinCondition();
 
         setElementsInRoomOneAndTwo();
         setHelpAndExitCommand();
 
         game.setInitialPosition(roomOne);
-        game.setWinInterpreter(winCondition);
-
-        IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
+        setWinAndLoseInterpreter();
 
         return game;
+    }
+
+    private void setWinAndLoseInterpreter() {
+        ArrayList<String> winConditionsArray = new ArrayList<>();
+        winConditionsArray.add("player");
+        IInterpreter winCondition = new ContainsElements(roomTwo, winConditionsArray);
+
+        IInterpreter loseInterpreter = new FalseExpression();
+
+        for (Player player : players) {
+            player.setWinInterpreter(winCondition);
+            player.setLosingInterpreter(loseInterpreter);
+        }
     }
 
     private void setHelpAndExitCommand() {
