@@ -434,7 +434,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-        IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
+        IInterpreter winCondition = new ContainsPlayer(lastRoom, winConditionArray);
 
         IInterpreter losingInterpreter = createLosingInterpreter();
 
@@ -447,11 +447,11 @@ public class TheEscapeConfiguration implements GameBuilder {
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
 
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
-        IInterpreter estasEnSotanoAbajo = new ContainsElements(sotanoAbajo, playerEnSotanoAbajo);
+        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(sotanoAbajo, playerEnSotanoAbajo);
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");

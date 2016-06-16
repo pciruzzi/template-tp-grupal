@@ -4,6 +4,7 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.ContainsPlayer;
 import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
@@ -111,7 +112,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     private void setWinAndLoseInterpreter() {
         ArrayList<String> winConditionsArray = new ArrayList<>();
         winConditionsArray.add("player");
-        IInterpreter winCondition = new ContainsElements(roomTwo, winConditionsArray);
+        IInterpreter winCondition = new ContainsPlayer(roomTwo, winConditionsArray);
 
         IInterpreter loseInterpreter = new FalseExpression();
 

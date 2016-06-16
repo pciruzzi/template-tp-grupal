@@ -294,7 +294,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ArrayList<String> playerInRoomOne = new ArrayList<>();
         playerInRoomOne.add("player");
 
-        IInterpreter playerInRoomOneInterpreter = new ContainsElements(roomOne,playerInRoomOne);
+        IInterpreter playerInRoomOneInterpreter = new ContainsPlayer(roomOne,playerInRoomOne);
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
 
         // Creo la condicion de perder
@@ -304,7 +304,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ArrayList<String> playerInRoomFour = new ArrayList<>();
         playerInRoomFour.add("player");
 
-        IInterpreter playerInRoomFourInterpreter = new ContainsElements(roomFour,playerInRoomFour);
+        IInterpreter playerInRoomFourInterpreter = new ContainsPlayer(roomFour,playerInRoomFour);
         IInterpreter losingTwoInterpreter = new AndExpression(playerPoisoned, playerInRoomFourInterpreter);
         IInterpreter losingInterpreter = new OrExpression(losingOneInterpreter,losingTwoInterpreter);
 

@@ -187,7 +187,7 @@ public class Element implements Cloneable {
         stateMap.get(stateName).setActive(value);
     }
 
-    public boolean hasAllElements(ArrayList<String> elementsToContain) {
+    public boolean hasAllElements(List<String> elementsToContain) {
 
         if (elementMap.size() == 0) {
             return false;

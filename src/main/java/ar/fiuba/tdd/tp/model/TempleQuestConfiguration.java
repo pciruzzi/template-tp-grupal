@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("CPD-START")
-public class TempleQuest implements GameBuilder {
+public class TempleQuestConfiguration implements GameBuilder {
 
     private Game game;
     private Player playerGenerico;
@@ -394,7 +394,7 @@ public class TempleQuest implements GameBuilder {
         ArrayList<String> roomContainsPlayer = new ArrayList<>();
         roomContainsPlayer.add("player");
 
-        IInterpreter playerInLastRoom = new ContainsElements(lastRoom, roomContainsPlayer);
+        IInterpreter playerInLastRoom = new ContainsPlayer(lastRoom, roomContainsPlayer);
 
         ArrayList<String> playerWithDisk = new ArrayList<>();
         playerWithDisk.add("disk nine");

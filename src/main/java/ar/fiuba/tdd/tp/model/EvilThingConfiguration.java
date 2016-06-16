@@ -52,7 +52,7 @@ public class EvilThingConfiguration implements GameBuilder {
         for (Player player : players) {
             ArrayList<String> winConditionsArray = new ArrayList<>();
             winConditionsArray.add("player");
-            IInterpreter winCondition = new ContainsElements(roomThree, winConditionsArray);
+            IInterpreter winCondition = new ContainsPlayer(roomThree, winConditionsArray);
             player.setWinInterpreter(winCondition);
 
             IInterpreter loseInterpreter = new FalseExpression();

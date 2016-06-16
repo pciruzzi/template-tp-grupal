@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.*;
-import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
@@ -23,7 +22,7 @@ public class Game {
     private BroadcastQueue queue;
     private ArrayList<TimeCommand> timeCommands;
     private ArrayList<Player> timeElements;
-    private ArrayList<Element> containerssList;
+    private ArrayList<Element> containersList;
 
     public Game(String name) {
         this.name = name;
@@ -33,11 +32,9 @@ public class Game {
         this.gameWon = false;
         this.description = "Descripcion basica.";
         this.maxPlayers = 1;
-//        this.initialElements = null;
-//        this.genericPlayer = null;
         this.timeCommands   = new ArrayList<>();
         this.timeElements   = new ArrayList<>();
-        this.containerssList = new ArrayList<>();
+        this.containersList = new ArrayList<>();
     }
 
     public void setQueue(BroadcastQueue queue) {
@@ -63,19 +60,6 @@ public class Game {
     public int createPlayer() {
         if (getPlayersConnected() < maxPlayers) {
             Player newPlayer = getEmptyPlayer();
-//            if (genericPlayer != null) {
-//                newPlayer = genericPlayer.getClone();
-//                newPlayer.setPlayerID(id);
-//            } else {
-//                System.out.println("No se esta clonando un jugador, sino creandolo");
-//                newPlayer = new Player(id);
-//            }
-//            if (initialElements != null) {
-//                System.out.println("Copiando elementos iniciales");
-//                for (Element element : initialElements) {
-//                    newPlayer.addElement(element.getClone());
-//                }
-//            }
             if (newPlayer != null) {
                 newPlayer.setPlayerPosition(initialPosition);
                 initialPosition.addElement(newPlayer);
@@ -96,14 +80,6 @@ public class Game {
         }
         return null;
     }
-
-//    public void setInitialElements(List<Element> initialElements) {
-//        this.initialElements = initialElements;
-//    }
-
-//    public void setGenericPlayer(Player genericPlayer) {
-//        this.genericPlayer = genericPlayer;
-//    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -140,7 +116,7 @@ public class Game {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
 
-        returnMessage = checkFinishedGame(returnMessage);
+        returnMessage = checkFinishedGame(returnMessage, playerID);
         return returnMessage;
     }
 
@@ -156,7 +132,7 @@ public class Game {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
 
-        returnMessage = checkFinishedGame(returnMessage);
+        returnMessage = checkFinishedGame(returnMessage, playerID);
         return returnMessage;
     }
 
@@ -168,7 +144,7 @@ public class Game {
         if (element != null) {
             returnMessage = element.doTimeCommand(cmd);
         }
-        returnMessage = checkFinishedGame(returnMessage);
+        returnMessage = checkFinishedGameForAll(returnMessage);
         return returnMessage;
     }
 
@@ -176,7 +152,7 @@ public class Game {
     public String playTime(String cmd, Element firstElement, Element secondElement) {
         String returnMessage = "It doesn't exist the element";
 
-        returnMessage = checkFinishedGame(returnMessage);
+        returnMessage = checkFinishedGameForAll(returnMessage);
 
         return returnMessage;
     }
@@ -209,20 +185,24 @@ public class Game {
         timeElements.add(element);
     }
 
-    private String checkFinishedGame(String returnMessage) {
+    private String checkFinishedGameForAll(String returnMessage) {
         for (Player player : players) {
             int playerID = player.getPlayerID();
+            returnMessage = this.checkFinishedGame(returnMessage, playerID);
+        }
+        return returnMessage;
+    }
 
-            if (this.isPlayerConnected.get(playerID)) {
-                if (this.hasLost(playerID)) {
-                    gameLost = true;
-                    returnMessage = GAME_LOST;
-                    this.queue.pushLostCommand(playerID);
-                }
-                if (this.hasWon(playerID)) {
-                    gameWon = true;
-                    returnMessage = GAME_WON;
-                }
+    private String checkFinishedGame(String returnMessage, int playerID) {
+        if (this.isPlayerConnected.get(playerID)) {
+            if (this.hasLost(playerID)) {
+                gameLost = true;
+                returnMessage = GAME_LOST;
+                this.queue.pushLostCommand(playerID);
+            }
+            if (this.hasWon(playerID)) {
+                gameWon = true;
+                returnMessage = GAME_WON;
             }
         }
         return returnMessage;
@@ -281,16 +261,16 @@ public class Game {
 
     public void addContainer(Element element) {
 
-        for ( Element room : containerssList) {
+        for ( Element room : containersList) {
             if ( room.getName().equals(element.getName()) ) {
                 System.out.println("You are adding the same room twice to the game: " + room.getName());
             }
         }
-        containerssList.add(element);
+        containersList.add(element);
     }
 
     public List<Element> getContainersList() {
-        return containerssList;
+        return containersList;
     }
 
     public void setPlayers(List<Player> players) {
