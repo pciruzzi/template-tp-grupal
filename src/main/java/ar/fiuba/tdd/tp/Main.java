@@ -14,7 +14,7 @@ public class Main {
         BroadcastQueue queue = new EventQueue();
         Engine engine = new Engine(queue);
 
-        GameBuilder fetchConfiguration = new TheEscape22Configuration();
+        GameBuilder fetchConfiguration = new DummyGameConfiguration();
 
         engine.createGame(fetchConfiguration);
         engine.createPlayer(0);
