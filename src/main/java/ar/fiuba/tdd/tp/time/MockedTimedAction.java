@@ -11,7 +11,9 @@ public class MockedTimedAction extends TimeCommand {
 
     }
 
-    public void startMockedAction() {
-        this.start();
+    public String startMockedAction() {
+        String returnMessagge = engine.doTimeCommand(command);
+        queue.pushBroadcast(returnMessagge);
+        return returnMessagge;
     }
 }
