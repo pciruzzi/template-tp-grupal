@@ -15,9 +15,6 @@ import java.util.List;
 
 public class TheEscape22Configuration implements GameBuilder {
 
-
-    private ScheduledTimedAction scheduledTimedAction;
-
     private Game game;
     private Player player;
 
@@ -98,16 +95,26 @@ public class TheEscape22Configuration implements GameBuilder {
     private ICommand moveLibroNada;
     private ICommand giveItem;
 
-    private IInterpreter startTimer;
-    private TimeCommand timer;
+    private TimeCommand despertarBibliotecario;
+    private TimeCommand enojarBibliotecario;
+    private TimeCommand moverBibliotecario;
 
+    private MoveRandom moveRandom;
 
     public TheEscape22Configuration() {
-        this.scheduledTimedAction = null;
+        this.despertarBibliotecario = new SingleTimedAction(4999, "enojar Bibliotecario");
+        this.enojarBibliotecario    = new SingleTimedAction(4998, "despertar Bibliotecario");
+        this.moverBibliotecario     = new ScheduledTimedAction(5000, "move Bibliotecario");
+
     }
 
-    public TheEscape22Configuration(ScheduledTimedAction scheduledTimedAction) {
-        this.scheduledTimedAction = scheduledTimedAction;
+    public TheEscape22Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
+                                    TimeCommand moverBibliotecario, MoveRandom moveRandom) {
+
+        this.despertarBibliotecario = despertarBibliotecario;
+        this.enojarBibliotecario    = enojarBibliotecario;
+        this.moverBibliotecario     = moverBibliotecario;
+        this.moveRandom             = moveRandom;
     }
 
     @Override
@@ -225,10 +232,11 @@ public class TheEscape22Configuration implements GameBuilder {
         bibliotecario = new Player(-1);
         bibliotecario.setName("Bibliotecario");
 
-        MoveRandom moveRandom = new MoveRandom("move");
+
+        this.moveRandom = new MoveRandom("move");
         moveRandom.addProhibitedRoom(sotano);
         moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
-
+        
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
         despertar.auxiliarMessage("se ha despertado");
         ITimeCommand enojar = new ChangeState("enojar", "enojado", true);
@@ -238,35 +246,29 @@ public class TheEscape22Configuration implements GameBuilder {
         bibliotecario.addTimeCommand(enojar);
         bibliotecario.addTimeCommand(moveRandom);
 
-        startTimer = new HasValueState(bibliotecario, "dormido", true);
-
-        TimeCommand timeDespertar = new SingleTimedAction(4998, "despertar Bibliotecario");
-        TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
+        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
 
 
-        if (scheduledTimedAction == null) {
-            timer = new ScheduledTimedAction(5000, "move Bibliotecario");
-        } else {
-            timer = scheduledTimedAction;
-        }
+//        TimeCommand timeDespertar = new SingleTimedAction(4998, "despertar Bibliotecario");
+//        TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
 
-        timer.setStart(false);
-        timeDespertar.setStart(false);
-        timeEnojar.setStart(false);
+        moverBibliotecario.setStart(false);
+        despertarBibliotecario.setStart(false);
+        enojarBibliotecario.setStart(false);
 
         ArrayList<TimeCommand> timedActions = new ArrayList<>();
-        timedActions.add(timeDespertar);
-        timedActions.add(timeEnojar);
-        timedActions.add(timer);
+        timedActions.add(despertarBibliotecario);
+        timedActions.add(enojarBibliotecario);
+        timedActions.add(moverBibliotecario);
 
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
         giveItem.incorrectMovementMessage("Hic!");
         giveItem.auxiliarMessage("");
 
-        game.addTimeCommand(timer);
-        game.addTimeCommand(timeDespertar);
-        game.addTimeCommand(timeEnojar);
+        game.addTimeCommand(moverBibliotecario);
+        game.addTimeCommand(despertarBibliotecario);
+        game.addTimeCommand(enojarBibliotecario);
         game.addTimeElement(bibliotecario);
     }
 
