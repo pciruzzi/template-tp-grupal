@@ -17,13 +17,11 @@ public class DriverTest {
         return driver;
     }
 
-
     @Test
     public void testGameLoadIsReady() throws GameLoadFailedException, PlayerJoinFailedException {
         GameDriver driver = this.createDriver("build/classes/main/ar/fiuba/tdd/tp/model/DummyGameConfiguration.jar");
         assertEquals(GameState.Ready, driver.getCurrentState());
     }
-
 
     @Test
     public void testWhenPickSwordGameIsInProgress() throws GameLoadFailedException, PlayerJoinFailedException {

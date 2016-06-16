@@ -221,7 +221,6 @@ public class IInterpreterTest {
     public void testNotExpressionReturnsFalseWhenRoomHasStick() {
         Element room = new Element("room");
         Element stick = new Element("stick");
-
         room.addElement(stick);
 
         ArrayList<String> roomList = new ArrayList<>();

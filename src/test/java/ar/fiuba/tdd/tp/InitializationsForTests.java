@@ -18,15 +18,6 @@ public class InitializationsForTests {
         return engine;
     }
 
-//    static Engine initializeEnginePoisonConfiguration() {
-//        BroadcastQueue queue = new EventQueue();
-//        Engine engine = new Engine(queue);
-//        GameBuilder gameBuilder = new PoisonConfiguration();
-//        engine.createGame(gameBuilder);
-//        engine.getGame().createPlayer();
-//        return engine;
-//    }
-
     static Engine initializeEngineOpenDoor2() {
         BroadcastQueue queue = new EventQueue();
         Engine engine = new Engine(queue);

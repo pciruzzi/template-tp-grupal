@@ -19,7 +19,6 @@ public class Exit extends ICommand {
 
     public String doAction(Element element, int playerId) {
         //Cuando un jugador sale del juego todos sus elementos quedan en el ultimo lugar donde estuvo.
-        //Obtengo el player correspondiente a ese playerID.
         Player player = game.getPlayer(playerId);
         List<Element> playerElementList = player.getElementList();
         //Para cada uno de los elementos del player tengo que:

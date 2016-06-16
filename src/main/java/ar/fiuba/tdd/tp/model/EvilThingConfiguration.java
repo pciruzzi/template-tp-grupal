@@ -38,7 +38,6 @@ public class EvilThingConfiguration implements GameBuilder {
 
         // Agrego la posicion inicial del player.
         game.setInitialPosition(roomOne);
-
         setHelpAndExitCommand();
 
         doorOneTwo.setObjectiveElement(roomTwo);
@@ -68,10 +67,9 @@ public class EvilThingConfiguration implements GameBuilder {
 
     private void createGameContainsElements() {
         //Agrego los elementos en sus contenedores
-        //Habitacion 1
         roomOne.addElement(cursedObject);
         roomOne.addElement(doorOneTwo);
-        //Habitacion 2
+
         roomTwo.addElement(doorTwoOne);
         roomTwo.addElement(thief);
         roomTwo.addElement(doorTwoThree);

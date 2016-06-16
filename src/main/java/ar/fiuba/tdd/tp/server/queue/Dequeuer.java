@@ -82,29 +82,38 @@ public class Dequeuer implements Runnable {
 
     private void sendNoWonMessage(CommandPlayer command, InteractorStatus interactor, Interactor actualInteractor) throws WritingException {
         if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
-            try {
-                if (! command.isNewPlayer()) {
-                    String returnCode;
-                    if (command.getCommmand().equals(GAME_LOST)) {
-                        returnCode = GAME_LOST;
-                    } else {
-                        returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
-                    }
-                    actualInteractor.write(returnCode);
-                    checkStatus(interactor, returnCode);
-                }
-            } catch (UnknownPlayerException e) {
-                writer.writeError(e.getMsg());
-            }
+            sendCommandToSamePlayer(command, interactor, actualInteractor);
         } else if (! command.getCommmand().equals(GAME_LOST)) {
-            if (command.isNewPlayer()) {
-                actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
-            } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
-                actualInteractor.write(command.getCommmand());
-                writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
-            } else {
-                actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
+            sendCommandToDifferentPlayer(command, actualInteractor);
+        }
+    }
+
+    private void sendCommandToDifferentPlayer(CommandPlayer command, Interactor actualInteractor) throws WritingException {
+        if (command.isNewPlayer()) {
+            actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
+        } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
+            actualInteractor.write(command.getCommmand());
+            writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
+        } else {
+            actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
+        }
+    }
+
+    private void sendCommandToSamePlayer(CommandPlayer command, InteractorStatus interactor, Interactor actualInteractor)
+            throws WritingException {
+        try {
+            if (! command.isNewPlayer()) {
+                String returnCode;
+                if (command.getCommmand().equals(GAME_LOST)) {
+                    returnCode = GAME_LOST;
+                } else {
+                    returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                }
+                actualInteractor.write(returnCode);
+                checkStatus(interactor, returnCode);
             }
+        } catch (UnknownPlayerException e) {
+            writer.writeError(e.getMsg());
         }
     }
 
@@ -137,5 +146,4 @@ public class Dequeuer implements Runnable {
     public boolean getGameWon() {
         return this.gameWon;
     }
-
 }

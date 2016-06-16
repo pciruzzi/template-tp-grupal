@@ -14,24 +14,20 @@ public class LookAround extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-
         List<Element> elementList = game.getVisibleElementList(playerId);
         int elementsListSize = elementList.size();
-
         if (elementsListSize == 0) {
             return "The room is empty.";
         }
 
         StringBuilder returnMessage = new StringBuilder();
         returnMessage.append("There's a ");
-
         for (int i = 0; i < elementsListSize; i++) {
             Element actualElement = elementList.get(i);
             returnMessage.append(actualElement.getName());
             appendMessage(elementsListSize, returnMessage, i);
         }
         returnMessage.append(" in the room.");
-
         return returnMessage.toString();
     }
 

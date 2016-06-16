@@ -2,11 +2,6 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
-import ar.fiuba.tdd.tp.time.TimeCommand;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class MockedMoveRandom extends MoveRandom {
 
@@ -30,5 +25,4 @@ public class MockedMoveRandom extends MoveRandom {
 
         return auxiliarMessage + elementToMove.getName() + " moved to the " + destinationElement.getName();
     }
-
 }

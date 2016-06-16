@@ -1,8 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
-import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
-
 
 public class PrintMessage extends ITimeCommand {
 

@@ -58,7 +58,6 @@ public class HanoiConfiguration implements GameBuilder{
 
         // Combino las formas de ganar
         IInterpreter winingWays = new OrExpression(winInterpreterStackTwo, winInterpreterStackThree);
-
         IInterpreter loseInterpreter = new FalseExpression();
 
         for (Player player : players) {

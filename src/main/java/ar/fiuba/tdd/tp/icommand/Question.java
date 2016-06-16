@@ -16,7 +16,6 @@ public class Question extends ICommand {
 
         List<ICommand> commandList = element.getCommandList();
         int commandListSize = commandList.size();
-
         for (int i = 0; i < commandListSize; i++) {
             ICommand actualCommand = commandList.get(i);
             // Esto es para que no se agregue la pregunta

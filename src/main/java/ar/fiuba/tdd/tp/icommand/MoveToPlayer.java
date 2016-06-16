@@ -2,16 +2,10 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
-import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static ar.fiuba.tdd.tp.Constants.ANTIDOTED;
-import static ar.fiuba.tdd.tp.Constants.POISONED;
 
 public class MoveToPlayer extends ICommand {
     private Game game;

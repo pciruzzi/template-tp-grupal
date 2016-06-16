@@ -46,10 +46,8 @@ public class WSCConfiguration implements GameBuilder {
             player.setWinInterpreter(winInterpreter);
             player.setLosingInterpreter(loseInterpreter);
         }
-
         game.setInitialPosition(southShore);
         setHelpAndExitCommand();
-
         return this.game;
     }
 
@@ -73,12 +71,10 @@ public class WSCConfiguration implements GameBuilder {
         IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
         orNorth.setFailMessage("You can't do that! They'll eat other!");
         IInterpreter northCondition = new NotExpression(orNorth);
-
         IInterpreter southCondition = new NotExpression(orSouth);
 
         ICommand crossNorth = new MovePlayerTo(game, southCondition, "cross");
         ICommand crossSouth = new MovePlayerTo(game, northCondition, "cross");
-
         this.setRiverCommands(crossNorth,crossSouth);
     }
 
@@ -105,7 +101,6 @@ public class WSCConfiguration implements GameBuilder {
         wolf.changeState("visible", true);
         sheep.changeState("visible", true);
         cabbage.changeState("visible", true);
-
         boat.setCapacity(1);
 
         riverSouthToNorth.changeState("visible", true);
@@ -147,7 +142,6 @@ public class WSCConfiguration implements GameBuilder {
         winElements.add("wolf");
         winElements.add("sheep");
         winElements.add("cabbage");
-
         winInterpreter = new ContainsElements(northShore,winElements);
     }
 
@@ -170,4 +164,3 @@ public class WSCConfiguration implements GameBuilder {
         return returnArray;
     }
 }
-

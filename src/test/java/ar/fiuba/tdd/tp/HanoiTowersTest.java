@@ -117,5 +117,4 @@ public class HanoiTowersTest {
     public void cantMoveTopEmptyStack() {
         assertEquals(engine.doCommand(id, moveTwoToOne), HANOI_MOVEERRORSTACKEMPTY);
     }
-
 }

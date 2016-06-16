@@ -113,7 +113,6 @@ public class OpenDoor2Configuration implements GameBuilder {
         ArrayList<String> winConditionsArray = new ArrayList<>();
         winConditionsArray.add("player");
         IInterpreter winCondition = new ContainsPlayer(roomTwo, winConditionsArray);
-
         IInterpreter loseInterpreter = new FalseExpression();
 
         for (Player player : players) {

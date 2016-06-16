@@ -1,15 +1,11 @@
 package ar.fiuba.tdd.tp.model;
 
-
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
-import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.ContainsElements;
-import ar.fiuba.tdd.tp.interpreter.FalseExpression;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +30,6 @@ public class DummyGameConfiguration implements GameBuilder{
 
     private Element doorToRoomTwo;
     private Element doorToRoomOne;
-
 
     public Game build() {
         game = new Game("Dummy game");
@@ -79,12 +74,10 @@ public class DummyGameConfiguration implements GameBuilder{
         doorConditionArray.add("key");
 
         IInterpreter doorCondition = new ContainsElements(player,doorConditionArray);
-
         doorCondition.setFailMessage("The door is locked.");
 
         ICommand openDoor = new MovePlayerTo(game, doorCondition, "open");
         ICommand question = new Question("ask");
-
         assignCommands(pick, open, lookAround, drop, openDoor, question);
     }
 

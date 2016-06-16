@@ -2,11 +2,10 @@ package ar.fiuba.tdd.tp.engine;
 
 import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.ITimeCommand;
-import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.*;
 
-public class Element implements Cloneable {
+public class Element {
 
     private String name;
     private Map<String, ICommand> commandMap;
@@ -29,15 +28,6 @@ public class Element implements Cloneable {
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;
-    }
-
-    public Element getClone() {
-        try {
-            return (Element) super.clone();
-        } catch (CloneNotSupportedException c) {
-            System.out.println("Error cuando se quiere clonar un Element");
-            return null;
-        }
     }
 
     public String doCommand(String commandName, int playerId) {
@@ -74,10 +64,6 @@ public class Element implements Cloneable {
         this.name = name;
     }
 
-    public Map<String, ICommand> getCommandMap() {
-        return commandMap;
-    }
-
     public boolean addElement(Element element) {
         if (this.capacity - element.getSize() >= 0) {
             elementMap.put(element.getName(), element);
@@ -106,10 +92,6 @@ public class Element implements Cloneable {
 
     public List<ICommand> getCommandList() {
         return new ArrayList<>(commandMap.values());
-    }
-
-    public Map<String, State> getStateList() {
-        return stateMap;
     }
 
     public String getName() {
@@ -158,11 +140,7 @@ public class Element implements Cloneable {
     }
 
     public boolean getValueOfState(String state) {
-        if (hasState(state)) {
-            return stateMap.get(state).isActive();
-        } else {
-            return false;
-        }
+        return hasState(state) && stateMap.get(state).isActive();
     }
 
     public int getSize() {
@@ -203,16 +181,4 @@ public class Element implements Cloneable {
         }
         return true;
     }
-
-    public List<State> getTrueList() {
-        List<State> returnList = new ArrayList<>();
-        Set<String> keySet = stateMap.keySet();
-        for (String state : keySet) {
-            if (stateMap.get(state).isActive() && (stateMap.get(state).getName().compareTo("visible") != 0)) {
-                returnList.add(stateMap.get(state));
-            }
-        }
-        return returnList;
-    }
-
 }

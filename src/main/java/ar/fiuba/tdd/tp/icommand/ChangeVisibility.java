@@ -2,7 +2,6 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
-import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.interpreter.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
@@ -58,26 +57,4 @@ public class ChangeVisibility extends ICommand {
         }
         return returnMessage;
     }
-
-//    private void affectPlayer(Element element) {
-//        Element player = game.getPlayer();
-//        State stateToAffect = element.getStateToAffect();
-//
-//        if (stateToAffect == null) {
-//            return;
-//        }
-//
-//        if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
-//            player.changeState(stateToAffect.getName(), stateToAffect.isActive());
-//            returnMessage += "\n" + stateToAffect.getEffectMessage();
-//
-//            if (player.hasElement(stateToAffect.getAntiState())) {
-//                player.changeState(stateToAffect.getName(), !stateToAffect.isActive());
-//                returnMessage += "\n" + stateToAffect.getAntiEffectMessage();
-//            }
-//
-//        }
-//
-//
-//    }
 }

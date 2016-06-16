@@ -1,7 +1,6 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
-import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.model.Game;
@@ -39,17 +38,13 @@ public class MoveFromPlayer extends ICommand {
         State stateToAffect = actualElement.getStateToAffect();
         //Si el jugador tiene el elemento en el inventario.
         if (player.getElementMap().containsKey(this.element)) {
-            //Saca el elemento del player.
             player.removeElement(actualElement);
-            //Setea el elemento en false, no es visible.
             actualElement.changeState("visible",false);
-            //Agrega el elemento al elemento con el que interactuo.
             element.addElement(actualElement);
 
             if (stateToAffect != null && element.hasState(stateToAffect.getName())) {
                 element.changeState(stateToAffect.getName(), stateToAffect.isActive());
             }
-
             checkStartTimer(element);
 
             try {
@@ -60,9 +55,7 @@ public class MoveFromPlayer extends ICommand {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-
             return auxiliarMessage + element.getName() + correctMovementMessage + this.element;
-
         } else {
             //Si el jugador no tiene el elemento.
             return incorrectMovementMessage;
@@ -75,6 +68,5 @@ public class MoveFromPlayer extends ICommand {
                 command.startTimeAction();
             }
         }
-
     }
 }

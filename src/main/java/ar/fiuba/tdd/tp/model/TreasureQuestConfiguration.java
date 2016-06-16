@@ -127,7 +127,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         // Los hago visibles
         key.changeState("visible", true);
         pokemon.changeState("visible", true);
-
     }
 
     private void createDoors() {
@@ -156,7 +155,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         doorFiveFour.changeState("visible", true);
 
         doorFiveOne = new Element("door to one");
-
         doorFiveOne.changeState("visible", true);
 
         setDoorsIntoRooms();
@@ -187,7 +185,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void addOpensToDoors() {
-
         doorOneTwo.addCommand(openDoor);
         doorTwoOne.addCommand(openDoor);
         doorTwoThree.addCommand(openDoor);
@@ -199,7 +196,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         doorThreeCondition.setFailMessage("The door is locked! You need a pokemon to open.");
         ICommand openDoorTwoThree  = new MovePlayerTo(game, doorThreeCondition, "open");
         doorTwoThree.addCommand(openDoorTwoThree);
-
         doorThreeTwo.addCommand(openDoor);
 
         ArrayList<String> doorFourRequirements = new ArrayList<>();
@@ -289,7 +285,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         // Creo la condicion de ganar
         ArrayList<String> playerWithTreasure = new ArrayList<>();
         playerWithTreasure.add("treasure");
-
         IInterpreter playerWithTreasureInterpreter = new ContainsElements(playerGenerico,playerWithTreasure);
 
         ArrayList<String> playerInRoomOne = new ArrayList<>();
@@ -331,11 +326,9 @@ public class TreasureQuestConfiguration implements GameBuilder {
         roomFive.addCommand(exit);
     }
 
-
     @SuppressWarnings("CPD-END")
 
     private void createICommands() {
-
         lookAround = new LookAround("look around", game);
         pick = new MoveToPlayer("pick", game);
         drop = new DropOnPosition("drop", game);
@@ -343,6 +336,4 @@ public class TreasureQuestConfiguration implements GameBuilder {
         openContainer = new ChangeVisibility("open",true, game);
         question = new Question("ask");
     }
-
-
 }

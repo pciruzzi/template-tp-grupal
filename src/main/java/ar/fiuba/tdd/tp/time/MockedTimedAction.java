@@ -8,7 +8,6 @@ public class MockedTimedAction extends TimeCommand {
 
     @Override
     public void startTimeAction() {
-
     }
 
     public String startMockedAction() {

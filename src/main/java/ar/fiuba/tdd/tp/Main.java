@@ -13,10 +13,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BroadcastQueue queue = new EventQueue();
         Engine engine = new Engine(queue);
+        GameBuilder configuration = new DummyGameConfiguration();
 
-        GameBuilder fetchConfiguration = new DummyGameConfiguration();
-
-        engine.createGame(fetchConfiguration);
+        engine.createGame(configuration);
         engine.createPlayer();
         engine.createPlayer();
 

@@ -11,12 +11,7 @@ public final class Constants {
     public static final String SOMEONE_WON = " has win! The game is over.";
     public static final String EXIT = "exit";
 
-    public static final String POISONED = "\nYou have been posioned! :(";
-    public static final String ANTIDOTE_PICKED = "\nYou picked the antidote";
-    public static final String ANTIDOTED = "\nYou have an antidote in the inventory, you have been cured! :D";
-
     public static final int BROADCAST = -1;
     public static final int NONE = -1;
     public static final int NON_PLAYER = -1;
-
 }

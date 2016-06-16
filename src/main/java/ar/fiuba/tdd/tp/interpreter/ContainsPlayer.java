@@ -22,7 +22,6 @@ public class ContainsPlayer extends TerminalExpression {
             String newElement = element;
             if (element.contains("player")) {
                 newElement = "player " + player.getPlayerID();
-                System.out.println("Verificando si el Element tiene al player : " + newElement);
             }
             newList.add(newElement);
         }

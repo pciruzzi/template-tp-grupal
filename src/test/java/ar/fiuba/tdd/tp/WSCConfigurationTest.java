@@ -110,7 +110,6 @@ public class WSCConfigurationTest {
         assertEquals(game.play(id, take, wolf),"It doesn't exist a wolf in the game WSC");
     }
 
-
     @Test
     public void cantMoveToSouthShoreFromSouthShoreTest() {
         Game game = this.initializeGame();

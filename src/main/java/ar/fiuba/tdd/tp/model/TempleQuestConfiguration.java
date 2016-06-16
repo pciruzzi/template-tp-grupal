@@ -57,6 +57,7 @@ public class TempleQuestConfiguration implements GameBuilder {
     private Element diskSeven;
     private Element diskEight;
     private Element diskNine;
+
     //El ladron
     private Element archaeologist;
 
@@ -73,7 +74,6 @@ public class TempleQuestConfiguration implements GameBuilder {
 
     @Override
     public Game build() {
-
         game = new Game("Temple Quest");
         game.setDescription("Think that you're Indiana Jones and then act like him...");
         setPlayers();
@@ -87,7 +87,6 @@ public class TempleQuestConfiguration implements GameBuilder {
         createRoomArchaeologist();
 
         createFinishingConditions();
-
         setHelpAndExitCommand();
 
         // Agrego la posicion del player
@@ -129,8 +128,7 @@ public class TempleQuestConfiguration implements GameBuilder {
     }
 
     private void createRoomOne() {
-        roomOne     = new Element("roomOne");
-
+        roomOne      = new Element("roomOne");
         doorOneHanoi = new Element("door");
         doorOneHanoi.changeState("visible", true);
 
@@ -142,13 +140,11 @@ public class TempleQuestConfiguration implements GameBuilder {
         //antidote.addState("antidote", true);
         apple.addState(new State("poison", true, false));
         monkey.changeState("visible", true);
-
         monkey.setSize(0);
 
         // Los elementos contenedores
         skeleton    = new Element("skeleton");
         chest       = new Element("chest");
-
         skeleton.changeState("visible", true);
         chest.changeState("visible", true);
 
@@ -156,14 +152,11 @@ public class TempleQuestConfiguration implements GameBuilder {
     }
 
     private void combineElementsRoomOne() {
-
         roomOne.addElement(chest);
         roomOne.addElement(skeleton);
         roomOne.addElement(monkey);
         roomOne.addElement(doorOneHanoi);
-
         roomOne.addCommand(lookAround);
-
 
         skeleton.addElement(apple);
         chest.addElement(antidote);
@@ -172,7 +165,6 @@ public class TempleQuestConfiguration implements GameBuilder {
     }
 
     private void addICoomandsToElementsInRoomOne() {
-
         // La puerta se abre con el mono
         ArrayList<String> monkeyRequirements = new ArrayList<>();
         monkeyRequirements.add("monkey");
@@ -197,20 +189,15 @@ public class TempleQuestConfiguration implements GameBuilder {
 
         // Los elementos contenedores
         chest.addCommand(openContainer);
-
         ICommand search = new ChangeVisibility("search", true, game);
         search.correctMovementMessage(" has elements inside.");
         skeleton.addCommand(search);
 
         chest.addCommand(closeContainer);
-
-
         addQuestionsToRoomOne();
-
     }
 
     private void addQuestionsToRoomOne() {
-
         doorOneHanoi.addCommand(question);
 
         apple.addCommand(question);
@@ -232,7 +219,6 @@ public class TempleQuestConfiguration implements GameBuilder {
         roomHanoiBis.addCommand(lookAround);
         roomHanoiBis.addElement(riverBackward);
 
-
         ArrayList<String> containsBigDisk = new ArrayList<>();
         containsBigDisk.add("disk nine");
         IInterpreter containsDisk = new ContainsElements(playerGenerico, containsBigDisk);
@@ -248,8 +234,6 @@ public class TempleQuestConfiguration implements GameBuilder {
         roomHanoi = new Element("roomHanoi");
         doorOneHanoi.setObjectiveElement(roomHanoi);
 
-
-
         riverForward = new Element("river");
         riverForward.changeState("visible", true);
         riverForward.setObjectiveElement(roomHanoiBis);
@@ -261,7 +245,6 @@ public class TempleQuestConfiguration implements GameBuilder {
     }
 
     private void combineElementsRoomHanoi() {
-
         roomHanoi.addElement(pillarOne);
         roomHanoi.addElement(pillarTwo);
         roomHanoi.addElement(pillarThree);
@@ -275,7 +258,6 @@ public class TempleQuestConfiguration implements GameBuilder {
     }
 
     private void addICoomandsToElementsInRoomHanoi() {
-
         ICommand moveSmallest = new MoveWithComparator("move top", (Element e1, Element e2) -> e1.getSize() - e2.getSize());
         moveSmallest.correctMovementMessage("You moved the disk!");
         moveSmallest.incorrectMovementMessage("You can't move a bigger disk over a smaller one!");
@@ -344,11 +326,9 @@ public class TempleQuestConfiguration implements GameBuilder {
         diskSeven.setSize(7);
         diskEight.setSize(8);
         diskNine.setSize(9);
-
     }
 
     private void createRoomArchaeologist() {
-
         roomArchaeologist = new Element("roomArchaeologist");
         doorHanoiBisArchaeologist.setObjectiveElement(roomArchaeologist);
         archaeologist = new Element("archaeologist");
@@ -380,20 +360,17 @@ public class TempleQuestConfiguration implements GameBuilder {
 
         doorArchaeologistHanoi.addCommand(openDoor);
 
-
         ArrayList<String> doorArchaeologistOutsideRequirements = new ArrayList<>();
         doorArchaeologistOutsideRequirements.add("diskNine");
         IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(playerGenerico, doorArchaeologistOutsideRequirements);
         ICommand openDoorArchaeologistOutside = new MovePlayerTo(game, doorArchaeologistOutsideCondition, "open");
         doorArchaeologistOutside.addCommand(openDoorArchaeologistOutside);
         roomArchaeologist.addCommand(lookAround);
-
     }
 
     private void createFinishingConditions() {
         ArrayList<String> roomContainsPlayer = new ArrayList<>();
         roomContainsPlayer.add("player");
-
         IInterpreter playerInLastRoom = new ContainsPlayer(lastRoom, roomContainsPlayer);
 
         ArrayList<String> playerWithDisk = new ArrayList<>();
@@ -431,5 +408,3 @@ public class TempleQuestConfiguration implements GameBuilder {
         cross = new MovePlayerTo(game, hasOneDisk, "cross");
     }
 }
-
-

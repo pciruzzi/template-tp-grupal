@@ -66,7 +66,6 @@ public class Engine {
         if ( secondElement == null ) {
             return game.playTime(command, firstElement);
         }
-//        String secondElementName = secondElement.getName();
         return game.playTime(command, firstElement, secondElement);
     }
 

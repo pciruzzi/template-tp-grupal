@@ -33,7 +33,6 @@ public class MoveWithComparator extends ICommand {
         elementListOrigin.sort(comparator);
         Element movingElementOrigin = elementListOrigin.get(0);
         if ( checkConditions(movingElementOrigin, destinationElement) ) {
-
             originElement.removeElement(movingElementOrigin);
             destinationElement.addElement(movingElementOrigin);
             checkBiggestAvailable(movingElementOrigin);
@@ -45,7 +44,6 @@ public class MoveWithComparator extends ICommand {
     public String doAction(Element element, int playerId) {
         return incorrectMovementMessage;
     }
-
     // Esto se usa para el caso en que se necesite agarrar el ultimo disco, cuaderno o lo que sea de
     // la pila. Solo va a estar visible cuando se hayan removido todos los otros de esa pila.
     // TODO: Revisar con lo de multiples estados.
@@ -55,6 +53,4 @@ public class MoveWithComparator extends ICommand {
             elementListOrigin.get(0).changeElementsState("visible", true);
         }
     }
-
-
 }

@@ -1,11 +1,7 @@
 package ar.fiuba.tdd.tp.engine;
 
-import ar.fiuba.tdd.tp.icommand.ICommand;
 import ar.fiuba.tdd.tp.icommand.ITimeCommand;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Player extends Element {
 
@@ -14,22 +10,8 @@ public class Player extends Element {
     private IInterpreter winInterpreter;
     private IInterpreter losingInterpreter;
 
-
     public Player(int id) {
         super("player " + id);
-        this.id = id;
-    }
-
-    public Player getClone() {
-        try {
-            return (Player) super.clone();
-        } catch (CloneNotSupportedException c) {
-            System.out.println("Error cuando se quiere clonar un Player");
-            return null;
-        }
-    }
-
-    public void setPlayerID(int id) {
         this.id = id;
     }
 

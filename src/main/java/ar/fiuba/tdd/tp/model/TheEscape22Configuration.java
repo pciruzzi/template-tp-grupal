@@ -10,6 +10,7 @@ import ar.fiuba.tdd.tp.time.TimeCommand;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.fiuba.tdd.tp.Constants.NONE;
 import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
 
 @SuppressWarnings("CPD-START")
@@ -106,8 +107,8 @@ public class TheEscape22Configuration implements GameBuilder {
     private MoveRandom moveRandom;
 
     public TheEscape22Configuration() {
-        this.despertarBibliotecario = new SingleTimedAction(4999, "enojar Bibliotecario");
-        this.enojarBibliotecario    = new SingleTimedAction(4998, "despertar Bibliotecario");
+        this.despertarBibliotecario = new SingleTimedAction(4999, "despertar Bibliotecario");
+        this.enojarBibliotecario    = new SingleTimedAction(4998, "enojar Bibliotecario");
         this.moverBibliotecario     = null;
 
     }
@@ -237,8 +238,8 @@ public class TheEscape22Configuration implements GameBuilder {
         if ( moverBibliotecario == null ) {
             moverBibliotecario = new ScheduledTimedAction(6000, "move Bibliotecario");
             moveRandom = new MoveRandom("move");
-            moveRandom.addProhibitedRoom(biblioteca);
-            moveRandom.addProhibitedRoom(pasillo);
+//            moveRandom.addProhibitedRoom(biblioteca);
+//            moveRandom.addProhibitedRoom(pasillo);
         } else {
             moveRandom = new MockedMoveRandom("move", biblioteca);
         }
@@ -249,11 +250,21 @@ public class TheEscape22Configuration implements GameBuilder {
         ITimeCommand enojar = new ChangeState("enojar", "enojado", true);
         enojar.correctMovementMessage("se ha enojado");
 
+        List<TimeCommand> timedActions = setTimeCommandsBibliotecario(despertar, enojar);
+
+        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
+        giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
+        giveItem.correctMovementMessage("");
+        giveItem.incorrectMovementMessage("Hic!");
+        giveItem.auxiliarMessage("");
+
+        game.addTimeElement(bibliotecario);
+    }
+
+    private List<TimeCommand> setTimeCommandsBibliotecario(ITimeCommand despertar, ITimeCommand enojar) {
         bibliotecario.addTimeCommand(despertar);
         bibliotecario.addTimeCommand(enojar);
         bibliotecario.addTimeCommand(moveRandom);
-//        TimeCommand timeDespertar = new SingleTimedAction(4998, "despertar Bibliotecario");
-//        TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
 
         moverBibliotecario.setStart(false);
         despertarBibliotecario.setStart(false);
@@ -264,20 +275,14 @@ public class TheEscape22Configuration implements GameBuilder {
         timedActions.add(enojarBibliotecario);
         timedActions.add(moverBibliotecario);
 
-        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
-        giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
-        giveItem.correctMovementMessage("");
-        giveItem.incorrectMovementMessage("Hic!");
-        giveItem.auxiliarMessage("");
-
         game.addTimeCommand(moverBibliotecario);
         game.addTimeCommand(despertarBibliotecario);
         game.addTimeCommand(enojarBibliotecario);
-        game.addTimeElement(bibliotecario);
+        return timedActions;
     }
 
     private void initializeFirstGroupOfElements() {
-        playerGenerico = new Player(-1);
+        playerGenerico = new Player(NONE);
         fotoDesconocida = new Element("FotoDesconocida");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");

@@ -25,7 +25,6 @@ public abstract class ICommand {
     }
 
     protected String affectPlayer(Element element, Element player) {
-
         String returnMessage = "";
         State stateToAffect = element.getStateToAffect();
         if (stateToAffect == null) {
@@ -35,13 +34,10 @@ public abstract class ICommand {
         if (player.hasState(stateToAffect.getName()) && player.getValueOfState(stateToAffect.getName()) != stateToAffect.isActive()) {
             player.changeState(stateToAffect.getName(), stateToAffect.isActive());
             returnMessage += "\n" + stateToAffect.getEffectMessage();
-
             if (stateToAffect.isWillDestroyTheItem()) {
                 player.removeElement(element);
             }
-
             returnMessage = checkAntiState(player, returnMessage, stateToAffect);
-
         }
         return returnMessage;
     }
@@ -54,7 +50,6 @@ public abstract class ICommand {
                 Element elementToRemoveOfAntiEffect = player.getElement(stateToAffect.getAntiState());
                 player.removeElement(elementToRemoveOfAntiEffect);
             }
-
         }
         return returnMessage;
     }

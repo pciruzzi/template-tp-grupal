@@ -10,7 +10,7 @@ public class ElementTest {
     @Test
     public void testElementSizeSet() {
         Element element = new Element("chest");
-        assertEquals(999,  element.getCapacity());
+        assertEquals(999, element.getCapacity());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class ElementTest {
     @Test
     public void testElementRemoveElementFromElementResetSize() {
         Element element = new Element("chest");
-        assertEquals(999,  element.getCapacity());
+        assertEquals(999, element.getCapacity());
         Element stick = new Element("big stick");
         stick.setSize(3);
         element.addElement(stick);

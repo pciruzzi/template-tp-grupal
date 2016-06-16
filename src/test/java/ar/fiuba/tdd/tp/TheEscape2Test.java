@@ -7,12 +7,7 @@ import ar.fiuba.tdd.tp.model.TheEscape22Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import ar.fiuba.tdd.tp.time.MockedTimedAction;
-import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
-import ar.fiuba.tdd.tp.time.TimeCommand;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static org.junit.Assert.assertEquals;
@@ -42,7 +37,6 @@ public class TheEscape2Test {
     public void shouldLostWhenBibliotecarioFoundsPlayer1InBiblioteca() throws GameLoadFailedException {
         setUp();
         engine.createPlayer();
-
         engine.doCommand(1, "goto BibliotecaAcceso");
         engine.doCommand(1, "goto doorBiblioteca");
 
@@ -58,7 +52,6 @@ public class TheEscape2Test {
 
         despertar.startMockedAction();
         enojar.startMockedAction();
-
         assertEquals(GAME_LOST, mover.startMockedAction());
     }
 

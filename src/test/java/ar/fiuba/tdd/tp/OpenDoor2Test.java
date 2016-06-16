@@ -63,7 +63,6 @@ public class OpenDoor2Test extends InitializationsForTests{
         Engine engine = initializeEngineOpenDoor2();
         engine.doCommand(id, "open box");
         engine.doCommand(id, "pick key");
-
         assertEquals("You won!!!", engine.doCommand(id, "open door"));
     }
 }

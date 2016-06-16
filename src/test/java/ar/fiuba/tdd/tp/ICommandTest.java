@@ -2,9 +2,7 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.DummyGameConfiguration;
-import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.HanoiConfiguration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import org.junit.Before;
@@ -16,7 +14,6 @@ import static org.junit.Assert.*;
 public class ICommandTest {
 
     private static final int id = 0;
-
     private Engine engine;
 
     @Before
@@ -98,5 +95,4 @@ public class ICommandTest {
         engine.doCommand(id,"open door");
         assertEquals(engine.doCommand(id,"pick woodenStick"),"You lost!!!");
     }
-
 }

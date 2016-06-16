@@ -107,7 +107,6 @@ public class Game {
 
     public String play(int playerID, String cmd, String element) {
         String returnMessage;
-
         Element actualElement = getElement(playerID, element);
 
         if (actualElement != null) {
@@ -115,14 +114,12 @@ public class Game {
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
-
         returnMessage = checkFinishedGame(returnMessage, playerID);
         return returnMessage;
     }
 
     public String play(int playerID, String cmd, String element, String destinationElement) {
         String returnMessage;
-
         Element actualElement = getElement(playerID, element);
         Element destElement = getElement(playerID, destinationElement);
 
@@ -131,16 +128,12 @@ public class Game {
         } else {
             returnMessage = "It doesn't exist a " + element + " in the game " + getName();
         }
-
         returnMessage = checkFinishedGame(returnMessage, playerID);
         return returnMessage;
     }
 
-
     public String playTime(String cmd, Player element) {
         String returnMessage = "It doesn't exist the element";
-
-
         if (element != null) {
             returnMessage = element.doTimeCommand(cmd);
         }
@@ -148,12 +141,9 @@ public class Game {
         return returnMessage;
     }
 
-
     public String playTime(String cmd, Element firstElement, Element secondElement) {
         String returnMessage = "It doesn't exist the element";
-
         returnMessage = checkFinishedGameForAll(returnMessage);
-
         return returnMessage;
     }
 
@@ -260,7 +250,6 @@ public class Game {
     }
 
     public void addContainer(Element element) {
-
         for ( Element room : containersList) {
             if ( room.getName().equals(element.getName()) ) {
 //                System.out.println("You are adding the same room twice to the game: " + room.getName());
@@ -279,5 +268,4 @@ public class Game {
             this.isPlayerConnected.add(false);
         }
     }
-
 }
