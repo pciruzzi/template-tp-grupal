@@ -12,6 +12,11 @@ public class DoesNotContainElements extends TerminalExpression {
     }
 
     public boolean interpret() {
+        // Para los casos en que sea con el player generico, ya que el hasAllElements siempre devolveria false,
+        // y negado haria que este metodo devuelva true siempre, lo cual es incorrecto.
+        if (element.getClass().equals(Player.class)) {
+            return false;
+        }
         return !element.hasAllElements(elementsListNames);
     }
 

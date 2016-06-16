@@ -18,28 +18,28 @@ public class TresureQuestTest {
     @Test
     public void lookArroundInFirstRoom() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         assertEquals("There's a door and a pokemon in the room.",game.play(id, "look around"));
     }
 
     @Test
     public void canPickPokemonInRoom() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         assertEquals("You picked the pokemon",game.play(id, "pick", "pokemon"));
     }
 
     @Test
     public void canOpenTheDoor() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         assertEquals("You have crossed",game.play(id, "open", "door"));
     }
 
     @Test
     public void lookArroundInRoom2() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "open","door");
         assertEquals("There's a door to three and a door to one in the room.",game.play(id, "look around"));
     }
@@ -47,7 +47,7 @@ public class TresureQuestTest {
     @Test
     public void cantEnterRoomTwoWithoutPokeon() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "open","door");
         assertEquals("The door is locked! You need a pokemon to open.",game.play(id, "open","door to three"));
     }
@@ -55,7 +55,7 @@ public class TresureQuestTest {
     @Test
     public void canEnterRoomTwoWithPokeonShowElements() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -65,7 +65,7 @@ public class TresureQuestTest {
     @Test
     public void canEnterRoomFourAndShowElements() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -77,7 +77,7 @@ public class TresureQuestTest {
     @Test
     public void openWardrobeInRoomFourAndShowElements() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -90,7 +90,7 @@ public class TresureQuestTest {
     @Test
     public void openChestInsideWardbrobeShowsElements() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -105,7 +105,7 @@ public class TresureQuestTest {
     @Test
     public void openChestInsideWardbrobeAndPickAntidote() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -120,7 +120,7 @@ public class TresureQuestTest {
     @Test
     public void enterRoom5AndLookAround() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -137,7 +137,7 @@ public class TresureQuestTest {
     @Test
     public void openBoxOnePoisonsAndAntidoteCures() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");
@@ -152,11 +152,29 @@ public class TresureQuestTest {
                 + "You have been healed :)",game.play(id, "open", "box one"));
     }
 
+//    TODO: Este test?
+//    @Test
+//    public void enterPoisonedToRoom4LoosesTheGame() {
+//        Game game = this.initializeGame();
+//        game.createPlayer();
+//        game.play(id, "pick","pokemon");
+//        game.play(id, "open","door");
+//        game.play(id, "open","door to three");
+//        game.play(id, "drop","pokemon");
+//        game.play(id, "pick","key");
+//        game.play(id, "open", "door to four");
+//        game.play(id, "open","wardrobe");
+//        game.play(id, "open","chest");
+//        game.play(id, "open","door to five");
+//        game.play(id, "open", "box one");
+//        //System.out.println(game.play(id, "open", "door to four"));
+//        assertEquals(GAME_LOST,game.play(id, "open", "door to four"));
+//    }
 
     @Test
     public void enterRoom1WithTreasureWinsGame() {
         Game game = this.initializeGame();
-        game.createPlayer(0);
+        game.createPlayer();
         game.play(id, "pick","pokemon");
         game.play(id, "open","door");
         game.play(id, "open","door to three");

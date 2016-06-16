@@ -16,7 +16,7 @@ public class Player extends Element {
 
 
     public Player(int id) {
-        super("player");
+        super("player " + id);
         this.id = id;
     }
 

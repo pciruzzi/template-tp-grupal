@@ -25,7 +25,7 @@ public class ICommandTest {
         engine = new Engine(queue);
         GameBuilder gameBuilder = new DummyGameConfiguration();
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.createPlayer();
     }
 
     @Test

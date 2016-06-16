@@ -31,6 +31,24 @@ public class ElementsInSameContainer extends TerminalExpression {
 
     @Override
     public boolean interpret(Player player) {
-        return false;
+        boolean sameContainer = false;
+        List<Element> containerList = game.getContainersList();
+        String elementName = element.getName();
+        if (elementName.contains("player")) {
+            elementName = "player " + player.getPlayerID();
+            System.out.println("Concatenando el id al element en ElementsInSameContainer: " + elementName);
+        }
+        String elementTwoName = elementTwo.getName();
+        if (elementTwoName.contains("player")) {
+            elementTwoName = "player " + player.getPlayerID();
+            System.out.println("Concatenando el id al elementTwo en ElementsInSameContainer: " + elementTwoName);
+        }
+
+        for ( Element container : containerList ) {
+            if ( container.hasElement(elementName) && container.hasElement(elementTwoName) ) {
+                sameContainer = true;
+            }
+        }
+        return sameContainer;
     }
 }

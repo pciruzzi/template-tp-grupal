@@ -11,6 +11,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
@@ -22,6 +23,7 @@ public class DummyGameConfiguration implements GameBuilder{
     private Element roomTwo;
 
     private Player player;
+    private List<Player> players;
 
     private Element chest;
     private Element sword;
@@ -35,22 +37,21 @@ public class DummyGameConfiguration implements GameBuilder{
 
 
     public Game build() {
-
         game = new Game("Dummy game");
         game.setDescription("This is a dummy game");
 
-        player = new Player(-1);
+        players = new ArrayList<>();
+        player = new Player(0);
+        createWinLoseCondition();
+        players.add(player);
         game.setMaxPlayers(1);
 
         createRoomOne();
         createFinalRoom();
         createElementsCommands();
-        createWinLoseCondition();
 
-        game.setGenericPlayer(player);
         game.setInitialPosition(room);
-
-
+        game.setPlayers(players);
         return game;
     }
 
@@ -61,12 +62,11 @@ public class DummyGameConfiguration implements GameBuilder{
         winArray.add("goldenStick");
         loseArray.add("woodenStick");
 
-        IInterpreter winInterpreter = new ContainsElements(player,winArray);
-        IInterpreter loseInterpreter = new ContainsElements(player,loseArray);
+        IInterpreter winInterpreter = new ContainsElements(player, winArray);
+        IInterpreter loseInterpreter = new ContainsElements(player, loseArray);
 
-        game.setLosingInterpreter(loseInterpreter);
-        game.setWinInterpreter(winInterpreter);
-
+        player.setLosingInterpreter(loseInterpreter);
+        player.setWinInterpreter(winInterpreter);
     }
 
     private void createElementsCommands() {
@@ -86,7 +86,6 @@ public class DummyGameConfiguration implements GameBuilder{
         ICommand question = new Question("ask");
 
         assignCommands(pick, open, lookAround, drop, openDoor, question);
-
     }
 
     private void assignCommands(ICommand pick, ICommand open, ICommand lookAround, ICommand drop, ICommand openDoor, ICommand question) {
@@ -139,8 +138,5 @@ public class DummyGameConfiguration implements GameBuilder{
         chest.addElement(key);
         room.addElement(sword);
         room.addElement(chest);
-
     }
-
-
 }

@@ -84,14 +84,19 @@ public class Dequeuer implements Runnable {
         if (actualInteractor.getPlayerNumber() == command.getPlayer()) {
             try {
                 if (! command.isNewPlayer()) {
-                    String returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                    String returnCode;
+                    if (command.getCommmand().equals(GAME_LOST)) {
+                        returnCode = GAME_LOST;
+                    } else {
+                        returnCode = driver.sendCommand(command.getCommmand(), command.getPlayer());
+                    }
                     actualInteractor.write(returnCode);
                     checkStatus(interactor, returnCode);
                 }
             } catch (UnknownPlayerException e) {
                 writer.writeError(e.getMsg());
             }
-        } else {
+        } else if (! command.getCommmand().equals(GAME_LOST)) {
             if (command.isNewPlayer()) {
                 actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
             } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos

@@ -1,17 +1,22 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
-public class TempleQuest implements GameBuilder {
+public class TempleQuestConfiguration implements GameBuilder {
 
     private Game game;
-    private Element player;
+    private Player playerGenerico;
+
+    private List<Player> players;
+    private int maxPlayers;
 
     // Los cuartos
     private Element roomOne;
@@ -71,8 +76,7 @@ public class TempleQuest implements GameBuilder {
 
         game = new Game("Temple Quest");
         game.setDescription("Think that you're Indiana Jones and then act like him...");
-        game.setMaxPlayers(4);
-        player = new Element("player");
+        setPlayers();
 
         createLastRoom();
         createICommands();
@@ -89,6 +93,19 @@ public class TempleQuest implements GameBuilder {
         // Agrego la posicion del player
         game.setInitialPosition(roomOne);
         return game;
+    }
+
+    private void setPlayers() {
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
+
+        playerGenerico = new Player(-1);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void setHelpAndExitCommand() {
@@ -160,7 +177,7 @@ public class TempleQuest implements GameBuilder {
         ArrayList<String> monkeyRequirements = new ArrayList<>();
         monkeyRequirements.add("monkey");
 
-        IInterpreter hasMonkey = new ContainsElements(player, monkeyRequirements);
+        IInterpreter hasMonkey = new ContainsElements(playerGenerico, monkeyRequirements);
         hasMonkey.setFailMessage("Ey! Where do you go, you have to pull both lever at the same time");
 
         ICommand openDoorWithMonkey = new MovePlayerTo(game, hasMonkey, "open");
@@ -218,7 +235,7 @@ public class TempleQuest implements GameBuilder {
 
         ArrayList<String> containsBigDisk = new ArrayList<>();
         containsBigDisk.add("disk nine");
-        IInterpreter containsDisk = new ContainsElements(player, containsBigDisk);
+        IInterpreter containsDisk = new ContainsElements(playerGenerico, containsBigDisk);
         containsDisk.setFailMessage("You need the magic stone to open the door!");
 
         doorHanoiBisArchaeologist.changeState("visible", true);
@@ -364,9 +381,9 @@ public class TempleQuest implements GameBuilder {
         doorArchaeologistHanoi.addCommand(openDoor);
 
 
-        ArrayList<String> doorArchaeologistOutsideRequirements = new ArrayList<String>();
+        ArrayList<String> doorArchaeologistOutsideRequirements = new ArrayList<>();
         doorArchaeologistOutsideRequirements.add("diskNine");
-        IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(player, doorArchaeologistOutsideRequirements);
+        IInterpreter doorArchaeologistOutsideCondition = new DoesNotContainElements(playerGenerico, doorArchaeologistOutsideRequirements);
         ICommand openDoorArchaeologistOutside = new MovePlayerTo(game, doorArchaeologistOutsideCondition, "open");
         doorArchaeologistOutside.addCommand(openDoorArchaeologistOutside);
         roomArchaeologist.addCommand(lookAround);
@@ -374,24 +391,24 @@ public class TempleQuest implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-
-        ArrayList<String> roomContainsPlayer = new ArrayList<String>();
+        ArrayList<String> roomContainsPlayer = new ArrayList<>();
         roomContainsPlayer.add("player");
 
-        IInterpreter playerInLastRoom = new ContainsElements(lastRoom, roomContainsPlayer);
+        IInterpreter playerInLastRoom = new ContainsPlayer(lastRoom, roomContainsPlayer);
 
-        ArrayList<String> playerWithDisk = new ArrayList<String>();
+        ArrayList<String> playerWithDisk = new ArrayList<>();
         playerWithDisk.add("disk nine");
 
-        IInterpreter playerWithDiskInterpreter = new ContainsElements(player, playerWithDisk);
-        IInterpreter playerIsPoisoned = new HasValueState(player, "poison", true);
+        IInterpreter playerWithDiskInterpreter = new ContainsElements(playerGenerico, playerWithDisk);
+        IInterpreter playerIsPoisoned = new HasValueState(playerGenerico, "poison", true);
 
         IInterpreter deadPlayer = new OrExpression(playerWithDiskInterpreter, playerIsPoisoned);
         IInterpreter losingInterpreter = new AndExpression(deadPlayer, playerInLastRoom);
 
-
-        game.setWinInterpreter(playerInLastRoom);
-        game.setLosingInterpreter(losingInterpreter);
+        for (Player player : players) {
+            player.setWinInterpreter(playerInLastRoom);
+            player.setLosingInterpreter(losingInterpreter);
+        }
     }
 
     private void createICommands() {
@@ -409,7 +426,7 @@ public class TempleQuest implements GameBuilder {
     @SuppressWarnings("CPD-END")
 
     private void createCross() {
-        IInterpreter hasOneDisk = new HasLessElementsThan(player, 3);
+        IInterpreter hasOneDisk = new HasLessElementsThan(playerGenerico, 3);
         hasOneDisk.setFailMessage("The rope won't support your weight.");
         cross = new MovePlayerTo(game, hasOneDisk, "cross");
     }

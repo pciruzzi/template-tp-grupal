@@ -5,18 +5,21 @@ import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
 import ar.fiuba.tdd.tp.time.SingleTimedAction;
-import ar.fiuba.tdd.tp.time.Time;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
 
 @SuppressWarnings("CPD-START")
 
 public class TheEscape22Configuration implements GameBuilder {
 
     private Game game;
-    private Player player;
+    private Player playerGenerico;
+    private List<Player> players;
+    private int maxPlayers;
 
     // Los cuartos
     private Element salonUno;
@@ -50,8 +53,6 @@ public class TheEscape22Configuration implements GameBuilder {
     private Element botellaLicor;
     private Element vasoUno;
     private Element vasoDos;
-    private Element fotoBuena;
-    private Element lapicera;
     private Element fotoDesconocida;
     private Element martillo;
     private Element destornillador1;
@@ -79,7 +80,9 @@ public class TheEscape22Configuration implements GameBuilder {
     private Element barandaSotano;
     private Element barandaSotanoAbajo;
     private Element ventana;
-    //    private Element relojCucu;
+
+    // Los elementos que se ejecutan por tiempo
+//    private Element relojCucu;
     private Player bibliotecario;
 
     // Los ICommands
@@ -119,9 +122,11 @@ public class TheEscape22Configuration implements GameBuilder {
 
     @Override
     public Game build() {
-        game = new Game("The Escape");
+        game = new Game("The Escape 2");
         game.setDescription("You're locked in a house; try to escape without die trying");
-        game.setMaxPlayers(4);
+        maxPlayers = 4;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         initializeRooms();
         initializeElements();
@@ -151,8 +156,6 @@ public class TheEscape22Configuration implements GameBuilder {
         createAccesoABibliotecaBis();
         createBiblioteca();
         createLastRoomAndCondicionesDeMorir();
-
-        game.setInitialPosition(pasillo);
     }
 
     private void setHelpCommand() {
@@ -223,13 +226,12 @@ public class TheEscape22Configuration implements GameBuilder {
         ventana = new Element("Ventana");
         llave = new Element("Llave");
 
-//        relojCucu = new Element("Reloj");
+//        relojCucu = new Player(NON_PLAYER);
         setMovementOfBibliotecario();
-
     }
 
     private void setMovementOfBibliotecario() {
-        bibliotecario = new Player(-1);
+        bibliotecario = new Player(NON_PLAYER);
         bibliotecario.setName("Bibliotecario");
 
         if ( moverBibliotecario == null ) {
@@ -275,10 +277,8 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        player = new Player(0);
-        fotoBuena = new Element("Foto");
+        playerGenerico = new Player(-1);
         fotoDesconocida = new Element("FotoDesconocida");
-        lapicera = new Element("Lapicera");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
         destornillador2 = new Element("Destornillador 2");
@@ -287,15 +287,12 @@ public class TheEscape22Configuration implements GameBuilder {
         vasoUno = new Element("Vaso1");
         vasoDos = new Element("Vaso2");
         initializeBooks();
-
     }
 
     private void configurarBotellaLicor() {
-
         State stateBotella = new State("dormido", true, false);
         stateBotella.setEffectMessage("El Bibliotecario se quedo dormido de la borrachera.");
         botellaLicor.setStateToAffect(stateBotella);
-
     }
 
     private void initializeBooks() {
@@ -317,13 +314,11 @@ public class TheEscape22Configuration implements GameBuilder {
         doorSalon2 = new Element("Salon2");
         doorSalon3 = new Element("Salon3");
         doorAccesoABibliotecario = new Element("BibliotecaAcceso");
-        doorBibliotecario = new Element("Bibliotecarioasdghhhsdfsddsaasdasdasd");
+        doorBibliotecario = new Element("Bibliotecario");
         accesoBibliotecaBis = new Element("Biblioteca");
         doorVueltaAccesoBiblioteca = new Element("BibliotecaAcceso");
         doorVueltaAccesoBiblioteca.addState(new State("visible", true, false));
-
         bibliotecario.setPlayerPosition(accesoBiblioteca);
-
 
         doorBiblioteca = new Element("Biblioteca");
         doorBibliotecaBibliotecario = new Element("Bibliotecario");
@@ -337,21 +332,26 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void createPlayer() {
-        player.setCapacity(4);
+        playerGenerico.setCapacity(4);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            newPlayer.setCapacity(4);
 
-        fotoBuena.addCommand(drop);
-        fotoBuena.addCommand(move);
-        fotoBuena.addCommand(pick);
+            Element fotoBuena = new Element("Foto");
+            fotoBuena.addCommand(drop);
+            fotoBuena.addCommand(move);
+            fotoBuena.addCommand(pick);
 
-        lapicera.addCommand(drop);
-        lapicera.addCommand(pick);
+            Element lapicera = new Element("Lapicera");
+            lapicera.addCommand(drop);
+            lapicera.addCommand(pick);
 
-        List<Element> initialElements = new ArrayList<>();
-        initialElements.add(fotoBuena);
-        initialElements.add(lapicera);
+            newPlayer.addElement(fotoBuena);
+            newPlayer.addElement(lapicera);
 
-        game.setInitialElements(initialElements);
-        game.setGenericPlayer(player);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void createRoomTwo() {
@@ -409,7 +409,7 @@ public class TheEscape22Configuration implements GameBuilder {
         credencial.addCommand(levantar);
 
         // Asigno los mover a los cuadros
-        ICommand moverCuadro = new ChangeVisibility("move",true ,game);
+        ICommand moverCuadro = new ChangeVisibility("move", true, game);
         cuadroTren.addCommand(moverCuadro);
         cuadroBarco.addCommand(moverCuadro);
 
@@ -429,7 +429,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void addQuestionCommandToRoomOneElements() {
-
         mesa.addCommand(question);
         sillaUno.addCommand(question);
         sillaDos.addCommand(question);
@@ -444,7 +443,7 @@ public class TheEscape22Configuration implements GameBuilder {
     private void setConditionsForCajaFuerte() {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
-        IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
+        IInterpreter condicionCaja = new ContainsElements(playerGenerico, condicionLlave);
         condicionCaja.setFailMessage("¿Que haces? Necesitas la Llave para abrir la CajaFuerte");
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
         abrirCaja.incorrectMovementMessage("¿Que hacés? Necesitas la Llave para abrir la CajaFuerte.");
@@ -465,7 +464,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void setVisibleElements() {
-        // Seteo los visibles
         botellaLicor.changeState("visible", true);
         vasoUno.changeState("visible", true);
         vasoDos.changeState("visible", true);
@@ -475,7 +473,6 @@ public class TheEscape22Configuration implements GameBuilder {
         sillaDos.changeState("visible", true);
         sillaUno.changeState("visible", true);
         doorToPasillo.changeState("visible", true);
-
     }
 
     private void createSotano() {
@@ -501,7 +498,6 @@ public class TheEscape22Configuration implements GameBuilder {
         barandaSotanoAbajo = new Element("Baranda");
         barandaSotanoAbajo.changeState("visible", true);
 
-
         sotanoAbajo.addElement(barandaSotanoAbajo);
         sotanoAbajo.addElement(escalera);
 
@@ -522,31 +518,30 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
-
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-        IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
+        IInterpreter winCondition = new ContainsPlayer(lastRoom, winConditionArray);
 
-        game.setWinInterpreter(winCondition);
-
-        IInterpreter losingInterpreter = createLosingInterpreter();
-        //Aca estan las condiciones de perder
-        game.setLosingInterpreter(losingInterpreter);
+        for (Player player : players) {
+            player.setWinInterpreter(winCondition);
+            IInterpreter losingInterpreter = createLosingInterpreter();
+            player.setLosingInterpreter(losingInterpreter);
+        }
     }
 
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
-        IInterpreter estasEnSotanoAbajo = new ContainsElements(sotanoAbajo, playerEnSotanoAbajo);
+        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(sotanoAbajo, playerEnSotanoAbajo);
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
-        IInterpreter noTenesMartillo = new DoesNotContainElements(player, playerNoTieneMartillo);
+        IInterpreter noTenesMartillo = new DoesNotContainElements(playerGenerico, playerNoTieneMartillo);
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(player, bibliotecario, game);
+        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(playerGenerico, bibliotecario, game);
         IInterpreter bibliotecarioEnojado = new HasValueState(bibliotecario, "enojado", true);
         IInterpreter bibliotecarioDespierto = new HasValueState(bibliotecario, "dormido", false);
 
@@ -558,8 +553,8 @@ public class TheEscape22Configuration implements GameBuilder {
 
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
-        IInterpreter escapeOneDeaths =  new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        IInterpreter escapeOneDeaths = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
         return new OrExpression(escapeOneDeaths, sameRoomAndBibliotecarioEnojado);
     }
@@ -575,7 +570,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void createBibliotecario() {
-
         accesoBiblioteca.addCommand(lookAround);
 
         doorToPasillo.changeState("visible", true);
@@ -595,13 +589,12 @@ public class TheEscape22Configuration implements GameBuilder {
         accesoBiblioteca.addElement(doorToPasillo);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
-//        setBibliotecarioCondition();
+//        setBibliotecarioCondition(); TODO: QUE ONDA!??
 
         doorBibliotecario.changeState("visible", true);
-
         doorBibliotecario.addCommand(question);
 
-//        accesoBiblioteca.addElement(doorBibliotecario);
+//        accesoBiblioteca.addElement(doorBibliotecario); TODO: IDEM arriba
         accesoBiblioteca.addElement(bibliotecario);
         accesoBiblioteca.addElement(doorBibliotecaAccesoBiblioteca);
     }
@@ -618,23 +611,19 @@ public class TheEscape22Configuration implements GameBuilder {
     private void setBibliotecarioCondition() {
         ArrayList<String> tieneCredencial = new ArrayList<>();
         tieneCredencial.add("Credencial");
-
-        IInterpreter playerWithCredential = new ContainsElements(player, tieneCredencial);
+        IInterpreter playerWithCredential = new ContainsElements(playerGenerico, tieneCredencial);
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-
         IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
 
         ArrayList<String> tieneLicor = new ArrayList<>();
         tieneLicor.add("Botella");
-
-        IInterpreter conLicor = new ContainsElements(player, tieneLicor);
+        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
 
         IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");
@@ -696,9 +685,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private void addCommandsToLibros() {
-
-
-
         libroUno.addCommand(question);
         libroDos.addCommand(question);
         libroTres.addCommand(question);
@@ -720,10 +706,6 @@ public class TheEscape22Configuration implements GameBuilder {
         libroNueve.addCommand(moveLibroNada);
     }
 
-
-
-
-
     private void createRoomThree() {
         llave.changeState("visible", true);
         salonTres.addCommand(lookAround);
@@ -735,7 +717,6 @@ public class TheEscape22Configuration implements GameBuilder {
         doorSalon3.setObjectiveElement(salonTres);
     }
 
-
     private void createICommands() {
         drop            = new DropOnPosition("drop", game);
         pick            = new MoveToPlayer("pick", game);
@@ -746,13 +727,12 @@ public class TheEscape22Configuration implements GameBuilder {
         use             = new MovePlayerTo(game, "use");
         move            = new Move("put",game);
 
-
         moveLibroNada = new ChangeVisibility("move", true, game);
         moveLibroNada.correctMovementMessage(" did nothing.");
 
         ArrayList<String> listaParaRomperVentana = new ArrayList<>();
         listaParaRomperVentana.add("Martillo");
-        IInterpreter requisitosRomper = new ContainsElements(player, listaParaRomperVentana);
+        IInterpreter requisitosRomper = new ContainsElements(playerGenerico, listaParaRomperVentana);
         romper = new ChangeVisibility("break", true, requisitosRomper, game);
         romper.correctMovementMessage("is broken.");
     }
@@ -769,7 +749,6 @@ public class TheEscape22Configuration implements GameBuilder {
         pasillo.addElement(doorSalon2);
         pasillo.addElement(doorSalon3);
         pasillo.addElement(doorAccesoABibliotecario);
-//        pasillo.addElement(botellaLicor);
 
         doorSalon1.addCommand(question);
         doorSalon2.addCommand(question);
@@ -783,7 +762,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     @SuppressWarnings("CPD-END")
-
 
     private void addElementsToBiblioteca() {
         biblioteca.addElement(doorBibliotecaBibliotecario);

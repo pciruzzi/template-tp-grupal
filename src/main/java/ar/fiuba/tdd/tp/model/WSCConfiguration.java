@@ -1,10 +1,12 @@
 package ar.fiuba.tdd.tp.model;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("CPD-START")
 
@@ -20,6 +22,8 @@ public class WSCConfiguration implements GameBuilder {
     private Element riverNorthToSouth;
 
     private Game game;
+    private int maxPlayers;
+    private List<Player> players;
 
     private IInterpreter winInterpreter;
 
@@ -27,6 +31,9 @@ public class WSCConfiguration implements GameBuilder {
     public Game build() {
         this.game = new Game("WSC");
         game.setDescription("You are a small farmer, with a small boat, you need to cross the river with a sheep a wolf and a cabagge.");
+        maxPlayers = 1;
+        game.setMaxPlayers(maxPlayers);
+        players = new ArrayList<>();
 
         this.createElements();
         this.assignElementStates();
@@ -34,12 +41,13 @@ public class WSCConfiguration implements GameBuilder {
         this.assignComplexCommand();
 
         this.createGameWinInterpreter();
-
-        game.setWinInterpreter(winInterpreter);
-        game.setInitialPosition(southShore);
-
         IInterpreter loseInterpreter = new FalseExpression();
-        game.setLosingInterpreter(loseInterpreter);
+        for (Player player : players) {
+            player.setWinInterpreter(winInterpreter);
+            player.setLosingInterpreter(loseInterpreter);
+        }
+
+        game.setInitialPosition(southShore);
         setHelpAndExitCommand();
 
         return this.game;
@@ -126,6 +134,12 @@ public class WSCConfiguration implements GameBuilder {
 
         riverNorthToSouth = new Element("south-shore");
         riverSouthToNorth = new Element("north-shore");
+
+        for (int i = 0; i < maxPlayers; i++) {
+            Player newPlayer = new Player(i);
+            players.add(newPlayer);
+        }
+        game.setPlayers(players);
     }
 
     private void createGameWinInterpreter() {

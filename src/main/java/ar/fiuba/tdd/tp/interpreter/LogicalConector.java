@@ -31,11 +31,10 @@ public abstract class LogicalConector implements IInterpreter {
     }
 
     public boolean interpret(boolean bool, Player player) {
-        return interpretOptionOne(bool, player) || interpretOptionTwo(bool, player);
+        return interpretOptionOne(bool, player) || interpretOptionTwo(bool, player) || interpretOptionThree(bool, player);
     }
 
-    // Puede ser que el player este solo en una de las dos expresiones,
-    // no puedo usar las dos con player
+    // Puede ser que el player este solo en una de las dos expresiones, o en las dos,
     // Pruebo en la primera
     private boolean interpretOptionOne(boolean bool, Player player) {
         if (expressionOne.interpret(player) && expressionTwo.interpret()) {
@@ -58,6 +57,20 @@ public abstract class LogicalConector implements IInterpreter {
             this.failMessage = expressionOne.getFailMessage();
             return bool;
         } else if (expressionOne.interpret()) {
+            this.failMessage = expressionTwo.getFailMessage();
+            return bool;
+        }
+        return false;
+    }
+
+    // Pruebo en la tercera
+    private boolean interpretOptionThree(boolean bool, Player player) {
+        if (expressionOne.interpret(player) && expressionTwo.interpret(player)) {
+            return true;
+        } else if (expressionTwo.interpret(player)) {
+            this.failMessage = expressionOne.getFailMessage();
+            return bool;
+        } else if (expressionOne.interpret(player)) {
             this.failMessage = expressionTwo.getFailMessage();
             return bool;
         }

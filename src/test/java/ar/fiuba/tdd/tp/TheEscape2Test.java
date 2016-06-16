@@ -2,9 +2,7 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.HanoiConfiguration;
 import ar.fiuba.tdd.tp.model.TheEscape22Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
@@ -43,13 +41,10 @@ public class TheEscape2Test {
     @Test
     public void shouldLostWhenBibliotecarioFoundsPlayer1InBiblioteca() throws GameLoadFailedException {
         setUp();
-        engine.getGame().createPlayer(1);
-
+        engine.createPlayer();
 
         engine.doCommand(1, "goto BibliotecaAcceso");
         engine.doCommand(1, "goto doorBiblioteca");
-
-
 
         engine.doCommand(0, "goto Salon1");
         engine.doCommand(0, "pick Botella");
@@ -63,15 +58,11 @@ public class TheEscape2Test {
 
         despertar.startMockedAction();
         enojar.startMockedAction();
-//        mover.startMockedAction();
 
         assertEquals(GAME_LOST, mover.startMockedAction());
-//        assertEquals("You have Crossed", engine.doCommand(1, "goto Salon1"));
     }
 
     private void setUp() throws GameLoadFailedException {
-
-
         enojar      = new MockedTimedAction(1200000, "enojar Bibliotecario");
         despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario");
         mover       = new MockedTimedAction(1200000, "move Bibliotecario");
@@ -81,6 +72,6 @@ public class TheEscape2Test {
 
         engine = new Engine(queue);
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.getGame().createPlayer();
     }
 }

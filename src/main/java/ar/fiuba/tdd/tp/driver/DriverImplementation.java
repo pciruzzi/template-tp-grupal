@@ -8,7 +8,6 @@ public class DriverImplementation implements GameDriver {
 
     private Engine engine;
     private GameState status;
-    private int playerCount;
     private BroadcastQueue queue;
 
     public DriverImplementation(BroadcastQueue queue) {
@@ -18,7 +17,6 @@ public class DriverImplementation implements GameDriver {
     @Override
     public void initGame(String jarPath) throws GameLoadFailedException {
         engine = new Engine(queue);
-        playerCount = 0;
         try {
             engine.createGame(BuilderLoader.load(jarPath));
             status = GameState.Ready;
@@ -29,12 +27,10 @@ public class DriverImplementation implements GameDriver {
 
     @Override
     public int joinPlayer() throws PlayerJoinFailedException {
-        int result = engine.createPlayer(playerCount);
-        playerCount++;
+        int result = engine.createPlayer();
         if (result >= 0) {
             return result;
         }
-        playerCount--;
         throw new PlayerJoinFailedException("A connection has been refused because the maximum players of the game has been reached");
     }
 
@@ -52,7 +48,7 @@ public class DriverImplementation implements GameDriver {
         String returnMessage = engine.doCommand(player,cmd);
         if (engine.isGameWon()) {
             status = GameState.Won;
-        } else if (engine.isGameLost()) {
+        } else if (engine.isGameLost()) { //Sirve solo si es para un unico jugador!!!
             status = GameState.Lost;
         }
         return returnMessage;

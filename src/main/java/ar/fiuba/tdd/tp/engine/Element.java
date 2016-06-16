@@ -191,7 +191,7 @@ public class Element implements Cloneable {
         }
     }
 
-    public boolean hasAllElements(ArrayList<String> elementsToContain) {
+    public boolean hasAllElements(List<String> elementsToContain) {
 
         if (elementMap.size() == 0) {
             return false;

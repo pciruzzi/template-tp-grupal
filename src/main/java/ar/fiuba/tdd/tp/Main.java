@@ -17,19 +17,23 @@ public class Main {
         GameBuilder fetchConfiguration = new DummyGameConfiguration();
 
         engine.createGame(fetchConfiguration);
-        engine.createPlayer(0);
+        engine.createPlayer();
+        engine.createPlayer();
 
         Reader reader = new Console();
         Writer writer = new Console();
         writer.write("You can start playing now...");
         String input = "";
         String returnCode = "";
-        while (! input.equals("exit") && ! returnCode.equals(GAME_WON) && !returnCode.equals(GAME_LOST) ) {
+        while (! input.equals("exit") && ! returnCode.equals(GAME_WON) && !returnCode.equals(GAME_LOST)) {
             input = reader.read();
-            int id = 0;
-            returnCode = engine.doCommand(id,input);
+            //Hay que enviar commandos del tipo 0look around o 1pick stick
+            String idStr = input.substring(0,1);
+            String command = input.substring(1);
+            int id = Integer.parseInt(idStr);
+
+            returnCode = engine.doCommand(id, command);
             writer.write(returnCode);
         }
-
     }
 }

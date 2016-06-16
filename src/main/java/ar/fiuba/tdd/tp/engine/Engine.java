@@ -12,20 +12,23 @@ public class Engine {
     private CommandParser commandParser;
     private Game game;
     private Time time;
+    private BroadcastQueue queue;
 
     public Engine(BroadcastQueue queue) {
         this.commandParser = new CommandParser();
         this.time = new Time(this, queue);
+        this.queue = queue;
     }
 
     public void createGame(GameBuilder gameBuilder) {
         game = gameBuilder.build();
+        game.setQueue(this.queue);
         time.setTimeTasks(game.getTimeCommands());
         time.start();
     }
 
-    public int createPlayer(int playerID) {
-        return game.createPlayer(playerID);
+    public int createPlayer() {
+        return game.createPlayer();
     }
 
     public String doCommand(int playerID, String action) {
@@ -39,6 +42,7 @@ public class Engine {
         String firstElementName = firstElement.getName();
 
         Element secondElement = commandParser.getSecondElement(action, firstElementName, elementsList);
+        action = action.concat(" " + playerID); //por si es un comando que requiere el playerID, sino lo descarta...
         String command = commandParser.getCommand(action, firstElementName);
         if ( secondElement == null ) {
             return game.play(playerID, command, firstElementName);

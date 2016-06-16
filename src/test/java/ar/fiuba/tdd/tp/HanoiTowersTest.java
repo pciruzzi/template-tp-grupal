@@ -37,7 +37,7 @@ public class HanoiTowersTest {
         engine = new Engine(queue);
         GameBuilder gameBuilder = new HanoiConfiguration();
         engine.createGame(gameBuilder);
-        engine.getGame().createPlayer(0);
+        engine.getGame().createPlayer();
     }
 
     @Test
