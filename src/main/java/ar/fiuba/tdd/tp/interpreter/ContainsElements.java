@@ -9,6 +9,7 @@ public class ContainsElements extends TerminalExpression {
 
     public ContainsElements(Element element, ArrayList<String> elementsNames) {
         super(element, elementsNames);
+        failMessage = "FAILED";
     }
 
     public boolean interpret() {

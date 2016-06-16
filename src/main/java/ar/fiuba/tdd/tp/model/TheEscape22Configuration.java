@@ -107,8 +107,8 @@ public class TheEscape22Configuration implements GameBuilder {
     private MoveRandom moveRandom;
 
     public TheEscape22Configuration() {
-        this.despertarBibliotecario = new SingleTimedAction(4999, "despertar Bibliotecario");
-        this.enojarBibliotecario    = new SingleTimedAction(4998, "enojar Bibliotecario");
+        this.despertarBibliotecario = new SingleTimedAction(9999, "despertar Bibliotecario");
+        this.enojarBibliotecario    = new SingleTimedAction(9998, "enojar Bibliotecario");
         this.moverBibliotecario     = null;
 
     }
@@ -586,6 +586,9 @@ public class TheEscape22Configuration implements GameBuilder {
         bibliotecario.addState(new State("enojado", false, false));
         bibliotecario.addCommand(giveItem);
 
+        bibliotecario.addCommand(question);
+        bibliotecario.setObjectiveElement(accesoBibliotecaBis);
+
         doorBibliotecaAccesoBiblioteca.changeState("visible", true);
         doorBibliotecaAccesoBiblioteca.setObjectiveElement(biblioteca);
 
@@ -594,7 +597,7 @@ public class TheEscape22Configuration implements GameBuilder {
         accesoBiblioteca.addElement(doorToPasillo);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
-//        setBibliotecarioCondition(); TODO: QUE ONDA!??
+        setBibliotecarioCondition(); //TODO: QUE ONDA!??
 
         doorBibliotecario.changeState("visible", true);
         doorBibliotecario.addCommand(question);
@@ -623,16 +626,18 @@ public class TheEscape22Configuration implements GameBuilder {
         IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
+        credencialBuena.setFailMessage("No podes pasar sin una credencial valida!!");
+        playerWithCredential.setFailMessage("No podes pasar sin una credencial valida!!");
 
-        ArrayList<String> tieneLicor = new ArrayList<>();
-        tieneLicor.add("Botella");
-        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
+//        ArrayList<String> tieneLicor = new ArrayList<>();
+//        tieneLicor.add("Botella");
+//        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
 
-        IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-        puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
+//        IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
+//        puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
-        pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");
-        doorBibliotecario.addCommand(pasarBibliotecario);
+        pasarBibliotecario = new MovePlayerTo(game, credencialConFoto,"show credencial");
+        bibliotecario.addCommand(pasarBibliotecario);
     }
 
     private void createAccesoABibliotecaBis() {
