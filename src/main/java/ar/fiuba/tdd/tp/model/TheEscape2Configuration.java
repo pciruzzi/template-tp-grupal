@@ -49,8 +49,6 @@ public class TheEscape2Configuration implements GameBuilder {
     private Element botellaLicor;
     private Element vasoUno;
     private Element vasoDos;
-    private Element fotoBuena;
-    private Element lapicera;
     private Element fotoDesconocida;
     private Element martillo;
     private Element destornillador1;
@@ -216,9 +214,7 @@ public class TheEscape2Configuration implements GameBuilder {
 
     private void initializeFirstGroupOfElements() {
         playerGenerico = new Player(-1);
-        fotoBuena = new Element("Foto");
         fotoDesconocida = new Element("FotoDesconocida");
-        lapicera = new Element("Lapicera");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
         destornillador2 = new Element("Destornillador 2");
@@ -261,28 +257,22 @@ public class TheEscape2Configuration implements GameBuilder {
 
     private void createPlayer() {
         playerGenerico.setCapacity(4);
-
-        fotoBuena.addCommand(drop);
-        fotoBuena.addCommand(move);
-        fotoBuena.addCommand(pick);
-
-        lapicera.addCommand(drop);
-        lapicera.addCommand(pick);
-
-        List<Element> initialElements = new ArrayList<>();
-        initialElements.add(fotoBuena);
-        initialElements.add(lapicera);
-
         for (int i = 0; i < maxPlayers; i++) {
-            Player newPlayer = playerGenerico.getClone();
-            newPlayer.setPlayerID(i);
-            System.out.println("Player ID: " + newPlayer.getPlayerID());
-            System.out.println("Capacity: " + newPlayer.getCapacity());
+            Player newPlayer = new Player(i);
+            newPlayer.setCapacity(4);
 
-            System.out.println("Copiando elementos iniciales");
-            for (Element element : initialElements) {
-                newPlayer.addElement(element.getClone());
-            }
+            Element fotoBuena = new Element("Foto");
+            fotoBuena.addCommand(drop);
+            fotoBuena.addCommand(move);
+            fotoBuena.addCommand(pick);
+
+            Element lapicera = new Element("Lapicera");
+            lapicera.addCommand(drop);
+            lapicera.addCommand(pick);
+
+            newPlayer.addElement(fotoBuena);
+            newPlayer.addElement(lapicera);
+
             players.add(newPlayer);
         }
 
@@ -355,10 +345,7 @@ public class TheEscape2Configuration implements GameBuilder {
         addQuestionCommandToRoomOneElements();
 
         // Abrir caja fuerte con llave
-        for (Player player : players) {
-            setConditionsForCajaFuerte(player);
-        }
-        cajaFuerte.addCommand(closeContainer);
+        setConditionsForCajaFuerte();
 
         // Abrir puerta para hall
         doorToPasillo.setObjectiveElement(pasillo);
@@ -382,14 +369,15 @@ public class TheEscape2Configuration implements GameBuilder {
         cajaFuerte.addCommand(question);
     }
 
-    private void setConditionsForCajaFuerte(Player player) {
+    private void setConditionsForCajaFuerte() {
         ArrayList<String> condicionLlave = new ArrayList<>();
         condicionLlave.add("Llave");
-        IInterpreter condicionCaja = new ContainsElements(player, condicionLlave);
+        IInterpreter condicionCaja = new ContainsElements(playerGenerico, condicionLlave);
         condicionCaja.setFailMessage("¿Que haces? Necesitas la Llave para abrir la CajaFuerte");
         ICommand abrirCaja = new ChangeVisibility("open", true, condicionCaja, game);
         abrirCaja.incorrectMovementMessage("¿Que hacés? Necesitas la Llave para abrir la CajaFuerte.");
         cajaFuerte.addCommand(abrirCaja);
+        cajaFuerte.addCommand(closeContainer);
     }
 
     private void setElementsToSalon1() {
@@ -525,23 +513,19 @@ public class TheEscape2Configuration implements GameBuilder {
     private void setBibliotecarioCondition() {
         ArrayList<String> tieneCredencial = new ArrayList<>();
         tieneCredencial.add("Credencial");
-
         IInterpreter playerWithCredential = new ContainsElements(playerGenerico, tieneCredencial);
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-
         IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
 
         ArrayList<String> tieneLicor = new ArrayList<>();
         tieneLicor.add("Botella");
-
         IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
 
         IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-
         puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, puedePasar,"show credencial");
@@ -602,9 +586,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void addCommandsToLibros() {
-
-
-
         libroUno.addCommand(question);
         libroDos.addCommand(question);
         libroTres.addCommand(question);
