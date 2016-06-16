@@ -244,6 +244,10 @@ public class TheEscape22Configuration implements GameBuilder {
         TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
 
 
+        setTimeCommandsInGam(timeDespertar, timeEnojar);
+    }
+
+    private void setTimeCommandsInGam(TimeCommand timeDespertar, TimeCommand timeEnojar) {
         if (scheduledTimedAction == null) {
             timer = new ScheduledTimedAction(5000, "move Bibliotecario");
         } else {
@@ -532,7 +536,7 @@ public class TheEscape22Configuration implements GameBuilder {
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+
 
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
@@ -555,6 +559,8 @@ public class TheEscape22Configuration implements GameBuilder {
 
         addRoomsToGame();
 
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        
         IInterpreter escapeOneDeaths =  new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
         return new OrExpression(escapeOneDeaths, sameRoomAndBibliotecarioEnojado);
