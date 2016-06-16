@@ -152,6 +152,7 @@ public class TresureQuestTest {
                 + "You have been healed :)",game.play(id, "open", "box one"));
     }
 
+//    TODO: Este test?
 //    @Test
 //    public void enterPoisonedToRoom4LoosesTheGame() {
 //        Game game = this.initializeGame();

@@ -442,8 +442,6 @@ public class TheEscapeConfiguration implements GameBuilder {
             player.setWinInterpreter(winCondition);
             player.setLosingInterpreter(losingInterpreter);
         }
-//        game.setWinInterpreter(winCondition);
-//        game.setLosingInterpreter(losingInterpreter);
     }
 
     private IInterpreter createLosingInterpreter() {

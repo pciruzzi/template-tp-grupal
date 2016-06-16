@@ -333,7 +333,7 @@ public class TheEscape2Configuration implements GameBuilder {
         credencial.addCommand(levantar);
 
         // Asigno los mover a los cuadros
-        ICommand moverCuadro = new ChangeVisibility("move",true ,game);
+        ICommand moverCuadro = new ChangeVisibility("move", true, game);
         cuadroTren.addCommand(moverCuadro);
         cuadroBarco.addCommand(moverCuadro);
 
@@ -353,7 +353,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void addQuestionCommandToRoomOneElements() {
-
         mesa.addCommand(question);
         sillaUno.addCommand(question);
         sillaDos.addCommand(question);
@@ -389,7 +388,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void setVisibleElements() {
-        // Seteo los visibles
         botellaLicor.changeState("visible", true);
         vasoUno.changeState("visible", true);
         vasoDos.changeState("visible", true);
@@ -399,7 +397,6 @@ public class TheEscape2Configuration implements GameBuilder {
         sillaDos.changeState("visible", true);
         sillaUno.changeState("visible", true);
         doorToPasillo.changeState("visible", true);
-
     }
 
     private void createSotano() {
@@ -425,7 +422,6 @@ public class TheEscape2Configuration implements GameBuilder {
         barandaSotanoAbajo = new Element("Baranda");
         barandaSotanoAbajo.changeState("visible", true);
 
-
         sotanoAbajo.addElement(barandaSotanoAbajo);
         sotanoAbajo.addElement(escalera);
 
@@ -446,22 +442,16 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
-
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
         IInterpreter winCondition = new ContainsElements(lastRoom, winConditionArray);
-
-        //game.setWinInterpreter(winCondition);
 
         for (Player player : players) {
             player.setWinInterpreter(winCondition);
             IInterpreter losingInterpreter = createLosingInterpreter(player);
             player.setLosingInterpreter(losingInterpreter);
         }
-
-        //Aca estan las condiciones de perder
-        //game.setLosingInterpreter(losingInterpreter);
     }
 
     private IInterpreter createLosingInterpreter(Player player) {
@@ -475,15 +465,14 @@ public class TheEscape2Configuration implements GameBuilder {
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
-        IInterpreter noTenesMartillo = new DoesNotContainElements(player, playerNoTieneMartillo);
+        IInterpreter noTenesMartillo = new DoesNotContainElements(playerGenerico, playerNoTieneMartillo);
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-//        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(player, spider, game);
+        IInterpreter sameRoomSpiderAndPlayer = new ElementsInSameContainer(playerGenerico, spider, game);
 
         IInterpreter orExpression = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
-        return orExpression;
-//        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
+        return new OrExpression(sameRoomSpiderAndPlayer, orExpression);
     }
 
     private void createBibliotecario() {

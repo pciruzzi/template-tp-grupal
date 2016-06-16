@@ -285,7 +285,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     }
 
     private void createFinishingConditions() {
-
         // Creo la condicion de ganar
         ArrayList<String> playerWithTreasure = new ArrayList<>();
         playerWithTreasure.add("treasure");
@@ -308,9 +307,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         IInterpreter playerInRoomFourInterpreter = new ContainsElements(roomFour,playerInRoomFour);
         IInterpreter losingTwoInterpreter = new AndExpression(playerPoisoned, playerInRoomFourInterpreter);
         IInterpreter losingInterpreter = new OrExpression(losingOneInterpreter,losingTwoInterpreter);
-
-//        game.setWinInterpreter(winInterpreter);
-//        game.setLosingInterpreter(losingInterpreter);
 
         for (Player player : players) {
             player.setWinInterpreter(winInterpreter);
