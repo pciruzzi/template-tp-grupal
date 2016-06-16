@@ -15,9 +15,6 @@ import java.util.List;
 
 public class TheEscape22Configuration implements GameBuilder {
 
-
-    private ScheduledTimedAction scheduledTimedAction;
-
     private Game game;
     private Player player;
 
@@ -46,6 +43,7 @@ public class TheEscape22Configuration implements GameBuilder {
     private Element doorBibliotecaBibliotecario;
     private Element pasajeAfuera;
     private Element doorBibliotecaAccesoBiblioteca;
+    private Element doorVueltaAccesoBiblioteca;
 
     // Los elementos levantables
     private Element credencial;
@@ -98,16 +96,25 @@ public class TheEscape22Configuration implements GameBuilder {
     private ICommand moveLibroNada;
     private ICommand giveItem;
 
-    private IInterpreter startTimer;
-    private TimeCommand timer;
+    private TimeCommand despertarBibliotecario;
+    private TimeCommand enojarBibliotecario;
+    private TimeCommand moverBibliotecario;
 
+    private MoveRandom moveRandom;
 
     public TheEscape22Configuration() {
-        this.scheduledTimedAction = null;
+        this.despertarBibliotecario = new SingleTimedAction(4999, "enojar Bibliotecario");
+        this.enojarBibliotecario    = new SingleTimedAction(4998, "despertar Bibliotecario");
+        this.moverBibliotecario     = null;
+
     }
 
-    public TheEscape22Configuration(ScheduledTimedAction scheduledTimedAction) {
-        this.scheduledTimedAction = scheduledTimedAction;
+    public TheEscape22Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
+                                    TimeCommand moverBibliotecario) {
+
+        this.despertarBibliotecario = despertarBibliotecario;
+        this.enojarBibliotecario    = enojarBibliotecario;
+        this.moverBibliotecario     = moverBibliotecario;
     }
 
     @Override
@@ -116,8 +123,8 @@ public class TheEscape22Configuration implements GameBuilder {
         game.setDescription("You're locked in a house; try to escape without die trying");
         game.setMaxPlayers(4);
 
-        initializeElements();
         initializeRooms();
+        initializeElements();
         initializeDoors();
         createICommands();
         createPlayer();
@@ -225,52 +232,45 @@ public class TheEscape22Configuration implements GameBuilder {
         bibliotecario = new Player(-1);
         bibliotecario.setName("Bibliotecario");
 
-        MoveRandom moveRandom = new MoveRandom("move");
-        moveRandom.addProhibitedRoom(sotano);
+        if ( moverBibliotecario == null ) {
+            moverBibliotecario = new ScheduledTimedAction(6000, "move Bibliotecario");
+            moveRandom = new MoveRandom("move");
+            moveRandom.addProhibitedRoom(biblioteca);
+            moveRandom.addProhibitedRoom(pasillo);
+        } else {
+            moveRandom = new MockedMoveRandom("move", biblioteca);
+        }
         moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
 
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
-        despertar.auxiliarMessage("se ha despertado");
+        despertar.auxiliarMessage(" se ha despertado");
         ITimeCommand enojar = new ChangeState("enojar", "enojado", true);
         enojar.correctMovementMessage("se ha enojado");
 
         bibliotecario.addTimeCommand(despertar);
         bibliotecario.addTimeCommand(enojar);
         bibliotecario.addTimeCommand(moveRandom);
+//        TimeCommand timeDespertar = new SingleTimedAction(4998, "despertar Bibliotecario");
+//        TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
 
-        startTimer = new HasValueState(bibliotecario, "dormido", true);
-
-        TimeCommand timeDespertar = new SingleTimedAction(4998, "despertar Bibliotecario");
-        TimeCommand timeEnojar = new SingleTimedAction(4999, "enojar Bibliotecario");
-
-
-        setTimeCommandsInGam(timeDespertar, timeEnojar);
-    }
-
-    private void setTimeCommandsInGam(TimeCommand timeDespertar, TimeCommand timeEnojar) {
-        if (scheduledTimedAction == null) {
-            timer = new ScheduledTimedAction(5000, "move Bibliotecario");
-        } else {
-            timer = scheduledTimedAction;
-        }
-
-        timer.setStart(false);
-        timeDespertar.setStart(false);
-        timeEnojar.setStart(false);
+        moverBibliotecario.setStart(false);
+        despertarBibliotecario.setStart(false);
+        enojarBibliotecario.setStart(false);
 
         ArrayList<TimeCommand> timedActions = new ArrayList<>();
-        timedActions.add(timeDespertar);
-        timedActions.add(timeEnojar);
-        timedActions.add(timer);
+        timedActions.add(despertarBibliotecario);
+        timedActions.add(enojarBibliotecario);
+        timedActions.add(moverBibliotecario);
 
+        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
         giveItem.incorrectMovementMessage("Hic!");
         giveItem.auxiliarMessage("");
 
-        game.addTimeCommand(timer);
-        game.addTimeCommand(timeDespertar);
-        game.addTimeCommand(timeEnojar);
+        game.addTimeCommand(moverBibliotecario);
+        game.addTimeCommand(despertarBibliotecario);
+        game.addTimeCommand(enojarBibliotecario);
         game.addTimeElement(bibliotecario);
     }
 
@@ -319,6 +319,8 @@ public class TheEscape22Configuration implements GameBuilder {
         doorAccesoABibliotecario = new Element("BibliotecaAcceso");
         doorBibliotecario = new Element("Bibliotecarioasdghhhsdfsddsaasdasdasd");
         accesoBibliotecaBis = new Element("Biblioteca");
+        doorVueltaAccesoBiblioteca = new Element("BibliotecaAcceso");
+        doorVueltaAccesoBiblioteca.addState(new State("visible", true, false));
 
         bibliotecario.setPlayerPosition(accesoBiblioteca);
 
@@ -452,7 +454,7 @@ public class TheEscape22Configuration implements GameBuilder {
 
     private void setElementsToSalon1() {
         salonUno.addElement(mesa);
-//        salonUno.addElement(botellaLicor);
+        salonUno.addElement(botellaLicor);
         salonUno.addElement(vasoDos);
         salonUno.addElement(vasoUno);
         salonUno.addElement(sillaDos);
@@ -534,10 +536,6 @@ public class TheEscape22Configuration implements GameBuilder {
     }
 
     private IInterpreter createLosingInterpreter() {
-        ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
-        playerEstaEnCuartoDeLaMuerte.add("player");
-
-
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
         IInterpreter estasEnSotanoAbajo = new ContainsElements(sotanoAbajo, playerEnSotanoAbajo);
@@ -553,14 +551,14 @@ public class TheEscape22Configuration implements GameBuilder {
         IInterpreter bibliotecarioDespierto = new HasValueState(bibliotecario, "dormido", false);
 
         IInterpreter bibliotecarioDespiertoYEnojado = new AndExpression(bibliotecarioDespierto, bibliotecarioEnojado);
-
         IInterpreter sameRoomAndBibliotecarioEnojado = new AndExpression(sameRoomBibliotecarioAndPlayer,
                 bibliotecarioDespiertoYEnojado);
 
         addRoomsToGame();
 
+        ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
+        playerEstaEnCuartoDeLaMuerte.add("player");
         IInterpreter estasEnCuartoDeLaMuerte = new ContainsElements(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
-        
         IInterpreter escapeOneDeaths =  new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
         return new OrExpression(escapeOneDeaths, sameRoomAndBibliotecarioEnojado);
@@ -610,7 +608,7 @@ public class TheEscape22Configuration implements GameBuilder {
 
     private void setOpenWhenSleeped() {
         IInterpreter sleepedBibliotecario = new HasValueState(bibliotecario, "dormido", true);
-        sleepedBibliotecario.setFailMessage("You can't cross because bibliotecario is angre with you!");
+        sleepedBibliotecario.setFailMessage("You can't cross because bibliotecario is angry with you!");
         ICommand openDoorSleeped = new MovePlayerTo(game, sleepedBibliotecario, "goto");
         openDoorSleeped.incorrectMovementMessage("You can't cross");
         openDoorSleeped.correctMovementMessage("You have Crossed to the Biblioteca");
@@ -771,7 +769,7 @@ public class TheEscape22Configuration implements GameBuilder {
         pasillo.addElement(doorSalon2);
         pasillo.addElement(doorSalon3);
         pasillo.addElement(doorAccesoABibliotecario);
-        pasillo.addElement(botellaLicor);
+//        pasillo.addElement(botellaLicor);
 
         doorSalon1.addCommand(question);
         doorSalon2.addCommand(question);
@@ -789,6 +787,7 @@ public class TheEscape22Configuration implements GameBuilder {
 
     private void addElementsToBiblioteca() {
         biblioteca.addElement(doorBibliotecaBibliotecario);
+        biblioteca.addElement(doorVueltaAccesoBiblioteca);
         biblioteca.addElement(libroViejo);
         biblioteca.addElement(libroUno);
         biblioteca.addElement(libroDos);
@@ -799,7 +798,9 @@ public class TheEscape22Configuration implements GameBuilder {
         biblioteca.addElement(libroSiete);
         biblioteca.addElement(libroOcho);
         biblioteca.addElement(libroNueve);
+
+        doorVueltaAccesoBiblioteca.setObjectiveElement(accesoBiblioteca);
+        doorVueltaAccesoBiblioteca.addCommand(openDoor);
+        doorVueltaAccesoBiblioteca.addCommand(question);
     }
-
-
 }

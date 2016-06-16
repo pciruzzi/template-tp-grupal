@@ -12,11 +12,11 @@ import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 
 public abstract class TimeCommand {
 
-    private Engine engine;
+    protected Engine engine;
     protected Timer timer;
     private int timeOfAction;
-    private String command;
-    private BroadcastQueue queue;
+    protected String command;
+    protected BroadcastQueue queue;
     private boolean startAtBegining;
 
     public TimeCommand(int timeOfAction, String command) {
