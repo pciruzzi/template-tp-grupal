@@ -26,8 +26,6 @@ public abstract class TimeCommand {
     }
 
     public TimerTask start() {
-        System.out.println("Llegue adentro del start de " + command);
-
         TimerTask timerTask = new TimerTask() {
             public void run() {
 //                String cmd = engine.doTimeCommand(command);

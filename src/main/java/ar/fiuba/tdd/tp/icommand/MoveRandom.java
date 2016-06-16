@@ -10,11 +10,14 @@ import java.util.Random;
 
 public class MoveRandom extends ITimeCommand{
 
+    private List<Element> prohibitedRooms;
+
     public MoveRandom(String name) {
         this.name = name;
         this.correctMovementMessage = "The ";
         this.incorrectMovementMessage = " is locked.";
         this.auxiliarMessage = " moved to the ";
+        this.prohibitedRooms = new ArrayList<>();
     }
 
     public String doTimeAction(Player elementToMove) {
@@ -28,7 +31,9 @@ public class MoveRandom extends ITimeCommand{
         for ( Element visibleElement : visibleElements ) {
 
             if ( visibleElement.getObjectiveElement() != null ) {
-                doors.add(visibleElement);
+                if ( !isProhibitedRoom(visibleElement.getObjectiveElement()) ) {
+                    doors.add(visibleElement);
+                }
             }
         }
 
@@ -53,5 +58,19 @@ public class MoveRandom extends ITimeCommand{
             return correctMovementMessage + elementToMove.getName() + incorrectMovementMessage;
         }
 
+    }
+
+    public void addProhibitedRoom(Element room) {
+        prohibitedRooms.add(room);
+    }
+
+    private boolean isProhibitedRoom(Element room) {
+        boolean isProhibited = false;
+        for (Element prohibitedRoom : prohibitedRooms) {
+            if (prohibitedRoom == room) {
+                isProhibited = true;
+            }
+        }
+        return isProhibited;
     }
 }

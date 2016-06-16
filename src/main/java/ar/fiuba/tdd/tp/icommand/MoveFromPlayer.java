@@ -7,11 +7,14 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.model.Game;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MoveFromPlayer extends ICommand {
     private Game game;
     private String element;
     private IInterpreter interpreter;
-    private TimeCommand command;
+    private List<TimeCommand> timeCommandList;
 
     public MoveFromPlayer(String name, Game game, String element) {
         this.game = game;
@@ -21,13 +24,13 @@ public class MoveFromPlayer extends ICommand {
         this.incorrectMovementMessage = "Hi!";
         this.auxiliarMessage = "Hi!\n" + "The ";
         this.interpreter = null;
-        this.command = null;
+        this.timeCommandList = new ArrayList<>();
     }
 
-    public MoveFromPlayer(String name, Game game, String element, IInterpreter interpreter, TimeCommand command) {
+    public MoveFromPlayer(String name, Game game, String element, IInterpreter interpreter, List<TimeCommand> timeCommandList) {
         this(name, game, element);
         this.interpreter = interpreter;
-        this.command = command;
+        this.timeCommandList = timeCommandList;
     }
 
     public String doAction(Element element, int playerId) {
@@ -51,8 +54,8 @@ public class MoveFromPlayer extends ICommand {
 
             try {
                 if ( stateToAffect.getEffectMessage() != null ) {
-                    return stateToAffect.getEffectMessage()
-                            + auxiliarMessage + element.getName() + correctMovementMessage + this.element;
+                    return stateToAffect.getEffectMessage();
+//                            + auxiliarMessage + element.getName() + correctMovementMessage + this.element;
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -68,9 +71,9 @@ public class MoveFromPlayer extends ICommand {
 
     private void checkStartTimer(Element element) {
         if ( ( interpreter != null ) && (interpreter.interpret()) ) {
-            element.changeState("enojado", true);
-            element.changeState("dormido", false);
-            command.startTimeAction();
+            for ( TimeCommand command : timeCommandList ) {
+                command.startTimeAction();
+            }
         }
 
     }

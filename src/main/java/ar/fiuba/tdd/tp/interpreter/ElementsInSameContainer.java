@@ -19,15 +19,14 @@ public class ElementsInSameContainer extends TerminalExpression {
 
     @Override
     public boolean interpret() {
-        boolean sameContainer = false;
         List<Element> containerList = game.getContainersList();
 
         for ( Element container : containerList ) {
             if ( container.hasElement(element.getName()) && container.hasElement(elementTwo.getName()) ) {
-                sameContainer = true;
+                return true;
             }
         }
-        return sameContainer;
+        return false;
     }
 
     @Override

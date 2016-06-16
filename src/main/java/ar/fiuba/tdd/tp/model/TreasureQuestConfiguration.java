@@ -8,6 +8,8 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("CPD-START")
+
 public class TreasureQuestConfiguration implements GameBuilder {
 
     private Game game;
@@ -53,7 +55,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private ICommand openDoor;
     private ICommand openContainer;
 
-    @SuppressWarnings("CPD-START")
     public Game build() {
 
         player = new Player(-1);
@@ -300,18 +301,6 @@ public class TreasureQuestConfiguration implements GameBuilder {
         game.setLosingInterpreter(losingInterpreter);
     }
 
-    private void createICommands() {
-
-        lookAround = new LookAround("look around", game);
-        pick = new MoveToPlayer("pick", game);
-        drop = new DropOnPosition("drop", game);
-        openDoor = new MovePlayerTo(game, "open");
-        openContainer = new ChangeVisibility("open",true, game);
-        question = new Question("ask");
-    }
-
-    @SuppressWarnings("CPD-END")
-
     private void setHelpAndExitCommand() {
         ICommand exit = new Exit(game);
         ICommand help = new Help("help", game);
@@ -327,4 +316,19 @@ public class TreasureQuestConfiguration implements GameBuilder {
         roomFive.addCommand(help);
         roomFive.addCommand(exit);
     }
+
+
+    @SuppressWarnings("CPD-END")
+
+    private void createICommands() {
+
+        lookAround = new LookAround("look around", game);
+        pick = new MoveToPlayer("pick", game);
+        drop = new DropOnPosition("drop", game);
+        openDoor = new MovePlayerTo(game, "open");
+        openContainer = new ChangeVisibility("open",true, game);
+        question = new Question("ask");
+    }
+
+
 }

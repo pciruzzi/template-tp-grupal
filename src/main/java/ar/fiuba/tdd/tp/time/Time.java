@@ -32,10 +32,6 @@ public class Time {
         }
     }
 
-    public void addTimeCommand(TimeCommand timeCommand) {
-        timeCommands.add(timeCommand);
-    }
-
     public void setTimeTasks(ArrayList<TimeCommand> timeTasks) {
         this.timeCommands = timeTasks;
     }

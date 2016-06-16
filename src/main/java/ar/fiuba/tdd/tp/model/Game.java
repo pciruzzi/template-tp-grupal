@@ -276,7 +276,7 @@ public class Game {
 
         for ( Element room : containerssList) {
             if ( room.getName().equals(element.getName()) ) {
-                System.out.println("You are adding the same room twice to the game: " + room.getName());
+//                System.out.println("You are adding the same room twice to the game: " + room.getName());
             }
         }
         containerssList.add(element);

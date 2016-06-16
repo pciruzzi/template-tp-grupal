@@ -11,11 +11,11 @@ public class ITimeCommand {
     String auxiliarMessage;
 
     public String doTimeAction(Element element) {
-        return "Incorrect action de element en ITimeCommand";
+        return "Incorrect action de element en ITimeCommand: " + name;
     }
 
     public String doTimeAction(Player player) {
-        return "Incorrect action de Player en ITimeCommand";
+        return "Incorrect action de Player en ITimeCommand: " + name;
     }
 
     public void correctMovementMessage(String message) {
