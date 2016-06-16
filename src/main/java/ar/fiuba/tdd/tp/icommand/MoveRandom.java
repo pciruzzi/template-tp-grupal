@@ -30,10 +30,8 @@ public class MoveRandom extends ITimeCommand{
         // Obtengo todos los elementos que tienen un objeto de destino
         for ( Element visibleElement : visibleElements ) {
 
-            if ( visibleElement.getObjectiveElement() != null ) {
-                if ( !isProhibitedRoom(visibleElement.getObjectiveElement()) ) {
-                    doors.add(visibleElement);
-                }
+            if ( visibleElement.getObjectiveElement() != null && !isProhibitedRoom(visibleElement.getObjectiveElement())) {
+                doors.add(visibleElement);
             }
         }
 

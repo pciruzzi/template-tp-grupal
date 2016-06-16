@@ -152,23 +152,6 @@ public class TresureQuestTest {
                 + "You have been healed :)",game.play(id, "open", "box one"));
     }
 
-//    @Test
-//    public void enterPoisonedToRoom4LoosesTheGame() {
-//        Game game = this.initializeGame();
-//        game.createPlayer(0);
-//        game.play(id, "pick","pokemon");
-//        game.play(id, "open","door");
-//        game.play(id, "open","door to three");
-//        game.play(id, "drop","pokemon");
-//        game.play(id, "pick","key");
-//        game.play(id, "open", "door to four");
-//        game.play(id, "open","wardrobe");
-//        game.play(id, "open","chest");
-//        game.play(id, "open","door to five");
-//        game.play(id, "open", "box one");
-//        System.out.println(game.play(id, "open", "door to four"));
-//        assertEquals(GAME_LOST,game.play(id, "open", "door to four"));
-//    }
 
     @Test
     public void enterRoom1WithTreasureWinsGame() {
