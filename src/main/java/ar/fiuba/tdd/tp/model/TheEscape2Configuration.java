@@ -15,7 +15,7 @@ import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
 
 @SuppressWarnings("CPD-START")
 
-public class TheEscape22Configuration implements GameBuilder {
+public class TheEscape2Configuration implements GameBuilder {
 
     private Game game;
     private Player playerGenerico;
@@ -106,15 +106,15 @@ public class TheEscape22Configuration implements GameBuilder {
 
     private MoveRandom moveRandom;
 
-    public TheEscape22Configuration() {
+    public TheEscape2Configuration() {
         this.despertarBibliotecario = new SingleTimedAction(9999, "despertar Bibliotecario");
         this.enojarBibliotecario    = new SingleTimedAction(9998, "enojar Bibliotecario");
         this.moverBibliotecario     = null;
 
     }
 
-    public TheEscape22Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
-                                    TimeCommand moverBibliotecario) {
+    public TheEscape2Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
+                                   TimeCommand moverBibliotecario) {
 
         this.despertarBibliotecario = despertarBibliotecario;
         this.enojarBibliotecario    = enojarBibliotecario;
@@ -581,13 +581,7 @@ public class TheEscape22Configuration implements GameBuilder {
         doorToPasillo.addCommand(openDoor);
         doorToPasillo.setObjectiveElement(pasillo);
 
-        bibliotecario.changeState("visible", true);
-        bibliotecario.addState(new State("dormido", false, false));
-        bibliotecario.addState(new State("enojado", false, false));
-        bibliotecario.addCommand(giveItem);
-
-        bibliotecario.addCommand(question);
-        bibliotecario.setObjectiveElement(accesoBibliotecaBis);
+        setCommandsBibliotecario();
 
         doorBibliotecaAccesoBiblioteca.changeState("visible", true);
         doorBibliotecaAccesoBiblioteca.setObjectiveElement(biblioteca);
@@ -597,14 +591,24 @@ public class TheEscape22Configuration implements GameBuilder {
         accesoBiblioteca.addElement(doorToPasillo);
         doorAccesoABibliotecario.setObjectiveElement(accesoBiblioteca);
 
-        setBibliotecarioCondition(); //TODO: QUE ONDA!??
+        setBibliotecarioCondition();
 
         doorBibliotecario.changeState("visible", true);
         doorBibliotecario.addCommand(question);
 
-        accesoBiblioteca.addElement(doorBibliotecario); //TODO: IDEM arriba
+        accesoBiblioteca.addElement(doorBibliotecario);
         accesoBiblioteca.addElement(bibliotecario);
         accesoBiblioteca.addElement(doorBibliotecaAccesoBiblioteca);
+    }
+
+    private void setCommandsBibliotecario() {
+        bibliotecario.changeState("visible", true);
+        bibliotecario.addState(new State("dormido", false, false));
+        bibliotecario.addState(new State("enojado", false, false));
+        bibliotecario.addCommand(giveItem);
+
+        bibliotecario.addCommand(question);
+        bibliotecario.setObjectiveElement(accesoBibliotecaBis);
     }
 
     private void setOpenWhenSleeped() {

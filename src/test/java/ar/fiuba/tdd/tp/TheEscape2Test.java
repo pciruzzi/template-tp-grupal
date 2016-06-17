@@ -3,7 +3,7 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.GameBuilder;
-import ar.fiuba.tdd.tp.model.TheEscape22Configuration;
+import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import ar.fiuba.tdd.tp.time.MockedTimedAction;
@@ -130,7 +130,7 @@ public class TheEscape2Test {
         despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario");
         mover       = new MockedTimedAction(1200000, "move Bibliotecario");
 
-        GameBuilder gameBuilder = new TheEscape22Configuration(despertar, enojar, mover);
+        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover);
         BroadcastQueue queue = new EventQueue();
 
         engine = new Engine(queue);
