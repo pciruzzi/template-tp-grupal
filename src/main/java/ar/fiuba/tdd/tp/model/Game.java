@@ -136,6 +136,7 @@ public class Game {
         String returnMessage = "It doesn't exist the element";
         if (element != null) {
             returnMessage = element.doTimeCommand(cmd);
+            queue.pushBroadcast(returnMessage);
         }
         returnMessage = checkFinishedGameForAll(returnMessage);
         return returnMessage;

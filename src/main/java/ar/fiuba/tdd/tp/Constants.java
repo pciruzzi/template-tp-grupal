@@ -14,4 +14,8 @@ public final class Constants {
     public static final int BROADCAST = -1;
     public static final int NONE = -1;
     public static final int NON_PLAYER = -1;
+
+    // Para The Escape 2
+    public static final int TIME_AWAKE = 30000; //en milisegundos
+    public static final int TIME_MOVE = 60000; //en milisegundos
 }

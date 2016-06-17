@@ -7,6 +7,8 @@ import ar.fiuba.tdd.tp.interpreter.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.fiuba.tdd.tp.Constants.*;
+
 @SuppressWarnings("CPD-START")
 
 public class TheEscapeConfiguration implements GameBuilder {
@@ -103,7 +105,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-        createLastRoomAndCondicionesDeMorir();
 //        createTimeEvents();
 
         setHelpCommand();
@@ -197,7 +198,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        playerGenerico = new Player(-1);
+        playerGenerico = new Player(NONE);
         fotoDesconocida = new Element("FotoDesconocida");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");

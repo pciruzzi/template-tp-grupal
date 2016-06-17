@@ -15,7 +15,7 @@ public class MoveRandom extends ITimeCommand {
         this.name = name;
         this.correctMovementMessage = "The ";
         this.incorrectMovementMessage = " is locked.";
-        this.auxiliarMessage = " moved to the ";
+        this.auxiliarMessage = "";
         this.prohibitedRooms = new ArrayList<>();
     }
 

@@ -10,8 +10,7 @@ import ar.fiuba.tdd.tp.time.TimeCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ar.fiuba.tdd.tp.Constants.NONE;
-import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 @SuppressWarnings("CPD-START")
 
@@ -106,10 +105,9 @@ public class TheEscape2Configuration implements GameBuilder {
     private MoveRandom moveRandom;
 
     public TheEscape2Configuration() {
-        this.despertarBibliotecario = new SingleTimedAction(9999, "despertar Bibliotecario");
-        this.enojarBibliotecario    = new SingleTimedAction(9998, "enojar Bibliotecario");
+        this.despertarBibliotecario = new SingleTimedAction(TIME_AWAKE, "despertar Bibliotecario");
+        this.enojarBibliotecario    = new SingleTimedAction(TIME_AWAKE, "enojar Bibliotecario");
         this.moverBibliotecario     = null;
-
     }
 
     public TheEscape2Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
@@ -134,7 +132,6 @@ public class TheEscape2Configuration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-        createLastRoomAndCondicionesDeMorir();
 //        createTimeEvents();
 
         setHelpCommand();
@@ -235,19 +232,19 @@ public class TheEscape2Configuration implements GameBuilder {
         bibliotecario.setName("Bibliotecario");
 
         if ( moverBibliotecario == null ) {
-            moverBibliotecario = new ScheduledTimedAction(6000, "move Bibliotecario");
+            moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
             moveRandom = new MoveRandom("move");
 //            moveRandom.addProhibitedRoom(biblioteca);
 //            moveRandom.addProhibitedRoom(pasillo);
         } else {
             moveRandom = new MockedMoveRandom("move", biblioteca);
         }
-        moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
+        //moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
 
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
-        despertar.auxiliarMessage(" se ha despertado");
+        despertar.auxiliarMessage(" se ha despertado luego de la borrachera.");
         ITimeCommand enojar = new ChangeState("enojar", "enojado", true);
-        enojar.correctMovementMessage("se ha enojado");
+        enojar.correctMovementMessage(" se ha enojado porque alguien paso sin permiso. Trata de que no te encuentre!!");
 
         List<TimeCommand> timedActions = setTimeCommandsBibliotecario(despertar, enojar);
 
@@ -324,7 +321,7 @@ public class TheEscape2Configuration implements GameBuilder {
         bibliotecario.setPlayerPosition(accesoBiblioteca);
 
         doorBiblioteca = new Element("Biblioteca");
-        doorBibliotecaBibliotecario = new Element("Bibliotecario");
+        doorBibliotecaBibliotecario = new Element("Bibliotecario2");
         doorSotano = new Element("Sotano");
         pasajeAfuera = new Element("Afuera");
         doorSalon1.changeState("visible", true);
@@ -521,6 +518,8 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
+        addRoomsToGame();
+
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
@@ -551,8 +550,6 @@ public class TheEscape2Configuration implements GameBuilder {
         IInterpreter bibliotecarioDespiertoYEnojado = new AndExpression(bibliotecarioDespierto, bibliotecarioEnojado);
         IInterpreter sameRoomAndBibliotecarioEnojado = new AndExpression(sameRoomBibliotecarioAndPlayer,
                 bibliotecarioDespiertoYEnojado);
-
-        addRoomsToGame();
 
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
@@ -659,10 +656,8 @@ public class TheEscape2Configuration implements GameBuilder {
         doorBibliotecaBibliotecario.addCommand(question);
 
         setLibrosVisibles();
-
         ICommand moveLibroViejo = new ChangeVisibility("move", true, game);
         moveLibroViejo.correctMovementMessage(" opened a secret passage to the basement!");
-
         addCommandsToLibros();
 
         libroViejo.addCommand(moveLibroViejo);
@@ -672,9 +667,7 @@ public class TheEscape2Configuration implements GameBuilder {
         doorSotano.addCommand(openDoor);
 
         doorSotano.setObjectiveElement(sotano);
-
         addElementsToBiblioteca();
-
         biblioteca.addCommand(lookAround);
     }
 

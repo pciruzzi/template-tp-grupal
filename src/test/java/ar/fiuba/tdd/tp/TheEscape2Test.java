@@ -26,10 +26,10 @@ public class TheEscape2Test {
         engine.doCommand(0, "goto Salon1");
         engine.doCommand(0, "pick Botella");
         engine.doCommand(0, "goto Pasillo");
-        System.out.println(engine.doCommand(0, "goto BibliotecaAcceso"));
-        System.out.println(engine.doCommand(0, "look around"));
-        System.out.println(engine.doCommand(0, "ask PlayerBibliotecario"));
-        System.out.println(engine.doCommand(0, "give Licor Bibliotecario"));
+        engine.doCommand(0, "goto BibliotecaAcceso");
+        engine.doCommand(0, "look around");
+        engine.doCommand(0, "ask Bibliotecario");
+        engine.doCommand(0, "give Licor Bibliotecario");
         engine.doCommand(0, "goto doorBiblioteca");
         despertar.startMockedAction();
         enojar.startMockedAction();

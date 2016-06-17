@@ -25,12 +25,7 @@ public abstract class TimeCommand {
     public TimerTask start() {
         return new TimerTask() {
             public void run() {
-//                String cmd = engine.doTimeCommand(command);
-//                if (cmd.equals(GAME_LOST)) {
-//                    queue.pushLostCommand(0);
-//                } else {
-                    queue.pushBroadcast(engine.doTimeCommand(command));
-//                }
+                engine.doTimeCommand(command);
             }
         };
     }
