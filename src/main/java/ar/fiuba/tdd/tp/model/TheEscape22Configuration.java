@@ -602,7 +602,7 @@ public class TheEscape22Configuration implements GameBuilder {
         doorBibliotecario.changeState("visible", true);
         doorBibliotecario.addCommand(question);
 
-//        accesoBiblioteca.addElement(doorBibliotecario); TODO: IDEM arriba
+        accesoBiblioteca.addElement(doorBibliotecario); //TODO: IDEM arriba
         accesoBiblioteca.addElement(bibliotecario);
         accesoBiblioteca.addElement(doorBibliotecaAccesoBiblioteca);
     }
