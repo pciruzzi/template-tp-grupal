@@ -37,7 +37,6 @@ public class TheEscape2Configuration implements GameBuilder {
 
     // Las puertas
     private Element doorAccesoABibliotecario;
-    private Element doorBibliotecario;
     private Element doorBiblioteca;
     private Element doorSotano;
     private Element doorSalon1;
@@ -319,7 +318,6 @@ public class TheEscape2Configuration implements GameBuilder {
         doorSalon2 = new Element("Salon2");
         doorSalon3 = new Element("Salon3");
         doorAccesoABibliotecario = new Element("BibliotecaAcceso");
-        doorBibliotecario = new Element("Bibliotecario");
         accesoBibliotecaBis = new Element("Biblioteca");
         doorVueltaAccesoBiblioteca = new Element("BibliotecaAcceso");
         doorVueltaAccesoBiblioteca.addState(new State("visible", true, false));
@@ -593,10 +591,6 @@ public class TheEscape2Configuration implements GameBuilder {
 
         setBibliotecarioCondition();
 
-        doorBibliotecario.changeState("visible", true);
-        doorBibliotecario.addCommand(question);
-
-        accesoBiblioteca.addElement(doorBibliotecario);
         accesoBiblioteca.addElement(bibliotecario);
         accesoBiblioteca.addElement(doorBibliotecaAccesoBiblioteca);
     }
@@ -645,7 +639,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createAccesoABibliotecaBis() {
-        doorBibliotecario.setObjectiveElement(accesoBibliotecaBis);
         doorBiblioteca.changeState("visible", true);
         doorBiblioteca.addCommand(openDoor);
         doorBiblioteca.addCommand(question);
