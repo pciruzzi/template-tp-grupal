@@ -46,7 +46,6 @@ public class MoveWithComparator extends ICommand {
     }
     // Esto se usa para el caso en que se necesite agarrar el ultimo disco, cuaderno o lo que sea de
     // la pila. Solo va a estar visible cuando se hayan removido todos los otros de esa pila.
-    // TODO: Revisar con lo de multiples estados.
     private void checkBiggestAvailable(Element originElement) {
         List<Element> elementListOrigin = originElement.getElementList();
         if ( elementListOrigin.size() == 1 ) {

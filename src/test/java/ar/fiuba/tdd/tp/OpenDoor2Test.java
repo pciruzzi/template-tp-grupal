@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class OpenDoor2Test extends InitializationsForTests{
+public class OpenDoor2Test extends InitializationsForTests {
 
     private static final int id = 0;
 
