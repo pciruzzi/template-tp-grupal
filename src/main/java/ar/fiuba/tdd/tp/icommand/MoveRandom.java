@@ -21,12 +21,13 @@ public class MoveRandom extends ITimeCommand {
 
     public String doTimeAction(Player elementToMove) {
         Element containingElement = elementToMove.getPlayerPosition();
-        List<Element> visibleElements = containingElement.getElementList();
+        List<Element> visibleElements = new ArrayList<>(containingElement.getVisibleElements().values());
         List<Element> doors = new ArrayList<>();
 
         // Obtengo todos los elementos que tienen un objeto de destino
         for ( Element visibleElement : visibleElements ) {
-            if ( visibleElement.getObjectiveElement() != null && !isProhibitedRoom(visibleElement.getObjectiveElement())) {
+            Element objectiveElement = visibleElement.getObjectiveElement();
+            if (visibleElement != elementToMove && objectiveElement != null && !isProhibitedRoom(objectiveElement)) {
                 doors.add(visibleElement);
             }
         }
