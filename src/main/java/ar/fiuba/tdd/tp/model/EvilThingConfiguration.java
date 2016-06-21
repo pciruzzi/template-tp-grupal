@@ -105,7 +105,6 @@ public class EvilThingConfiguration implements GameBuilder {
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
-        //TODO: Que onda esto? Hay que hacerle algo a los players?
         playerGenerico.addElement(new Element("key"));
         IInterpreter door2Condition = new DoesNotContainElements(playerGenerico, doorRequirements);
         door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
