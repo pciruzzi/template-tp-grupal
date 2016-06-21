@@ -174,7 +174,6 @@ public class TresureQuestTest {
         game.play(id, "open","chest");
         game.play(id, "open","door to five");
         game.play(id, "open", "box one");
-        //System.out.println(game.play(id, "open", "door to four"));
         assertEquals(GAME_LOST,game.play(id, "open", "door to four"));
     }
 

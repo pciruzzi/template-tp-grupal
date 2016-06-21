@@ -105,8 +105,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-//        createTimeEvents();
-
         setHelpCommand();
         setExitCommand();
 
@@ -159,15 +157,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         lastRoom.addCommand(exit);
         cuartoDeLaMuerte.addCommand(exit);
     }
-
-//    private void createTimeEvents() {
-//        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-//        relojCucu.addCommand(cucu);
-//        relojCucu.changeState("visible", true);
-//        pasillo.addElement(relojCucu);
-//        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
-//        game.addTimeCommand(cucuClock);
-//    }
 
     private void initializeRooms() {
         pasillo = new Element("Pasillo");

@@ -210,7 +210,6 @@ public class TempleQuestConfiguration implements GameBuilder {
 
     private void createRoomHanoiBis() {
         doorHanoiBisArchaeologist = new Element("door");
-//        roomHanoiBis = new Element("roomHanoiBis");
         riverBackward = new Element("river");
         riverBackward.changeState("visible", true);
         riverBackward.setObjectiveElement(roomHanoi);

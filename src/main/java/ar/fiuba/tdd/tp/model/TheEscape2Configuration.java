@@ -81,7 +81,6 @@ public class TheEscape2Configuration implements GameBuilder {
     private Element ventana;
 
     // Los elementos que se ejecutan por tiempo
-//    private Element relojCucu;
     private Player bibliotecario;
 
     // Los ICommands
@@ -137,7 +136,6 @@ public class TheEscape2Configuration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-//        createTimeEvents();
 
         setHelpCommand();
         setExitCommand();
@@ -192,15 +190,6 @@ public class TheEscape2Configuration implements GameBuilder {
         cuartoDeLaMuerte.addCommand(exit);
     }
 
-//    private void createTimeEvents() {
-//        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-//        relojCucu.addCommand(cucu);
-//        relojCucu.changeState("visible", true);
-//        pasillo.addElement(relojCucu);
-//        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
-//        game.addTimeCommand(cucuClock);
-//    }
-
     private void initializeRooms() {
         pasillo = new Element("Pasillo");
         salonUno = new Element("Salon1");
@@ -230,7 +219,6 @@ public class TheEscape2Configuration implements GameBuilder {
         ventana = new Element("Ventana");
         llave = new Element("Llave");
 
-//        relojCucu = new Player(NON_PLAYER);
         setMovementOfBibliotecario();
     }
 
@@ -643,13 +631,6 @@ public class TheEscape2Configuration implements GameBuilder {
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
         credencialBuena.setFailMessage("No podes pasar sin una credencial valida!!");
         playerWithCredential.setFailMessage("No podes pasar sin una credencial valida!!");
-
-//        ArrayList<String> tieneLicor = new ArrayList<>();
-//        tieneLicor.add("Botella");
-//        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
-
-//        IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-//        puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, credencialConFoto,"show credencial");
         bibliotecario.addCommand(pasarBibliotecario);

@@ -251,11 +251,6 @@ public class Game {
     }
 
     public void addContainer(Element element) {
-        for ( Element room : containersList) {
-            if ( room.getName().equals(element.getName()) ) {
-//                System.out.println("You are adding the same room twice to the game: " + room.getName());
-            }
-        }
         containersList.add(element);
     }
 
