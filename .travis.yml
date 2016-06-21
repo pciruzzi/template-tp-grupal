@@ -6,7 +6,7 @@ before_install:
  - chmod +x jars.sh
  - chmod +x all.sh
 script:
- - ./all.sh && ./gradlew check
+ - ./gradlew build
 after_failure:
  - cat build/reports/*/*.xml
 cache:
