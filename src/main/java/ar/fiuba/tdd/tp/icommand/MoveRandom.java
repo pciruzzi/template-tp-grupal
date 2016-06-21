@@ -10,6 +10,7 @@ import java.util.Random;
 public class MoveRandom extends ITimeCommand {
 
     private List<Element> prohibitedRooms;
+    protected Element destinationElement;
 
     public MoveRandom(String name) {
         this.name = name;
@@ -62,5 +63,9 @@ public class MoveRandom extends ITimeCommand {
             }
         }
         return isProhibited;
+    }
+
+    public void setDestinationElement(Element destinationElement) {
+        this.destinationElement = destinationElement;
     }
 }

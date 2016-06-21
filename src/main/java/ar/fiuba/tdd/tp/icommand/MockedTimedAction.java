@@ -1,6 +1,10 @@
-package ar.fiuba.tdd.tp.time;
+package ar.fiuba.tdd.tp.icommand;
+
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
+import ar.fiuba.tdd.tp.time.TimeCommand;
 
 public class MockedTimedAction extends TimeCommand {
+
 
     public MockedTimedAction(int timeOfAction, String comandito) {
         super(timeOfAction, comandito);
@@ -15,4 +19,5 @@ public class MockedTimedAction extends TimeCommand {
         queue.pushBroadcast(returnMessagge);
         return returnMessagge;
     }
+
 }

@@ -104,6 +104,8 @@ public class TheEscape2Configuration implements GameBuilder {
 
     private MoveRandom moveRandom;
 
+    private String mockedMoveRandomDestination;
+
     public TheEscape2Configuration() {
         this.despertarBibliotecario = new SingleTimedAction(TIME_AWAKE, "despertar Bibliotecario");
         this.enojarBibliotecario    = new SingleTimedAction(TIME_AWAKE, "enojar Bibliotecario");
@@ -111,11 +113,14 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     public TheEscape2Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
-                                   TimeCommand moverBibliotecario) {
+                                   TimeCommand moverBibliotecario, MoveRandom mockedMoveRandom,
+                                   String mockedMoveRandomDestination) {
 
         this.despertarBibliotecario = despertarBibliotecario;
         this.enojarBibliotecario    = enojarBibliotecario;
         this.moverBibliotecario     = moverBibliotecario;
+        this.moveRandom             = mockedMoveRandom;
+        this.mockedMoveRandomDestination = mockedMoveRandomDestination;
     }
 
     @Override
@@ -207,6 +212,8 @@ public class TheEscape2Configuration implements GameBuilder {
         sotanoAbajo = new Element("Sotano Abajo");
         lastRoom = new Element("LastRoom");
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+
+        addRoomsToGame();
     }
 
     private void initializeElements() {
@@ -231,15 +238,7 @@ public class TheEscape2Configuration implements GameBuilder {
         bibliotecario = new Player(NON_PLAYER);
         bibliotecario.setName("Bibliotecario");
 
-        if ( moverBibliotecario == null ) {
-            moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
-            moveRandom = new MoveRandom("move");
-//            moveRandom.addProhibitedRoom(biblioteca);
-//            moveRandom.addProhibitedRoom(pasillo);
-        } else {
-            moveRandom = new MockedMoveRandom("move", biblioteca);
-        }
-        //moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
+        seBibliotecarioMovement();
 
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
         despertar.auxiliarMessage(" se ha despertado luego de la borrachera.");
@@ -251,12 +250,26 @@ public class TheEscape2Configuration implements GameBuilder {
         IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
-        giveItem.incorrectMovementMessage("You don't have anything, you little bastard. " +
-                "Bring me a Chivas Regal or get out of here!!!");
+        giveItem.incorrectMovementMessage("You don't have anything, you little bastard. "
+                + "Bring me a Chivas Regal or get out of here!!!");
         giveItem.auxiliarMessage("Hic!");
         giveItem.changePlayerState("colado", true);
 
         game.addTimeElement(bibliotecario);
+    }
+
+    private void seBibliotecarioMovement() {
+        if ( moverBibliotecario == null ) {
+            moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
+            moveRandom = new MoveRandom("move");
+
+        } else {
+            for (Element destinationElement : game.getContainersList() ) {
+                if (destinationElement.getName().equals(mockedMoveRandomDestination)) {
+                    moveRandom.setDestinationElement(destinationElement);
+                }
+            }
+        }
     }
 
     private List<TimeCommand> setTimeCommandsBibliotecario(ITimeCommand despertar, ITimeCommand enojar) {
@@ -522,7 +535,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
-        addRoomsToGame();
 
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();

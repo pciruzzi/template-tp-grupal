@@ -2,11 +2,13 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.icommand.MockedMoveRandom;
+import ar.fiuba.tdd.tp.icommand.MockedTimedAction;
+import ar.fiuba.tdd.tp.icommand.MoveRandom;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
-import ar.fiuba.tdd.tp.time.MockedTimedAction;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
@@ -57,7 +59,7 @@ public class TheEscape2Test {
         enojar.startMockedAction();
         assertEquals(GAME_LOST, mover.startMockedAction());
     }
-    
+
     //TESTS QUE SON TAMBIEN DE "THEESCAPE"
     @Test
     public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {
@@ -128,12 +130,14 @@ public class TheEscape2Test {
         enojar      = new MockedTimedAction(1200000, "enojar Bibliotecario");
         despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario");
         mover       = new MockedTimedAction(1200000, "move Bibliotecario");
+        MoveRandom moveRandom = new MockedMoveRandom("move");
 
-        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover);
+        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover, moveRandom, "Biblioteca");
         BroadcastQueue queue = new EventQueue();
 
         engine = new Engine(queue);
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer();
+
     }
 }
