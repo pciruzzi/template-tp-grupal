@@ -2,8 +2,6 @@ package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
-import ar.fiuba.tdd.tp.icommand.MockedMoveRandom;
-import ar.fiuba.tdd.tp.icommand.MockedTimedAction;
 import ar.fiuba.tdd.tp.icommand.MoveRandom;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
@@ -127,13 +125,14 @@ public class TheEscape2Test {
     }
 
     private void setUp() {
-        enojar      = new MockedTimedAction(1200000, "enojar Bibliotecario");
-        despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario");
-        mover       = new MockedTimedAction(1200000, "move Bibliotecario");
-        MoveRandom moveRandom = new MockedMoveRandom("move");
+        BroadcastQueue queue = new EventQueue();
+
+        enojar      = new MockedTimedAction(1200000, "enojar Bibliotecario", queue);
+        despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario", queue);
+        mover       = new MockedTimedAction(1200000, "move Bibliotecario", queue);
+        MoveRandom moveRandom = new MoveRandom("move");
 
         GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover, moveRandom, "Biblioteca");
-        BroadcastQueue queue = new EventQueue();
 
         engine = new Engine(queue);
         engine.createGame(gameBuilder);

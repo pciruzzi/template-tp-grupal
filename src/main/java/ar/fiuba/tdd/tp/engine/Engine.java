@@ -16,7 +16,7 @@ public class Engine {
 
     public Engine(BroadcastQueue queue) {
         this.commandParser = new CommandParser();
-        this.time = new Time(this, queue);
+        this.time = new Time(this);
         this.queue = queue;
     }
 

@@ -10,18 +10,24 @@ import java.util.Random;
 public class MoveRandom extends ITimeCommand {
 
     private List<Element> prohibitedRooms;
-    protected Element destinationElement;
+    private Element destinationElement;
+    private Element containingElement;
 
     public MoveRandom(String name) {
         this.name = name;
         this.correctMovementMessage = "The ";
         this.incorrectMovementMessage = " is locked.";
-        this.auxiliarMessage = "";
+        this.auxiliarMessage = " moved to the ";
         this.prohibitedRooms = new ArrayList<>();
     }
 
     public String doTimeAction(Player elementToMove) {
-        Element containingElement = elementToMove.getPlayerPosition();
+
+        containingElement = elementToMove.getPlayerPosition();
+
+        if (destinationElement != null) {
+            return doMove(elementToMove, destinationElement);
+        }
         List<Element> visibleElements = new ArrayList<>(containingElement.getVisibleElements().values());
         List<Element> doors = new ArrayList<>();
 
@@ -34,18 +40,17 @@ public class MoveRandom extends ITimeCommand {
         }
 
         int amountOfDoors = doors.size();
+        return sentToOtherRoom(elementToMove, doors, amountOfDoors);
+    }
+
+    private String sentToOtherRoom(Player elementToMove, List<Element> doors, int amountOfDoors) {
         if ( amountOfDoors > 0 ) {
             Random random = new Random();
             // Elijo una puerta al azar
             Element doorToUse = doors.get(random.nextInt(amountOfDoors));
             Element next = doorToUse.getObjectiveElement();
 
-            // Saco el elemento del lugar origen y lo paso al destino
-            containingElement.removeElement(elementToMove);
-            next.addElement(elementToMove);
-            elementToMove.setPlayerPosition(next);
-            return auxiliarMessage
-                    + correctMovementMessage + elementToMove.getName() + " moved to the " + next.getName();
+            return doMove(elementToMove, next);
         } else {
             return correctMovementMessage + elementToMove.getName() + incorrectMovementMessage;
         }
@@ -67,5 +72,15 @@ public class MoveRandom extends ITimeCommand {
 
     public void setDestinationElement(Element destinationElement) {
         this.destinationElement = destinationElement;
+    }
+
+    private String doMove(Player elementToMove, Element destinationElement) {
+
+        // Saco el elemento del lugar origen y lo paso al destino
+        containingElement.removeElement(elementToMove);
+        destinationElement.addElement(elementToMove);
+        elementToMove.setPlayerPosition(destinationElement);
+
+        return correctMovementMessage + elementToMove.getName() + auxiliarMessage + destinationElement.getName();
     }
 }
