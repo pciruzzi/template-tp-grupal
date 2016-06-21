@@ -10,4 +10,5 @@ public interface IInterpreter {
     String getFailMessage();
 
     void setFailMessage(String failMessage);
+
 }

@@ -43,11 +43,4 @@ public class ElementsInSameContainer extends TerminalExpression {
         return sameContainer;
     }
 
-    private String getElementName(Element element, Player player) {
-        String elementName = element.getName();
-        if (elementName.contains("player")) {
-            elementName = "player " + player.getPlayerID();
-        }
-        return elementName;
-    }
 }

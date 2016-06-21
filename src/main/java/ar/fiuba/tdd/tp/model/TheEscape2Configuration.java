@@ -96,7 +96,7 @@ public class TheEscape2Configuration implements GameBuilder {
     private ICommand pasarBibliotecario;
     private ICommand move;
     private ICommand moveLibroNada;
-    private ICommand giveItem;
+    private MoveFromPlayer giveItem;
 
     private TimeCommand despertarBibliotecario;
     private TimeCommand enojarBibliotecario;
@@ -251,8 +251,10 @@ public class TheEscape2Configuration implements GameBuilder {
         IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
-        giveItem.incorrectMovementMessage("Hic!");
-        giveItem.auxiliarMessage("");
+        giveItem.incorrectMovementMessage("You don't have anything, you little bastard. " +
+                "Bring me a Chivas Regal or get out of here!!!");
+        giveItem.auxiliarMessage("Hic!");
+        giveItem.changePlayerState("colado", true);
 
         game.addTimeElement(bibliotecario);
     }
@@ -348,6 +350,8 @@ public class TheEscape2Configuration implements GameBuilder {
 
             newPlayer.addElement(fotoBuena);
             newPlayer.addElement(lapicera);
+
+            newPlayer.addState(new State("colado", false, false));
 
             players.add(newPlayer);
         }
@@ -551,12 +555,16 @@ public class TheEscape2Configuration implements GameBuilder {
         IInterpreter sameRoomAndBibliotecarioEnojado = new AndExpression(sameRoomBibliotecarioAndPlayer,
                 bibliotecarioDespiertoYEnojado);
 
+        IInterpreter playerColado = new HasValueState(playerGenerico, "colado", true);
+
+        IInterpreter bibliotecarioYPlayerColado = new AndExpression(sameRoomAndBibliotecarioEnojado, playerColado);
+
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
         IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
         IInterpreter escapeOneDeaths = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
-        return new OrExpression(escapeOneDeaths, sameRoomAndBibliotecarioEnojado);
+        return new OrExpression(escapeOneDeaths, bibliotecarioYPlayerColado);
     }
 
     // Agrega los cuartos por donde puede encontrarse el bibliotecario con el player y hacer que este pierda
@@ -604,7 +612,7 @@ public class TheEscape2Configuration implements GameBuilder {
 
     private void setOpenWhenSleeped() {
         IInterpreter sleepedBibliotecario = new HasValueState(bibliotecario, "dormido", true);
-        sleepedBibliotecario.setFailMessage("You can't cross because bibliotecario is angry with you!");
+        sleepedBibliotecario.setFailMessage("You can't cross because you haven't shown the credential.");
         ICommand openDoorSleeped = new MovePlayerTo(game, sleepedBibliotecario, "goto");
         openDoorSleeped.incorrectMovementMessage("You can't cross");
         openDoorSleeped.correctMovementMessage("You have Crossed to the Biblioteca");

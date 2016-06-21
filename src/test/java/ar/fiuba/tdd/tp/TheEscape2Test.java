@@ -57,8 +57,7 @@ public class TheEscape2Test {
         enojar.startMockedAction();
         assertEquals(GAME_LOST, mover.startMockedAction());
     }
-
-
+    
     //TESTS QUE SON TAMBIEN DE "THEESCAPE"
     @Test
     public void itShouldLostIfDownloadUsingStairs() throws GameLoadFailedException {

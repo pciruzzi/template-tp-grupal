@@ -24,7 +24,7 @@ public class Element {
         elementMap = new HashMap<>();
         stateMap = new HashMap<>();
         stateMap.put("visible", new State("visible", false, false));
-        this.name = name;
+        this.name = name.trim();
         this.capacity = 999;
         this.size = 1;
         this.objectiveElement = null;

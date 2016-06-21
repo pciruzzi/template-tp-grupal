@@ -23,6 +23,6 @@ public class MockedMoveRandom extends MoveRandom {
         destinationElement.addElement(elementToMove);
         elementToMove.setPlayerPosition(destinationElement);
 
-        return auxiliarMessage + elementToMove.getName() + " moved to the " + destinationElement.getName();
+        return correctMovementMessage + elementToMove.getName() + " moved to the " + destinationElement.getName();
     }
 }

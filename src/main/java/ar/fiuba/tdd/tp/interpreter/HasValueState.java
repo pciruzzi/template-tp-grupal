@@ -3,6 +3,8 @@ package ar.fiuba.tdd.tp.interpreter;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 
+import java.util.List;
+
 public class HasValueState extends TerminalExpression {
 
     private boolean value;
@@ -20,6 +22,7 @@ public class HasValueState extends TerminalExpression {
     }
 
     public boolean interpret(Player player) {
-        return this.interpret();
+
+        return player.getValueOfState(state) == value;
     }
 }

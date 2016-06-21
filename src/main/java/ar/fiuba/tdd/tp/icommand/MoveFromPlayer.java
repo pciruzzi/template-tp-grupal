@@ -1,6 +1,7 @@
 package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 import ar.fiuba.tdd.tp.model.Game;
@@ -14,6 +15,8 @@ public class MoveFromPlayer extends ICommand {
     private String element;
     private IInterpreter interpreter;
     private List<TimeCommand> timeCommandList;
+    private String stateToChangeName;
+    private boolean stateToChange;
 
     public MoveFromPlayer(String name, Game game, String element) {
         this.game = game;
@@ -24,6 +27,8 @@ public class MoveFromPlayer extends ICommand {
         this.auxiliarMessage = "Hi!\n" + "The ";
         this.interpreter = null;
         this.timeCommandList = new ArrayList<>();
+        this.stateToChangeName = null;
+        this.stateToChange = false;
     }
 
     public MoveFromPlayer(String name, Game game, String element, IInterpreter interpreter, List<TimeCommand> timeCommandList) {
@@ -34,19 +39,20 @@ public class MoveFromPlayer extends ICommand {
 
     public String doAction(Element element, int playerId) {
         Element player = game.getPlayer(playerId);
-        Element actualElement = player.getElement(this.element);
-        State stateToAffect = actualElement.getStateToAffect();
+
         //Si el jugador tiene el elemento en el inventario.
         if (player.getElementMap().containsKey(this.element)) {
+            Element actualElement = player.getElement(this.element);
             player.removeElement(actualElement);
             actualElement.changeState("visible",false);
             element.addElement(actualElement);
 
+            State stateToAffect = actualElement.getStateToAffect();
             if (stateToAffect != null && element.hasState(stateToAffect.getName())) {
                 element.changeState(stateToAffect.getName(), stateToAffect.isActive());
             }
             checkStartTimer(element);
-
+            checkStateChange(player);
             try {
                 if ( stateToAffect.getEffectMessage() != null ) {
                     return stateToAffect.getEffectMessage();
@@ -67,6 +73,17 @@ public class MoveFromPlayer extends ICommand {
             for ( TimeCommand command : timeCommandList ) {
                 command.startTimeAction();
             }
+        }
+    }
+
+    public void changePlayerState(String stateName, boolean state) {
+        this.stateToChangeName = stateName;
+        this.stateToChange = state;
+    }
+
+    private void checkStateChange(Element player) {
+        if (stateToChangeName != null) {
+            player.changeState(stateToChangeName, stateToChange);
         }
     }
 }
