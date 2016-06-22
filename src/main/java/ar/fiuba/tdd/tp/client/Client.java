@@ -82,13 +82,4 @@ public class Client {
         return this.exitedGame;
     }
 
-//    private void readFromSocket() throws ConnectionLostException, ReadingException {
-//        writer.writeError("Leyendo del socket...");
-//        String response = socket.read();
-//        writer.writeError("Lei del socket");
-//        writer.write(response);
-//        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
-//            gameFinished = true;
-//        }
-//    }
 }
