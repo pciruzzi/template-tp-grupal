@@ -3,12 +3,12 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.time.TimeCommand;
 
-public class MockedTimedAction extends TimeCommand {
+public class MockedTimedCommand extends TimeCommand {
 
     private BroadcastQueue queue;
 
-    public MockedTimedAction(int timeOfAction, String comandito, BroadcastQueue queue) {
-        super(timeOfAction, comandito);
+    public MockedTimedCommand(String comandito, BroadcastQueue queue) {
+        super(1, comandito);
         this.queue = queue;
     }
 

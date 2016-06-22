@@ -18,6 +18,10 @@ public class Time {
         this.engine = engine;
     }
 
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
     public void start() {
         for (TimeCommand command: timeCommands) {
             command.setEngine(this.engine);
