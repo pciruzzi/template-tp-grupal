@@ -8,12 +8,13 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 public class TempleQuestConfiguration implements GameBuilder {
 
     private Game game;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
 
     private List<Player> players;
     private int maxPlayers;
@@ -99,7 +100,7 @@ public class TempleQuestConfiguration implements GameBuilder {
         game.setMaxPlayers(maxPlayers);
         players = new ArrayList<>();
 
-        playerGenerico = new Player(-1);
+        playerGenerico = Optional.empty();
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             players.add(newPlayer);
@@ -370,7 +371,7 @@ public class TempleQuestConfiguration implements GameBuilder {
     private void createFinishingConditions() {
         ArrayList<String> roomContainsPlayer = new ArrayList<>();
         roomContainsPlayer.add("player");
-        IInterpreter playerInLastRoom = new ContainsPlayer(lastRoom, roomContainsPlayer);
+        IInterpreter playerInLastRoom = new ContainsPlayer(Optional.of(lastRoom), roomContainsPlayer);
 
         ArrayList<String> playerWithDisk = new ArrayList<>();
         playerWithDisk.add("disk nine");

@@ -38,7 +38,7 @@ public class MoveFromPlayer extends ICommand {
     }
 
     public String doAction(Element element, int playerId) {
-        Element player = game.getPlayer(playerId);
+        Player player = game.getPlayer(playerId);
 
         //Si el jugador tiene el elemento en el inventario.
         if (player.getElementMap().containsKey(this.element)) {
@@ -51,7 +51,7 @@ public class MoveFromPlayer extends ICommand {
             if (stateToAffect != null && element.hasState(stateToAffect.getName())) {
                 element.changeState(stateToAffect.getName(), stateToAffect.isActive());
             }
-            checkStartTimer(element);
+            checkStartTimer(element, player);
             checkStateChange(player);
             try {
                 if ( stateToAffect.getEffectMessage() != null ) {
@@ -68,8 +68,8 @@ public class MoveFromPlayer extends ICommand {
         }
     }
 
-    private void checkStartTimer(Element element) {
-        if ( ( interpreter != null ) && (interpreter.interpret()) ) {
+    private void checkStartTimer(Element element, Player player) {
+        if ( ( interpreter != null ) && (interpreter.interpret(player)) ) {
             for ( TimeCommand command : timeCommandList ) {
                 command.startTimeAction();
             }

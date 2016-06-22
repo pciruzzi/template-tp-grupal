@@ -4,19 +4,20 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ContainsElements extends TerminalExpression {
 
-    public ContainsElements(Element element, ArrayList<String> elementsNames) {
+    public ContainsElements(Optional<Element> element, ArrayList<String> elementsNames) {
         super(element, elementsNames);
         failMessage = "FAILED";
     }
 
-    public boolean interpret() {
-        return element.hasAllElements(elementsListNames);
-    }
-
     public boolean interpret(Player player) {
-        return player.hasAllElements(elementsListNames);
+        if (element.isPresent()) {
+            return element.get().hasAllElements(elementsListNames);
+        } else {
+            return player.hasAllElements(elementsListNames);
+        }
     }
 }

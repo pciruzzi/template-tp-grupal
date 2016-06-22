@@ -8,6 +8,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -18,7 +19,7 @@ public class DummyGameConfiguration implements GameBuilder{
     private Element room;
     private Element roomTwo;
 
-    private Player player;
+    private Optional<Element> playerGenerico;
     private List<Player> players;
 
     private Element chest;
@@ -36,9 +37,11 @@ public class DummyGameConfiguration implements GameBuilder{
         game.setDescription("This is a dummy game");
 
         players = new ArrayList<>();
-        player = new Player(0);
-        createWinLoseCondition();
+        playerGenerico = Optional.empty();
+
+        Player player = new Player(0);
         players.add(player);
+        createWinLoseCondition();
         game.setMaxPlayers(1);
 
         createRoomOne();
@@ -57,11 +60,13 @@ public class DummyGameConfiguration implements GameBuilder{
         winArray.add("goldenStick");
         loseArray.add("woodenStick");
 
-        IInterpreter winInterpreter = new ContainsElements(player, winArray);
-        IInterpreter loseInterpreter = new ContainsElements(player, loseArray);
+        IInterpreter winInterpreter = new ContainsElements(playerGenerico, winArray);
+        IInterpreter loseInterpreter = new ContainsElements(playerGenerico, loseArray);
 
-        player.setLosingInterpreter(loseInterpreter);
-        player.setWinInterpreter(winInterpreter);
+        for (Player player : players) {
+            player.setLosingInterpreter(loseInterpreter);
+            player.setWinInterpreter(winInterpreter);
+        }
     }
 
     private void createElementsCommands() {
@@ -73,7 +78,7 @@ public class DummyGameConfiguration implements GameBuilder{
         ArrayList<String> doorConditionArray = new ArrayList<>();
         doorConditionArray.add("key");
 
-        IInterpreter doorCondition = new ContainsElements(player,doorConditionArray);
+        IInterpreter doorCondition = new ContainsElements(playerGenerico,doorConditionArray);
         doorCondition.setFailMessage("The door is locked.");
 
         ICommand openDoor = new MovePlayerTo(game, doorCondition, "open");

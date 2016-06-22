@@ -8,10 +8,6 @@ public class TrueExpression extends TerminalExpression {
         super(null, null);
     }
 
-    public boolean interpret() {
-        return true;
-    }
-
     public boolean interpret(Player player) {
         return true;
     }

@@ -201,12 +201,12 @@ public class Game {
 
     private boolean hasWon(int playerID) {
         Player player = getPlayer(playerID);
-        return (player.getWinInterpreter().interpret() || player.getWinInterpreter().interpret(player));
+        return player.getWinInterpreter().interpret(player);
     }
 
     private boolean hasLost(int playerID) {
         Player player = getPlayer(playerID);
-        return (player.getLosingInterpreter().interpret() || player.getLosingInterpreter().interpret(player));
+        return player.getLosingInterpreter().interpret(player);
     }
 
     public Map<String, Element> calculateVisibleElements(int id) {

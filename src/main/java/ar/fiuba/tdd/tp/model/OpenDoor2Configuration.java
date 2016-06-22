@@ -10,6 +10,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -20,7 +21,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     private Element roomTwo;
     private Element doorOneTwo;
     private Element doorTwoOne;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
     private Element key;
     private Element box;
     private ICommand question;
@@ -39,7 +40,7 @@ public class OpenDoor2Configuration implements GameBuilder {
         question = new Question("ask");
         doorTwoOne = new Element("door");
         doorTwoOne.changeState("visible", true);
-        playerGenerico = new Player(-1);
+        playerGenerico = Optional.empty();
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             players.add(newPlayer);
@@ -112,7 +113,7 @@ public class OpenDoor2Configuration implements GameBuilder {
     private void setWinAndLoseInterpreter() {
         ArrayList<String> winConditionsArray = new ArrayList<>();
         winConditionsArray.add("player");
-        IInterpreter winCondition = new ContainsPlayer(roomTwo, winConditionsArray);
+        IInterpreter winCondition = new ContainsPlayer(Optional.of(roomTwo), winConditionsArray);
         IInterpreter loseInterpreter = new FalseExpression();
 
         for (Player player : players) {

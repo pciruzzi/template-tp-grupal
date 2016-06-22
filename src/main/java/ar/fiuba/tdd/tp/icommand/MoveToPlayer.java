@@ -29,7 +29,7 @@ public class MoveToPlayer extends ICommand {
 
     public String doAction(Element element, int playerId) {
         Player player = game.getPlayer(playerId);
-        if (this.condition.interpret() || this.condition.interpret(player)) {
+        if (this.condition.interpret(player)) {
             //Si esta en el piso o dentro de algun elemento del lugar
             if (checkAvailableElement(element, playerId)) {
                 Element playerPosition = game.getPlayerPosition(playerId);

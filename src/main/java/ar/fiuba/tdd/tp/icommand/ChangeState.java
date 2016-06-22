@@ -29,7 +29,7 @@ public class ChangeState extends ITimeCommand {
     }
 
     public String doTimeAction(Player player) {
-        if (this.condition.interpret() || this.condition.interpret(player)) {
+        if (this.condition.interpret(player)) {
             player.changeState(stateName,state);
             if (state) {
                 return "The " + player.getName() + correctMovementMessage + returnMessage;

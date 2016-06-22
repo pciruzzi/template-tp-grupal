@@ -8,10 +8,6 @@ public class AndExpression extends LogicalConector {
         super(expressionOne, expressionTwo);
     }
 
-    public boolean interpret() {
-        return super.interpret(false);
-    }
-
     public boolean interpret(Player player) {
         return super.interpret(false, player);
     }

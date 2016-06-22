@@ -9,6 +9,7 @@ import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -60,10 +61,11 @@ public class FetchQuestConfiguration implements GameBuilder {
     @SuppressWarnings("CPD-END")
 
     private void setWinAndLoseInterpreter() {
+        Optional<Element> playerGenerico = Optional.empty();
         for (Player player : players) {
             ArrayList<String> winArray = new ArrayList<>();
             winArray.add("stick");
-            IInterpreter winInterpreter = new ContainsElements(player,winArray);
+            IInterpreter winInterpreter = new ContainsElements(playerGenerico,winArray);
             player.setWinInterpreter(winInterpreter);
 
             IInterpreter loseInterpreter = new FalseExpression();

@@ -10,6 +10,7 @@ import ar.fiuba.tdd.tp.interpreter.OrExpression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -53,8 +54,8 @@ public class HanoiConfiguration implements GameBuilder{
         winArray.add(diskThree.getName());
 
         // Todos los discos estan en el stackThree o stackTwo
-        IInterpreter winInterpreterStackTwo = new ContainsElements(stackTwo,winArray);
-        IInterpreter winInterpreterStackThree = new ContainsElements(stackThree,winArray);
+        IInterpreter winInterpreterStackTwo = new ContainsElements(Optional.of(stackTwo),winArray);
+        IInterpreter winInterpreterStackThree = new ContainsElements(Optional.of(stackThree),winArray);
 
         // Combino las formas de ganar
         IInterpreter winingWays = new OrExpression(winInterpreterStackTwo, winInterpreterStackThree);

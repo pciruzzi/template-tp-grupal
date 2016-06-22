@@ -1,15 +1,21 @@
 package ar.fiuba.tdd.tp;
 
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import static ar.fiuba.tdd.tp.Constants.NON_PLAYER;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class IInterpreterTest {
+
+    //Este es para pasar en los tests, aunque no se va a usar porque se pasa un element
+    static Player player = new Player(NON_PLAYER);
 
     @Test
     public void testInterpreterReturnsTrueWhenConteinsOneElement() {
@@ -20,8 +26,8 @@ public class IInterpreterTest {
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
-        TerminalExpression terminal = new ContainsElements(room,stringList);
-        assertTrue(terminal.interpret());
+        TerminalExpression terminal = new ContainsElements(Optional.of(room),stringList);
+        assertTrue(terminal.interpret(player));
     }
 
     @Test
@@ -30,8 +36,8 @@ public class IInterpreterTest {
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
-        TerminalExpression terminal = new ContainsElements(room,stringList);
-        assertFalse(terminal.interpret());
+        TerminalExpression terminal = new ContainsElements(Optional.of(room),stringList);
+        assertFalse(terminal.interpret(player));
     }
 
     @Test
@@ -49,8 +55,8 @@ public class IInterpreterTest {
         stringList.add("stick");
         stringList.add("broom");
 
-        TerminalExpression terminal = new ContainsElements(room,stringList);
-        assertTrue(terminal.interpret());
+        TerminalExpression terminal = new ContainsElements(Optional.of(room),stringList);
+        assertTrue(terminal.interpret(player));
     }
 
     @Test
@@ -63,11 +69,11 @@ public class IInterpreterTest {
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("stick");
 
-        TerminalExpression terminalRoom1 = new ContainsElements(room,stringList);
-        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringList);
+        TerminalExpression terminalRoom1 = new ContainsElements(Optional.of(room),stringList);
+        TerminalExpression terminalRoom2 = new ContainsElements(Optional.of(room2),stringList);
         OrExpression orExpression = new OrExpression(terminalRoom1,terminalRoom2);
 
-        assertTrue(orExpression.interpret());
+        assertTrue(orExpression.interpret(player));
     }
 
     @Test
@@ -85,11 +91,11 @@ public class IInterpreterTest {
         ArrayList<String> stringListRoom2 = new ArrayList<>();
         stringListRoom2.add("broom");
 
-        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
-        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
+        TerminalExpression terminalRoom1 = new ContainsElements(Optional.of(room),stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(Optional.of(room2),stringListRoom2);
         OrExpression orExpression = new OrExpression(terminalRoom1,terminalRoom2);
 
-        assertFalse(orExpression.interpret());
+        assertFalse(orExpression.interpret(player));
     }
 
     @Test
@@ -106,11 +112,11 @@ public class IInterpreterTest {
         ArrayList<String> stringListRoom2 = new ArrayList<>();
         stringListRoom2.add("stick");
 
-        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
-        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
+        TerminalExpression terminalRoom1 = new ContainsElements(Optional.of(room),stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(Optional.of(room2),stringListRoom2);
         AndExpression andExpression = new AndExpression(terminalRoom1,terminalRoom2);
 
-        assertTrue(andExpression.interpret());
+        assertTrue(andExpression.interpret(player));
     }
 
     @Test
@@ -126,11 +132,11 @@ public class IInterpreterTest {
 
         Element room2 = new Element("room2");
 
-        TerminalExpression terminalRoom1 = new ContainsElements(room,stringListRoom1);
-        TerminalExpression terminalRoom2 = new ContainsElements(room2,stringListRoom2);
+        TerminalExpression terminalRoom1 = new ContainsElements(Optional.of(room),stringListRoom1);
+        TerminalExpression terminalRoom2 = new ContainsElements(Optional.of(room2),stringListRoom2);
         AndExpression andExpression = new AndExpression(terminalRoom1,terminalRoom2);
 
-        assertFalse(andExpression.interpret());
+        assertFalse(andExpression.interpret(player));
     }
 
     @Test
@@ -151,14 +157,14 @@ public class IInterpreterTest {
         chestElementBroom.add("broom");
         chestElementStick.add("stick");
 
-        TerminalExpression terminalRoom = new ContainsElements(room, roomElements);
-        TerminalExpression terminalChestBroom = new ContainsElements(chest, chestElementBroom);
-        TerminalExpression terminalChestStick = new ContainsElements(chest, chestElementStick);
+        TerminalExpression terminalRoom = new ContainsElements(Optional.of(room), roomElements);
+        TerminalExpression terminalChestBroom = new ContainsElements(Optional.of(chest), chestElementBroom);
+        TerminalExpression terminalChestStick = new ContainsElements(Optional.of(chest), chestElementStick);
 
         OrExpression orExpression = new OrExpression(terminalChestBroom, terminalChestStick);
         AndExpression andExpression = new AndExpression(orExpression,terminalRoom);
 
-        assertTrue(andExpression.interpret());
+        assertTrue(andExpression.interpret(player));
     }
 
     @Test
@@ -182,13 +188,13 @@ public class IInterpreterTest {
         ArrayList<String> chestElementStick = new ArrayList<>();
         chestElementStick.add("stick");
 
-        OrExpression orExpressionChest = new OrExpression(new ContainsElements(chest, chestElementBroom),
-                new ContainsElements(chest, chestElementStick));
-        OrExpression orExpressionRoom = new OrExpression(new ContainsElements(room, roomElementsPainting),
-                new ContainsElements(room, roomElementsWindow));
+        OrExpression orExpressionChest = new OrExpression(new ContainsElements(Optional.of(chest), chestElementBroom),
+                new ContainsElements(Optional.of(chest), chestElementStick));
+        OrExpression orExpressionRoom = new OrExpression(new ContainsElements(Optional.of(room), roomElementsPainting),
+                new ContainsElements(Optional.of(room), roomElementsWindow));
 
         AndExpression andExpression = new AndExpression(orExpressionChest,orExpressionRoom);
-        assertTrue(andExpression.interpret());
+        assertTrue(andExpression.interpret(player));
     }
 
     @Test
@@ -197,8 +203,8 @@ public class IInterpreterTest {
         ArrayList<String> roomList = new ArrayList<>();
         roomList.add("stick");
 
-        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
-        assertTrue(notExpression.interpret());
+        TerminalExpression notExpression = new DoesNotContainElements(Optional.of(room), roomList);
+        assertTrue(notExpression.interpret(player));
     }
 
     @Test
@@ -213,8 +219,8 @@ public class IInterpreterTest {
         ArrayList<String> roomList = new ArrayList<>();
         roomList.add("key");
 
-        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
-        assertTrue(notExpression.interpret());
+        TerminalExpression notExpression = new DoesNotContainElements(Optional.of(room), roomList);
+        assertTrue(notExpression.interpret(player));
     }
 
     @Test
@@ -226,8 +232,8 @@ public class IInterpreterTest {
         ArrayList<String> roomList = new ArrayList<>();
         roomList.add("stick");
 
-        TerminalExpression notExpression = new DoesNotContainElements(room, roomList);
-        assertFalse(notExpression.interpret());
+        TerminalExpression notExpression = new DoesNotContainElements(Optional.of(room), roomList);
+        assertFalse(notExpression.interpret(player));
     }
 
     @Test
@@ -243,7 +249,7 @@ public class IInterpreterTest {
         winCondition.add("sheep");
         winCondition.add("cabbage");
 
-        IInterpreter wolfCondition = new DoesNotContainElements(south,winCondition);
-        assertFalse(wolfCondition.interpret());
+        IInterpreter wolfCondition = new DoesNotContainElements(Optional.of(south),winCondition);
+        assertFalse(wolfCondition.interpret(player));
     }
 }

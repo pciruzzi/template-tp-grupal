@@ -25,7 +25,7 @@ public class MovePlayerTo extends ICommand {
 
     public String doAction(Element element, int playerId) {
         Player player = game.getPlayer(playerId);
-        if (condition.interpret() || condition.interpret(player)) {
+        if (condition.interpret(player)) {
             game.getPlayerPosition(playerId).removeElement(player);
             element.getObjectiveElement().addElement(player);
             game.setPlayerPosition(playerId, element.getObjectiveElement());

@@ -12,10 +12,6 @@ public class NotExpression implements IInterpreter {
         this.failMessage = null;
     }
 
-    public boolean interpret() {
-        return !(interpreter.interpret());
-    }
-
     public boolean interpret(Player player) {
         return !(interpreter.interpret(player));
     }

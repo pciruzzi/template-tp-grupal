@@ -8,10 +8,6 @@ public class OrExpression extends LogicalConector {
         super(expressionOne, expressionTwo);
     }
 
-    public boolean interpret() {
-        return super.interpret(true);
-    }
-
     public boolean interpret(Player player) {
         return super.interpret(true, player);
     }

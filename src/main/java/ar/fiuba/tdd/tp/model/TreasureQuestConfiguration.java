@@ -8,6 +8,7 @@ import ar.fiuba.tdd.tp.interpreter.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -48,7 +49,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private Element pokemon;
 
     // Los elementos extra
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
 
     // Los ICommands genericos
     private ICommand question;
@@ -59,9 +60,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
     private ICommand openContainer;
 
     public Game build() {
-        playerGenerico = new Player(-1);
-        playerGenerico.setCapacity(2);
-        playerGenerico.addState(new State("poison", false, false));
+        playerGenerico = Optional.empty();
         game = new Game("Treasure Quest");
         game.setDescription("Try to find the Irish treasure");
         setPlayers();
@@ -290,7 +289,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ArrayList<String> playerInRoomOne = new ArrayList<>();
         playerInRoomOne.add("player");
 
-        IInterpreter playerInRoomOneInterpreter = new ContainsPlayer(roomOne,playerInRoomOne);
+        IInterpreter playerInRoomOneInterpreter = new ContainsPlayer(Optional.of(roomOne),playerInRoomOne);
         IInterpreter winInterpreter = new AndExpression(playerWithTreasureInterpreter, playerInRoomOneInterpreter);
 
         // Creo la condicion de perder
@@ -300,7 +299,7 @@ public class TreasureQuestConfiguration implements GameBuilder {
         ArrayList<String> playerInRoomFour = new ArrayList<>();
         playerInRoomFour.add("player");
 
-        IInterpreter playerInRoomFourInterpreter = new ContainsPlayer(roomFour,playerInRoomFour);
+        IInterpreter playerInRoomFourInterpreter = new ContainsPlayer(Optional.of(roomFour),playerInRoomFour);
         IInterpreter losingTwoInterpreter = new AndExpression(playerPoisoned, playerInRoomFourInterpreter);
         IInterpreter losingInterpreter = new OrExpression(losingOneInterpreter,losingTwoInterpreter);
 

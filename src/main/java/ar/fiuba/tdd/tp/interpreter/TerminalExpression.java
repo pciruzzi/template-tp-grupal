@@ -4,14 +4,15 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class TerminalExpression implements IInterpreter {
 
-    protected Element element;
+    protected Optional<Element> element;
     protected List<String> elementsListNames;
     protected String failMessage;
 
-    public TerminalExpression(Element element, List<String> elementsNames) {
+    public TerminalExpression(Optional<Element> element, List<String> elementsNames) {
         this.element = element;
         this.elementsListNames = elementsNames;
     }

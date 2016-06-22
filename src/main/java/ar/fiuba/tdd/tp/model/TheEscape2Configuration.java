@@ -9,6 +9,7 @@ import ar.fiuba.tdd.tp.time.TimeCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static ar.fiuba.tdd.tp.Constants.*;
 
@@ -17,7 +18,7 @@ import static ar.fiuba.tdd.tp.Constants.*;
 public class TheEscape2Configuration implements GameBuilder {
 
     private Game game;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
     private List<Player> players;
     private int maxPlayers;
 
@@ -235,7 +236,7 @@ public class TheEscape2Configuration implements GameBuilder {
 
         List<TimeCommand> timedActions = setTimeCommandsBibliotecario(despertar, enojar);
 
-        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
+        IInterpreter startTimer = new HasValueState(Optional.of(bibliotecario), "dormido", true);
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
         giveItem.incorrectMovementMessage("You don't have anything, you little bastard. "
@@ -281,7 +282,7 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        playerGenerico = new Player(NONE);
+        playerGenerico = Optional.empty();
         fotoDesconocida = new Element("FotoDesconocida");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
@@ -335,7 +336,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createPlayer() {
-        playerGenerico.setCapacity(4);
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             newPlayer.setCapacity(4);
@@ -527,7 +527,7 @@ public class TheEscape2Configuration implements GameBuilder {
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-        IInterpreter winCondition = new ContainsPlayer(lastRoom, winConditionArray);
+        IInterpreter winCondition = new ContainsPlayer(Optional.of(lastRoom), winConditionArray);
 
         for (Player player : players) {
             player.setWinInterpreter(winCondition);
@@ -539,7 +539,7 @@ public class TheEscape2Configuration implements GameBuilder {
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
-        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(sotanoAbajo, playerEnSotanoAbajo);
+        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(Optional.of(sotanoAbajo), playerEnSotanoAbajo);
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
@@ -547,9 +547,9 @@ public class TheEscape2Configuration implements GameBuilder {
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(playerGenerico, bibliotecario, game);
-        IInterpreter bibliotecarioEnojado = new HasValueState(bibliotecario, "enojado", true);
-        IInterpreter bibliotecarioDespierto = new HasValueState(bibliotecario, "dormido", false);
+        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(playerGenerico, Optional.of(bibliotecario), game);
+        IInterpreter bibliotecarioEnojado = new HasValueState(Optional.of(bibliotecario), "enojado", true);
+        IInterpreter bibliotecarioDespierto = new HasValueState(Optional.of(bibliotecario), "dormido", false);
 
         IInterpreter bibliotecarioDespiertoYEnojado = new AndExpression(bibliotecarioDespierto, bibliotecarioEnojado);
         IInterpreter sameRoomAndBibliotecarioEnojado = new AndExpression(sameRoomBibliotecarioAndPlayer,
@@ -561,7 +561,7 @@ public class TheEscape2Configuration implements GameBuilder {
 
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(Optional.of(cuartoDeLaMuerte), playerEstaEnCuartoDeLaMuerte);
         IInterpreter escapeOneDeaths = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
         return new OrExpression(escapeOneDeaths, bibliotecarioYPlayerColado);
@@ -611,7 +611,7 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void setOpenWhenSleeped() {
-        IInterpreter sleepedBibliotecario = new HasValueState(bibliotecario, "dormido", true);
+        IInterpreter sleepedBibliotecario = new HasValueState(Optional.of(bibliotecario), "dormido", true);
         sleepedBibliotecario.setFailMessage("You can't cross because you haven't shown the credential.");
         ICommand openDoorSleeped = new MovePlayerTo(game, sleepedBibliotecario, "goto");
         openDoorSleeped.incorrectMovementMessage("You can't cross");
@@ -626,7 +626,7 @@ public class TheEscape2Configuration implements GameBuilder {
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-        IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
+        IInterpreter credencialBuena = new ContainsElements(Optional.of(credencial), tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
         credencialBuena.setFailMessage("No podes pasar sin una credencial valida!!");

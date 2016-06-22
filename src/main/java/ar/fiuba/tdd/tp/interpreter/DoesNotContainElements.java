@@ -4,20 +4,19 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class DoesNotContainElements extends TerminalExpression {
 
-    public DoesNotContainElements(Element element, ArrayList<String> elementsNames) {
+    public DoesNotContainElements(Optional<Element> element, ArrayList<String> elementsNames) {
         super(element, elementsNames);
     }
 
-    public boolean interpret() {
-        // Para los casos en que sea con el player generico, ya que el hasAllElements siempre devolveria false,
-        // y negado haria que este metodo devuelva true siempre, lo cual es incorrecto.
-        return !element.getClass().equals(Player.class) && !element.hasAllElements(elementsListNames);
-    }
-
     public boolean interpret(Player player) {
-        return !player.hasAllElements(elementsListNames);
+        if (element.isPresent()) {
+            return !element.get().hasAllElements(elementsListNames);
+        } else {
+            return !player.hasAllElements(elementsListNames);
+        }
     }
 }
