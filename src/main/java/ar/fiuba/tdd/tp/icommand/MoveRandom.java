@@ -74,7 +74,7 @@ public class MoveRandom extends ITimeCommand {
         this.destinationElement = destinationElement;
     }
 
-    private String doMove(Player elementToMove, Element destinationElement) {
+    protected String doMove(Player elementToMove, Element destinationElement) {
 
         // Saco el elemento del lugar origen y lo paso al destino
         containingElement.removeElement(elementToMove);
