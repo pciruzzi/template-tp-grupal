@@ -2,23 +2,25 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.utils.Random;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MoveRandom extends ITimeCommand {
 
     private List<Element> prohibitedRooms;
     private Element destinationElement;
     private Element containingElement;
+    private Random random;
 
-    public MoveRandom(String name) {
+    public MoveRandom(String name, Random random) {
         this.name = name;
         this.correctMovementMessage = "The ";
         this.incorrectMovementMessage = " is locked.";
         this.auxiliarMessage = " moved to the ";
         this.prohibitedRooms = new ArrayList<>();
+        this.random = random;
     }
 
     public String doTimeAction(Player elementToMove) {
@@ -45,9 +47,9 @@ public class MoveRandom extends ITimeCommand {
 
     private String sentToOtherRoom(Player elementToMove, List<Element> doors, int amountOfDoors) {
         if ( amountOfDoors > 0 ) {
-            Random random = new Random();
+//            Random random = new Random();
             // Elijo una puerta al azar
-            Element doorToUse = doors.get(random.nextInt(amountOfDoors));
+            Element doorToUse = doors.get(random.getRandomRoom(doors));
             Element next = doorToUse.getObjectiveElement();
 
             return doMove(elementToMove, next);

@@ -9,6 +9,7 @@ import ar.fiuba.tdd.tp.interpreter.terminalexpressions.*;
 import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
 import ar.fiuba.tdd.tp.time.SingleTimedAction;
 import ar.fiuba.tdd.tp.time.TimeCommand;
+import ar.fiuba.tdd.tp.utils.Random;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,23 +108,20 @@ public class TheEscape2Configuration implements GameBuilder {
 
     private MoveRandom moveRandom;
 
-    private String mockedMoveRandomDestination;
-
     public TheEscape2Configuration() {
         this.despertarBibliotecario = new SingleTimedAction(TIME_AWAKE, "despertar Bibliotecario");
         this.enojarBibliotecario    = new SingleTimedAction(TIME_AWAKE, "enojar Bibliotecario");
+        moveRandom = new MoveRandom("move", new Random());
         this.moverBibliotecario     = null;
     }
 
     public TheEscape2Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
-                                   TimeCommand moverBibliotecario, MoveRandom mockedMoveRandom,
-                                   String mockedMoveRandomDestination) {
+                                   TimeCommand moverBibliotecario, MoveRandom mockedMoveRandom) {
 
         this.despertarBibliotecario = despertarBibliotecario;
         this.enojarBibliotecario    = enojarBibliotecario;
         this.moverBibliotecario     = moverBibliotecario;
         this.moveRandom             = mockedMoveRandom;
-        this.mockedMoveRandomDestination = mockedMoveRandomDestination;
     }
 
     @Override
@@ -230,7 +228,7 @@ public class TheEscape2Configuration implements GameBuilder {
         bibliotecario = new Player(NON_PLAYER);
         bibliotecario.setName("Bibliotecario");
 
-        seBibliotecarioMovement();
+        setBibliotecarioMovement();
 
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
         despertar.auxiliarMessage(" se ha despertado luego de la borrachera.");
@@ -250,17 +248,10 @@ public class TheEscape2Configuration implements GameBuilder {
         game.addTimeElement(bibliotecario);
     }
 
-    private void seBibliotecarioMovement() {
+
+    private void setBibliotecarioMovement() {
         if ( moverBibliotecario == null ) {
             moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
-            moveRandom = new MoveRandom("move");
-
-        } else {
-            for (Element destinationElement : game.getContainersList() ) {
-                if (destinationElement.getName().equals(mockedMoveRandomDestination)) {
-                    moveRandom.setDestinationElement(destinationElement);
-                }
-            }
         }
     }
 
