@@ -1,52 +1,82 @@
+# TP Grupal - Tercera Entrega
 ![Build Status](https://travis-ci.org/pciruzzi/template-tp-grupal.svg)
 
-# TP Grupal - Primera Entrega
+## Uso
+
+Para el uso del TP, los pasos a seguir son:
+ 1. Correr el script travis.sh (`./travis.sh`), que se encarga de llamar al `gradlew assemble` (Compila), luego crear los archivos _jars_ y por último `gradlew check` (Corre chequeos y ejecuta tests).
+ 2. Abrir una terminal en la raíz del proyecto y ejecutar `./run.sh --server` para levantar un servidor.
+ 3. Dentro del servidor, ejecutar comandos del tipo `load game ar/fiuba/tdd/tp/model/XXXConfiguration.jar`, donde XXX será el nombre de algún juego.
+ 4. Abrir otras terminales en la raíz del proyecto y ejecutar `./run.sh --client` para levantar distintos clientes. Para conectarse al juego deseado, se debe saber en qué puerto fue creado dentro del servidor.
 
 ## Enunciado ##
 
-Se desea implementar un motor de generación de juegos tipo aventura gráfica (o similares).
+Se pide agregar las siguientes funcionalidades al motor de juegos:
 
-En ésta primera instancia se considerarán solo aventuras gráficas basadas en texto, el jugador ingresa comandos a través de una consola y el juego devuelve la salida correspondiente también en forma de texto.
-En ésta primera instancia el set de juegos a soportar será fijo y estará compuesto por los ejemplos mencionados al final del enunciado, más los juegos que el grupo quiera agregar (dentro de los comportamientos mencionados en los ejemplos).
-El tp tendrá los siguientes componentes:
- - Un **servidor** en donde se pueden cargar los juegos. El servidor debe inicializar el motor con el modelo del juego pedido y un port en donde escuchar. Los comandos que lleguen por dicho port se deben mandar al motor correspondiente. Es decir que el server tiene que mantener la relación port --> motor. 
- - Un **cliente**: se conecta a un servidor que esté ejecutando un juego y permite enviar comandos y recibir respuestas.
- - Un **motor**: Es el componente encargado de la carga y la ejecución del juego.
+ 1. Multiplayer.
 
-En el servidor:
-```
-> load game game1 [Enter]
-> game1 loaded and listening on port 8081
-> load game game2 [Enter]
-> game2 loaded and listening on port 8082
-```
-En el cliente:
-```
-> connect 127.0.0.1:8081 [Enter]
-> Welcome to game1!
-> ...
-> exit game [Enter]
-> bye!
-```
+    Mas de un player se puede conectar al juego, y comparten la misma instancia del juego.
+Si un jugador hace algo, la respuesta del comando se le notifica a todos los players para que se enteren de la acción realizada. La respuesta del comando la ve solo quien la ejecuta.
 
-```
-> connect 127.0.0.1:8082 [Enter]
-> Welcome to game2!
-> ...
-> exit game [Enter]
-> bye!
-```
+    Ejemplo en los clientes:
 
-El servidor tiene que soportar los siguientes comandos:
- - `load game [juego]`: carga “juego” y se queda esperando a que el jugador se conecte.
-El cliente tiene que soportar los siguientes comandos (independientes del juego):
- - `connet [ip:port]`: Trata de conectarse al juego escuchando en ip:port.
- - `exit game`: sale del juego actual.
- - `help [juego]`: Muestra una descripción de “juego”.
- 
-Cuando un cliente sale del juego el server mantiene el juego levantado esperando por otro jugador.
 
-La idea no es implementar estos juegos, sino diseñar un modelo que permita fácilmente la creación de los mismos.
+| cliente 1                               | cliente 2                             |
+| ----------------------------------------|---------------------------------------|
+| ` > connect 127.0.0.1:8081 [Enter]`   | `> connect 127.0.0.1:8081 [Enter]`  |
+| `> Welcome to game1, you are player 1!`   | `> Welcome to game1, you are player 2!` |
+| `> Player 1 join the game`                |                                       |
+| `> look around [Enter]`                 |                                       |
+| `> There’s a key and a door in the room.` | `> Player 1 execute: look around`        |
+|                                         | `> pick key [Enter]`                  |
+| `> Player 2 execute: pick key`              | `> There you go!`                       |
+| `> pick key [Enter]`                    |                                       |
+| `> I’m sorry, no key in the room`          |                                       |
+| `> open door [Enter]`                   |                                       |
+| `> Ey! Where do you go?! Room 2 is locked.`|                                      |
+|                                          | `> open door`                          |
+| `> Player 2 execute: open door`            | `> You enter room 2. You won the game!`|
+| `> Player 2 has WIN. The game is over.`    | `> bye!`                               |
+| `> Player 2 has exited`                    |                                      |
+| `> exit game [Enter]`                      |                                      |
+| `> bye!`                                |                                      |
+
+   Cada juego podrá configurarse si es multiplayer o no. Si es multiplayer podrá configurarse la condición de win y lost de cada uno, logrando que cada jugador tenga una misión distinta en el juego. Si se indica solo 1, se aplica la misma a todos los players.
+   No nos lo piden ahora pero nos dicen que a futuro se podría querer configurar condiciones de win y lost para un tipo de player, y que el player elija que quiere ser al loguearse, por ejemplo el player 1 se suma como policía, y el player 2 como ladrón al igual que el player 3, y los policías tienen ciertos objetivos y condiciones de Win y Lost, distintas que los ladrones.
+
+ 2. Agregar al motor el concepto de **"paso del tiempo"**, y que ciertas acciones se ejecuten automáticamente en cierto momento, por ejemplo:
+    - Cada 6 minutos el reloj se abre y sale el pajaro cucu sonando una campana.
+    - El bibliotecario se despierta a los 10 minutos de haberse dormido.
+    - A los 30 minutos de comenzado el juego se larga a llover.
+    - A romper una ventana el perro se despierta y ladra durante los siguientes 10 minutos
+    - Se pierde el juego si no se sale de la habitación antes de los 30 minutos de comenzado el juego o de haber entrado a la habitación por ejemplo.
+    - Que cada 5 minutos el bibliotecario o una araña cambie su posición a otra habitación de forma **random** de las que están conectadas a la suya.
+
+    El resultado de la acción se notifica al player o a todos los players:
+     - Pasaron 10 minutos y el bibliotecario se despertó:
+     - Notificacion: “El bibliotecario se ha desperado, ten cuidado si te encuentra!!”
+
+3. Concepto **Random**, algunas condiciones pueden basarse en un factor random para ver si se cumplen o no, para darle más incertidumbre al juego. Por ejemplo:
+     - Cada 5 minutos el humor del portero cambia en forma random entre buen humor o mal humor.
+     Si le pido una llave al portero si está de buen humor me la da sino no.
+     - Cada 5 minutos la araña cambia su posición a otra habitación de las conectadas a la habitación actual, elige en forma random a cual ir si hay mas de una posible elección.
+
+
+4. Actividad para validar en clase: "EL ESCAPE 2"
+
+Se pide modificar el juego del escape, para incorporar los siguientes escenarios. Subirlo a un branch llamado ejercicio-it3 y llevarlo a la entrega 3, para validarlo con los ayudantes. El mismo se usara para validar los nuevos requerimientos. 
+
+"EL ESCAPE 2"
+Pueden ingresar hasta 4 jugadores.
+El objetivo del Juego es que el primer personaje que salga del edificio donde se encuentra gana. 
+El juego se basa en el mismo del escape pero con los siguientes cambios:
+
+- El bibliotecario se despierta a los 2 minutos de haberse dormido.
+- Una vez despierto, cada 4 minutos el bibliotecario cambia su posición a otra habitación (elije de forma random entre las que están conectadas a la suya). Si cuando un jugador quiere ingresar a la biblioteca no está el bibliotecario entonces el jugador puede ingresar directamente.
+- Si el jugador ingresó a la biblioteca sin haberse autenticado con la credencial correcta, si el bibliotecario se cruza en alguna habitación con el jugador, el jugador pierde.
+
+
+
 
 >**Los requerimientos pueden (y van a) cambiar en cualquier momento.**
 
@@ -66,131 +96,20 @@ Durante la demo y posterior corrección se cargarán issues en GitHub que deben 
    - **que no compilen en Travis-CI.**
    - **con issues abiertos.**
    - **Que no se puedan utilizar**
+   - **Que no tengan documentación de uso del sistema**
+   - **Que no tengan documentación del diseño del sistema**
+
  - **No hay re-entrega.** Es responsabilidad del grupo realizar las consultas durante las 2-3 semanas disponibles para realizar el TP.
- - Si un alumno no puede concurrir a la demo, se aceptará la entrega pero dicho alumno figurará como ausente. Esto puede repercutir en la nota final.
-
- ## Ejemplos de Juegos ##
-
- ### Fetch quest ###
- El jugador comienza en una  habitación, con un palo ubicado en dicha habitación. Es necesario tomar el palo.
-```
- > look around [Enter]
- > There’s a stick in the room.
- > pick stick [Enter]
- > You won the game!
- ```
-### Abrir Puerta ###
-El jugador está en una habitación que contiene una  llave y una puerta. Gana al atravesar la puerta y pasar a la siguiente habitación.
-```
-> look around [Enter]
-> There’s a key and a door in the room.
-> open door. [Enter]
-> Ey! Where do you go?! Room 2 is locked.
-> pick key. [Enter]
-> There you go!
-> open door. [Enter]
-> You enter room 2. You won the game!
-```
-
-### Abrir Puerta 2 ###
-El jugador está en una habitación que contiene una caja con una llave dentro y una puerta. Gana al atravesar la puerta y pasar a la siguiente habitación.
-```
-> look around [Enter]
-> There’s a box and a door in the room.
-> open door. [Enter]
-> Ey! Where do you go?! Room 2 is locked.
-> What can I do with box? [Enter]
-> You can open/close the box?
-> open box.[Enter]
-> The box is opened!.
-> look around [Enter]
-> There’re a box, a key and a door in the room.
-> pick key. [Enter]
-> There you go!
-> open door. [Enter]
-> You enter room 2. You won the game!
-```
-
-### Objeto Maldito ###
-Hay tres habitaciones en serie: En la primera, hay un objeto “maldito” que el jugador debe poseer para abrir la primer puerta, pero del que no puede deshacerse por acción propia. La segunda puerta se abre si el jugador no posee el objeto maldito. Para ayudar al jugador, en la segunda habitación hay un ladrón que toma todos los objetos del jugador cuando interactúa con él. Gana al llegar a la tercer habitacion.
-
-```
->...
-> What can I do with thief? [Enter]
-> You can talk with thief: “Hello”, “Bye”.
-> Talk to thief “Hello” [Enter]
-> Hi!
-> The thief has just stolen your object!
-> ...
-```
-
-### Acertijo del lobo, la oveja y la col ###
-Hace mucho tiempo un granjero fue al mercado y compró un lobo , una oveja y una col. Para volver a su casa tenía que cruzar un río. El granjero dispone de una barca para cruzar a la otra orilla, pero en la barca solo caben él y una de sus compras.  Si el lobo se queda solo con la oveja se la come, si la oveja se queda sola con la col se la come. El reto del granjero era cruzar él mismo y dejar sus compras a la otra orilla del río, dejando cada compra intacta. ¿Cómo lo hizo?
-
-```
-> take sheep [Enter]
-> Ok
-> take wolf [Enter]
-> You can’t do that! The boat is full.
-> cross north-shore [Enter]
-> you have crossed!
-> leave sheep [Enter]
-> Ok
-> cross south-shore [Enter]
-> you have crossed!
-> take wolf [Enter]
-> Ok
-> cross north-shore [Enter]
-> crossed!
-> leave wolf [Enter]
-> You can’t do that! The wolf will eat the sheep!
-...
-```
-
-### Torres de Hanoi ###
-El juego empieza con 3 pilares donde donde el primero tiene un pila de discos, donde el disco de mas abajo de la pila es de mayor tamaño y siendo los otros consecutivamente de menor tamaño.
-
-El objetivo del juego es mover la pila de discos a otro pilar, cumpliendo las siguientes reglas:
- - Solo se puede mover un disco por vez.
- - Cada movimiento consiste en tomar el disco superior de una pila y en la sima de otra pila. Es decir solo se puede mover un disco que está en la sima de la pila.
- - Ningun disco se puede apilar sobre otro más pequeño.
-
-```
-> …
-> What can I do with stack 1? [Enter]
-> You can check top/move top.
-> check top stack 1 [Enter]
-> Size of top from stack 1 is 5.
-> check top stack 2 [Enter]
-> Size of top from stack 2 is 6
-> move top stack 1 stack 2 [Enter]
-> moved!
->...
-```
-
-### Busqueda del Tesoro ###
-Se tienen 5 habitaciones. Algunas están cerradas y otras no. En cada habitación hay cajas, baúles, armarios, inicialmente todos cerrados. Puede ser que dentro de un armario o un baúl haya cajas. En ellos hay escondidos distintos elementos que el jugador tiene que ir recolectando, pero nunca puede tener más de dos en su posesión, por lo cual debería ir dejandolos cuando no le sirvan más. En las cajas se puede guardar sólo un elemento, pero en los baúles y los armarios se pueden guardar más de uno. Los elementos que se pueden encontrar son:
- - **Llaves**: sirven para abrir puertas. Una llave funciona con una puerta en particular.
- - **Venenos**: Cuando el player encuentra un veneno, esto no lo mata pero por razones que no alcanza a comprender si intenta salir de la habitación se muere. El jugador se envenena simplemente al abrir la caja/baúl/armario que tiene el veneno.
- - **Antídotos**: Se usan para curar al player cuando encuentra un veneno. Los antídotos funcionan con cualquier veneno, así que mejor tener uno a mano!.
- - **Tesoro**
-
-El jugador gana al encontrar el tesoro y volver a la habitación inicial.
+ - Si un alumno no puede concurrir a la demo, se aceptará la entrega pero dicho alumno figurará como ausente. Esto puede repercutir en la nota final. El alumno debe avisar con anticipación que no estará presente y podrá ser evaluado posteriormente con preguntas sobre la entrega.
 
 
 ## Calendario tentativo ##
 
 | Fecha       |                  |
 |-----------  | -----------------|
-| 7 de Abril  | Armado de grupos |
-| 14 de Abril | Publicación 1ra Entrega |
-| 21 de Abril | |
-| 28 de Abril | **Primera Entrega** - Publicación 2da Entrega |
-| 5 de Mayo   | Entrega de notas 1ra Entrega |
-| 12 de Mayo  | |
-| 19 de Mayo  | **Segunda Entrega** - Publicación 3ra Entrega |
-| 26 de Mayo  | Entrega de notas 2da Entrega |
-| 2 de junio  | **Tercera Entrega** |
-| 9 de Junio  | Revisión |
-| 16 de Junio | Cierre de notas |
+| 26 de Mayo  | Publicación 3ra Entrega |
+| 2 de junio  |  |
+| 9 de Junio  | **Tercera Entrega** |
+| 16 de Junio | Revisión |
+| 23 de Junio | Cierre de notas |
 

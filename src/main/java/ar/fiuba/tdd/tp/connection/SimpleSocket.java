@@ -1,16 +1,13 @@
 package ar.fiuba.tdd.tp.connection;
 
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Writer;
-import ar.fiuba.tdd.tp.exceptions.ConnectionLostException;
-import ar.fiuba.tdd.tp.exceptions.ReadingException;
-import ar.fiuba.tdd.tp.exceptions.WritingException;
+import ar.fiuba.tdd.tp.console.Console;
+import ar.fiuba.tdd.tp.console.Writer;
+import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.*;
 import java.net.Socket;
 
-import static ar.fiuba.tdd.tp.Constants.ENCODING;
-import static ar.fiuba.tdd.tp.Constants.EO_MSG;
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class SimpleSocket {
 
@@ -21,7 +18,7 @@ public class SimpleSocket {
         this.writer = new Console();
     }
 
-    public void write(String command) throws WritingException {
+    public synchronized void write(String command) throws WritingException {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
             OutputStreamWriter osw = new OutputStreamWriter(bos, ENCODING);

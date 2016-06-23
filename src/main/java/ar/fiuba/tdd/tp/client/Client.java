@@ -1,30 +1,32 @@
 package ar.fiuba.tdd.tp.client;
 
-import ar.fiuba.tdd.tp.CommandReader;
-import ar.fiuba.tdd.tp.Console;
-import ar.fiuba.tdd.tp.Reader;
-import ar.fiuba.tdd.tp.Writer;
 import ar.fiuba.tdd.tp.connection.TCPInformation;
+import ar.fiuba.tdd.tp.console.*;
 import ar.fiuba.tdd.tp.exceptions.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
+
+import static ar.fiuba.tdd.tp.Constants.*;
 
 public class Client {
 
     private SocketClient socket;
     private Reader reader;
     private Writer writer;
+    private boolean exitedGame;
 
     public Client() {
         socket = new SocketClient();
         reader = new Console();
         writer = new Console();
+        this.exitedGame = false;
     }
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
         writer.write("Write the command 'connect <ip>:<port>'");
-        String connect = CommandReader.readCommand("connect");
+        //String connect = CommandReader.readCommand("connect");
+        String connect = "connect 127.0.0.1:8081"; //TODO: Borrar
         if (connect.matches("^connect \\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$")) {
             String parameters = connect.split(" ")[1];
             String[] ipPort = parameters.split(":");
@@ -42,18 +44,30 @@ public class Client {
     }
 
     public void playGame() {
-        String command = "";
+        ClientSocketReader socketReader = new ClientSocketReader(writer, socket, this);
+        Thread socketReaderThread = new Thread(socketReader);
         try {
-            this.readFromSocket(); //Leo mensaje de bienvenida del juego
-            while (! command.equals("exit")) {
-                command = this.readFromInput();
+            socketReaderThread.start();
+            while (! exitedGame && ! socketReader.getGameFinished()) {
+                String command = this.readFromInput();
                 this.writeToSocket(command);
-                this.readFromSocket();
+                if (command.equals(EXIT)) {
+                    this.exitedGame = true;
+                }
+                Thread.sleep(500); //Esto es porque sino se queda esperando a leer algo cuando se ejecuto exit (y ya se perdio la conexion)
             }
+        } catch (InterruptedException e) {
+            writer.writeError("Client: " + e.toString());
         } catch (ConnectionException e) {
             writer.writeError(e.getMsg());
         } finally {
-            socket.closeConnection();
+            try {
+                socketReaderThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                socket.closeConnection();
+            }
         }
     }
 
@@ -65,8 +79,17 @@ public class Client {
         socket.write(command);
     }
 
-    private void readFromSocket() throws ConnectionLostException, ReadingException {
-        String response = socket.read();
-        writer.write(response);
+    public boolean getExitedGame() {
+        return this.exitedGame;
     }
+
+//    private void readFromSocket() throws ConnectionLostException, ReadingException {
+//        writer.writeError("Leyendo del socket...");
+//        String response = socket.read();
+//        writer.writeError("Lei del socket");
+//        writer.write(response);
+//        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
+//            gameFinished = true;
+//        }
+//    }
 }
