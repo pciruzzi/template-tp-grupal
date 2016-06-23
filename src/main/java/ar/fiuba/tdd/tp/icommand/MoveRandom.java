@@ -47,7 +47,6 @@ public class MoveRandom extends ITimeCommand {
 
     private String sentToOtherRoom(Player elementToMove, List<Element> doors, int amountOfDoors) {
         if ( amountOfDoors > 0 ) {
-//            Random random = new Random();
             // Elijo una puerta al azar
             Element doorToUse = doors.get(random.getRandomRoom(doors));
             Element next = doorToUse.getObjectiveElement();
