@@ -34,6 +34,7 @@ MODEL="$ROOT/model"
 SERVER="$ROOT/server"
 SERVER_QUEUE="$SERVER/queue"
 TIME="$ROOT/time"
+UTILS="$ROOT/utils"
 
 CONSTANTS="$ROOT/Constants.class"
 
@@ -58,7 +59,7 @@ while true; do
 		-e|--engine)
 			manifest="Manifest-version: 1.0\n"
 			echo -e "$manifest" > "$ENGINE/$MANIFEST"
-			command+="cfm $ENGINE/Engine.jar $ENGINE/$MANIFEST $ENGINE/*.class $ICOMMAND/*.class $INTERPRETER_LOGIC/*.class $INTERPRETER_TERMINAL/*.class $MODEL/Game.class $MODEL/GameBuilder.class $TIME/*.class"
+			command+="cfm $ENGINE/Engine.jar $ENGINE/$MANIFEST $ENGINE/*.class $ICOMMAND/*.class $INTERPRETER/*.class $INTERPRETER_LOGIC/*.class $INTERPRETER_TERMINAL/*.class $MODEL/Game.class $MODEL/GameBuilder.class $TIME/*.class $UTILS/*.class"
 			eval "$command"
 			;;
 		-s|--server)
