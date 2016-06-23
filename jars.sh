@@ -28,9 +28,11 @@ ENGINE="$ROOT/engine"
 EXCEPTIONS="$ROOT/exceptions"
 ICOMMAND="$ROOT/icommand"
 INTERPRETER="$ROOT/interpreter"
+INTERPRETER_LOGIC="$INTERPRETER/logic"
+INTERPRETER_TERMINAL="$INTERPRETER/terminalexpressions"
 MODEL="$ROOT/model"
 SERVER="$ROOT/server"
-SERVERQUEUE="$SERVER/queue"
+SERVER_QUEUE="$SERVER/queue"
 TIME="$ROOT/time"
 
 CONSTANTS="$ROOT/Constants.class"
@@ -56,13 +58,13 @@ while true; do
 		-e|--engine)
 			manifest="Manifest-version: 1.0\n"
 			echo -e "$manifest" > "$ENGINE/$MANIFEST"
-			command+="cfm $ENGINE/Engine.jar $ENGINE/$MANIFEST $ENGINE/*.class $ICOMMAND/*.class $INTERPRETER/*.class $MODEL/Game.class $MODEL/GameBuilder.class $TIME/*.class"
+			command+="cfm $ENGINE/Engine.jar $ENGINE/$MANIFEST $ENGINE/*.class $ICOMMAND/*.class $INTERPRETER_LOGIC/*.class $INTERPRETER_TERMINAL/*.class $MODEL/Game.class $MODEL/GameBuilder.class $TIME/*.class"
 			eval "$command"
 			;;
 		-s|--server)
 			manifest="Manifest-version: 1.0\nMain-Class: $ROOT_JAVA.server.MainServer\nClass-Path: ../engine/Engine.jar\n"
 			echo -e "$manifest" > "$SERVER/$MANIFEST"
-			command+="cfm $SERVER/Server.jar $SERVER/$MANIFEST $SERVER/*.class $SERVERQUEUE/*.class $CONNECTION/*.class $EXCEPTIONS/*.class $CONSOLE/*.class $CONSTANTS $DRIVER/*.class"
+			command+="cfm $SERVER/Server.jar $SERVER/$MANIFEST $SERVER/*.class $SERVER_QUEUE/*.class $CONNECTION/*.class $EXCEPTIONS/*.class $CONSOLE/*.class $CONSTANTS $DRIVER/*.class"
 			eval "$command"
 			;;
 		-c|--client)

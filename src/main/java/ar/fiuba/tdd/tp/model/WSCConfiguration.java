@@ -4,6 +4,10 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.FalseExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.NotExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
 
 import java.util.ArrayList;
 import java.util.List;

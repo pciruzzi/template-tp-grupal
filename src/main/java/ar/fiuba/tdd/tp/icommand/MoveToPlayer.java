@@ -3,6 +3,7 @@ package ar.fiuba.tdd.tp.icommand;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.TrueExpression;
 import ar.fiuba.tdd.tp.model.Game;
 
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
-package ar.fiuba.tdd.tp.interpreter;
+package ar.fiuba.tdd.tp.interpreter.logic;
 
 import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 public class OrExpression extends LogicalConector {
 

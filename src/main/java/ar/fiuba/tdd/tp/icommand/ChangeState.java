@@ -2,7 +2,7 @@ package ar.fiuba.tdd.tp.icommand;
 
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
-import ar.fiuba.tdd.tp.interpreter.TrueExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.TrueExpression;
 
 public class ChangeState extends ITimeCommand {
 

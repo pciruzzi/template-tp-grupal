@@ -5,6 +5,11 @@ import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.engine.State;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsPlayer;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.HasValueState;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
-package ar.fiuba.tdd.tp.interpreter;
+package ar.fiuba.tdd.tp.interpreter.terminalexpressions;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 import java.util.List;
 import java.util.Optional;

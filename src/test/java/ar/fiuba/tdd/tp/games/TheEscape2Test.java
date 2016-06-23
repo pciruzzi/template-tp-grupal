@@ -1,17 +1,15 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.icommand.MoveRandom;
+import ar.fiuba.tdd.tp.mocks.MockedTimedCommand;
+import ar.fiuba.tdd.tp.mocks.MockedTimer;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
-import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
-import ar.fiuba.tdd.tp.time.SingleTimedAction;
 import org.junit.Test;
-
-import java.util.Timer;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;

@@ -3,6 +3,11 @@ package ar.fiuba.tdd.tp;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.DoesNotContainElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.TerminalExpression;
 import org.junit.Test;
 
 import java.util.ArrayList;

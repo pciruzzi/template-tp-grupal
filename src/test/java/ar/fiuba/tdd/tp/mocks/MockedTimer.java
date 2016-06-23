@@ -1,6 +1,4 @@
-package ar.fiuba.tdd.tp;
-
-import ar.fiuba.tdd.tp.time.TimeCommand;
+package ar.fiuba.tdd.tp.mocks;
 
 import java.util.*;
 

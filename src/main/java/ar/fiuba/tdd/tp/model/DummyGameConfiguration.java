@@ -3,8 +3,8 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
-import ar.fiuba.tdd.tp.interpreter.ContainsElements;
 import ar.fiuba.tdd.tp.interpreter.IInterpreter;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
 
 import java.util.ArrayList;
 import java.util.List;

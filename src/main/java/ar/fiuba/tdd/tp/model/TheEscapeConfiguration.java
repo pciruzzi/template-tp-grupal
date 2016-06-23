@@ -3,12 +3,15 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsPlayer;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.DoesNotContainElements;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static ar.fiuba.tdd.tp.Constants.*;
 
 @SuppressWarnings("CPD-START")
 
