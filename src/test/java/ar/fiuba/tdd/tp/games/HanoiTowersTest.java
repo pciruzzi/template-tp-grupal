@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.model.*;

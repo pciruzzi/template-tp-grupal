@@ -11,20 +11,21 @@ public class Time {
     private Timer timer;
     private ArrayList<TimeCommand> timeCommands;
     private Engine engine;
-    private BroadcastQueue queue;
 
-    public Time(Engine engine, BroadcastQueue queue) {
+    public Time(Engine engine) {
         timer = new Timer();
         timeCommands = new ArrayList<>();
         this.engine = engine;
-        this.queue = queue;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 
     public void start() {
         for (TimeCommand command: timeCommands) {
             command.setEngine(this.engine);
             command.setTimer(timer);
-            command.setBroadcastQueue(queue);
             if ( command.getStart() ) {
                 command.startTimeAction();
             }

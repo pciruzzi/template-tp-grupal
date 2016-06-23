@@ -201,12 +201,12 @@ public class Game {
 
     private boolean hasWon(int playerID) {
         Player player = getPlayer(playerID);
-        return (player.getWinInterpreter().interpret() || player.getWinInterpreter().interpret(player));
+        return player.getWinInterpreter().interpret(player);
     }
 
     private boolean hasLost(int playerID) {
         Player player = getPlayer(playerID);
-        return (player.getLosingInterpreter().interpret() || player.getLosingInterpreter().interpret(player));
+        return player.getLosingInterpreter().interpret(player);
     }
 
     public Map<String, Element> calculateVisibleElements(int id) {
@@ -251,11 +251,6 @@ public class Game {
     }
 
     public void addContainer(Element element) {
-        for ( Element room : containersList) {
-            if ( room.getName().equals(element.getName()) ) {
-//                System.out.println("You are adding the same room twice to the game: " + room.getName());
-            }
-        }
         containersList.add(element);
     }
 

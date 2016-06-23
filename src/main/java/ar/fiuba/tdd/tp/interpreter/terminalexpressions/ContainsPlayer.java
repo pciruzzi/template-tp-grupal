@@ -1,22 +1,20 @@
-package ar.fiuba.tdd.tp.interpreter;
+package ar.fiuba.tdd.tp.interpreter.terminalexpressions;
 
 import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ContainsPlayer extends TerminalExpression {
 
-    public ContainsPlayer(Element element, ArrayList<String> elementsNames) {
+    public ContainsPlayer(Optional<Element> element, ArrayList<String> elementsNames) {
         super(element, elementsNames);
     }
 
-    public boolean interpret() {
-        return element.hasAllElements(elementsListNames);
-    }
-
     public boolean interpret(Player player) {
+        Element elemento = element.isPresent() ? element.get() : player;
         List<String> newList = new ArrayList<>();
         for (String element : elementsListNames) {
             String newElement = element;
@@ -25,6 +23,6 @@ public class ContainsPlayer extends TerminalExpression {
             }
             newList.add(newElement);
         }
-        return element.hasAllElements(newList);
+        return elemento.hasAllElements(newList);
     }
 }

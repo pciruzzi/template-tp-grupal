@@ -93,7 +93,7 @@ public class Dequeuer implements Runnable {
             actualInteractor.write("The player " + command.getPlayer() + " has entered the game!");
         } else if (command.isBroadcast()) { //Como los mensajes de broadcast entran con player = -1, se enviaran a todos
             actualInteractor.write(command.getCommmand());
-            writer.write("Enviando mensaje broadcast: " + command.getCommmand()); //TODO: Borrar!
+            writer.write("Enviando mensaje broadcast: " + command.getCommmand());
         } else {
             actualInteractor.write("Player " + command.getPlayer() + " execute: " + command.getCommmand());
         }

@@ -5,10 +5,10 @@ import ar.fiuba.tdd.tp.engine.Player;
 
 public class ITimeCommand {
 
-    String name;
-    String correctMovementMessage;
-    String incorrectMovementMessage;
-    String auxiliarMessage;
+    protected String name;
+    protected String correctMovementMessage;
+    protected String incorrectMovementMessage;
+    protected String auxiliarMessage;
 
     public String doTimeAction(Element element) {
         return "Incorrect action de element en ITimeCommand: " + name;

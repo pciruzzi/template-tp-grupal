@@ -1,4 +1,4 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.engine.Engine;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class OpenDoor2Test extends InitializationsForTests{
+public class OpenDoor2Test extends InitializationsForTests {
 
     private static final int id = 0;
 

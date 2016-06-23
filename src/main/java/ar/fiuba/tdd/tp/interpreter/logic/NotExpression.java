@@ -1,6 +1,7 @@
-package ar.fiuba.tdd.tp.interpreter;
+package ar.fiuba.tdd.tp.interpreter.logic;
 
 import ar.fiuba.tdd.tp.engine.Player;
+import ar.fiuba.tdd.tp.interpreter.IInterpreter;
 
 public class NotExpression implements IInterpreter {
 
@@ -10,10 +11,6 @@ public class NotExpression implements IInterpreter {
     public NotExpression(IInterpreter interpreter) {
         this.interpreter = interpreter;
         this.failMessage = null;
-    }
-
-    public boolean interpret() {
-        return !(interpreter.interpret());
     }
 
     public boolean interpret(Player player) {

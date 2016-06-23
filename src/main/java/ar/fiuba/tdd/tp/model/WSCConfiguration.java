@@ -4,9 +4,14 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.FalseExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.NotExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -55,17 +60,17 @@ public class WSCConfiguration implements GameBuilder {
         ArrayList<String> sheepCabbage = buildCondition("sheep", "cabbage");
         ArrayList<String> sheepWolf = buildCondition("wolf", "sheep");
 
-        IInterpreter southSheepCabbage = new ContainsElements(southShore,sheepCabbage);
+        IInterpreter southSheepCabbage = new ContainsElements(Optional.of(southShore),sheepCabbage);
         southSheepCabbage.setFailMessage("The wolf will eat the sheep!");
-        IInterpreter southSheepWolf = new ContainsElements(southShore,sheepWolf);
+        IInterpreter southSheepWolf = new ContainsElements(Optional.of(southShore),sheepWolf);
         southSheepWolf.setFailMessage("The sheep will eat the cabbage!");
 
         IInterpreter orSouth = new OrExpression(southSheepCabbage, southSheepWolf);
         orSouth.setFailMessage("You can't do that! They'll eat other!");
 
-        IInterpreter northSheepCabbage = new ContainsElements(northShore,sheepCabbage);
+        IInterpreter northSheepCabbage = new ContainsElements(Optional.of(northShore),sheepCabbage);
         northSheepCabbage.setFailMessage("The wolf will eat the sheep!");
-        IInterpreter northSheepWolf = new ContainsElements(northShore,sheepWolf);
+        IInterpreter northSheepWolf = new ContainsElements(Optional.of(northShore),sheepWolf);
         northSheepWolf.setFailMessage("The sheep will eat the cabbage!");
 
         IInterpreter orNorth = new OrExpression(northSheepCabbage, northSheepWolf);
@@ -142,7 +147,7 @@ public class WSCConfiguration implements GameBuilder {
         winElements.add("wolf");
         winElements.add("sheep");
         winElements.add("cabbage");
-        winInterpreter = new ContainsElements(northShore,winElements);
+        winInterpreter = new ContainsElements(Optional.of(northShore),winElements);
     }
 
     private void setHelpAndExitCommand() {

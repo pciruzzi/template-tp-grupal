@@ -3,12 +3,17 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.*;
 import ar.fiuba.tdd.tp.time.ScheduledTimedAction;
 import ar.fiuba.tdd.tp.time.SingleTimedAction;
 import ar.fiuba.tdd.tp.time.TimeCommand;
+import ar.fiuba.tdd.tp.utils.Random;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static ar.fiuba.tdd.tp.Constants.*;
 
@@ -17,7 +22,7 @@ import static ar.fiuba.tdd.tp.Constants.*;
 public class TheEscape2Configuration implements GameBuilder {
 
     private Game game;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
     private List<Player> players;
     private int maxPlayers;
 
@@ -81,7 +86,6 @@ public class TheEscape2Configuration implements GameBuilder {
     private Element ventana;
 
     // Los elementos que se ejecutan por tiempo
-//    private Element relojCucu;
     private Player bibliotecario;
 
     // Los ICommands
@@ -96,7 +100,7 @@ public class TheEscape2Configuration implements GameBuilder {
     private ICommand pasarBibliotecario;
     private ICommand move;
     private ICommand moveLibroNada;
-    private ICommand giveItem;
+    private MoveFromPlayer giveItem;
 
     private TimeCommand despertarBibliotecario;
     private TimeCommand enojarBibliotecario;
@@ -107,15 +111,17 @@ public class TheEscape2Configuration implements GameBuilder {
     public TheEscape2Configuration() {
         this.despertarBibliotecario = new SingleTimedAction(TIME_AWAKE, "despertar Bibliotecario");
         this.enojarBibliotecario    = new SingleTimedAction(TIME_AWAKE, "enojar Bibliotecario");
+        moveRandom = new MoveRandom("move", new Random());
         this.moverBibliotecario     = null;
     }
 
     public TheEscape2Configuration(TimeCommand despertarBibliotecario, TimeCommand enojarBibliotecario,
-                                   TimeCommand moverBibliotecario) {
+                                   TimeCommand moverBibliotecario, MoveRandom mockedMoveRandom) {
 
         this.despertarBibliotecario = despertarBibliotecario;
         this.enojarBibliotecario    = enojarBibliotecario;
         this.moverBibliotecario     = moverBibliotecario;
+        this.moveRandom             = mockedMoveRandom;
     }
 
     @Override
@@ -132,7 +138,6 @@ public class TheEscape2Configuration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-//        createTimeEvents();
 
         setHelpCommand();
         setExitCommand();
@@ -187,15 +192,6 @@ public class TheEscape2Configuration implements GameBuilder {
         cuartoDeLaMuerte.addCommand(exit);
     }
 
-//    private void createTimeEvents() {
-//        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-//        relojCucu.addCommand(cucu);
-//        relojCucu.changeState("visible", true);
-//        pasillo.addElement(relojCucu);
-//        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
-//        game.addTimeCommand(cucuClock);
-//    }
-
     private void initializeRooms() {
         pasillo = new Element("Pasillo");
         salonUno = new Element("Salon1");
@@ -207,6 +203,8 @@ public class TheEscape2Configuration implements GameBuilder {
         sotanoAbajo = new Element("Sotano Abajo");
         lastRoom = new Element("LastRoom");
         cuartoDeLaMuerte = new Element("Cuarto de la muerte");
+
+        addRoomsToGame();
     }
 
     private void initializeElements() {
@@ -223,7 +221,6 @@ public class TheEscape2Configuration implements GameBuilder {
         ventana = new Element("Ventana");
         llave = new Element("Llave");
 
-//        relojCucu = new Player(NON_PLAYER);
         setMovementOfBibliotecario();
     }
 
@@ -231,15 +228,7 @@ public class TheEscape2Configuration implements GameBuilder {
         bibliotecario = new Player(NON_PLAYER);
         bibliotecario.setName("Bibliotecario");
 
-        if ( moverBibliotecario == null ) {
-            moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
-            moveRandom = new MoveRandom("move");
-//            moveRandom.addProhibitedRoom(biblioteca);
-//            moveRandom.addProhibitedRoom(pasillo);
-        } else {
-            moveRandom = new MockedMoveRandom("move", biblioteca);
-        }
-        //moveRandom.auxiliarMessage("El Bibliotecario se desperto y esta enfurecido!!!\n");
+        setBibliotecarioMovement();
 
         ITimeCommand despertar = new ChangeState("despertar", "dormido", false);
         despertar.auxiliarMessage(" se ha despertado luego de la borrachera.");
@@ -248,13 +237,22 @@ public class TheEscape2Configuration implements GameBuilder {
 
         List<TimeCommand> timedActions = setTimeCommandsBibliotecario(despertar, enojar);
 
-        IInterpreter startTimer = new HasValueState(bibliotecario, "dormido", true);
+        IInterpreter startTimer = new HasValueState(Optional.of(bibliotecario), "dormido", true);
         giveItem        = new MoveFromPlayer("give Licor", game, "Botella", startTimer, timedActions );
         giveItem.correctMovementMessage("");
-        giveItem.incorrectMovementMessage("Hic!");
-        giveItem.auxiliarMessage("");
+        giveItem.incorrectMovementMessage("You don't have anything, you little bastard. "
+                + "Bring me a Chivas Regal or get out of here!!!");
+        giveItem.auxiliarMessage("Hic!");
+        giveItem.changePlayerState("colado", true);
 
         game.addTimeElement(bibliotecario);
+    }
+
+
+    private void setBibliotecarioMovement() {
+        if ( moverBibliotecario == null ) {
+            moverBibliotecario = new ScheduledTimedAction(TIME_MOVE, "move Bibliotecario");
+        }
     }
 
     private List<TimeCommand> setTimeCommandsBibliotecario(ITimeCommand despertar, ITimeCommand enojar) {
@@ -278,7 +276,7 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        playerGenerico = new Player(NONE);
+        playerGenerico = Optional.empty();
         fotoDesconocida = new Element("FotoDesconocida");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
@@ -332,7 +330,6 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createPlayer() {
-        playerGenerico.setCapacity(4);
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             newPlayer.setCapacity(4);
@@ -348,6 +345,8 @@ public class TheEscape2Configuration implements GameBuilder {
 
             newPlayer.addElement(fotoBuena);
             newPlayer.addElement(lapicera);
+
+            newPlayer.addState(new State("colado", false, false));
 
             players.add(newPlayer);
         }
@@ -518,12 +517,11 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void createLastRoomAndCondicionesDeMorir() {
-        addRoomsToGame();
 
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-        IInterpreter winCondition = new ContainsPlayer(lastRoom, winConditionArray);
+        IInterpreter winCondition = new ContainsPlayer(Optional.of(lastRoom), winConditionArray);
 
         for (Player player : players) {
             player.setWinInterpreter(winCondition);
@@ -535,7 +533,7 @@ public class TheEscape2Configuration implements GameBuilder {
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
-        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(sotanoAbajo, playerEnSotanoAbajo);
+        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(Optional.of(sotanoAbajo), playerEnSotanoAbajo);
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
@@ -543,20 +541,24 @@ public class TheEscape2Configuration implements GameBuilder {
 
         IInterpreter playerNoTieneMartilloYEstaEnSotanoAbajo = new AndExpression(estasEnSotanoAbajo, noTenesMartillo);
 
-        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(playerGenerico, bibliotecario, game);
-        IInterpreter bibliotecarioEnojado = new HasValueState(bibliotecario, "enojado", true);
-        IInterpreter bibliotecarioDespierto = new HasValueState(bibliotecario, "dormido", false);
+        IInterpreter sameRoomBibliotecarioAndPlayer = new ElementsInSameContainer(playerGenerico, Optional.of(bibliotecario), game);
+        IInterpreter bibliotecarioEnojado = new HasValueState(Optional.of(bibliotecario), "enojado", true);
+        IInterpreter bibliotecarioDespierto = new HasValueState(Optional.of(bibliotecario), "dormido", false);
 
         IInterpreter bibliotecarioDespiertoYEnojado = new AndExpression(bibliotecarioDespierto, bibliotecarioEnojado);
         IInterpreter sameRoomAndBibliotecarioEnojado = new AndExpression(sameRoomBibliotecarioAndPlayer,
                 bibliotecarioDespiertoYEnojado);
 
+        IInterpreter playerColado = new HasValueState(playerGenerico, "colado", true);
+
+        IInterpreter bibliotecarioYPlayerColado = new AndExpression(sameRoomAndBibliotecarioEnojado, playerColado);
+
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(Optional.of(cuartoDeLaMuerte), playerEstaEnCuartoDeLaMuerte);
         IInterpreter escapeOneDeaths = new OrExpression(estasEnCuartoDeLaMuerte, playerNoTieneMartilloYEstaEnSotanoAbajo);
 
-        return new OrExpression(escapeOneDeaths, sameRoomAndBibliotecarioEnojado);
+        return new OrExpression(escapeOneDeaths, bibliotecarioYPlayerColado);
     }
 
     // Agrega los cuartos por donde puede encontrarse el bibliotecario con el player y hacer que este pierda
@@ -603,8 +605,8 @@ public class TheEscape2Configuration implements GameBuilder {
     }
 
     private void setOpenWhenSleeped() {
-        IInterpreter sleepedBibliotecario = new HasValueState(bibliotecario, "dormido", true);
-        sleepedBibliotecario.setFailMessage("You can't cross because bibliotecario is angry with you!");
+        IInterpreter sleepedBibliotecario = new HasValueState(Optional.of(bibliotecario), "dormido", true);
+        sleepedBibliotecario.setFailMessage("You can't cross because you haven't shown the credential.");
         ICommand openDoorSleeped = new MovePlayerTo(game, sleepedBibliotecario, "goto");
         openDoorSleeped.incorrectMovementMessage("You can't cross");
         openDoorSleeped.correctMovementMessage("You have Crossed to the Biblioteca");
@@ -618,18 +620,11 @@ public class TheEscape2Configuration implements GameBuilder {
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-        IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
+        IInterpreter credencialBuena = new ContainsElements(Optional.of(credencial), tieneFotoBuena);
 
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
         credencialBuena.setFailMessage("No podes pasar sin una credencial valida!!");
         playerWithCredential.setFailMessage("No podes pasar sin una credencial valida!!");
-
-//        ArrayList<String> tieneLicor = new ArrayList<>();
-//        tieneLicor.add("Botella");
-//        IInterpreter conLicor = new ContainsElements(playerGenerico, tieneLicor);
-
-//        IInterpreter puedePasar = new OrExpression(conLicor, credencialConFoto);
-//        puedePasar.setFailMessage("No podes pasar y me voy a acordar de tu cara!");
 
         pasarBibliotecario = new MovePlayerTo(game, credencialConFoto,"show credencial");
         bibliotecario.addCommand(pasarBibliotecario);

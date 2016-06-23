@@ -1,6 +1,8 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.games;
 
 import ar.fiuba.tdd.tp.model.*;
+import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
+import ar.fiuba.tdd.tp.server.queue.EventQueue;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.Constants.*;
@@ -11,8 +13,14 @@ public class TresureQuestTest {
     private static final int id = 0;
 
     private Game initializeGame() {
+
         TreasureQuestConfiguration gameConfiguration = new TreasureQuestConfiguration();
-        return gameConfiguration.build();
+        Game game = gameConfiguration.build();
+
+        BroadcastQueue queue = new EventQueue();
+        game.setQueue(queue);
+
+        return game;
     }
 
     @Test
@@ -152,24 +160,22 @@ public class TresureQuestTest {
                 + "You have been healed :)",game.play(id, "open", "box one"));
     }
 
-//    TODO: Este test?
-//    @Test
-//    public void enterPoisonedToRoom4LoosesTheGame() {
-//        Game game = this.initializeGame();
-//        game.createPlayer();
-//        game.play(id, "pick","pokemon");
-//        game.play(id, "open","door");
-//        game.play(id, "open","door to three");
-//        game.play(id, "drop","pokemon");
-//        game.play(id, "pick","key");
-//        game.play(id, "open", "door to four");
-//        game.play(id, "open","wardrobe");
-//        game.play(id, "open","chest");
-//        game.play(id, "open","door to five");
-//        game.play(id, "open", "box one");
-//        //System.out.println(game.play(id, "open", "door to four"));
-//        assertEquals(GAME_LOST,game.play(id, "open", "door to four"));
-//    }
+    @Test
+    public void enterPoisonedToRoom4LoosesTheGame() {
+        Game game = this.initializeGame();
+        game.createPlayer();
+        game.play(id, "pick","pokemon");
+        game.play(id, "open","door");
+        game.play(id, "open","door to three");
+        game.play(id, "drop","pokemon");
+        game.play(id, "pick","key");
+        game.play(id, "open", "door to four");
+        game.play(id, "open","wardrobe");
+        game.play(id, "open","chest");
+        game.play(id, "open","door to five");
+        game.play(id, "open", "box one");
+        assertEquals(GAME_LOST,game.play(id, "open", "door to four"));
+    }
 
     @Test
     public void enterRoom1WithTreasureWinsGame() {

@@ -4,9 +4,14 @@ import ar.fiuba.tdd.tp.engine.Element;
 import ar.fiuba.tdd.tp.engine.Player;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.FalseExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsPlayer;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.DoesNotContainElements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
@@ -20,7 +25,7 @@ public class EvilThingConfiguration implements GameBuilder {
     private Element doorTwoThree;
     private Element doorTwoOne;
     private Element thief;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
     private List<Player> players;
     private int maxPlayers;
 
@@ -51,7 +56,7 @@ public class EvilThingConfiguration implements GameBuilder {
         for (Player player : players) {
             ArrayList<String> winConditionsArray = new ArrayList<>();
             winConditionsArray.add("player");
-            IInterpreter winCondition = new ContainsPlayer(roomThree, winConditionsArray);
+            IInterpreter winCondition = new ContainsPlayer(Optional.of(roomThree), winConditionsArray);
             player.setWinInterpreter(winCondition);
 
             IInterpreter loseInterpreter = new FalseExpression();
@@ -105,8 +110,7 @@ public class EvilThingConfiguration implements GameBuilder {
         doorOneTwo.addCommand(openDoorOneTwo);
         ICommand openDoorTwoOne = new MovePlayerTo(game, "open");
         doorTwoOne.addCommand(openDoorTwoOne);
-        //TODO: Que onda esto? Hay que hacerle algo a los players?
-        playerGenerico.addElement(new Element("key"));
+        //playerGenerico.addElement(new Element("key"));
         IInterpreter door2Condition = new DoesNotContainElements(playerGenerico, doorRequirements);
         door2Condition.setFailMessage("Ey! You can't do that! The otherDoor is locked");
         ICommand openDoorTwoThree = new MovePlayerTo(game, door2Condition, "open");
@@ -143,7 +147,7 @@ public class EvilThingConfiguration implements GameBuilder {
         doorTwoThree = new Element("otherDoor");
         doorTwoThree.changeState("visible",true);
         roomOne = new Element("roomOne");
-        playerGenerico = new Player(-1);
+        playerGenerico = Optional.empty();
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             players.add(newPlayer);

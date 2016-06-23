@@ -25,8 +25,7 @@ public class Client {
 
     public TCPInformation readServerIPAndPort() throws ExitException, InvalidIPPortException {
         writer.write("Write the command 'connect <ip>:<port>'");
-        //String connect = CommandReader.readCommand("connect");
-        String connect = "connect 127.0.0.1:8081"; //TODO: Borrar
+        String connect = CommandReader.readCommand("connect");
         if (connect.matches("^connect \\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$")) {
             String parameters = connect.split(" ")[1];
             String[] ipPort = parameters.split(":");
@@ -83,13 +82,4 @@ public class Client {
         return this.exitedGame;
     }
 
-//    private void readFromSocket() throws ConnectionLostException, ReadingException {
-//        writer.writeError("Leyendo del socket...");
-//        String response = socket.read();
-//        writer.writeError("Lei del socket");
-//        writer.write(response);
-//        if (response.equals(GAME_WON) || response.equals(GAME_LOST)) {
-//            gameFinished = true;
-//        }
-//    }
 }

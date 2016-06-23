@@ -3,18 +3,22 @@ package ar.fiuba.tdd.tp.model;
 import ar.fiuba.tdd.tp.engine.*;
 import ar.fiuba.tdd.tp.icommand.*;
 import ar.fiuba.tdd.tp.interpreter.*;
+import ar.fiuba.tdd.tp.interpreter.logic.AndExpression;
+import ar.fiuba.tdd.tp.interpreter.logic.OrExpression;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsElements;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.ContainsPlayer;
+import ar.fiuba.tdd.tp.interpreter.terminalexpressions.DoesNotContainElements;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static ar.fiuba.tdd.tp.Constants.*;
+import java.util.Optional;
 
 @SuppressWarnings("CPD-START")
 
 public class TheEscapeConfiguration implements GameBuilder {
 
     private Game game;
-    private Player playerGenerico;
+    private Optional<Element> playerGenerico;
 
     private List<Player> players;
     private int maxPlayers;
@@ -105,8 +109,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         createICommands();
         createPlayer();
         createRooms();
-//        createTimeEvents();
-
         setHelpCommand();
         setExitCommand();
 
@@ -160,15 +162,6 @@ public class TheEscapeConfiguration implements GameBuilder {
         cuartoDeLaMuerte.addCommand(exit);
     }
 
-//    private void createTimeEvents() {
-//        ICommand cucu = new PrintMessage("sonar","CUCU... CUCU...");
-//        relojCucu.addCommand(cucu);
-//        relojCucu.changeState("visible", true);
-//        pasillo.addElement(relojCucu);
-//        TimeCommand cucuClock = new ScheduledTimedAction(10000,"sonar Reloj");
-//        game.addTimeCommand(cucuClock);
-//    }
-
     private void initializeRooms() {
         pasillo = new Element("Pasillo");
         salonUno = new Element("Salon1");
@@ -198,7 +191,7 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void initializeFirstGroupOfElements() {
-        playerGenerico = new Player(NONE);
+        playerGenerico = Optional.empty();
         fotoDesconocida = new Element("FotoDesconocida");
         martillo = new Element("Martillo");
         destornillador1 = new Element("Destornillador 1");
@@ -241,7 +234,6 @@ public class TheEscapeConfiguration implements GameBuilder {
     }
 
     private void createPlayer() {
-        playerGenerico.setCapacity(4);
         for (int i = 0; i < maxPlayers; i++) {
             Player newPlayer = new Player(i);
             newPlayer.setCapacity(4);
@@ -425,7 +417,7 @@ public class TheEscapeConfiguration implements GameBuilder {
         lastRoom.addCommand(lookAround);
         ArrayList<String> winConditionArray = new ArrayList<>();
         winConditionArray.add("player");
-        IInterpreter winCondition = new ContainsPlayer(lastRoom, winConditionArray);
+        IInterpreter winCondition = new ContainsPlayer(Optional.of(lastRoom), winConditionArray);
         IInterpreter losingInterpreter = createLosingInterpreter();
 
         for (Player player : players) {
@@ -437,11 +429,11 @@ public class TheEscapeConfiguration implements GameBuilder {
     private IInterpreter createLosingInterpreter() {
         ArrayList<String> playerEstaEnCuartoDeLaMuerte = new ArrayList<>();
         playerEstaEnCuartoDeLaMuerte.add("player");
-        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(cuartoDeLaMuerte, playerEstaEnCuartoDeLaMuerte);
+        IInterpreter estasEnCuartoDeLaMuerte = new ContainsPlayer(Optional.of(cuartoDeLaMuerte), playerEstaEnCuartoDeLaMuerte);
 
         ArrayList<String> playerEnSotanoAbajo = new ArrayList<>();
         playerEnSotanoAbajo.add("player");
-        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(sotanoAbajo, playerEnSotanoAbajo);
+        IInterpreter estasEnSotanoAbajo = new ContainsPlayer(Optional.of(sotanoAbajo), playerEnSotanoAbajo);
 
         ArrayList<String> playerNoTieneMartillo = new ArrayList<>();
         playerNoTieneMartillo.add("Martillo");
@@ -477,7 +469,7 @@ public class TheEscapeConfiguration implements GameBuilder {
 
         ArrayList<String> tieneFotoBuena = new ArrayList<>();
         tieneFotoBuena.add("Foto");
-        IInterpreter credencialBuena = new ContainsElements(credencial, tieneFotoBuena);
+        IInterpreter credencialBuena = new ContainsElements(Optional.of(credencial), tieneFotoBuena);
         IInterpreter credencialConFoto = new AndExpression(playerWithCredential, credencialBuena);
 
         ArrayList<String> tieneLicor = new ArrayList<>();

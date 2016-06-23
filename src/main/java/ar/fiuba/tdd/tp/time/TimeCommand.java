@@ -13,13 +13,12 @@ public abstract class TimeCommand {
     protected Timer timer;
     private int timeOfAction;
     protected String command;
-    protected BroadcastQueue queue;
     private boolean startAtBegining;
 
     public TimeCommand(int timeOfAction, String command) {
         this.timeOfAction = timeOfAction;
         this.command = command;
-        startAtBegining = true;
+        this.startAtBegining = true;
     }
 
     public TimerTask start() {
@@ -40,10 +39,6 @@ public abstract class TimeCommand {
 
     public void setTimer(Timer time) {
         this.timer = time;
-    }
-
-    public void setBroadcastQueue(BroadcastQueue queue) {
-        this.queue = queue;
     }
 
     public void setStart(boolean start) {

@@ -6,6 +6,7 @@ import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.time.Time;
 
 import java.util.List;
+import java.util.Timer;
 
 public class Engine {
 
@@ -16,7 +17,7 @@ public class Engine {
 
     public Engine(BroadcastQueue queue) {
         this.commandParser = new CommandParser();
-        this.time = new Time(this, queue);
+        this.time = new Time(this);
         this.queue = queue;
     }
 
@@ -25,6 +26,10 @@ public class Engine {
         game.setQueue(this.queue);
         time.setTimeTasks(game.getTimeCommands());
         time.start();
+    }
+
+    public void setTimer(Timer timer) {
+        time.setTimer(timer);
     }
 
     public int createPlayer() {

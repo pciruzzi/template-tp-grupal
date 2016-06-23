@@ -1,0 +1,4 @@
+//create multiple jars
+task jars(type: Exec) {
+    commandLine './all.sh'
+}

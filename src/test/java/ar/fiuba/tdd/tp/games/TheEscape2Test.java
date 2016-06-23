@@ -1,28 +1,35 @@
-package ar.fiuba.tdd.tp;
+package ar.fiuba.tdd.tp.games;
 
+import ar.fiuba.tdd.tp.utils.Random;
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
+import ar.fiuba.tdd.tp.icommand.MoveRandom;
+import ar.fiuba.tdd.tp.mocks.MockedRandom;
+import ar.fiuba.tdd.tp.mocks.MockedTimedCommand;
+import ar.fiuba.tdd.tp.mocks.MockedTimer;
 import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
-import ar.fiuba.tdd.tp.time.MockedTimedAction;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
 import static ar.fiuba.tdd.tp.Constants.GAME_WON;
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 
 public class TheEscape2Test {
 
     private Engine engine;
-    private MockedTimedAction enojar;
-    private MockedTimedAction despertar;
-    private MockedTimedAction mover;
+    private MockedTimedCommand enojar;
+    private MockedTimedCommand despertar;
+    private MockedTimedCommand mover;
+    private MockedTimer mockedTimer;
 
     @Test
     public void shouldLostWhenMeetsAngryBibliotecario() throws GameLoadFailedException {
-        setUp();
+        setUpTestOne();
+
         engine.doCommand(0, "goto Salon1");
         engine.doCommand(0, "pick Botella");
         engine.doCommand(0, "goto Pasillo");
@@ -31,14 +38,16 @@ public class TheEscape2Test {
         engine.doCommand(0, "ask Bibliotecario");
         engine.doCommand(0, "give Licor Bibliotecario");
         engine.doCommand(0, "goto doorBiblioteca");
-        despertar.startMockedAction();
-        enojar.startMockedAction();
+
+        mockedTimer.avanzarTiempo(120000);
+
         assertEquals(GAME_LOST, engine.doCommand(0, "goto BibliotecaAcceso"));
     }
 
     @Test
     public void shouldLostWhenBibliotecarioFoundsPlayer1InBiblioteca() throws GameLoadFailedException {
-        setUp();
+        setUpTestTwo();
+
         engine.createPlayer();
         engine.doCommand(1, "goto BibliotecaAcceso");
         engine.doCommand(1, "goto doorBiblioteca");
@@ -53,11 +62,8 @@ public class TheEscape2Test {
         engine.doCommand(1, "goto BibliotecaAcceso");
         engine.doCommand(1, "goto Pasillo");
 
-        despertar.startMockedAction();
-        enojar.startMockedAction();
-        assertEquals(GAME_LOST, mover.startMockedAction());
+        assertEquals(GAME_LOST, mockedTimer.avanzarTiempo(120000));
     }
-
 
     //TESTS QUE SON TAMBIEN DE "THEESCAPE"
     @Test
@@ -126,14 +132,54 @@ public class TheEscape2Test {
     }
 
     private void setUp() {
-        enojar      = new MockedTimedAction(1200000, "enojar Bibliotecario");
-        despertar   = new MockedTimedAction(1200000, "despertar Bibliotecario");
-        mover       = new MockedTimedAction(1200000, "move Bibliotecario");
 
-        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover);
         BroadcastQueue queue = new EventQueue();
 
+        GameBuilder gameBuilder = new TheEscape2Configuration();
+
         engine = new Engine(queue);
+        engine.createGame(gameBuilder);
+        engine.getGame().createPlayer();
+
+    }
+
+    private void setUpTestOne() {
+        BroadcastQueue queue = new EventQueue();
+        mockedTimer = new MockedTimer(0);
+
+        enojar      = new MockedTimedCommand("enojar Bibliotecario", queue);
+        despertar   = new MockedTimedCommand("despertar Bibliotecario", queue);
+        mockedTimer.addAction(120000, enojar);
+        mockedTimer.addAction(120000, despertar);
+
+        MoveRandom moveRandom = new MoveRandom("move", new Random());
+
+        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover, moveRandom);
+
+        engine = new Engine(queue);
+        engine.setTimer(mockedTimer);
+        engine.createGame(gameBuilder);
+        engine.getGame().createPlayer();
+    }
+
+    private void setUpTestTwo() {
+
+        BroadcastQueue queue = new EventQueue();
+        mockedTimer = new MockedTimer(0);
+
+        enojar      = new MockedTimedCommand("enojar Bibliotecario", queue);
+        despertar   = new MockedTimedCommand("despertar Bibliotecario", queue);
+        mover       = new MockedTimedCommand("move Bibliotecario", queue);
+
+        mockedTimer.addAction(120000, enojar);
+        mockedTimer.addAction(120000, despertar);
+        mockedTimer.addAction(120000, mover);
+        MoveRandom moveRandom = new MoveRandom("move", new MockedRandom("Biblioteca"));
+
+        GameBuilder gameBuilder = new TheEscape2Configuration(despertar, enojar, mover, moveRandom);
+
+        engine = new Engine(queue);
+        engine.setTimer(mockedTimer);
         engine.createGame(gameBuilder);
         engine.getGame().createPlayer();
     }
