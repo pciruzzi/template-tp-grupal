@@ -1,6 +1,5 @@
 package ar.fiuba.tdd.tp.games;
 
-import ar.fiuba.tdd.tp.utils.Random;
 import ar.fiuba.tdd.tp.driver.*;
 import ar.fiuba.tdd.tp.engine.Engine;
 import ar.fiuba.tdd.tp.icommand.MoveRandom;
@@ -11,6 +10,7 @@ import ar.fiuba.tdd.tp.model.GameBuilder;
 import ar.fiuba.tdd.tp.model.TheEscape2Configuration;
 import ar.fiuba.tdd.tp.server.queue.BroadcastQueue;
 import ar.fiuba.tdd.tp.server.queue.EventQueue;
+import ar.fiuba.tdd.tp.utils.Random;
 import org.junit.Test;
 
 import static ar.fiuba.tdd.tp.Constants.GAME_LOST;
