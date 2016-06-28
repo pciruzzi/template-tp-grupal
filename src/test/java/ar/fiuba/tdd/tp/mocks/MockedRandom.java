@@ -1,7 +1,7 @@
 package ar.fiuba.tdd.tp.mocks;
 
-import ar.fiuba.tdd.tp.utils.Random;
 import ar.fiuba.tdd.tp.engine.Element;
+import ar.fiuba.tdd.tp.utils.Random;
 
 import java.util.List;
 
